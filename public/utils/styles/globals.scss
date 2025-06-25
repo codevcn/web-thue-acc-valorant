@@ -1,0 +1,27 @@
+@use "colors.scss";
+
+[hidden] {
+  display: none;
+}
+
+body {
+  min-height: 100vh;
+  background-image: var(--vcn-regular-gradient-dark-cl);
+}
+
+svg {
+  display: flex;
+}
+
+input,
+textarea {
+  border: none;
+  outline: none;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  outline: none;
+  background-color: transparent;
+}
