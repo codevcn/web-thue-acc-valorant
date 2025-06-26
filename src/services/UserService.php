@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Services;
 
 use PDO;
-use Utils\DevLogger;
 
 class UserService
 {
@@ -21,7 +20,6 @@ class UserService
     $stmt = $this->db->prepare("SELECT * FROM users WHERE role = 'ADMIN'");
     $stmt->execute();
     $res = $stmt->fetch(PDO::FETCH_ASSOC);
-    DevLogger::logToFile(json_encode($res));
     return $res;
   }
 }

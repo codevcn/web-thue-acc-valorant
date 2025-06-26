@@ -9,6 +9,7 @@ use PDO;
 class GameAccountService
 {
   private $db;
+  private const LIMIT = 10;
 
   public function __construct(PDO $db)
   {
@@ -22,11 +23,15 @@ class GameAccountService
     return (int) $stmt->fetchColumn();
   }
 
-  public function findByPageAndFilter(int $page, int $limit, ?string $rank = null, ?string $status = null, ?string $device_type = null): array
+  public function fetchAccounts(?int $lastId = null, ?string $rank = null, ?string $status = null, ?string $device_type = null): array
   {
     $sql = "SELECT * FROM game_accounts";
     $conditions = [];
     $params = [];
+    if ($lastId !== null) {
+      $conditions[] = 'id < :last_id';
+      $params[':last_id'] = $lastId;
+    }
     if ($rank !== null) {
       $conditions[] = 'rank = :rank';
       $params[':rank'] = $rank;
@@ -42,10 +47,7 @@ class GameAccountService
     if (!empty($conditions)) {
       $sql .= " WHERE " . implode(' AND ', $conditions);
     }
-    $offset = ($page - 1) * $limit;
-    $sql .= " LIMIT :limit OFFSET :offset";
-    $params[':limit'] = $limit;
-    $params[':offset'] = $offset;
+    $sql .= " ORDER BY id DESC LIMIT " . self::LIMIT;
     $stmt = $this->db->prepare($sql);
     foreach ($params as $key => $value) {
       $stmt->bindValue($key, $value);

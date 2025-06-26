@@ -4,7 +4,7 @@ namespace Utils;
 
 class DevLogger
 {
-  public static function logToFile(string $message)
+  public static function log(string $message)
   {
     $logFile = __DIR__ . '/../../logs/dev.log';
     $logMessage = '>>> ' . date('Y-m-d H:i:s') . ' - ' . self::formatJson($message) . PHP_EOL;

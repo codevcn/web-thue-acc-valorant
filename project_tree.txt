@@ -1,0 +1,81 @@
+Tree view of: D:\Programs-v-Later\laragon\www\web-thue-acc-valorant
+
+├── .gitignore
+├── .prettierrc.json
+├── PSR.txt
+├── create_db.php
+├── database
+│   └── app.sqlite
+├── dev.cmd
+├── logs
+│   └── dev.log
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── print_tree.py
+├── project_tree.txt
+├── public
+│   ├── .htaccess
+│   ├── api.php
+│   ├── index.php
+│   ├── router.php
+│   └── utils
+│       ├── scripts
+│       │   ├── api-client.js
+│       │   ├── components.js
+│       │   ├── helpers.js
+│       │   └── init-utils.js
+│       └── styles
+│           ├── colors.css
+│           ├── colors.css.map
+│           ├── colors.scss
+│           ├── globals.css
+│           ├── globals.css.map
+│           ├── globals.scss
+│           ├── src.css
+│           └── styles.css
+├── src
+│   ├── config
+│   │   └── config.php
+│   ├── controllers
+│   │   ├── AdminController.php
+│   │   ├── HomeController.php
+│   │   └── apis
+│   │       └── GameAccountApiController.php
+│   ├── core
+│   │   ├── ApiRouter.php
+│   │   ├── Request.php
+│   │   └── Router.php
+│   ├── routes
+│   │   ├── api.php
+│   │   └── web.php
+│   ├── services
+│   │   ├── GameAccountService.php
+│   │   └── UserService.php
+│   ├── utils
+│   │   └── DevLogger.php
+│   └── views
+│       ├── admin
+│       │   ├── main.php
+│       │   └── page.php
+│       ├── home
+│       │   ├── account.php
+│       │   ├── accounts_list.php
+│       │   ├── hero_section.php
+│       │   ├── main.php
+│       │   └── page.php
+│       └── templates
+│           ├── bottom_libs.php
+│           ├── head.php
+│           ├── icons
+│           │   ├── icon_clock.svg.php
+│           │   ├── icon_code.svg.php
+│           │   ├── icon_gift.svg.php
+│           │   ├── icon_monitor.svg.php
+│           │   ├── icon_play.svg.php
+│           │   ├── icon_shield.svg.php
+│           │   ├── icon_star.svg.php
+│           │   ├── icon_user.svg.php
+│           │   └── icon_zap.svg.php
+│           └── page_footer.php
+└── tailwind.config.js
