@@ -55,4 +55,18 @@ class GameAccountService
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
+
+  public function fetchAccountRankTypes(): array
+  {
+    $stmt = $this->db->prepare("SELECT DISTINCT `rank` FROM game_accounts");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function fetchAccountStatuses(): array
+  {
+    $stmt = $this->db->prepare("SELECT DISTINCT `status` FROM game_accounts");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

@@ -102,3 +102,9 @@ export class URLHelper {
     return this.currentUrlSearchParams.get(key)
   }
 }
+
+export class NavigationHelper {
+  static pureNavigateTo(locationHref) {
+    window.location.href = locationHref
+  }
+}

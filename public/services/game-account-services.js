@@ -10,4 +10,14 @@ export class GameAccountService {
     const { data } = await axiosClient.get("/game-accounts/load-more", { params })
     return data.accounts
   }
+
+  static async fetchAccountRankTypes() {
+    const { data } = await axiosClient.get("/game-accounts/rank-types")
+    return data.rank_types
+  }
+
+  static async fetchAccountStatuses() {
+    const { data } = await axiosClient.get("/game-accounts/statuses")
+    return data.statuses
+  }
 }

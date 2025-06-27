@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Controllers\Apis;
 
 use Services\GameAccountService;
-use Utils\DevLogger;
 
 class GameAccountApiController
 {
@@ -27,6 +26,24 @@ class GameAccountApiController
 
     return [
       'accounts' => $accounts,
+    ];
+  }
+
+  public function getAccountRankTypes(): array
+  {
+    $rankTypes = $this->gameAccountService->fetchAccountRankTypes();
+
+    return [
+      'rank_types' => $rankTypes,
+    ];
+  }
+
+  public function getAccountStatuses(): array
+  {
+    $statuses = $this->gameAccountService->fetchAccountStatuses();
+
+    return [
+      'statuses' => $statuses,
     ];
   }
 }

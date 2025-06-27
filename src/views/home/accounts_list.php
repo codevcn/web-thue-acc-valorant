@@ -14,37 +14,23 @@
       </p>
     </div>
 
-    <div class="flex items-center justify-between text-black mb-8">
-      <div class="flex items-center gap-2">
-        <img src="/images/icons/icon_filter.svg" alt="Filter Icon" class="w-6 h-6" />
-        <span>Bộ lọc</span>
+    <div class="flex flex-col items-center gap-4 text-black mb-8">
+      <div class="flex items-center gap-2 text-lg font-bold">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-black">
+          <path d="M3 6h18" />
+          <path d="M7 12h10" />
+          <path d="M10 18h4" />
+        </svg>
+        <span>Lọc acc theo:</span>
       </div>
       <div class="flex items-center gap-2">
-        <div class="relative">
-          <label id="listbox-label" class="block text-sm/6 font-medium text-gray-900">Assigned to</label>
-          <div class="relative mt-2">
-            <button type="button" class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pl-3 pr-2 text-left text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
-              <span class="col-start-1 row-start-1 flex items-center gap-3 pr-6">
-                <span class="block truncate">Tom Cook</span>
-              </span>
-              <svg class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
-                <path fill-rule="evenodd" d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
-              </svg>
-            </button>
-            <ul class="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-option-3">
-              <li class="relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900" id="listbox-option-0" role="option">
-                <div class="flex items-center">
-                  <span class="ml-3 block truncate font-normal">Wade Cooper</span>
-                </div>
-                <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600">
-                  <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                    <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-                  </svg>
-                </span>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <button id="account-status-btn" class="CSS-button-white-decoration py-1.5 px-4">
+          Trạng thái
+        </button>
+        <div class="CSS-vertical-divider mx-2"></div>
+        <button id="account-rank-types-btn" class="CSS-button-white-decoration py-1.5 px-4">
+          Rank
+        </button>
       </div>
     </div>
 
@@ -53,10 +39,57 @@
     </div>
 
     <!-- View More Button -->
-    <div id="load-more-container" class="text-center mt-12">
-      <button id="load-more-btn" class="bg-gradient-to-r from-sky-500 to-cyan-600 hover:from-sky-600 hover:to-cyan-700 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+    <div id="load-more-container" class="QUERY-is-more text-center mt-12">
+      <button id="load-more-btn" class="QUERY-load-more-btn bg-gradient-to-r from-sky-500 to-cyan-600 hover:from-sky-600 hover:to-cyan-700 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
         XEM THÊM TÀI KHOẢN
       </button>
+      <p class="QUERY-no-more-text text-gray-600 italic text-base font-bold">Không còn tài khoản nào.</p>
     </div>
+  </div>
+</div>
+
+<div id="account-status-modal" hidden class="QUERY-modal QUERY-status-modal p-[80px] fixed inset-0 z-[90]">
+  <div class="QUERY-modal-overlay absolute z-10 inset-0 bg-black/80"></div>
+
+  <button class="QUERY-close-modal-btn absolute z-30 top-6 right-6 rounded-full bg-[#3d3e48] p-2 text-white hover:scale-125 transition duration-200">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+
+  <div id="account-statuses" class="flex flex-wrap justify-start items-start content-start gap-2 relative z-20">
+    <button class="CSS-button-red-decoration QUERY-cancel-filter-btn py-1.5 px-4">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+        <polyline points="3,6 5,6 21,6"></polyline>
+        <path d="M19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+        <line x1="10" y1="11" x2="10" y2="17"></line>
+        <line x1="14" y1="11" x2="14" y2="17"></line>
+      </svg>
+      <span>Hủy lọc theo trạng thái</span>
+    </button>
+  </div>
+</div>
+
+<div id="account-rank-type-modal" hidden class="QUERY-modal QUERY-rank-type-modal p-[80px] fixed inset-0 z-[90]">
+  <div class="QUERY-modal-overlay absolute z-10 inset-0 bg-black/80"></div>
+
+  <button class="QUERY-close-modal-btn absolute z-30 top-6 right-6 rounded-full bg-[#3d3e48] p-2 text-white hover:scale-125 transition duration-200">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+
+  <div id="account-rank-types" class="flex flex-wrap justify-start items-start content-start gap-2 relative z-20">
+    <button class="CSS-button-red-decoration QUERY-cancel-filter-btn py-1.5 px-4">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+        <polyline points="3,6 5,6 21,6"></polyline>
+        <path d="M19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+        <line x1="10" y1="11" x2="10" y2="17"></line>
+        <line x1="14" y1="11" x2="14" y2="17"></line>
+      </svg>
+      <span>Hủy lọc theo rank</span>
+    </button>
   </div>
 </div>
