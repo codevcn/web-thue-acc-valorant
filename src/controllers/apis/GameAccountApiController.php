@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Controllers\Apis;
 
 use Services\GameAccountService;
+use Utils\DevLogger;
 
 class GameAccountApiController
 {
@@ -44,6 +45,52 @@ class GameAccountApiController
 
     return [
       'statuses' => $statuses,
+    ];
+  }
+
+  public function getDeviceTypes(): array
+  {
+    $deviceTypes = $this->gameAccountService->fetchDeviceTypes();
+
+    return [
+      'device_types' => $deviceTypes,
+    ];
+  }
+
+  public function addNewAccounts(): array
+  {
+    $rawInput = file_get_contents("php://input");
+    if (!$rawInput) {
+      http_response_code(400);
+      return [
+        'success' => false,
+        'message' => 'Invalid input data'
+      ];
+    }
+
+    $data = json_decode($rawInput, true);
+    $accounts = $data['accounts'] ?? [];
+
+    try {
+      $this->gameAccountService->addNewAccounts($accounts);
+    } catch (\Throwable $th) {
+      if ($th instanceof \InvalidArgumentException) {
+        http_response_code(400);
+        return [
+          'success' => false,
+          'message' => $th->getMessage()
+        ];
+      }
+
+      http_response_code(500);
+      return [
+        'success' => false,
+        'message' => 'Internal server error'
+      ];
+    }
+
+    return [
+      'success' => true,
     ];
   }
 }

@@ -1,10 +1,13 @@
 :root {
-  --vcn-regular-gradient-dark-cl: linear-gradient(135deg, #00bfff, #87ceeb);
+  --vcn-regular-gradient-blue-cl: linear-gradient(135deg, #00bfff, #87ceeb);
+  --vcn-regular-from-blue-cl: #00bfff;
+  --vcn-regular-to-blue-cl: #87ceeb;
   --vcn-regular-blue-1: #00bfff;
   --vcn-regular-blue-2: #006080;
   --vcn-regular-blue-3: #007faa;
   --vcn-regular-blue-4: #009fd4;
-  --vcn-regular-blue-cl: var(--vcn-regular-gradient-dark-cl);
+  --vcn-regular-blue-cl: #00bfff;
+  --vcn-regular-blue-hover-cl: var(--vcn-regular-blue-2);
 }
 
 [hidden] {

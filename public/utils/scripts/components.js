@@ -114,7 +114,7 @@ export const AccountCard = (account) => {
               </div>
               <div class="flex items-center gap-1">
                 <span class="font-bold text-blue-600">
-                  ${device_type == "AT_HOME" ? "Máy nhà" : "Máy net"}
+                  ${device_type}
                 </span>
               </div>
             </div>
@@ -166,5 +166,127 @@ export const AccountStatus = ({ status, isActive }) => {
     >
       <span>${status == "AVAILABLE" ? "RẢNH" : "BẬN"}</span>
     </button>
+  `
+}
+
+export const AccountRow = (account) => {
+  const { acc_name, rank, game_code, status, description, created_date, device_type, id } = account
+  const created_date_formatted = dayjs(created_date).format("DD/MM/YYYY HH:mm")
+  return html`
+    <tr class="hover:bg-gray-50">
+      <td class="px-3 py-3">
+        <input
+          type="checkbox"
+          class="account-checkbox rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+          value="${id}"
+        />
+      </td>
+      <td class="px-3 py-3">
+        <div
+          class="w-10 h-10 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full flex items-center justify-center"
+        >
+          <i data-lucide="user" class="w-5 h-5 text-white"></i>
+        </div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div class="text-sm font-medium text-gray-900">${acc_name}</div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div class="text-sm font-medium ${getRankColor(rank)}">${rank}</div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div class="text-sm text-regular-blue-4 font-medium">${game_code}</div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <span
+          class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(status)}"
+        >
+          ${status}
+        </span>
+      </td>
+      <td class="px-3 py-3">
+        <div class="text-sm text-gray-900 max-w-[100px] truncate">
+          ${description || html`<span class="text-gray-400 italic text-base">Chưa có mô tả</span>`}
+        </div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div class="text-sm text-gray-500">${created_date_formatted}</div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div class="text-sm text-gray-900">${device_type}</div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div class="flex items-center gap-2">
+          <button
+            onclick="editAccount(${JSON.stringify(account)})"
+            class="text-regular-blue-cl hover:text-regular-blue-hover-cl transition-colors"
+            title="Chỉnh sửa"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-square-pen-icon lucide-square-pen"
+            >
+              <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+              <path
+                d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+              />
+            </svg>
+          </button>
+          <button
+            class="text-regular-blue-cl hover:text-regular-blue-hover-cl transition-colors"
+            title="Xem chi tiết"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-info-icon lucide-info"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 16v-4" />
+              <path d="M12 8h.01" />
+            </svg>
+          </button>
+          <button
+            onclick="deleteAccount(${id})"
+            class="text-red-600 hover:text-red-900 transition-colors"
+            title="Xóa"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-trash2-icon lucide-trash-2"
+            >
+              <path d="M3 6h18" />
+              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+              <line x1="10" x2="10" y1="11" y2="17" />
+              <line x1="14" x2="14" y1="11" y2="17" />
+            </svg>
+          </button>
+        </div>
+      </td>
+    </tr>
   `
 }

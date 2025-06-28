@@ -107,4 +107,8 @@ export class NavigationHelper {
   static pureNavigateTo(locationHref) {
     window.location.href = locationHref
   }
+
+  static reloadPage() {
+    window.location.reload()
+  }
 }

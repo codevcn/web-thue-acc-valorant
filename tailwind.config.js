@@ -4,12 +4,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        "regular-gradient-dark-cl": "var(--vcn-regular-gradient-dark-cl)",
+        "regular-gradient-blue-cl": "var(--vcn-regular-gradient-blue-cl)",
+        "regular-from-blue-cl": "var(--vcn-regular-from-blue-cl)",
+        "regular-to-blue-cl": "var(--vcn-regular-to-blue-cl)",
         "regular-blue-1": "var(--vcn-regular-blue-1)",
         "regular-blue-2": "var(--vcn-regular-blue-2)",
         "regular-blue-3": "var(--vcn-regular-blue-3)",
         "regular-blue-4": "var(--vcn-regular-blue-4)",
         "regular-blue-cl": "var(--vcn-regular-blue-cl)",
+        "regular-blue-hover-cl": "var(--vcn-regular-blue-hover-cl)",
       },
     },
   },

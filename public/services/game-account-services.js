@@ -20,4 +20,16 @@ export class GameAccountService {
     const { data } = await axiosClient.get("/game-accounts/statuses")
     return data.statuses
   }
+
+  static async fetchDeviceTypes() {
+    const { data } = await axiosClient.get("/game-accounts/device-types")
+    return data.device_types
+  }
+
+  static async addNewAccount(accountData) {
+    const { data } = await axiosClient.post("/game-accounts/add-new", {
+      accounts: [accountData],
+    })
+    return data
+  }
 }

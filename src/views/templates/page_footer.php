@@ -29,7 +29,7 @@
             </a>
           </li>
           <li>
-            <a href="#" class="flex items-center gap-2 text-white hover:text-sky-300 transition-colors duration-300">
+            <a href="/admin/manage-game-accounts" class="flex items-center gap-2 text-white hover:text-sky-300 transition-colors duration-300">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                 class="lucide lucide-users w-4 h-4">
@@ -38,7 +38,7 @@
                 <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
               </svg>
-              Danh sách tài khoản
+              Trang quản lý tài khoản
             </a>
           </li>
           <li>

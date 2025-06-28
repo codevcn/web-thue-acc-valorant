@@ -4,23 +4,26 @@ declare(strict_types=1);
 
 namespace Controllers;
 
-use Services\GameAccountService;
 use Services\UserService;
 
 class AdminController
 {
-  private $gameAccountService;
   private $userService;
 
-  public function __construct(GameAccountService $gameAccountService, UserService $userService)
+  public function __construct(UserService $userService)
   {
-    $this->gameAccountService = $gameAccountService;
     $this->userService = $userService;
   }
 
-  public function showAdminPage(): void
+  public function showManageGameAccountsPage(): void
   {
+    $admin = $this->userService->findAdmin();
 
-    require_once __DIR__ . '/../views/admin/page.php';
+    $data = [
+      'admin' => $admin
+    ];
+    extract($data);
+
+    require_once __DIR__ . '/../views/admin/manage-game-accounts/page.php';
   }
 }

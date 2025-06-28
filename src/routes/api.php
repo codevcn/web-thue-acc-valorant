@@ -6,17 +6,25 @@ use Controllers\Apis\GameAccountApiController;
 use Services\GameAccountService;
 
 // Initialize API controller
-$apiController = new GameAccountApiController(new GameAccountService($db));
+$gameAccountApiController = new GameAccountApiController(new GameAccountService($db));
 
 // API Routes
-$apiRouter->get('/api/v1/game-accounts/load-more', function () use ($apiController) {
-  return $apiController->loadMoreAccounts();
+$apiRouter->get('/api/v1/game-accounts/load-more', function () use ($gameAccountApiController) {
+  return $gameAccountApiController->loadMoreAccounts();
 });
 
-$apiRouter->get('/api/v1/game-accounts/rank-types', function () use ($apiController) {
-  return $apiController->getAccountRankTypes();
+$apiRouter->get('/api/v1/game-accounts/rank-types', function () use ($gameAccountApiController) {
+  return $gameAccountApiController->getAccountRankTypes();
 });
 
-$apiRouter->get('/api/v1/game-accounts/statuses', function () use ($apiController) {
-  return $apiController->getAccountStatuses();
+$apiRouter->get('/api/v1/game-accounts/statuses', function () use ($gameAccountApiController) {
+  return $gameAccountApiController->getAccountStatuses();
+});
+
+$apiRouter->get('/api/v1/game-accounts/device-types', function () use ($gameAccountApiController) {
+  return $gameAccountApiController->getDeviceTypes();
+});
+
+$apiRouter->post('/api/v1/game-accounts/add-new', function () use ($gameAccountApiController) {
+  return $gameAccountApiController->addNewAccounts();
 });
