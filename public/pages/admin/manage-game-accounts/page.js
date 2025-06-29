@@ -14,6 +14,7 @@ class ManageGameAccountsPageManager {
   constructor() {
     this.accountsTableBody = document.getElementById("accounts-table-body")
     this.loadMoreContainer = document.getElementById("load-more-container")
+    this.scrollToTopBtn = document.getElementById("scroll-to-top-btn")
 
     this.isFetchingItems = false
     this.isMoreItems = true
@@ -22,6 +23,7 @@ class ManageGameAccountsPageManager {
     this.fetchAccounts()
     this.initListeners()
     this.initLucideIcons()
+    this.watchScrolling()
   }
 
   getAccountsTableBodyEle() {
@@ -122,10 +124,36 @@ class ManageGameAccountsPageManager {
     }
   }
 
+  scrollToTop() {
+    window.scrollTo({
+      top: 100,
+      behavior: "instant",
+    })
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    })
+  }
+
+  watchScrolling() {
+    window.addEventListener("scroll", (e) => {
+      const THRESHOLD = 300
+      if (window.scrollY > THRESHOLD) {
+        this.scrollToTopBtn.classList.remove("bottom-[-60px]")
+        this.scrollToTopBtn.classList.add("bottom-6")
+      } else {
+        this.scrollToTopBtn.classList.remove("bottom-6")
+        this.scrollToTopBtn.classList.add("bottom-[-60px]")
+      }
+    })
+  }
+
   initListeners() {
     document.getElementById("load-more-btn").addEventListener("click", (e) => {
       this.fetchAccounts()
     })
+
+    this.scrollToTopBtn.addEventListener("click", this.scrollToTop.bind(this))
   }
 }
 
@@ -136,9 +164,9 @@ class AddNewAccountManager {
     this.deviceTypeSelect = this.addNewAccountModal.querySelector(".QUERY-device-type-select")
     this.rankTypesSelect = this.addNewAccountModal.querySelector(".QUERY-rank-types-select")
     this.statusesSelect = this.addNewAccountModal.querySelector(".QUERY-statuses-select")
-    this.pickAvatarSection = document.getElementById("pick-avatar-section")
-    this.avatarPreview = document.getElementById("avatar-preview-img")
-    this.avatarInput = document.getElementById("avatar-input")
+    this.pickAvatarSection = document.getElementById("pick-avatar--add-section")
+    this.avatarPreview = document.getElementById("avatar-preview-img--add-section")
+    this.avatarInput = document.getElementById("avatar-input--add-section")
 
     this.isSubmitting = false
 
@@ -166,12 +194,30 @@ class AddNewAccountManager {
       this.hideModal()
     })
 
+    this.avatarInput.addEventListener("change", this.handleAvatarInputChange.bind(this))
     document
-      .getElementById("avatar-input")
-      .addEventListener("change", this.handleAvatarInputChange.bind(this))
-    document
-      .getElementById("cancel-avatar-btn")
+      .getElementById("cancel-avatar-btn--add-section")
       .addEventListener("click", this.handleRemoveAvatar.bind(this))
+  }
+
+  handleAvatarInputChange(e) {
+    const file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        this.avatarPreview.src = e.target.result
+        this.pickAvatarSection.classList.remove("QUERY-at-avatar-input-section")
+        this.pickAvatarSection.classList.add("QUERY-at-avatar-preview-section")
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  handleRemoveAvatar() {
+    this.avatarPreview.src = ""
+    this.avatarInput.value = null
+    this.pickAvatarSection.classList.remove("QUERY-at-avatar-preview-section")
+    this.pickAvatarSection.classList.add("QUERY-at-avatar-input-section")
   }
 
   showModal() {
@@ -185,11 +231,6 @@ class AddNewAccountManager {
 
   fetchDeviceTypes() {
     GameAccountService.fetchDeviceTypes().then((deviceTypes) => {
-      const allOption = document.createElement("option")
-      allOption.value = "ALL"
-      allOption.textContent = "Tất cả loại máy"
-      this.deviceTypeSelect.appendChild(allOption)
-
       for (const deviceType of deviceTypes) {
         const option = document.createElement("option")
         option.value = deviceType.device_type
@@ -201,11 +242,6 @@ class AddNewAccountManager {
 
   fetchAccountRankTypes() {
     GameAccountService.fetchAccountRankTypes().then((rankTypes) => {
-      const allOption = document.createElement("option")
-      allOption.value = "ALL"
-      allOption.textContent = "Tất cả rank"
-      this.rankTypesSelect.appendChild(allOption)
-
       for (const rankType of rankTypes) {
         const option = document.createElement("option")
         option.value = rankType.rank
@@ -217,11 +253,6 @@ class AddNewAccountManager {
 
   fetchAccountStatuses() {
     GameAccountService.fetchAccountStatuses().then((statuses) => {
-      const allOption = document.createElement("option")
-      allOption.value = "ALL"
-      allOption.textContent = "Tất cả trạng thái"
-      this.statusesSelect.appendChild(allOption)
-
       for (const status of statuses) {
         const option = document.createElement("option")
         option.value = status.status
@@ -231,7 +262,7 @@ class AddNewAccountManager {
     })
   }
 
-  validateFormData({ accName, rank, gameCode, description, status, deviceType }) {
+  validateFormData({ accName, rank, gameCode, status, deviceType }) {
     if (!accName) {
       Toaster.error("Tên tài khoản không được để trống")
       return false
@@ -242,10 +273,6 @@ class AddNewAccountManager {
     }
     if (!gameCode) {
       Toaster.error("Mã game không được để trống")
-      return false
-    }
-    if (!description) {
-      Toaster.error("Mô tả không được để trống")
       return false
     }
     if (!status) {
@@ -272,7 +299,10 @@ class AddNewAccountManager {
       status: formData.get("status"),
       deviceType: formData.get("deviceType"),
     }
-    if (!this.validateFormData(data)) return
+    if (!this.validateFormData(data)) {
+      this.isSubmitting = false
+      return
+    }
 
     AppLoadingHelper.show()
     GameAccountService.addNewAccounts([data], this.avatarInput.files?.[0])
@@ -284,32 +314,12 @@ class AddNewAccountManager {
         }
       })
       .catch((error) => {
-        Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
+        Toaster.error("Thêm tài khoản thất bại", AxiosErrorHandler.handleHTTPError(error).message)
       })
       .finally(() => {
         this.isSubmitting = false
         AppLoadingHelper.hide()
       })
-  }
-
-  handleAvatarInputChange(e) {
-    const file = e.target.files[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        this.avatarPreview.src = e.target.result
-        this.pickAvatarSection.classList.remove("QUERY-at-avatar-input-section")
-        this.pickAvatarSection.classList.add("QUERY-at-avatar-preview-section")
-      }
-      reader.readAsDataURL(file)
-    }
-  }
-
-  handleRemoveAvatar() {
-    this.avatarPreview.src = ""
-    this.avatarInput.value = null
-    this.pickAvatarSection.classList.remove("QUERY-at-avatar-preview-section")
-    this.pickAvatarSection.classList.add("QUERY-at-avatar-input-section")
   }
 }
 
@@ -381,6 +391,9 @@ class UpdateAccountManager {
     this.deviceTypeSelect = this.updateAccountModal.querySelector(".QUERY-device-type-select")
     this.rankTypesSelect = this.updateAccountModal.querySelector(".QUERY-rank-types-select")
     this.statusesSelect = this.updateAccountModal.querySelector(".QUERY-statuses-select")
+    this.pickAvatarSection = document.getElementById("pick-avatar--update-section")
+    this.avatarPreview = document.getElementById("avatar-preview-img--update-section")
+    this.avatarInput = document.getElementById("avatar-input--update-section")
 
     this.isSubmitting = false
 
@@ -403,6 +416,40 @@ class UpdateAccountManager {
     this.updateAccountModal.querySelector(".QUERY-modal-overlay").addEventListener("click", (e) => {
       this.hideModal()
     })
+
+    this.avatarInput.addEventListener("change", this.handleAvatarInputChange.bind(this))
+    document
+      .getElementById("cancel-avatar-btn--update-section")
+      .addEventListener("click", this.handleRemoveAvatar.bind(this))
+  }
+
+  switchToAvatarPreviewSection() {
+    this.pickAvatarSection.classList.remove("QUERY-at-avatar-input-section")
+    this.pickAvatarSection.classList.add("QUERY-at-avatar-preview-section")
+  }
+
+  switchToAvatarInputSection() {
+    this.pickAvatarSection.classList.remove("QUERY-at-avatar-preview-section")
+    this.pickAvatarSection.classList.add("QUERY-at-avatar-input-section")
+  }
+
+  handleAvatarInputChange(e) {
+    const file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        this.avatarPreview.src = e.target.result
+        this.switchToAvatarPreviewSection()
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  handleRemoveAvatar() {
+    this.avatarPreview.src = ""
+    this.avatarPreview.style.maxHeight = "fit-content"
+    this.avatarInput.value = null
+    this.switchToAvatarInputSection()
   }
 
   showModal(targetBtn) {
@@ -411,15 +458,20 @@ class UpdateAccountManager {
     const account = manageGameAccountsPageManager
       .getGameAccounts()
       .find((account) => account.id === this.accountId)
-    document.getElementById("update-account-name").textContent = account.acc_name
-    this.updateAccountForm.querySelector("input[name='accName']").value = account.acc_name
-    this.updateAccountForm.querySelector("input[name='gameCode']").value = account.game_code
-    this.updateAccountForm.querySelector("textarea[name='description']").value =
-      account.description || ""
-    this.updateAccountForm.querySelector("select[name='status']").value = account.status
-    this.updateAccountForm.querySelector("select[name='deviceType']").value = account.device_type
-    this.updateAccountForm.querySelector("select[name='rank']").value = account.rank
+    const { avatar, acc_name, game_code, description, status, device_type, rank } = account
+    document.getElementById("update-account-name").textContent = acc_name
+    this.updateAccountForm.querySelector("input[name='accName']").value = acc_name
+    this.updateAccountForm.querySelector("input[name='gameCode']").value = game_code
+    this.updateAccountForm.querySelector("textarea[name='description']").value = description || ""
+    this.updateAccountForm.querySelector("select[name='status']").value = status
+    this.updateAccountForm.querySelector("select[name='deviceType']").value = device_type
+    this.updateAccountForm.querySelector("select[name='rank']").value = rank
     this.updateAccountModal.hidden = false
+    this.avatarPreview.src = `/images/account/${avatar || "default-game-account-avatar.png"}`
+    if (!avatar) {
+      this.avatarPreview.style.maxHeight = "200px"
+    }
+    this.switchToAvatarPreviewSection()
   }
 
   hideModal() {
@@ -429,11 +481,6 @@ class UpdateAccountManager {
 
   fetchDeviceTypes() {
     GameAccountService.fetchDeviceTypes().then((deviceTypes) => {
-      const allOption = document.createElement("option")
-      allOption.value = "ALL"
-      allOption.textContent = "Tất cả loại máy"
-      this.deviceTypeSelect.appendChild(allOption)
-
       for (const deviceType of deviceTypes) {
         const option = document.createElement("option")
         option.value = deviceType.device_type
@@ -445,11 +492,6 @@ class UpdateAccountManager {
 
   fetchAccountRankTypes() {
     GameAccountService.fetchAccountRankTypes().then((rankTypes) => {
-      const allOption = document.createElement("option")
-      allOption.value = "ALL"
-      allOption.textContent = "Tất cả rank"
-      this.rankTypesSelect.appendChild(allOption)
-
       for (const rankType of rankTypes) {
         const option = document.createElement("option")
         option.value = rankType.rank
@@ -461,11 +503,6 @@ class UpdateAccountManager {
 
   fetchAccountStatuses() {
     GameAccountService.fetchAccountStatuses().then((statuses) => {
-      const allOption = document.createElement("option")
-      allOption.value = "ALL"
-      allOption.textContent = "Tất cả trạng thái"
-      this.statusesSelect.appendChild(allOption)
-
       for (const status of statuses) {
         const option = document.createElement("option")
         option.value = status.status
@@ -475,7 +512,7 @@ class UpdateAccountManager {
     })
   }
 
-  validateFormData({ accName, rank, gameCode, description, status, deviceType }) {
+  validateFormData({ accName, rank, gameCode, status, deviceType }) {
     if (!accName) {
       Toaster.error("Tên tài khoản không được để trống")
       return false
@@ -486,10 +523,6 @@ class UpdateAccountManager {
     }
     if (!gameCode) {
       Toaster.error("Mã game không được để trống")
-      return false
-    }
-    if (!description) {
-      Toaster.error("Mô tả không được để trống")
       return false
     }
     if (!status) {
@@ -508,24 +541,21 @@ class UpdateAccountManager {
     this.isSubmitting = true
 
     const formData = new FormData(this.updateAccountForm)
-    const accName = formData.get("accName"),
-      rank = formData.get("rank"),
-      gameCode = formData.get("gameCode"),
-      description = formData.get("description"),
-      status = formData.get("status"),
-      deviceType = formData.get("deviceType")
-
-    if (!this.validateFormData({ accName, rank, gameCode, description, status, deviceType })) return
+    const data = {
+      accName: formData.get("accName"),
+      rank: formData.get("rank"),
+      gameCode: formData.get("gameCode"),
+      description: formData.get("description"),
+      status: formData.get("status"),
+      deviceType: formData.get("deviceType"),
+    }
+    if (!this.validateFormData(data)) {
+      this.isSubmitting = false
+      return
+    }
 
     AppLoadingHelper.show()
-    GameAccountService.updateAccount(this.accountId, {
-      accName,
-      rank,
-      gameCode,
-      description,
-      status,
-      deviceType,
-    })
+    GameAccountService.updateAccount(this.accountId, data, this.avatarInput.files?.[0])
       .then((data) => {
         if (data && data.success) {
           Toaster.success("Thông báo", "Cập nhật tài khoản thành công", () => {
@@ -534,7 +564,10 @@ class UpdateAccountManager {
         }
       })
       .catch((error) => {
-        Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
+        Toaster.error(
+          "Cập nhật tài khoản thất bại",
+          AxiosErrorHandler.handleHTTPError(error).message
+        )
       })
       .finally(() => {
         this.isSubmitting = false
@@ -696,8 +729,10 @@ class FilterManager {
     this.dateToFilterField = document.getElementById("date-to-filter-field")
     this.searchBtn = document.getElementById("search-btn")
     this.searchInput = document.getElementById("search-input")
+    this.countAppliedFilters = document.getElementById("count-applied-filters")
 
     this.fieldsRenderedCount = 2
+    this.appliedFiltersCount = 0
 
     this.fetchRankTypes()
     this.fetchStatuses()
@@ -758,6 +793,11 @@ class FilterManager {
         this.searchAccounts()
       }
     })
+  }
+
+  adjustAppliedFiltersCount() {
+    this.countAppliedFilters.hidden = this.appliedFiltersCount === 0
+    this.countAppliedFilters.textContent = this.appliedFiltersCount
   }
 
   hideFilters() {
@@ -843,10 +883,10 @@ class FilterManager {
     const value = formField.value
     switch (formField.id) {
       case "date-from-filter-field":
-        this.filterAndNavigate("date_from=" + encodeURIComponent(value))
+        this.filterAndNavigate("date_from=" + (value ? encodeURIComponent(value) : ""))
         break
       case "date-to-filter-field":
-        this.filterAndNavigate("date_to=" + encodeURIComponent(value))
+        this.filterAndNavigate("date_to=" + (value ? encodeURIComponent(value) : ""))
         break
       case "rank-type-filter-field":
         this.filterAndNavigate("rank=" + (value === "ALL" ? "" : encodeURIComponent(value)))
@@ -883,6 +923,7 @@ class FilterManager {
     const rankValue = URLHelper.getUrlQueryParam("rank")
     if (rankValue) {
       this.rankTypesSelect.value = rankValue
+      this.appliedFiltersCount++
     } else {
       this.rankTypesSelect.value = "ALL"
     }
@@ -890,6 +931,7 @@ class FilterManager {
     const statusValue = URLHelper.getUrlQueryParam("status")
     if (statusValue) {
       this.statusesSelect.value = statusValue
+      this.appliedFiltersCount++
     } else {
       this.statusesSelect.value = "ALL"
     }
@@ -897,6 +939,7 @@ class FilterManager {
     const deviceTypeValue = URLHelper.getUrlQueryParam("device_type")
     if (deviceTypeValue) {
       this.deviceTypeSelect.value = deviceTypeValue
+      this.appliedFiltersCount++
     } else {
       this.deviceTypeSelect.value = "ALL"
     }
@@ -906,6 +949,7 @@ class FilterManager {
       this.dateFromFilterField.value = dateFromValue
       if (this.dateFromFilterField._flatpickr) {
         this.dateFromFilterField._flatpickr.setDate(dateFromValue)
+        this.appliedFiltersCount++
       }
     } else {
       this.dateFromFilterField.value = ""
@@ -919,6 +963,7 @@ class FilterManager {
       this.dateToFilterField.value = dateToValue
       if (this.dateToFilterField._flatpickr) {
         this.dateToFilterField._flatpickr.setDate(dateToValue)
+        this.appliedFiltersCount++
       }
     } else {
       this.dateToFilterField.value = ""
@@ -930,8 +975,12 @@ class FilterManager {
     const searchTerm = URLHelper.getUrlQueryParam("search_term")
     if (searchTerm) {
       this.searchInput.value = searchTerm
+      this.appliedFiltersCount++
+    } else {
+      this.searchInput.value = ""
     }
 
+    this.adjustAppliedFiltersCount()
     this.initInputListeners()
   }
 

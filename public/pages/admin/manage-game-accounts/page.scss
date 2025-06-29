@@ -12,7 +12,8 @@
   }
 }
 
-#pick-avatar-section {
+#pick-avatar--add-section,
+#pick-avatar--update-section {
   &.QUERY-at-avatar-input-section {
     .QUERY-avatar-preview-section {
       display: none;

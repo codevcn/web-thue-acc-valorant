@@ -18,3 +18,7 @@ $router->get('/', function () use ($homeController) {
 $router->get('/admin/manage-game-accounts', function () use ($adminController) {
     $adminController->showManageGameAccountsPage();
 });
+
+$router->get('/admin/profile', function () use ($adminController) {
+    $adminController->showProfilePage();
+});

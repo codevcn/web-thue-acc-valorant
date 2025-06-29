@@ -1,13 +1,16 @@
 :root {
   --vcn-regular-gradient-blue-cl: linear-gradient(135deg, #00bfff, #87ceeb);
   --vcn-regular-from-blue-cl: #00bfff;
+  --vcn-regular-via-blue-cl: #3dc2ef;
   --vcn-regular-to-blue-cl: #87ceeb;
   --vcn-regular-blue-1: #00bfff;
   --vcn-regular-blue-2: #006080;
   --vcn-regular-blue-3: #007faa;
   --vcn-regular-blue-4: #009fd4;
-  --vcn-regular-blue-cl: #00bfff;
-  --vcn-regular-blue-hover-cl: var(--vcn-regular-blue-2);
+  --vcn-regular-blue-cl: var(--vcn-regular-blue-1);
+  --vcn-regular-blue-hover-cl: var(--vcn-regular-blue-4);
+  --vcn-scrollbar-track-bgcl: #32394033;
+  --vcn-scrollbar-thumb-bgcl: #455159;
 }
 
 [hidden] {
@@ -261,6 +264,24 @@ button {
 .flatpickr-time input:focus {
   outline: none;
   background-color: #f3f4f6;
+}
+
+.CSS-styled-vt-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.CSS-styled-vt-scrollbar::-webkit-scrollbar-track {
+  background-color: var(--vcn-scrollbar-track-bgcl);
+  border-radius: 5px;
+}
+
+.CSS-styled-vt-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--vcn-regular-blue-cl);
+  border-radius: 5px;
+}
+
+.CSS-styled-vt-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--vcn-regular-blue-hover-cl);
 }
 
 /*# sourceMappingURL=globals.css.map */

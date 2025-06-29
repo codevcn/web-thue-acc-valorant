@@ -22,4 +22,33 @@ class UserService
     $res = $stmt->fetch(PDO::FETCH_ASSOC);
     return $res;
   }
+
+  public function updateAdmin(array $data): void
+  {
+    $admin = $this->findAdmin();
+    if (!$admin) {
+      throw new \RuntimeException("Admin không tồn tại.", 500);
+    }
+
+    $fields = [];
+    $params = [];
+
+    if (isset($data['password'])) {
+      $fields[] = "password = :password";
+      $params['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+    }
+
+    foreach ($data as $key => $value) {
+      if ($value && in_array($key, ['username', 'full_name', 'phone', 'facebook_link', 'zalo_link'])) {
+        $fields[] = "$key = :$key";
+        $params[$key] = $value;
+      }
+    }
+
+    if (!empty($fields)) {
+      $sql = "UPDATE users SET " . implode(', ', $fields) . " WHERE role = 'ADMIN'";
+      $stmt = $this->db->prepare($sql);
+      $stmt->execute($params);
+    }
+  }
 }

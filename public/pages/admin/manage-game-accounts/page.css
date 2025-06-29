@@ -5,10 +5,12 @@
   display: none;
 }
 
-#pick-avatar-section.QUERY-at-avatar-input-section .QUERY-avatar-preview-section {
+#pick-avatar--add-section.QUERY-at-avatar-input-section .QUERY-avatar-preview-section,
+#pick-avatar--update-section.QUERY-at-avatar-input-section .QUERY-avatar-preview-section {
   display: none;
 }
-#pick-avatar-section.QUERY-at-avatar-preview-section .QUERY-avatar-input-section {
+#pick-avatar--add-section.QUERY-at-avatar-preview-section .QUERY-avatar-input-section,
+#pick-avatar--update-section.QUERY-at-avatar-preview-section .QUERY-avatar-input-section {
   display: none;
 }
 

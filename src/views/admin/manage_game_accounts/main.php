@@ -1,38 +1,5 @@
-<!-- Notification -->
-<div id="notification" class="fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg hidden">
-  <span id="notification-message"></span>
-</div>
-
-<!-- Header -->
-<header class="bg-white shadow-sm border-b border-gray-200">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-16">
-      <div class="flex items-center gap-4">
-        <h1 class="text-xl font-bold text-gray-900">Admin Dashboard</h1>
-        <span class="text-sm text-gray-500">thueaccvaloranttime.com</span>
-      </div>
-
-      <div class="flex items-center gap-4">
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
-            <i data-lucide="user" class="w-5 h-5 text-white"></i>
-          </div>
-          <div class="text-sm">
-            <div class="font-medium text-gray-900">Dương Anh Tuấn</div>
-            <div class="text-gray-500">Quản trị viên</div>
-          </div>
-        </div>
-
-        <button class="p-2 text-gray-400 hover:text-red-600 transition-colors">
-          <i data-lucide="log-out" class="w-5 h-5"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-</header>
-
 <!-- Main Content -->
-<main class="max-w-7xl mx-auto px-4 py-8">
+<main class="mx-auto px-4 py-8 bg-gradient-to-br from-regular-from-blue-cl via-regular-via-blue-cl to-regular-to-blue-cl">
   <!-- Controls -->
   <div class="bg-white rounded-lg shadow mb-6">
     <div class="p-6 border-b border-gray-200">
@@ -60,6 +27,8 @@
               <path d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z" />
             </svg>
             <span>Bộ lọc</span>
+            <div id="count-applied-filters" class="px-2 py-[2px] text-sm bg-regular-blue-cl text-white font-semibold rounded-full" hidden>
+            </div>
           </button>
         </div>
 
@@ -68,15 +37,24 @@
           <button
             id="add-new-account-btn"
             class="bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl hover:scale-105 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
-            <i data-lucide="plus" class="w-4 h-4"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-plus-icon lucide-plus" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14" />
+              <path d="M12 5v14" />
+            </svg>
             Thêm tài khoản
           </button>
 
           <div class="relative group">
             <button class="bg-gray-600 hover:scale-105 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
-              <i data-lucide="download" class="w-4 h-4"></i>
+              <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-download-icon lucide-download" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 15V3" />
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <path d="m7 10 5 5 5-5" />
+              </svg>
               Xuất dữ liệu
-              <i data-lucide="chevron-down" class="w-4 h-4"></i>
+              <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-chevron-down-icon lucide-chevron-down" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
             </button>
             <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
               <button id="export-accounts-table-to-excel-btn" class="w-full text-left px-4 py-2 hover:bg-gray-50 rounded-b-lg">
@@ -115,12 +93,20 @@
 
   <!-- View More Button -->
   <div id="load-more-container" class="QUERY-is-more text-center mt-12 mb-6">
-    <button id="load-more-btn" class="QUERY-load-more-btn bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl text-white font-bold py-4 px-8 rounded-xl text-base transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+    <button id="load-more-btn" class="QUERY-load-more-btn bg-gradient-to-l from-regular-from-blue-cl to-regular-to-blue-cl text-black font-bold py-4 px-8 rounded-xl text-base transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
       XEM THÊM TÀI KHOẢN
     </button>
     <p class="QUERY-no-more-text text-gray-600 italic text-base font-bold">Không còn tài khoản nào.</p>
   </div>
 </main>
+
+<!-- Scroll to Top Button -->
+<button id="scroll-to-top-btn" class="fixed bottom-[-60px] right-6 bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl text-white p-3 rounded-full shadow-lg hover:scale-110 transition-[bottom] duration-300 z-50">
+  <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-arrow-up-icon lucide-arrow-up" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m5 12 7-7 7 7" />
+    <path d="M12 19V5" />
+  </svg>
+</button>
 
 <?php require_once __DIR__ . '/add_new_account.php'; ?>
 <?php require_once __DIR__ . '/update_account.php'; ?>

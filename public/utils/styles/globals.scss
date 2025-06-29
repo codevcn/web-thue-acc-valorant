@@ -158,3 +158,18 @@ button {
     }
   }
 }
+
+.CSS-styled-vt-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+.CSS-styled-vt-scrollbar::-webkit-scrollbar-track {
+  background-color: var(--vcn-scrollbar-track-bgcl);
+  border-radius: 5px;
+}
+.CSS-styled-vt-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--vcn-regular-blue-cl);
+  border-radius: 5px;
+}
+.CSS-styled-vt-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--vcn-regular-blue-hover-cl);
+}

@@ -155,14 +155,10 @@ class GameAccountService
     $this->db->commit();
   }
 
-  public function updateAccount(string $accountId, array $data): void
+  public function updateAccount(int $accountId, array $data): void
   {
     // Kiểm tra tài khoản có tồn tại không
-    $stmt = $this->db->prepare("SELECT id FROM game_accounts WHERE id = :id");
-    $stmt->bindValue(':id', $accountId);
-    $stmt->execute();
-
-    if (!$stmt->fetch()) {
+    if (!$this->findAccountById($accountId)) {
       throw new \InvalidArgumentException("Tài khoản không tồn tại.");
     }
 
@@ -172,29 +168,51 @@ class GameAccountService
     $status      = $data['status'] ?? null;
     $description = $data['description'] ?? null;
     $deviceType  = $data['deviceType'] ?? null;
+    $avatar      = $data['avatar'] ?? null;
 
-    $sql = "UPDATE game_accounts SET acc_name = :acc_name, rank = :rank, game_code = :game_code, `status` = :status, `description` = :description, device_type = :device_type WHERE id = :id";
+    $updateFields = [];
+    $params = [];
+
+    if ($accName !== null) {
+      $updateFields[] = "acc_name = :acc_name";
+      $params[':acc_name'] = $accName;
+    }
+    if ($rank !== null) {
+      $updateFields[] = "rank = :rank";
+      $params[':rank'] = $rank;
+    }
+    if ($gameCode !== null) {
+      $updateFields[] = "game_code = :game_code";
+      $params[':game_code'] = $gameCode;
+    }
+    if ($status !== null) {
+      $updateFields[] = "`status` = :status";
+      $params[':status'] = $status;
+    }
+    if ($description !== null) {
+      $updateFields[] = "`description` = :description";
+      $params[':description'] = $description;
+    }
+    if ($deviceType !== null) {
+      $updateFields[] = "device_type = :device_type";
+      $params[':device_type'] = $deviceType;
+    }
+    if ($avatar !== null) {
+      $updateFields[] = "avatar = :avatar";
+      $params[':avatar'] = $avatar;
+    }
+    if (empty($updateFields)) {
+      throw new \InvalidArgumentException("Không có trường nào để cập nhật.");
+    }
+
+    $sql = "UPDATE game_accounts SET " . implode(', ', $updateFields) . " WHERE id = :id";
+    $params[':id'] = $accountId;
 
     $this->db->beginTransaction();
     $stmt = $this->db->prepare($sql);
 
-    if ($accName) {
-      $stmt->bindValue(':acc_name', $accName);
-    }
-    if ($rank) {
-      $stmt->bindValue(':rank', $rank);
-    }
-    if ($gameCode) {
-      $stmt->bindValue(':game_code', $gameCode);
-    }
-    if ($status) {
-      $stmt->bindValue(':status', $status);
-    }
-    if ($description) {
-      $stmt->bindValue(':description', $description);
-    }
-    if ($deviceType) {
-      $stmt->bindValue(':device_type', $deviceType);
+    foreach ($params as $param => $value) {
+      $stmt->bindValue($param, $value);
     }
     $stmt->bindValue(':id', $accountId);
     $stmt->execute();
@@ -202,13 +220,9 @@ class GameAccountService
     $this->db->commit();
   }
 
-  public function deleteAccount(string $accountId): void
+  public function deleteAccount(int $accountId): void
   {
-    $stmt = $this->db->prepare("SELECT id FROM game_accounts WHERE id = :id");
-    $stmt->bindValue(':id', $accountId);
-    $stmt->execute();
-
-    if (!$stmt->fetch()) {
+    if (!$this->findAccountById($accountId)) {
       throw new \InvalidArgumentException("Tài khoản không tồn tại.");
     }
 
@@ -217,63 +231,18 @@ class GameAccountService
     $stmt->execute();
   }
 
-  public function saveAvatarImage($file, string $accountId): array
-  {
-    $uploadDir = __DIR__ . '/../../public/images/account/';
-
-    // Tạo thư mục nếu chưa tồn tại
-    if (!is_dir($uploadDir)) {
-      mkdir($uploadDir, 0755, true);
-    }
-
-    // Lấy thông tin file
-    $fileInfo = pathinfo($file['name']);
-    $extension = strtolower($fileInfo['extension']);
-
-    // Kiểm tra định dạng file hợp lệ
-    $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-    if (!in_array($extension, $allowedExtensions)) {
-      throw new \InvalidArgumentException('Định dạng file không được hỗ trợ. Chỉ chấp nhận: JPG, PNG, GIF.');
-    }
-
-    // Kiểm tra kích thước file (tối đa 5MB)
-    $maxSize = 5 * 1024 * 1024; // 5MB
-    if ($file['size'] > $maxSize) {
-      throw new \InvalidArgumentException('Kích thước file quá lớn. Tối đa 5MB.');
-    }
-
-    // Tạo tên file mới
-    $fileName = 'account_' . $accountId . '_' . time() . '_' . bin2hex(random_bytes(8)) . '.' . $extension;
-    $filePath = $uploadDir . $fileName;
-
-    // Di chuyển file upload vào thư mục đích
-    if (!move_uploaded_file($file['tmp_name'], $filePath)) {
-      throw new \RuntimeException('Không thể lưu file ảnh.');
-    }
-
-    return [
-      'fileName' => $fileName,
-      'filePath' => $filePath,
-    ];
-  }
-
-  public function deleteAvatarImage(string $fileName): void
-  {
-    if (empty($fileName)) {
-      return;
-    }
-
-    $filePath = __DIR__ . '/../../public/images/account/' . $fileName;
-
-    if (file_exists($filePath)) {
-      unlink($filePath);
-    }
-  }
-
   public function getLatestAccount(): array
   {
     $stmt = $this->db->prepare("SELECT * FROM game_accounts ORDER BY id DESC LIMIT 1");
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+
+  public function findAccountById(int $accountId): ?array
+  {
+    $stmt = $this->db->prepare("SELECT * FROM game_accounts WHERE id = :id");
+    $stmt->bindValue(':id', $accountId);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
   }
 }

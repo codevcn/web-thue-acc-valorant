@@ -5,7 +5,11 @@
   <div class="bg-white rounded-lg max-w-md w-full p-6 relative z-20">
     <div class="flex items-center gap-4 mb-4">
       <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-        <i data-lucide="alert-triangle" class="w-6 h-6 text-red-600"></i>
+        <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-triangle-alert-icon lucide-triangle-alert text-red-600" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+          <path d="M12 9v4" />
+          <path d="M12 17h.01" />
+        </svg>
       </div>
       <div>
         <h3 class="text-lg font-medium text-gray-900">Xác nhận xóa</h3>

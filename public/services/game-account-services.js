@@ -37,10 +37,11 @@ export class GameAccountService {
     return data
   }
 
-  static async updateAccount(accountId, accountData) {
-    const { data } = await axiosClient.post(`/game-accounts/update/${accountId}`, {
-      account: accountData,
-    })
+  static async updateAccount(accountId, accountData, imgFile) {
+    const dataToSubmit = new FormData()
+    dataToSubmit.set("account", JSON.stringify(accountData))
+    if (imgFile) dataToSubmit.set("avatar", imgFile)
+    const { data } = await axiosClient.post(`/game-accounts/update/${accountId}`, dataToSubmit)
     return data
   }
 

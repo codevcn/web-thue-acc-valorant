@@ -6,6 +6,7 @@ export default {
       colors: {
         "regular-gradient-blue-cl": "var(--vcn-regular-gradient-blue-cl)",
         "regular-from-blue-cl": "var(--vcn-regular-from-blue-cl)",
+        "regular-via-blue-cl": "var(--vcn-regular-via-blue-cl)",
         "regular-to-blue-cl": "var(--vcn-regular-to-blue-cl)",
         "regular-blue-1": "var(--vcn-regular-blue-1)",
         "regular-blue-2": "var(--vcn-regular-blue-2)",
@@ -13,6 +14,8 @@ export default {
         "regular-blue-4": "var(--vcn-regular-blue-4)",
         "regular-blue-cl": "var(--vcn-regular-blue-cl)",
         "regular-blue-hover-cl": "var(--vcn-regular-blue-hover-cl)",
+        "scrollbar-track-bgcl": "var(--vcn-scrollbar-track-bgcl)",
+        "scrollbar-thumb-bgcl": "var(--vcn-scrollbar-thumb-bgcl)",
       },
     },
   },

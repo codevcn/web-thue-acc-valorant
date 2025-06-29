@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace Controllers\Apis;
 
 use Services\GameAccountService;
+use Services\FileService;
 
 class GameAccountApiController
 {
   private $gameAccountService;
+  private $fileService;
 
-  public function __construct(GameAccountService $gameAccountService)
+  public function __construct(GameAccountService $gameAccountService, FileService $fileService)
   {
     $this->gameAccountService = $gameAccountService;
+    $this->fileService = $fileService;
   }
 
   public function loadMoreAccounts(): array
@@ -69,6 +72,16 @@ class GameAccountApiController
       ];
     }
 
+    // Xử lý file avatar
+    $avatarFile = $_FILES['avatar'] ?? null;
+    if (!$avatarFile) {
+      http_response_code(400);
+      return [
+        'success' => false,
+        'message' => 'Không có ảnh đại diện cho tài khoản'
+      ];
+    }
+
     // Lấy dữ liệu tài khoản (giả sử client stringify JSON và append vào formData)
     $accountsJson = $_POST['accounts'];
     $accounts = json_decode($accountsJson, true);
@@ -111,26 +124,16 @@ class GameAccountApiController
         ];
       }
 
-      // Xử lý file avatar
-      $avatarFile = $_FILES['avatar'];
-      if ($avatarFile['error'] !== UPLOAD_ERR_OK) {
-        http_response_code(400);
-        return [
-          'success' => false,
-          'message' => 'Upload file avatar thất bại'
-        ];
-      }
-
       $latestAccountId = $latestAccount['id'];
+      $imgName = null;
       try {
-        $avatarInfo = $this->gameAccountService->saveAvatarImage($avatarFile, $latestAccountId);
+        $avatarInfo = $this->fileService->saveAvatarImage($avatarFile, $latestAccountId);
         $imgName = $avatarInfo['fileName'];
         $this->gameAccountService->updateAccount($latestAccountId, [
-          'id' => $latestAccountId,
           'avatar' => $imgName,
         ]);
       } catch (\Throwable $th) {
-        $this->gameAccountService->deleteAvatarImage($imgName);
+        $this->fileService->deleteAvatarImage($imgName);
         http_response_code(400);
         return [
           'success' => false,
@@ -146,21 +149,55 @@ class GameAccountApiController
 
   public function updateAccount(string $accountId): array
   {
-    $rawInput = file_get_contents("php://input");
-    if (!$rawInput) {
-      http_response_code(400);
+    $accountIdInt = (int) $accountId;
+    $oldAccount = $this->gameAccountService->findAccountById($accountIdInt);
+    if (!$oldAccount) {
+      http_response_code(404);
       return [
         'success' => false,
-        'message' => 'Dữ liệu không hợp lệ'
+        'message' => 'Tài khoản không tồn tại'
       ];
     }
 
-    $data = json_decode($rawInput, true);
-    $account = $data['account'] ?? [];
+    if (!isset($_POST['account'])) {
+      http_response_code(400);
+      return [
+        'success' => false,
+        'message' => 'Thiếu dữ liệu account'
+      ];
+    }
+
+    // Lấy dữ liệu tài khoản (giả sử client stringify JSON và append vào formData)
+    $accountJson = $_POST['account'];
+    $account = json_decode($accountJson, true);
+
+    // Xử lý file avatar (nếu có)
+    $avatarFile = $_FILES['avatar'] ?? null;
+    if ($avatarFile) {
+      $oldAvatar = $oldAccount['avatar'];
+      if ($oldAvatar) {
+        $this->fileService->deleteAvatarImage($oldAvatar);
+      }
+      $imgName = null;
+      try {
+        $avatarInfo = $this->fileService->saveAvatarImage($avatarFile, $accountIdInt);
+        $imgName = $avatarInfo['fileName'];
+      } catch (\Throwable $th) {
+        http_response_code(400);
+        return [
+          'success' => false,
+          'message' => 'Tạo ảnh đại diện thất bại'
+        ];
+      }
+
+      $account['avatar'] = $imgName;
+    }
 
     try {
-      $this->gameAccountService->updateAccount($accountId, $account);
+      $this->gameAccountService->updateAccount($accountIdInt, $account);
     } catch (\Throwable $th) {
+      $this->fileService->deleteAvatarImage($imgName);
+
       if ($th instanceof \InvalidArgumentException) {
         http_response_code(400);
         return [
@@ -184,7 +221,7 @@ class GameAccountApiController
   public function deleteAccount(string $accountId): array
   {
     try {
-      $this->gameAccountService->deleteAccount($accountId);
+      $this->gameAccountService->deleteAccount((int) $accountId);
     } catch (\Throwable $th) {
       if ($th instanceof \InvalidArgumentException) {
         http_response_code(400);

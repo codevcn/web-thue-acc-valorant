@@ -6,12 +6,12 @@ export const AccountCard = (account) => {
     <div class="md:block hidden bg-white rounded-2xl shadow-2xl overflow-hidden w-full h-[408px]">
       <div class="flex h-full">
         <div
-          class="w-3/5 bg-gradient-to-br from-cyan-400 via-blue-500 to-blue-600 relative flex flex-col items-center justify-center"
+          class="w-3/5 bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl relative flex flex-col items-center justify-center"
         >
           <img
-            src="/images/account/${avatar ?? "default-account-avatar.webp"}"
+            src="/images/account/${avatar ?? "default-game-account-avatar.png"}"
             alt="Account Avatar"
-            class="w-full h-full"
+            class="aspect-[365/204] ${avatar ? "object-cover" : "object-contain"}"
           />
         </div>
 
@@ -193,14 +193,12 @@ export const AccountRow = (account) => {
           value="${id}"
         />
       </td>
-      <td class="px-3 py-1 w-[200px] aspect-[365/204]">
-        <div
-          class="w-full h-full bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full flex items-center justify-center"
-        >
+      <td class="px-3 py-1">
+        <div class="rounded-full flex items-center justify-center">
           <img
-            src="/images/account/${avatar ?? "default-account-avatar.webp"}"
+            src="/images/account/${avatar || "default-game-account-avatar.png"}"
             alt="Account Avatar"
-            class="w-full h-full"
+            class="w-[200px] aspect-[365/204] max-h-[100px] object-contain"
           />
         </div>
       </td>
