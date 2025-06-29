@@ -66,19 +66,31 @@ export class AxiosErrorHandler {
 }
 
 export class Toaster {
-  static success(title, message) {
+  static success(title, message, callback) {
     Swal.fire({
       icon: "success",
       title,
       text: message,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (callback) {
+          callback()
+        }
+      }
     })
   }
 
-  static error(title, message) {
+  static error(title, message, callback) {
     Swal.fire({
       icon: "error",
       title,
       text: message,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (callback) {
+          callback()
+        }
+      }
     })
   }
 }
@@ -99,7 +111,8 @@ export class URLHelper {
   static currentUrlSearchParams = new URLSearchParams(window.location.search)
 
   static getUrlQueryParam(key) {
-    return this.currentUrlSearchParams.get(key)
+    const value = this.currentUrlSearchParams.get(key)
+    return value ? decodeURIComponent(value) : ""
   }
 }
 
@@ -110,5 +123,17 @@ export class NavigationHelper {
 
   static reloadPage() {
     window.location.reload()
+  }
+}
+
+export class LocalStorageHelper {
+  static KEY_SHOW_FILTERS = "show-filters"
+
+  static setShowFilters(show) {
+    localStorage.setItem(this.KEY_SHOW_FILTERS, show)
+  }
+
+  static getShowFilters() {
+    return localStorage.getItem(this.KEY_SHOW_FILTERS)
   }
 }

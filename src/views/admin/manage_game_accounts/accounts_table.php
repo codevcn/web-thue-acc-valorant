@@ -1,0 +1,41 @@
+<div class="overflow-x-auto">
+  <table class="w-full">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-3 py-3 text-left">
+          <input type="checkbox" id="selectAll" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+        </th>
+        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Avatar
+        </th>
+        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Tên tài khoản
+        </th>
+        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Rank
+        </th>
+        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Mã game
+        </th>
+        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Trạng thái
+        </th>
+        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Mô tả
+        </th>
+        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Ngày tạo
+        </th>
+        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Loại máy
+        </th>
+        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Thao tác
+        </th>
+      </tr>
+    </thead>
+
+    <tbody id="accounts-table-body" class="bg-white divide-y divide-gray-200">
+    </tbody>
+  </table>
+</div>

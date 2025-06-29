@@ -69,7 +69,7 @@ class ApiRouter
         }
 
         try {
-          $result = call_user_func($handler);
+          $result = call_user_func_array($handler, array_values($params));
           return json_encode($result, JSON_UNESCAPED_UNICODE);
         } catch (\Exception $e) {
           http_response_code(500);

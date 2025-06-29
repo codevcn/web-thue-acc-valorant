@@ -28,3 +28,11 @@ $apiRouter->get('/api/v1/game-accounts/device-types', function () use ($gameAcco
 $apiRouter->post('/api/v1/game-accounts/add-new', function () use ($gameAccountApiController) {
   return $gameAccountApiController->addNewAccounts();
 });
+
+$apiRouter->post('/api/v1/game-accounts/update/{accountId}', function ($accountId) use ($gameAccountApiController) {
+  return $gameAccountApiController->updateAccount($accountId);
+});
+
+$apiRouter->delete('/api/v1/game-accounts/delete/{accountId}', function ($accountId) use ($gameAccountApiController) {
+  return $gameAccountApiController->deleteAccount($accountId);
+});

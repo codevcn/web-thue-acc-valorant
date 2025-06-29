@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Controllers\Apis;
 
 use Services\GameAccountService;
-use Utils\DevLogger;
 
 class GameAccountApiController
 {
@@ -22,8 +21,11 @@ class GameAccountApiController
     $rank = isset($_GET['rank']) ? trim($_GET['rank']) : null;
     $status = isset($_GET['status']) ? trim($_GET['status']) : null;
     $device_type = isset($_GET['device_type']) ? trim($_GET['device_type']) : null;
+    $search_term = isset($_GET['search_term']) ? trim($_GET['search_term']) : null;
+    $date_from = isset($_GET['date_from']) ? trim($_GET['date_from']) : null;
+    $date_to = isset($_GET['date_to']) ? trim($_GET['date_to']) : null;
 
-    $accounts = $this->gameAccountService->fetchAccounts($last_id, $rank, $status, $device_type);
+    $accounts = $this->gameAccountService->advancedFetchAccounts($last_id, $rank, $status, $device_type, $search_term, $date_from, $date_to);
 
     return [
       'accounts' => $accounts,
@@ -85,7 +87,69 @@ class GameAccountApiController
       http_response_code(500);
       return [
         'success' => false,
-        'message' => 'Internal server error'
+        'message' => 'Lỗi hệ thống'
+      ];
+    }
+
+    return [
+      'success' => true,
+    ];
+  }
+
+  public function updateAccount(string $accountId): array
+  {
+    $rawInput = file_get_contents("php://input");
+    if (!$rawInput) {
+      http_response_code(400);
+      return [
+        'success' => false,
+        'message' => 'Dữ liệu không hợp lệ'
+      ];
+    }
+
+    $data = json_decode($rawInput, true);
+    $account = $data['account'] ?? [];
+
+    try {
+      $this->gameAccountService->updateAccount($accountId, $account);
+    } catch (\Throwable $th) {
+      if ($th instanceof \InvalidArgumentException) {
+        http_response_code(400);
+        return [
+          'success' => false,
+          'message' => $th->getMessage()
+        ];
+      }
+
+      http_response_code(500);
+      return [
+        'success' => false,
+        'message' => 'Lỗi hệ thống'
+      ];
+    }
+
+    return [
+      'success' => true,
+    ];
+  }
+
+  public function deleteAccount(string $accountId): array
+  {
+    try {
+      $this->gameAccountService->deleteAccount($accountId);
+    } catch (\Throwable $th) {
+      if ($th instanceof \InvalidArgumentException) {
+        http_response_code(400);
+        return [
+          'success' => false,
+          'message' => $th->getMessage()
+        ];
+      }
+
+      http_response_code(500);
+      return [
+        'success' => false,
+        'message' => 'Lỗi hệ thống'
       ];
     }
 

@@ -1,0 +1,13 @@
+#load-more-container {
+  &.QUERY-is-more {
+    .QUERY-no-more-text {
+      display: none;
+    }
+  }
+
+  &.QUERY-no-more {
+    .QUERY-load-more-btn {
+      display: none;
+    }
+  }
+}

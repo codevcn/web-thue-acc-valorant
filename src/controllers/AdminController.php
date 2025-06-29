@@ -24,6 +24,6 @@ class AdminController
     ];
     extract($data);
 
-    require_once __DIR__ . '/../views/admin/manage-game-accounts/page.php';
+    require_once __DIR__ . '/../views/admin/manage_game_accounts/page.php';
   }
 }

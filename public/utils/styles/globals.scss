@@ -132,3 +132,29 @@ button {
   $color: #ff0000;
   @include CSS-button-decoration($color);
 }
+
+// Flatpickr custom styles
+.flatpickr-wrapper {
+  width: 100%;
+}
+
+.flatpickr-calendar {
+  font-family: inherit;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.flatpickr-time {
+  border-top: 1px solid #e5e7eb;
+
+  input {
+    border: none;
+    background: transparent;
+    color: #374151;
+
+    &:focus {
+      outline: none;
+      background-color: #f3f4f6;
+    }
+  }
+}

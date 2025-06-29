@@ -1,5 +1,10 @@
 import { GameAccountService } from "../../services/game-account-services.js"
-import { AccountCard, AccountRankType, AccountStatus } from "../../utils/scripts/components.js"
+import {
+  AccountCard,
+  AccountDeviceType,
+  AccountRankType,
+  AccountStatus,
+} from "../../utils/scripts/components.js"
 import {
   AppLoadingHelper,
   AxiosErrorHandler,
@@ -16,11 +21,16 @@ class HomePageManager {
     this.accountsList = document.getElementById("accounts-list")
     this.accountRankTypesModal = document.getElementById("account-rank-type-modal")
     this.accountRankTypes = document.getElementById("account-rank-types")
-    this.accountStatusModal = document.getElementById("account-status-modal")
+    this.accountStatusesModal = document.getElementById("account-status-modal")
     this.accountStatuses = document.getElementById("account-statuses")
+    this.accountDeviceTypes = document.getElementById("account-device-types")
     this.accountRankTypesModalOverlay =
       this.accountRankTypesModal.querySelector(".QUERY-modal-overlay")
-    this.accountStatusModalOverlay = this.accountStatusModal.querySelector(".QUERY-modal-overlay")
+    this.accountStatusesModalOverlay =
+      this.accountStatusesModal.querySelector(".QUERY-modal-overlay")
+    this.accountDeviceTypesModal = document.getElementById("account-device-type-modal")
+    this.accountDeviceTypesModalOverlay =
+      this.accountDeviceTypesModal.querySelector(".QUERY-modal-overlay")
 
     this.isFetchingItems = false
     this.isMoreItems = true
@@ -29,23 +39,29 @@ class HomePageManager {
     this.initLoadMoreButtonListener()
     this.initAccountRankTypesListener()
     this.initAccountStatusListener()
+    this.initAccountDeviceTypesListener()
     this.initCloseModalListener()
     this.initFilterByRankListener()
     this.initFilterByStatusListener()
+    this.initFilterByDeviceTypeListener()
     this.initModalOverlayListeners()
     this.initCancelFilterListener()
 
     this.fetchAccounts()
     this.fetchAccountRankTypes()
     this.fetchAccountStatuses()
+    this.fetchAccountDeviceTypes()
   }
 
   initModalOverlayListeners() {
     this.accountRankTypesModalOverlay.addEventListener("click", () => {
       this.hideShowAccountRankTypes(false)
     })
-    this.accountStatusModalOverlay.addEventListener("click", () => {
+    this.accountStatusesModalOverlay.addEventListener("click", () => {
       this.hideShowAccountStatus(false)
+    })
+    this.accountDeviceTypesModalOverlay.addEventListener("click", () => {
+      this.hideShowAccountDeviceTypes(false)
     })
   }
 
@@ -122,6 +138,21 @@ class HomePageManager {
     })
   }
 
+  fetchAccountDeviceTypes() {
+    GameAccountService.fetchDeviceTypes().then((deviceTypes) => {
+      const deviceTypeParam = URLHelper.getUrlQueryParam("device_type")
+      if (deviceTypes && deviceTypes.length > 0) {
+        for (const deviceType of deviceTypes) {
+          const fragment = LitHTMLHelper.getFragment(AccountDeviceType, {
+            ...deviceType,
+            isActive: deviceTypeParam === deviceType.device_type,
+          })
+          this.accountDeviceTypes.appendChild(fragment)
+        }
+      }
+    })
+  }
+
   initLoadMoreButtonListener() {
     this.loadMoreBtn.addEventListener("click", () => {
       this.fetchAccounts()
@@ -138,9 +169,17 @@ class HomePageManager {
 
   hideShowAccountStatus(isShow) {
     if (isShow) {
-      this.accountStatusModal.hidden = false
+      this.accountStatusesModal.hidden = false
     } else {
-      this.accountStatusModal.hidden = true
+      this.accountStatusesModal.hidden = true
+    }
+  }
+
+  hideShowAccountDeviceTypes(isShow) {
+    if (isShow) {
+      this.accountDeviceTypesModal.hidden = false
+    } else {
+      this.accountDeviceTypesModal.hidden = true
     }
   }
 
@@ -158,6 +197,13 @@ class HomePageManager {
     })
   }
 
+  initAccountDeviceTypesListener() {
+    const accountDeviceTypesBtn = document.getElementById("account-device-types-btn")
+    accountDeviceTypesBtn.addEventListener("click", () => {
+      this.hideShowAccountDeviceTypes(true)
+    })
+  }
+
   initCloseModalListener() {
     const closeModalBtns = document.querySelectorAll(".QUERY-close-modal-btn")
     for (const closeModalBtn of closeModalBtns) {
@@ -172,33 +218,45 @@ class HomePageManager {
       let target = e.target
       while (target && !target.classList.contains("QUERY-filter-by-rank-item")) {
         target = target.parentElement
-        if (target.tagName === "BODY") {
+        if (target.id === "account-rank-type-modal" || target.tagName === "BODY" || !target) {
           return
         }
       }
-      if (target.classList.contains("QUERY-filter-by-rank-item")) {
-        const rank = target.dataset.rank
-        if (rank) {
-          this.filterAndNavigate(`rank=${rank}`)
-        }
+      const rank = target.dataset.rank
+      if (rank) {
+        this.filterAndNavigate(`rank=${rank}`)
       }
     })
   }
 
   initFilterByStatusListener() {
-    this.accountStatusModal.addEventListener("click", (e) => {
+    this.accountStatusesModal.addEventListener("click", (e) => {
       let target = e.target
       while (target && !target.classList.contains("QUERY-filter-by-status-item")) {
         target = target.parentElement
-        if (target.tagName === "BODY") {
+        if (target.id === "account-status-modal" || target.tagName === "BODY" || !target) {
           return
         }
       }
-      if (target.classList.contains("QUERY-filter-by-status-item")) {
-        const status = target.dataset.status
-        if (status) {
-          this.filterAndNavigate(`status=${status}`)
+      const status = target.dataset.status
+      if (status) {
+        this.filterAndNavigate(`status=${status}`)
+      }
+    })
+  }
+
+  initFilterByDeviceTypeListener() {
+    this.accountDeviceTypesModal.addEventListener("click", (e) => {
+      let target = e.target
+      while (target && !target.classList.contains("QUERY-filter-by-device-type-item")) {
+        target = target.parentElement
+        if (target.id === "account-device-type-modal" || target.tagName === "BODY" || !target) {
+          return
         }
+      }
+      const deviceType = target.dataset.deviceType
+      if (deviceType) {
+        this.filterAndNavigate(`device_type=${deviceType}`)
       }
     })
   }
@@ -212,6 +270,8 @@ class HomePageManager {
           this.filterAndNavigate("rank=")
         } else if (modal.classList.contains("QUERY-status-modal")) {
           this.filterAndNavigate("status=")
+        } else if (modal.classList.contains("QUERY-device-type-modal")) {
+          this.filterAndNavigate("device_type=")
         }
       })
     }
@@ -219,11 +279,13 @@ class HomePageManager {
 
   filterAndNavigate(keyValuePair) {
     const currentUrl = new URL(window.location.href)
-    const [key, value] = keyValuePair.split("=")
-    if (value) {
-      currentUrl.searchParams.set(key, value)
-    } else {
-      currentUrl.searchParams.delete(key)
+    const params = new URLSearchParams(keyValuePair)
+    for (const [key, value] of params.entries()) {
+      if (value) {
+        currentUrl.searchParams.set(key, value)
+      } else {
+        currentUrl.searchParams.delete(key)
+      }
     }
     NavigationHelper.pureNavigateTo(currentUrl.toString())
   }

@@ -62,11 +62,11 @@ export const AccountCard = (account) => {
               <span class="text-gray-600 font-medium">Trạng Thái</span>
               <div class="flex items-center gap-1">
                 <span
-                  class="font-bold text-white ${status == "AVAILABLE"
+                  class="font-bold text-white ${status == "Rảnh"
                     ? "bg-green-600"
                     : "bg-red-600"} px-4 py-0.5 rounded-lg"
                 >
-                  ${status == "AVAILABLE" ? "RẢNH" : "BẬN"}
+                  ${status}
                 </span>
               </div>
             </div>
@@ -113,9 +113,7 @@ export const AccountCard = (account) => {
                 <span class="text-gray-600 font-medium">Loại Máy</span>
               </div>
               <div class="flex items-center gap-1">
-                <span class="font-bold text-blue-600">
-                  ${device_type}
-                </span>
+                <span class="font-bold text-blue-600"> ${device_type} </span>
               </div>
             </div>
 
@@ -164,13 +162,27 @@ export const AccountStatus = ({ status, isActive }) => {
         ? "CSS-is-active"
         : ""}"
     >
-      <span>${status == "AVAILABLE" ? "RẢNH" : "BẬN"}</span>
+      <span>${status}</span>
+    </button>
+  `
+}
+
+export const AccountDeviceType = ({ device_type, isActive }) => {
+  return html`
+    <button
+      data-device-type="${device_type}"
+      class="CSS-button-blue-decoration QUERY-filter-by-device-type-item py-1.5 px-4 ${isActive
+        ? "CSS-is-active"
+        : ""}"
+    >
+      <span>${device_type}</span>
     </button>
   `
 }
 
 export const AccountRow = (account) => {
-  const { acc_name, rank, game_code, status, description, created_date, device_type, id } = account
+  const { acc_name, rank, game_code, status, description, created_date, device_type, id, avatar } =
+    account
   const created_date_formatted = dayjs(created_date).format("DD/MM/YYYY HH:mm")
   return html`
     <tr class="hover:bg-gray-50">
@@ -181,32 +193,35 @@ export const AccountRow = (account) => {
           value="${id}"
         />
       </td>
-      <td class="px-3 py-3">
+      <td class="px-3 py-1 w-[200px] aspect-[365/204]">
         <div
-          class="w-10 h-10 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full flex items-center justify-center"
+          class="w-full h-full bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full flex items-center justify-center"
         >
-          <i data-lucide="user" class="w-5 h-5 text-white"></i>
+          <img
+            src="/images/account/${avatar ?? "default-account-avatar.webp"}"
+            alt="Account Avatar"
+            class="w-full h-full"
+          />
         </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
-        <div class="text-sm font-medium text-gray-900">${acc_name}</div>
+        <div class="text-sm font-medium text-gray-900 max-w-[150px] truncate">${acc_name}</div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
-        <div class="text-sm font-medium ${getRankColor(rank)}">${rank}</div>
+        <div class="text-sm font-medium">${rank}</div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
         <div class="text-sm text-regular-blue-4 font-medium">${game_code}</div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
-        <span
-          class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(status)}"
-        >
-          ${status}
-        </span>
+        <span class="inline-flex px-2 py-1 text-sm font-semibold rounded-full"> ${status} </span>
       </td>
       <td class="px-3 py-3">
         <div class="text-sm text-gray-900 max-w-[100px] truncate">
-          ${description || html`<span class="text-gray-400 italic text-base">Chưa có mô tả</span>`}
+          ${description ||
+          html`<span class="QUERY-no-description text-gray-400 italic text-sm"
+            >Chưa có mô tả</span
+          >`}
         </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
@@ -218,8 +233,8 @@ export const AccountRow = (account) => {
       <td class="px-3 py-3 whitespace-nowrap">
         <div class="flex items-center gap-2">
           <button
-            onclick="editAccount(${JSON.stringify(account)})"
-            class="text-regular-blue-cl hover:text-regular-blue-hover-cl transition-colors"
+            data-account-id="${id}"
+            class="QUERY-update-account-btn text-regular-blue-cl hover:text-regular-blue-hover-cl transition-colors"
             title="Chỉnh sửa"
           >
             <svg
@@ -241,29 +256,8 @@ export const AccountRow = (account) => {
             </svg>
           </button>
           <button
-            class="text-regular-blue-cl hover:text-regular-blue-hover-cl transition-colors"
-            title="Xem chi tiết"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-info-icon lucide-info"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 16v-4" />
-              <path d="M12 8h.01" />
-            </svg>
-          </button>
-          <button
-            onclick="deleteAccount(${id})"
-            class="text-red-600 hover:text-red-900 transition-colors"
+            data-account-id="${id}"
+            class="QUERY-delete-account-btn text-red-600 hover:text-red-900 transition-colors"
             title="Xóa"
           >
             <svg
