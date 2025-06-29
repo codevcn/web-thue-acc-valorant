@@ -8,6 +8,40 @@
     </div>
 
     <form id="add-new-account-form" class="px-6 py-4">
+      <div id="pick-avatar-section" class="QUERY-at-avatar-input-section mb-4">
+        <div class="QUERY-avatar-input-section w-full">
+          <label for="avatar-input" class="block text-sm font-medium text-gray-700 mb-2">Ảnh đại diện</label>
+          <div class="flex items-center gap-4 relative w-full">
+            <input type="file" name="avatar" id="avatar-input" accept="image/*" class="hidden" />
+            <label for="avatar-input" class="cursor-pointer w-full">
+              <div id="avatar-preview" class="flex items-center justify-center flex-col w-full gap-2 p-4 text-center border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-gray-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                <span class="text-sm text-gray-500">Chọn ảnh</span>
+                <div class="flex-1">
+                  <p class="text-sm text-gray-600">Hỗ trợ: JPG, PNG, GIF.</p>
+                  <button type="button" id="remove-avatar-btn" class="text-sm text-red-600 hover:text-red-800 hidden">Xóa ảnh</button>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+        <div class="QUERY-avatar-preview-section">
+          <img src="" alt="Ảnh đại diện" id="avatar-preview-img" class="w-full object-contain rounded-lg">
+          <button type="button" id="cancel-avatar-btn" class="flex items-center justify-center gap-2 mt-2 px-4 w-full py-1 text-sm text-white bg-red-600 border-2 border-red-600 border-solid hover:bg-transparent hover:text-red-600 rounded transition">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2">
+              <path d="M3 6h18" />
+              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+              <line x1="10" x2="10" y1="11" y2="17" />
+              <line x1="14" x2="14" y1="11" y2="17" />
+            </svg>
+            <span>Hủy ảnh này</span>
+          </button>
+        </div>
+      </div>
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Tên tài khoản</label>

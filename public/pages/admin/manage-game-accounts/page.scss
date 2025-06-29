@@ -11,3 +11,17 @@
     }
   }
 }
+
+#pick-avatar-section {
+  &.QUERY-at-avatar-input-section {
+    .QUERY-avatar-preview-section {
+      display: none;
+    }
+  }
+
+  &.QUERY-at-avatar-preview-section {
+    .QUERY-avatar-input-section {
+      display: none;
+    }
+  }
+}

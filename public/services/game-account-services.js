@@ -29,10 +29,11 @@ export class GameAccountService {
     return data.device_types
   }
 
-  static async addNewAccount(accountData) {
-    const { data } = await axiosClient.post("/game-accounts/add-new", {
-      accounts: [accountData],
-    })
+  static async addNewAccounts(accountsFormData, imgFile) {
+    const dataToSubmit = new FormData()
+    dataToSubmit.set("accounts", JSON.stringify(accountsFormData))
+    if (imgFile) dataToSubmit.set("avatar", imgFile)
+    const { data } = await axiosClient.post("/game-accounts/add-new", dataToSubmit)
     return data
   }
 

@@ -136,6 +136,9 @@ class AddNewAccountManager {
     this.deviceTypeSelect = this.addNewAccountModal.querySelector(".QUERY-device-type-select")
     this.rankTypesSelect = this.addNewAccountModal.querySelector(".QUERY-rank-types-select")
     this.statusesSelect = this.addNewAccountModal.querySelector(".QUERY-statuses-select")
+    this.pickAvatarSection = document.getElementById("pick-avatar-section")
+    this.avatarPreview = document.getElementById("avatar-preview-img")
+    this.avatarInput = document.getElementById("avatar-input")
 
     this.isSubmitting = false
 
@@ -162,6 +165,13 @@ class AddNewAccountManager {
     this.addNewAccountModal.querySelector(".QUERY-modal-overlay").addEventListener("click", (e) => {
       this.hideModal()
     })
+
+    document
+      .getElementById("avatar-input")
+      .addEventListener("change", this.handleAvatarInputChange.bind(this))
+    document
+      .getElementById("cancel-avatar-btn")
+      .addEventListener("click", this.handleRemoveAvatar.bind(this))
   }
 
   showModal() {
@@ -254,24 +264,18 @@ class AddNewAccountManager {
     this.isSubmitting = true
 
     const formData = new FormData(this.addNewAccountForm)
-    const accName = formData.get("accName"),
-      rank = formData.get("rank"),
-      gameCode = formData.get("gameCode"),
-      description = formData.get("description"),
-      status = formData.get("status"),
-      deviceType = formData.get("deviceType")
-
-    if (!this.validateFormData({ accName, rank, gameCode, description, status, deviceType })) return
+    const data = {
+      accName: formData.get("accName"),
+      rank: formData.get("rank"),
+      gameCode: formData.get("gameCode"),
+      description: formData.get("description"),
+      status: formData.get("status"),
+      deviceType: formData.get("deviceType"),
+    }
+    if (!this.validateFormData(data)) return
 
     AppLoadingHelper.show()
-    GameAccountService.addNewAccount({
-      accName,
-      rank,
-      gameCode,
-      description,
-      status,
-      deviceType,
-    })
+    GameAccountService.addNewAccounts([data], this.avatarInput.files?.[0])
       .then((data) => {
         if (data && data.success) {
           Toaster.success("Thông báo", "Thêm tài khoản thành công", () => {
@@ -286,6 +290,26 @@ class AddNewAccountManager {
         this.isSubmitting = false
         AppLoadingHelper.hide()
       })
+  }
+
+  handleAvatarInputChange(e) {
+    const file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        this.avatarPreview.src = e.target.result
+        this.pickAvatarSection.classList.remove("QUERY-at-avatar-input-section")
+        this.pickAvatarSection.classList.add("QUERY-at-avatar-preview-section")
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  handleRemoveAvatar() {
+    this.avatarPreview.src = ""
+    this.avatarInput.value = null
+    this.pickAvatarSection.classList.remove("QUERY-at-avatar-preview-section")
+    this.pickAvatarSection.classList.add("QUERY-at-avatar-input-section")
   }
 }
 
@@ -528,6 +552,10 @@ class ImportExportManager {
     document.getElementById("export-accounts-table-to-excel-btn").addEventListener("click", (e) => {
       this.exportAccountsTableToExcel()
     })
+
+    document.getElementById("import-accounts-from-excel-btn").addEventListener("click", (e) => {
+      this.importAccountsFromExcel()
+    })
   }
 
   exportAccountsTableToExcel() {
@@ -575,8 +603,85 @@ class ImportExportManager {
     const workbook = XLSX.utils.book_new()
     XLSX.utils.book_append_sheet(workbook, worksheet, "GameAccounts")
 
-    const today = dayjs().format("YYYY-MM-DD_HH-mm")
+    const today = dayjs().format("YYYY-MM-DD_HH-mm-ss")
     XLSX.writeFile(workbook, `DanhSachTaiKhoan_${today}.xlsx`)
+  }
+
+  importAccountsFromExcel() {
+    const input = document.createElement("input")
+    input.type = "file"
+    input.accept = ".xlsx,.xls"
+    input.style.display = "none"
+
+    input.addEventListener("change", (event) => {
+      const file = event.target.files[0]
+      if (!file) return
+
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        try {
+          const data = new Uint8Array(e.target.result)
+          const workbook = XLSX.read(data, { type: "array" })
+          const worksheet = workbook.Sheets[workbook.SheetNames[0]]
+          const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 })
+
+          // Bỏ qua header row
+          const rows = jsonData.slice(1)
+
+          if (rows.length === 0) {
+            Toaster.error("Lỗi", "File Excel không có dữ liệu")
+            return
+          }
+
+          const accounts = rows
+            .map((row) => ({
+              accName: row[1] || "",
+              rank: row[2] || "",
+              gameCode: row[3] || "",
+              status: row[4] || "",
+              description: row[5] || "",
+              deviceType: row[7] || "",
+            }))
+            .filter(
+              (account) => account.accName && account.rank && account.gameCode && account.deviceType
+            )
+
+          if (accounts.length === 0) {
+            Toaster.error("Lỗi", "Không có dữ liệu hợp lệ trong file Excel")
+            return
+          }
+
+          this.processImportAccounts(accounts)
+        } catch (error) {
+          Toaster.error("Lỗi", "Lỗi khi đọc file Excel")
+        }
+      }
+
+      reader.readAsArrayBuffer(file)
+    })
+
+    document.body.appendChild(input)
+    input.click()
+    document.body.removeChild(input)
+  }
+
+  processImportAccounts(accounts) {
+    AppLoadingHelper.show()
+
+    GameAccountService.addNewAccounts(accounts)
+      .then((data) => {
+        if (data && data.success) {
+          Toaster.success("Thông báo", `Đã import thành công ${accounts.length} tài khoản`, () => {
+            NavigationHelper.reloadPage()
+          })
+        }
+      })
+      .catch((error) => {
+        Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
+      })
+      .finally(() => {
+        AppLoadingHelper.hide()
+      })
   }
 }
 
@@ -840,7 +945,7 @@ class FilterManager {
   }
 }
 
-new ImportExportManager()
+// new ImportExportManager()
 new AddNewAccountManager()
 const deleteAccountManager = new DeleteAccountManager()
 new FilterManager()

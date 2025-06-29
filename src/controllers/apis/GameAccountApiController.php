@@ -61,17 +61,25 @@ class GameAccountApiController
 
   public function addNewAccounts(): array
   {
-    $rawInput = file_get_contents("php://input");
-    if (!$rawInput) {
+    if (!isset($_POST['accounts'])) {
       http_response_code(400);
       return [
         'success' => false,
-        'message' => 'Invalid input data'
+        'message' => 'Thiếu dữ liệu avatar hoặc accounts'
       ];
     }
 
-    $data = json_decode($rawInput, true);
-    $accounts = $data['accounts'] ?? [];
+    // Lấy dữ liệu tài khoản (giả sử client stringify JSON và append vào formData)
+    $accountsJson = $_POST['accounts'];
+    $accounts = json_decode($accountsJson, true);
+
+    if (!is_array($accounts)) {
+      http_response_code(400);
+      return [
+        'success' => false,
+        'message' => 'Dữ liệu accounts không hợp lệ'
+      ];
+    }
 
     try {
       $this->gameAccountService->addNewAccounts($accounts);
@@ -89,6 +97,46 @@ class GameAccountApiController
         'success' => false,
         'message' => 'Lỗi hệ thống'
       ];
+    }
+
+    if (count($accounts) == 1) {
+      // Lấy account record vừa insert
+      $latestAccount = $this->gameAccountService->getLatestAccount();
+
+      if (!$latestAccount) {
+        http_response_code(500);
+        return [
+          'success' => false,
+          'message' => 'Không thể lấy thông tin tài khoản vừa tạo'
+        ];
+      }
+
+      // Xử lý file avatar
+      $avatarFile = $_FILES['avatar'];
+      if ($avatarFile['error'] !== UPLOAD_ERR_OK) {
+        http_response_code(400);
+        return [
+          'success' => false,
+          'message' => 'Upload file avatar thất bại'
+        ];
+      }
+
+      $latestAccountId = $latestAccount['id'];
+      try {
+        $avatarInfo = $this->gameAccountService->saveAvatarImage($avatarFile, $latestAccountId);
+        $imgName = $avatarInfo['fileName'];
+        $this->gameAccountService->updateAccount($latestAccountId, [
+          'id' => $latestAccountId,
+          'avatar' => $imgName,
+        ]);
+      } catch (\Throwable $th) {
+        $this->gameAccountService->deleteAvatarImage($imgName);
+        http_response_code(400);
+        return [
+          'success' => false,
+          'message' => 'Tạo ảnh đại diện thất bại'
+        ];
+      }
     }
 
     return [
