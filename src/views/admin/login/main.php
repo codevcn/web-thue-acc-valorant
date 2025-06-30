@@ -1,21 +1,3 @@
-<?php if (isset($_GET['error'])): ?>
-  <div hidden id="error-message">
-    <?php
-    $error = $_GET['error'];
-    switch ($error) {
-      case 'missing_fields':
-        echo 'Vui lòng nhập đầy đủ thông tin.';
-        break;
-      case 'invalid_credentials':
-        echo 'Tên đăng nhập hoặc mật khẩu không đúng.';
-        break;
-      default:
-        echo 'Có lỗi xảy ra.';
-    }
-    ?>
-  </div>
-<?php endif; ?>
-
 <div class="min-h-screen bg-gradient-to-br from-regular-from-blue-cl via-regular-via-blue-cl to-regular-to-blue-cl flex items-center justify-center p-6">
   <div class="w-full max-w-md">
     <!-- Header -->
@@ -103,8 +85,18 @@
         </button>
       </form>
 
+      <div class="flex justify-center items-center w-full mt-8 border-t border-white/20 pt-6">
+        <a href="/" class="hover:text-black text-gray-600 font-bold flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-move-left-icon lucide-move-left flex" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 8L2 12L6 16" />
+            <path d="M2 12H22" />
+          </svg>
+          <span>Trang chủ</span>
+        </a>
+      </div>
+
       <!-- Additional Info -->
-      <div class="mt-8 pt-6 border-t border-white/20">
+      <div class="pt-4">
         <p class="text-black/60 text-sm mb-4 text-center">Chỉ dành cho quản trị viên được ủy quyền</p>
       </div>
     </div>

@@ -35,6 +35,7 @@ class HomePageManager {
     this.rentNowModalOverlay = this.rentNowModal.querySelector(".QUERY-modal-overlay")
     this.closeRentNowModalBtn = document.getElementById("close-rent-now-modal-btn")
     this.accNameRentNowModal = document.getElementById("acc-name--rent-now-modal")
+    this.scrollToTopBtn = document.getElementById("scroll-to-top-btn")
 
     this.isFetchingItems = false
     this.isMoreItems = true
@@ -53,6 +54,9 @@ class HomePageManager {
     this.initCancelFilterListener()
     this.initAccountsListListener()
     this.initCloseRentNowModalListener()
+    this.initScrollToTopBtnListener()
+    
+    this.watchScrolling()
 
     this.fetchAccounts()
     this.fetchAccountRankTypes()
@@ -333,6 +337,26 @@ class HomePageManager {
   initCloseRentNowModalListener() {
     this.closeRentNowModalBtn.addEventListener("click", () => {
       this.hideRentNowModal()
+    })
+  }
+
+  watchScrolling() {
+    window.addEventListener("scroll", (e) => {
+      const THRESHOLD = 300
+      if (window.scrollY > THRESHOLD) {
+        this.scrollToTopBtn.classList.remove("bottom-[-60px]")
+        this.scrollToTopBtn.classList.add("bottom-6")
+      } else {
+        this.scrollToTopBtn.classList.remove("bottom-6")
+        this.scrollToTopBtn.classList.add("bottom-[-60px]")
+      }
+    })
+  }
+
+  initScrollToTopBtnListener() {
+    this.scrollToTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 100, behavior: "instant" })
+      window.scrollTo({ top: 0, behavior: "smooth" })
     })
   }
 }

@@ -13,7 +13,7 @@ use Services\RulesService;
 use Core\UserMiddleware;
 
 // Initialize services
-$jwtService = new JwtService('your-secret-key-change-this-in-production', 3600);
+$jwtService = new JwtService();
 $authService = new AuthService($db, $jwtService);
 $userService = new UserService($db);
 $rulesService = new RulesService($db);

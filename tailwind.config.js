@@ -16,6 +16,8 @@ export default {
         "regular-blue-hover-cl": "var(--vcn-regular-blue-hover-cl)",
         "scrollbar-track-bgcl": "var(--vcn-scrollbar-track-bgcl)",
         "scrollbar-thumb-bgcl": "var(--vcn-scrollbar-thumb-bgcl)",
+        "regular-zalo-cl": "var(--vcn-regular-zalo-cl)",
+        "regular-facebook-cl": "var(--vcn-regular-facebook-cl)",
       },
     },
   },

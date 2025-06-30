@@ -1,5 +1,5 @@
 {
-  "name": "php-ssr-login",
+  "name": "webthueaccvalorant",
   "version": "1.0.0",
   "scripts": {
     "build": "npx tailwindcss -i ./public/utils/styles/src.css -o ./public/utils/styles/styles.css --watch --minify"

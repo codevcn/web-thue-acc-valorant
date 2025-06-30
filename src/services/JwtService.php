@@ -6,10 +6,14 @@ namespace Services;
 
 class JwtService
 {
-  private string $secret = 'your-secret-key';
-  private int $expiration = 3600;
+  private string $secret;
+  private int $expiration;
 
-  public function __construct() {}
+  public function __construct()
+  {
+    $this->secret = $_ENV['JWT_SECRET'];
+    $this->expiration = (int) $_ENV['JWT_EXPIRATION'];
+  }
 
   public function generateToken(array $payload): string
   {
