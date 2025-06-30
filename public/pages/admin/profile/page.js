@@ -17,6 +17,7 @@ class ProfilePageManager {
     this.passwordInput = document.getElementById("password-input")
     this.scrollToTopBtn = document.getElementById("scroll-to-top-btn")
     this.updateProfileBtn = document.getElementById("update-profile-btn")
+    this.rulesTextarea = document.getElementById("rules-textarea")
 
     this.MIN_LENGTH_OF_PASSWORD = 6
 
@@ -73,7 +74,7 @@ class ProfilePageManager {
     }
 
     AppLoadingHelper.show()
-    AdminService.updateProfile(dataToSend)
+    AdminService.updateProfile(dataToSend, this.rulesTextarea.value || null)
       .then((res) => {
         Toaster.success(
           "Cập nhật thành công",

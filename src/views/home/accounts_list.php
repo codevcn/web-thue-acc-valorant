@@ -14,7 +14,7 @@
       </p>
     </div>
 
-    <div class="flex flex-col items-center gap-4 text-black mb-8">
+    <div class="flex flex-col items-center gap-4 text-black mb-12">
       <div class="flex items-center gap-2 text-lg font-bold">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-black">
           <path d="M3 6h18" />
@@ -43,8 +43,8 @@
     </div>
 
     <!-- View More Button -->
-    <div id="load-more-container" class="QUERY-is-more text-center mt-12">
-      <button id="load-more-btn" class="QUERY-load-more-btn bg-gradient-to-r from-sky-500 to-cyan-600 hover:from-sky-600 hover:to-cyan-700 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+    <div id="load-more-container" class="QUERY-is-more flex justify-center mt-12 w-full">
+      <button id="load-more-btn" class="QUERY-load-more-btn CSS-button-blue-decoration py-2 px-4">
         XEM THÊM TÀI KHOẢN
       </button>
       <p class="QUERY-no-more-text text-gray-600 italic text-base font-bold">Không còn tài khoản nào.</p>
@@ -55,3 +55,4 @@
 <?php require_once __DIR__ . '/account_rank_type_modal.php'; ?>
 <?php require_once __DIR__ . '/account_status_modal.php'; ?>
 <?php require_once __DIR__ . '/account_device_type_modal.php'; ?>
+<?php require_once __DIR__ . '/rent_now_modal.php'; ?>

@@ -31,10 +31,15 @@ class HomePageManager {
     this.accountDeviceTypesModal = document.getElementById("account-device-type-modal")
     this.accountDeviceTypesModalOverlay =
       this.accountDeviceTypesModal.querySelector(".QUERY-modal-overlay")
+    this.rentNowModal = document.getElementById("rent-now-modal")
+    this.rentNowModalOverlay = this.rentNowModal.querySelector(".QUERY-modal-overlay")
+    this.closeRentNowModalBtn = document.getElementById("close-rent-now-modal-btn")
+    this.accNameRentNowModal = document.getElementById("acc-name--rent-now-modal")
 
     this.isFetchingItems = false
     this.isMoreItems = true
     this.gameAccounts = []
+    this.selectedAccount = null
 
     this.initLoadMoreButtonListener()
     this.initAccountRankTypesListener()
@@ -46,6 +51,8 @@ class HomePageManager {
     this.initFilterByDeviceTypeListener()
     this.initModalOverlayListeners()
     this.initCancelFilterListener()
+    this.initAccountsListListener()
+    this.initCloseRentNowModalListener()
 
     this.fetchAccounts()
     this.fetchAccountRankTypes()
@@ -62,6 +69,9 @@ class HomePageManager {
     })
     this.accountDeviceTypesModalOverlay.addEventListener("click", () => {
       this.hideShowAccountDeviceTypes(false)
+    })
+    this.rentNowModalOverlay.addEventListener("click", () => {
+      this.hideRentNowModal()
     })
   }
 
@@ -288,6 +298,42 @@ class HomePageManager {
       }
     }
     NavigationHelper.pureNavigateTo(currentUrl.toString())
+  }
+
+  initAccountsListListener() {
+    this.accountsList.addEventListener("click", (e) => {
+      let target = e.target
+      while (target && !target.classList.contains("QUERY-rent-now-btn")) {
+        target = target.parentElement
+        if (target.id === "accounts-list" || target.tagName === "BODY" || !target) {
+          return
+        }
+      }
+      let accountId = target.dataset.accountId
+      if (accountId) {
+        accountId = accountId * 1
+        const account = this.gameAccounts.find((account) => account.id === accountId)
+        if (account) {
+          this.selectedAccount = account
+          this.showRentNowModal()
+        }
+      }
+    })
+  }
+
+  showRentNowModal() {
+    this.accNameRentNowModal.textContent = this.selectedAccount.acc_name
+    this.rentNowModal.hidden = false
+  }
+
+  hideRentNowModal() {
+    this.rentNowModal.hidden = true
+  }
+
+  initCloseRentNowModalListener() {
+    this.closeRentNowModalBtn.addEventListener("click", () => {
+      this.hideRentNowModal()
+    })
   }
 }
 

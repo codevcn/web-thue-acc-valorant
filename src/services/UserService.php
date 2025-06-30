@@ -23,6 +23,14 @@ class UserService
     return $res;
   }
 
+  public function findAdminById(int $id): array
+  {
+    $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id AND role = 'ADMIN'");
+    $stmt->execute(['id' => $id]);
+    $res = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $res;
+  }
+
   public function updateAdmin(array $data): void
   {
     $admin = $this->findAdmin();

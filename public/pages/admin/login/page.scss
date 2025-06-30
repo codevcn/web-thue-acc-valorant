@@ -1,0 +1,13 @@
+#hide-show-password-section {
+  &.QUERY-hide-password {
+    .QUERY-show-password-btn {
+      display: none;
+    }
+  }
+
+  &.QUERY-show-password {
+    .QUERY-hide-password-btn {
+      display: none;
+    }
+  }
+}

@@ -22,11 +22,15 @@ class Router
   {
     $path = parse_url($uri, PHP_URL_PATH);
 
+    // Chuẩn hóa path
+    if ($path !== '/' && str_ends_with($path, '/')) {
+      $path = rtrim($path, '/');
+    }
+
     if (isset($this->routes[$method][$path])) {
       return call_user_func($this->routes[$method][$path]);
     }
 
-    // Handle 404
     http_response_code(404);
     return '404 Not Found';
   }

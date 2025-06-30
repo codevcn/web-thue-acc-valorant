@@ -13,7 +13,14 @@ class Request
 
   public function getUri(): string
   {
-    return $_SERVER['REQUEST_URI'];
+    $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+    // Chuẩn hóa: loại bỏ dấu "/" cuối nếu không phải root "/"
+    if ($uri !== '/' && str_ends_with($uri, '/')) {
+      $uri = rtrim($uri, '/');
+    }
+
+    return $uri;
   }
 
   public function get(string $key, mixed $default = null): mixed

@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace Controllers\Apis;
 
+use Services\RulesService;
 use Services\UserService;
 
 class AdminApiController
 {
   private $userService;
+  private $rulesService;
 
-  public function __construct(UserService $userService)
+  public function __construct(UserService $userService, RulesService $rulesService)
   {
     $this->userService = $userService;
+    $this->rulesService = $rulesService;
   }
 
   public function updateAdmin(): array
@@ -53,6 +56,19 @@ class AdminApiController
         'success' => false,
         'message' => 'Lỗi hệ thống'
       ];
+    }
+
+    if (isset($_POST['rulesData'])) {
+      $rulesData = $_POST['rulesData'];
+      try {
+        $this->rulesService->updateRules($rulesData);
+      } catch (\Throwable $th) {
+        http_response_code(500);
+        return [
+          'success' => false,
+          'message' => 'Đã xảy ra lỗi khi cập nhật quy định thuê acc'
+        ];
+      }
     }
 
     return [

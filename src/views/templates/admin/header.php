@@ -29,12 +29,12 @@
             </svg>
           </div>
           <div class="text-sm">
-            <div class="font-medium text-gray-900">Dương Anh Tuấn</div>
+            <div class="font-medium text-gray-900"><?php echo htmlspecialchars($admin['full_name'] ?? $admin['username'] ?? 'Admin'); ?></div>
             <div class="text-gray-500">Quản trị viên</div>
           </div>
         </a>
 
-        <button class="p-2 text-gray-500 hover:text-red-600 transition-colors">
+        <button id="logout-btn" class="p-2 text-gray-500 hover:text-red-600 transition-colors" title="Đăng xuất">
           <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-log-out-icon lucide-log-out" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="m16 17 5-5-5-5" />
             <path d="M21 12H9" />

@@ -1,7 +1,7 @@
 import { html } from "https://esm.run/lit-html@1"
 
 export const AccountCard = (account) => {
-  const { status, rank, avatar, game_code, device_type, description, acc_name } = account
+  const { status, rank, avatar, game_code, device_type, description, acc_name, id } = account
   return html`
     <div class="md:block hidden bg-white rounded-2xl shadow-2xl overflow-hidden w-full h-[408px]">
       <div class="flex h-full">
@@ -19,24 +19,46 @@ export const AccountCard = (account) => {
           <div class="flex items-center gap-2 mb-6">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="w-6 h-6 text-blue-500"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
-              viewBox="0 0 24 24"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-info-icon lucide-info text-regular-blue-cl"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 3l8.485 4.243a2 2 0 011.058 1.753V15a6 6 0 01-3.172 5.326l-5.313 2.66a2 2 0 01-1.816 0l-5.313-2.66A6 6 0 013.5 15V9a2 2 0 011.058-1.753L12 3z"
-              ></path>
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 16v-4" />
+              <path d="M12 8h.01" />
             </svg>
             <h2 class="text-xl font-bold text-gray-800">THÔNG TIN TÀI KHOẢN</h2>
           </div>
 
           <div class="space-y-4 flex-1">
             <div class="flex justify-between items-center gap-6">
-              <span class="text-gray-600 font-medium">Tên tài khoản</span>
+              <span class="text-gray-600 font-medium flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-letter-text-icon lucide-letter-text text-regular-blue-cl"
+                >
+                  <path d="M15 12h6" />
+                  <path d="M15 6h6" />
+                  <path d="m3 13 3.553-7.724a.5.5 0 0 1 .894 0L11 13" />
+                  <path d="M3 18h18" />
+                  <path d="M3.92 11h6.16" />
+                </svg>
+                <span>Tên tài khoản</span>
+              </span>
               <span class="font-bold text-gray-900"> ${acc_name ?? "N/A"} </span>
             </div>
 
@@ -44,7 +66,7 @@ export const AccountCard = (account) => {
               <div class="flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="w-6 h-6 text-yellow-500 fill-current"
+                  class="w-6 h-6 text-regular-blue-cl fill-current"
                   viewBox="0 0 24 24"
                 >
                   <path
@@ -54,28 +76,44 @@ export const AccountCard = (account) => {
                 <span class="text-gray-600 font-medium">Rank</span>
               </div>
               <div class="flex items-center gap-1">
-                <span class="font-bold text-yellow-600"> ${rank ?? "N/A"} </span>
+                <span class="font-bold text-regular-blue-cl"> ${rank ?? "N/A"} </span>
               </div>
             </div>
 
             <div class="flex justify-between items-center gap-6">
-              <span class="text-gray-600 font-medium">Trạng Thái</span>
-              <div class="flex items-center gap-1">
-                <span
-                  class="font-bold text-white ${status == "Rảnh"
-                    ? "bg-green-600"
-                    : "bg-red-600"} px-4 py-0.5 rounded-lg"
+              <span class="text-gray-600 font-medium flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-chart-no-axes-column-icon lucide-chart-no-axes-column text-regular-blue-cl"
                 >
-                  ${status}
-                </span>
-              </div>
+                  <line x1="18" x2="18" y1="20" y2="10" />
+                  <line x1="12" x2="12" y1="20" y2="4" />
+                  <line x1="6" x2="6" y1="20" y2="14" />
+                </svg>
+                <span>Trạng Thái</span>
+              </span>
+              <span
+                class="font-bold text-white ${status == "Rảnh"
+                  ? "bg-green-600"
+                  : "bg-red-600"} px-4 py-0.5 rounded-lg"
+              >
+                ${status}
+              </span>
             </div>
 
             <div class="flex justify-between items-center gap-6">
               <div class="flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="w-6 h-6 text-blue-500"
+                  class="w-6 h-6 text-regular-blue-cl"
                   fill="none"
                   stroke="currentColor"
                   stroke-width="2"
@@ -98,7 +136,7 @@ export const AccountCard = (account) => {
               <div class="flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="w-6 h-6 text-blue-500"
+                  class="w-6 h-6 text-regular-blue-cl"
                   fill="none"
                   stroke="currentColor"
                   stroke-width="2"
@@ -130,7 +168,8 @@ export const AccountCard = (account) => {
           </div>
 
           <button
-            class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-3 px-6 rounded-xl hover:from-cyan-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl mt-6"
+            data-account-id="${id}"
+            class="QUERY-rent-now-btn w-full CSS-button-blue-decoration py-2 px-4 mt-6"
           >
             THUÊ NGAY
           </button>
@@ -181,11 +220,11 @@ export const AccountDeviceType = ({ device_type, isActive }) => {
 }
 
 export const AccountRow = (account) => {
-  const { acc_name, rank, game_code, status, description, created_date, device_type, id, avatar } =
+  const { acc_name, rank, game_code, status, description, created_at, device_type, id, avatar } =
     account
-  const created_date_formatted = dayjs(created_date).format("DD/MM/YYYY HH:mm")
+  const created_date_formatted = dayjs(created_at).format("DD/MM/YYYY HH:mm")
   return html`
-    <tr class="hover:bg-gray-50">
+    <tr class="hover:bg-blue-50 ${status == "Bận" ? "bg-red-100" : ""}">
       <td class="px-3 py-3">
         <input
           type="checkbox"
@@ -212,7 +251,13 @@ export const AccountRow = (account) => {
         <div class="text-sm text-regular-blue-4 font-medium">${game_code}</div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
-        <span class="inline-flex px-2 py-1 text-sm font-semibold rounded-full"> ${status} </span>
+        <span
+          class="inline-flex px-2 py-1 text-sm font-semibold rounded-full ${status == "Rảnh"
+            ? "bg-green-600"
+            : "bg-red-600"} text-white"
+        >
+          ${status}
+        </span>
       </td>
       <td class="px-3 py-3">
         <div class="text-sm text-gray-900 max-w-[100px] truncate">

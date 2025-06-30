@@ -5,22 +5,30 @@ declare(strict_types=1);
 namespace Controllers;
 
 use Services\UserService;
+use Services\AuthService;
+use Services\RulesService;
 
 class AdminController
 {
   private $userService;
+  private $authService;
+  private $rulesService;
 
-  public function __construct(UserService $userService)
+  public function __construct(UserService $userService, AuthService $authService, RulesService $rulesService)
   {
     $this->userService = $userService;
+    $this->authService = $authService;
+    $this->rulesService = $rulesService;
   }
 
   public function showManageGameAccountsPage(): void
   {
-    $admin = $this->userService->findAdmin();
+    $auth = $this->authService->verifyAuth();
+    $admin = $this->userService->findAdminById($auth['user']['id']);
 
     $data = [
-      'admin' => $admin
+      'admin' => $admin,
+      'auth' => $auth
     ];
     extract($data);
 
@@ -29,10 +37,14 @@ class AdminController
 
   public function showProfilePage(): void
   {
-    $admin = $this->userService->findAdmin();
+    $auth = $this->authService->verifyAuth();
+    $admin = $this->userService->findAdminById($auth['user']['id']);
+    $rules = $this->rulesService->findRules();
 
     $data = [
-      'admin' => $admin
+      'admin' => $admin,
+      'auth' => $auth,
+      'rules' => $rules
     ];
     extract($data);
 

@@ -5,22 +5,27 @@ declare(strict_types=1);
 namespace Controllers;
 
 use Services\UserService;
+use Services\RulesService;
 
 class HomeController
 {
   private $userService;
+  private $rulesService;
 
-  public function __construct(UserService $userService)
+  public function __construct(UserService $userService, RulesService $rulesService)
   {
     $this->userService = $userService;
+    $this->rulesService = $rulesService;
   }
 
   public function showHomePage(): void
   {
     $admin = $this->userService->findAdmin();
+    $rules = $this->rulesService->findRules();
 
     $data = [
-      'admin' => $admin
+      'admin' => $admin,
+      'rules' => $rules
     ];
     extract($data);
 

@@ -92,8 +92,8 @@
   </div>
 
   <!-- View More Button -->
-  <div id="load-more-container" class="QUERY-is-more text-center mt-12 mb-6">
-    <button id="load-more-btn" class="QUERY-load-more-btn bg-gradient-to-l from-regular-from-blue-cl to-regular-to-blue-cl text-black font-bold py-4 px-8 rounded-xl text-base transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+  <div id="load-more-container" class="QUERY-is-more flex justify-center mt-12 mb-6 w-full">
+    <button id="load-more-btn" class="QUERY-load-more-btn CSS-button-blue-decoration py-2 px-4">
       XEM THÊM TÀI KHOẢN
     </button>
     <p class="QUERY-no-more-text text-gray-600 italic text-base font-bold">Không còn tài khoản nào.</p>

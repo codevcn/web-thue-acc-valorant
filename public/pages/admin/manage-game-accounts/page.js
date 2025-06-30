@@ -10,6 +10,10 @@ import {
   LocalStorageHelper,
 } from "../../../utils/scripts/helpers.js"
 
+const sharedData = {
+  gameAccounts: [],
+}
+
 class ManageGameAccountsPageManager {
   constructor() {
     this.accountsTableBody = document.getElementById("accounts-table-body")
@@ -18,20 +22,14 @@ class ManageGameAccountsPageManager {
 
     this.isFetchingItems = false
     this.isMoreItems = true
-    this.gameAccounts = []
 
     this.fetchAccounts()
     this.initListeners()
-    this.initLucideIcons()
     this.watchScrolling()
   }
 
   getAccountsTableBodyEle() {
     return this.accountsTableBody
-  }
-
-  getGameAccounts() {
-    return this.gameAccounts
   }
 
   fetchAccounts() {
@@ -41,8 +39,8 @@ class ManageGameAccountsPageManager {
     AppLoadingHelper.show()
 
     let last_id
-    if (this.gameAccounts.length > 0) {
-      last_id = this.gameAccounts.at(-1).id
+    if (sharedData.gameAccounts.length > 0) {
+      last_id = sharedData.gameAccounts.at(-1).id
     } else {
       last_id = URLHelper.getUrlQueryParam("last_id")
     }
@@ -64,7 +62,7 @@ class ManageGameAccountsPageManager {
     )
       .then((accounts) => {
         if (accounts && accounts.length > 0) {
-          this.gameAccounts = [...this.gameAccounts, ...accounts]
+          sharedData.gameAccounts = [...sharedData.gameAccounts, ...accounts]
           this.renderAccounts()
           this.initCatchDeleteAndUpdateAccountBtnClick()
         } else {
@@ -80,10 +78,6 @@ class ManageGameAccountsPageManager {
         this.isFetchingItems = false
         AppLoadingHelper.hide()
       })
-  }
-
-  initLucideIcons() {
-    lucide.createIcons()
   }
 
   initCatchDeleteAndUpdateAccountBtnClick() {
@@ -117,7 +111,7 @@ class ManageGameAccountsPageManager {
   renderAccounts() {
     this.accountsTableBody.innerHTML = ""
 
-    const gameAccounts = this.gameAccounts
+    const gameAccounts = sharedData.gameAccounts
     for (const account of gameAccounts) {
       const accountRow = LitHTMLHelper.getFragment(AccountRow, account)
       this.accountsTableBody.appendChild(accountRow)
@@ -350,9 +344,7 @@ class DeleteAccountManager {
   showModal(targetBtn) {
     const { accountId } = targetBtn.dataset
     this.accountId = accountId ? accountId * 1 : null
-    const account = manageGameAccountsPageManager
-      .getGameAccounts()
-      .find((account) => account.id === this.accountId)
+    const account = sharedData.gameAccounts.find((account) => account.id === this.accountId)
     document.getElementById("delete-account-name").textContent = account.acc_name
     this.deleteAccountModal.hidden = false
   }
@@ -455,9 +447,7 @@ class UpdateAccountManager {
   showModal(targetBtn) {
     const { accountId } = targetBtn.dataset
     this.accountId = accountId ? accountId * 1 : null
-    const account = manageGameAccountsPageManager
-      .getGameAccounts()
-      .find((account) => account.id === this.accountId)
+    const account = sharedData.gameAccounts.find((account) => account.id === this.accountId)
     const { avatar, acc_name, game_code, description, status, device_type, rank } = account
     document.getElementById("update-account-name").textContent = acc_name
     this.updateAccountForm.querySelector("input[name='accName']").value = acc_name
@@ -996,7 +986,7 @@ class FilterManager {
 
 // new ImportExportManager()
 new AddNewAccountManager()
+const updateAccountManager = new UpdateAccountManager()
 const deleteAccountManager = new DeleteAccountManager()
 new FilterManager()
 const manageGameAccountsPageManager = new ManageGameAccountsPageManager()
-const updateAccountManager = new UpdateAccountManager()
