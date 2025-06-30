@@ -1,4 +1,4 @@
-<footer class="bg-regular-blue-cl text-black/80">
+<footer class="bg-gradient-to-l from-regular-from-blue-cl to-regular-to-blue-cl text-black/80">
   <div class="mx-auto px-10 pt-8 pb-4">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-8">
       <div href="/" class="space-y-6">
@@ -18,11 +18,9 @@
         <ul class="space-y-3">
           <li class="CSS-list-hover">
             <a href="/" class="CSS-list-item-link z-20 relative flex items-center gap-2 w-fit text-black/80 transition-colors duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="lucide lucide-home w-4 h-4">
-                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house">
+                <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+                <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
               </svg>
               Trang chủ
             </a>
@@ -30,15 +28,23 @@
           </li>
           <li class="CSS-list-hover">
             <a href="/admin/manage-game-accounts" class="CSS-list-item-link z-20 relative flex items-center gap-2 w-fit text-black/80 transition-colors duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="lucide lucide-users w-4 h-4">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-icon lucide-users">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <path d="M16 3.128a4 4 0 0 1 0 7.744" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                <circle cx="9" cy="7" r="4" />
               </svg>
               Trang quản lý tài khoản
+            </a>
+            <span class="CSS-list-item"></span>
+          </li>
+          <li class="CSS-list-hover">
+            <a href="/intro" class="CSS-list-item-link z-20 relative flex items-center gap-2 w-fit text-black/80 transition-colors duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-play-icon lucide-circle-play">
+                <circle cx="12" cy="12" r="10" />
+                <polygon points="10 8 16 12 10 16 10 8" />
+              </svg>
+              Trang giới thiệu
             </a>
             <span class="CSS-list-item"></span>
           </li>
@@ -77,6 +83,17 @@
               </div>
               <div class="CSS-list-hover">
                 <span class="CSS-list-item-link relative z-20 text-black/80">Zalo</span>
+                <span class="CSS-list-item"></span>
+              </div>
+            </a>
+            <a href="tel:<?= $admin['phone'] ?>" target="_blank" class="flex items-center gap-3 w-fit text-black/80">
+              <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-phone-icon lucide-phone text-white" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
+                </svg>
+              </div>
+              <div class="CSS-list-hover">
+                <span class="CSS-list-item-link relative z-20 text-black/80">Phone</span>
                 <span class="CSS-list-item"></span>
               </div>
             </a>

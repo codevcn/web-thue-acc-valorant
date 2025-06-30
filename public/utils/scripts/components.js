@@ -3,19 +3,21 @@ import { html } from "https://esm.run/lit-html@1"
 export const AccountCard = (account) => {
   const { status, rank, avatar, game_code, device_type, description, acc_name, id } = account
   return html`
-    <div class="md:block hidden bg-white rounded-2xl shadow-2xl overflow-hidden w-full h-[408px]">
-      <div class="flex h-full">
+    <div class="bg-white rounded-lg shadow-2xl overflow-hidden w-full">
+      <div
+        class="CSS-styled-vt-scrollbar flex w-full aspect-[1825/612] overflow-y-auto relative max-[1242px]:aspect-auto max-[1242px]:block"
+      >
         <div
-          class="w-3/5 bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl relative flex flex-col items-center justify-center"
+          class="w-3/5 max-[1242px]:w-full max-[1242px]:h-fit bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl relative flex flex-col items-center justify-center"
         >
           <img
             src="/images/account/${avatar ?? "default-game-account-avatar.png"}"
             alt="Account Avatar"
-            class="aspect-[365/204] ${avatar ? "object-cover" : "object-contain"}"
+            class="aspect-[365/204] ${avatar ? "object-cover" : "object-contain max-[1242px]:py-6"}"
           />
         </div>
 
-        <div class="w-2/5 bg-white p-6 flex flex-col justify-between">
+        <div class="w-2/5 max-[1242px]:w-full bg-white p-6 flex flex-col justify-between">
           <div class="flex items-center gap-2 mb-6">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -160,7 +162,12 @@ export const AccountCard = (account) => {
                   <div class="bg-gray-100 rounded-lg p-3 mt-4">
                     <p class="text-sm truncate">
                       <span class="font-semibold text-black">Mô tả:</span>
-                      <span class="text-gray-700 ml-1">${description}</span>
+                      <span
+                        data-vcn-tooltip-content="${description}"
+                        class="QUERY-tooltip-trigger text-gray-700 ml-1"
+                      >
+                        ${description}
+                      </span>
                     </p>
                   </div>
                 `

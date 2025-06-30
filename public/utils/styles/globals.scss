@@ -214,3 +214,22 @@ button {
     }
   }
 }
+
+.QUERY-tooltip-trigger {
+  position: relative;
+}
+
+#app-tooltip {
+  position: fixed;
+  background-color: #111;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  white-space: pre-wrap;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 999;
+  max-width: min(250px, calc(100vw - 40px));
+  word-break: break-all;
+}

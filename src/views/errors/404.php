@@ -128,7 +128,7 @@
     <!-- Bottom Decoration -->
     <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-sky-400 animate-pulse"></div>
 
-    <div id="QUERY-ghost-logo" class="absolute bottom-8 right-[-100px] rotate-[-30deg] h-[300px] w-[300px] overflow-hidden">
+    <div id="ghost-logo" hidden class="absolute bottom-8 right-[-100px] rotate-[-30deg] h-[300px] w-[300px] overflow-hidden">
       <img src="/images/UI/ghost.webp" alt="Logo" class="absolute top-[-90px] left-[-90px] h-[500px] min-w-[500px]">
     </div>
   </div>
@@ -153,7 +153,7 @@
 
     const randomGhostPosition = () => {
       const randomPosition = randomOneToFour();
-      const ghost = document.getElementById('QUERY-ghost-logo');
+      const ghost = document.getElementById('ghost-logo');
       if (randomPosition !== 4) {
         ghost.classList.remove('bottom-8', 'right-[-100px]', 'rotate-[-30deg]');
       }
@@ -164,6 +164,7 @@
       } else if (randomPosition === 3) {
         ghost.classList.add('top-8', 'left-[-100px]', 'rotate-[120deg]');
       }
+      ghost.hidden = false
     }
 
     randomGhostPosition();

@@ -13,6 +13,7 @@ import {
   Toaster,
   URLHelper,
 } from "../../utils/scripts/helpers.js"
+import { initUtils } from "../../utils/scripts/init-utils.js"
 
 class HomePageManager {
   constructor() {
@@ -55,7 +56,7 @@ class HomePageManager {
     this.initAccountsListListener()
     this.initCloseRentNowModalListener()
     this.initScrollToTopBtnListener()
-    
+
     this.watchScrolling()
 
     this.fetchAccounts()
@@ -100,6 +101,7 @@ class HomePageManager {
         if (accounts && accounts.length > 0) {
           this.gameAccounts = [...this.gameAccounts, ...accounts]
           this.renderAccounts(accounts)
+          initUtils.initTooltip()
         } else {
           this.isMoreItems = false
           this.loadMoreContainer.classList.remove("QUERY-is-more")

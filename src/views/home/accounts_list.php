@@ -1,16 +1,16 @@
-<div class="bg-gradient-to-br from-sky-50 to-cyan-50 py-20">
+<div class="bg-gradient-to-br from-sky-50 to-cyan-50 pb-20 pt-16">
   <div class="mx-auto px-6">
     <!-- Section Header -->
     <div class="text-center mb-10">
       <h2 class="text-4xl md:text-5xl font-black text-gray-800 mb-4">
         DANH SÁCH
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-cyan-500 ml-3">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-cyan-500">
           TÀI KHOẢN
         </span>
       </h2>
       <div class="w-24 h-1 bg-gradient-to-r from-sky-400 to-cyan-400 mx-auto rounded-full mb-6"></div>
       <p class="text-gray-600 text-lg max-w-2xl mx-auto">
-        Tuyển chọn những tài khoản chất lượng cao với đầy đủ skin và tướng
+        Tuyển chọn những tài khoản chất lượng cao.
       </p>
     </div>
 
@@ -39,7 +39,7 @@
     </div>
 
     <!-- Account Cards Grid -->
-    <div id="accounts-list" class="grid grid-cols-2 md:grid-cols-1 gap-8">
+    <div id="accounts-list" class="grid grid-cols-1 gap-8 max-[1242px]:grid-cols-2 max-[768px]:grid-cols-1">
     </div>
 
     <!-- View More Button -->
