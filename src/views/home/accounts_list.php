@@ -1,7 +1,7 @@
 <div class="bg-gradient-to-br from-sky-50 to-cyan-50 py-20">
   <div class="mx-auto px-6">
     <!-- Section Header -->
-    <div class="text-center mb-16">
+    <div class="text-center mb-10">
       <h2 class="text-4xl md:text-5xl font-black text-gray-800 mb-4">
         DANH SÁCH
         <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-cyan-500 ml-3">

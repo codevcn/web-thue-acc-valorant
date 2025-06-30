@@ -31,4 +31,9 @@ class HomeController
 
     require_once __DIR__ . '/../views/home/page.php';
   }
+
+  public function showIntroPage(): void
+  {
+    require_once __DIR__ . '/../views/intro/page.php';
+  }
 }

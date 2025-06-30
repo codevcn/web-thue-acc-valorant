@@ -1,0 +1,29 @@
+.QUERY-right-side-container {
+  position: absolute;
+  right: -3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  opacity: 0;
+  transition: right 1s, opacity 1s;
+
+  &.page-is-loaded {
+    right: 30px;
+    opacity: 1;
+  }
+}
+
+.QUERY-left-side-container {
+  position: absolute;
+  left: -3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  opacity: 0;
+  transition: left 1s, opacity 1s;
+
+  &.page-is-loaded {
+    left: 30px;
+    opacity: 1;
+  }
+}

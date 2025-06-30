@@ -7,21 +7,12 @@
   </div>
 
   <div class="relative z-10 min-h-screen flex items-center font-bold">
-    <div class="mx-auto px-6 py-12">
+    <div class="mx-auto px-6 py-[30px]">
       <div class="max-w-7xl mx-auto">
         <div class="text-center mb-8">
-          <div class="text-sky-300 text-xl md:text-2xl lg:text-3xl font-bold mb-2 tracking-wide">
-            thueaccvaloranttime.com
-          </div>
-          <div class="text-white/80 text-base md:text-lg font-medium">
-            Dương Anh Tuấn
-          </div>
-        </div>
-
-        <div class="text-center mb-12">
-          <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-4 leading-tight">
+          <h1 class="text-4xl font-black text-white mb-4 leading-tight">
             CHUYỂN TIỀN CHƠI
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400 ml-4">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400">
               + CỌC THÊM 20K
             </span>
           </h1>
@@ -30,22 +21,22 @@
 
         <div class="grid lg:grid-cols-2 gap-12 items-start">
           <div class="space-y-8">
-            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
-              <h2 class="text-2xl md:text-3xl font-bold text-sky-300 mb-6 flex items-center gap-3">
+            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20">
+              <h2 class="text-2xl font-bold text-sky-300 mb-6 flex items-center gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                   <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                 </svg>
                 BẢNG GIÁ
               </h2>
               <div class="space-y-4">
-                <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div class="flex items-center justify-between p-2 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
                   <div class="flex items-center gap-3">
                     <div class="w-3 h-3 bg-sky-400 rounded-full"></div>
                     <span class="text-white font-semibold text-lg">20K - 2 GIỜ</span>
                   </div>
                   <div class="text-sky-300 font-bold">Cơ bản</div>
                 </div>
-                <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div class="flex items-center justify-between p-2 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
                   <div class="flex items-center gap-3">
                     <div class="w-3 h-3 bg-cyan-400 rounded-full"></div>
                     <span class="text-white font-semibold text-lg">30K - 3 GIỜ</span>
@@ -53,7 +44,7 @@
                   </div>
                   <div class="text-cyan-300 font-bold">Phổ biến</div>
                 </div>
-                <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div class="flex items-center justify-between p-2 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
                   <div class="flex items-center gap-3">
                     <div class="w-3 h-3 bg-blue-400 rounded-full"></div>
                     <span class="text-white font-semibold text-lg">40K - 4 GIỜ</span>
@@ -64,7 +55,7 @@
               </div>
             </div>
 
-            <div class="bg-gradient-to-r from-sky-500/20 to-cyan-500/20 backdrop-blur-md rounded-2xl p-8 border border-sky-300/30">
+            <div class="bg-gradient-to-r from-sky-500/20 to-cyan-500/20 backdrop-blur-md rounded-2xl p-5 border border-sky-300/30">
               <h3 class="text-xl font-bold text-sky-300 mb-4 flex items-center gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                   <polyline points="20 12 20 22 4 22 4 12"></polyline>
@@ -98,32 +89,46 @@
             </div>
           </div>
 
-          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
-            <h3 class="text-2xl font-bold text-yellow-400 mb-6">MÁY NHÀ:</h3>
-            <div class="space-y-4 mb-6">
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                <span class="text-white">20K - 2 giờ</span>
+          <div class="space-y-8">
+            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20">
+              <h3 class="text-2xl font-bold text-yellow-400 mb-6">MÁY NHÀ:</h3>
+              <div class="space-y-4 mb-6">
+                <div class="flex items-center gap-3">
+                  <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                  <span class="text-white">20K - 2 giờ</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                  <span class="text-white">30K - 3 giờ</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                  <span class="text-white">Khuyến mãi 40k <span class="text-yellow-400 font-bold">+ 1 Giờ</span></span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                  <span class="text-white">Combo đêm 50k</span>
+                </div>
               </div>
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                <span class="text-white">30K - 3 giờ</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                <span class="text-white">Khuyến mãi 40k <span class="text-yellow-400 font-bold">+ 1 Giờ</span></span>
-              </div>
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                <span class="text-white">Combo đêm 50k</span>
+              <div class="text-sm text-sky-300">
+                (V/C: Đặt HVCI • SCB • TPM)
               </div>
             </div>
-            <div class="text-sm text-sky-300 mb-6">
-              (V/C: Đặt HVCI • SCB • TPM)
+            <div class="text-center mb-8">
+              <div class="CSS-small-text-stroke text-regular-blue-cl text-xl md:text-2xl lg:text-3xl font-bold mb-2 tracking-wide">
+                thueaccvaloranttime.com
+              </div>
+              <div class="CSS-small-text-stroke text-white/90 text-base md:text-lg font-bold CSS-outlined-text">
+                Dương Anh Tuấn
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="absolute bottom-8 right-[-100px] rotate-[-30deg] h-[300px] w-[300px] overflow-hidden">
+    <img src="/images/UI/ghost.webp" alt="Logo" class="absolute top-[-90px] left-[-90px] h-[500px] min-w-[500px]">
   </div>
 </div>

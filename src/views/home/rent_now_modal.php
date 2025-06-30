@@ -26,7 +26,7 @@
     </div>
 
     <p class="text-sm text-text-gray-700 mb-2 italic font-semibold">
-      Bằng cách nhấn vào nút thuê ngay, bạn đã đồng ý với quy định trên!
+      Thuê acc bằng cách liên hệ với người cho thuê qua Zalo hoặc Facebook!
     </p>
 
     <div class="flex justify-center items-center gap-4 w-full mt-4">
