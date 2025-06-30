@@ -76,7 +76,7 @@ export const AccountCard = (account) => {
                 <span class="text-gray-600 font-medium">Rank</span>
               </div>
               <div class="flex items-center gap-1">
-                <span class="font-bold text-regular-blue-cl"> ${rank ?? "N/A"} </span>
+                <span class="font-bold text-black"> ${rank ?? "N/A"} </span>
               </div>
             </div>
 
@@ -128,7 +128,7 @@ export const AccountCard = (account) => {
                 <span class="text-gray-600 font-medium">Mã Game</span>
               </div>
               <div class="flex items-center gap-1">
-                <span class="font-bold text-blue-600"> ${game_code ?? "N/A"} </span>
+                <span class="font-bold text-black"> ${game_code ?? "N/A"} </span>
               </div>
             </div>
 
@@ -151,16 +151,16 @@ export const AccountCard = (account) => {
                 <span class="text-gray-600 font-medium">Loại Máy</span>
               </div>
               <div class="flex items-center gap-1">
-                <span class="font-bold text-blue-600"> ${device_type} </span>
+                <span class="font-bold text-black"> ${device_type} </span>
               </div>
             </div>
 
             ${description
               ? html`
-                  <div class="bg-blue-50 rounded-lg p-3 mt-4">
-                    <p class="text-sm">
-                      <span class="font-semibold text-blue-700">Mô tả:</span>
-                      <span class="text-gray-700 ml-1"> ${description} </span>
+                  <div class="bg-gray-100 rounded-lg p-3 mt-4">
+                    <p class="text-sm truncate">
+                      <span class="font-semibold text-black">Mô tả:</span>
+                      <span class="text-gray-700 ml-1">${description}</span>
                     </p>
                   </div>
                 `

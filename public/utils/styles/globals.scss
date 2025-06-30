@@ -180,3 +180,37 @@ button {
   text-shadow: 2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000, 1px 1px #000, -1px -1px #000,
     1px -1px #000, -1px 1px #000;
 }
+
+.CSS-list-hover {
+  position: relative;
+  width: fit-content;
+
+  .CSS-list-item {
+    position: absolute;
+    bottom: -8px;
+    right: calc(50% - 12px);
+    transform: translateX(50%);
+    box-sizing: content-box;
+    padding: 0 8px;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 0.5rem;
+    transition: bottom 0.2s, right 0.2s, opacity 0.2s;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  &:hover {
+    .CSS-list-item {
+      bottom: 0;
+      right: 50%;
+      opacity: 1;
+    }
+
+    .CSS-list-item-link {
+      color: white;
+    }
+  }
+}

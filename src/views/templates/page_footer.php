@@ -16,8 +16,8 @@
       <div class="space-y-6">
         <h4 class="text-xl font-bold text-black/80">Menu</h4>
         <ul class="space-y-3">
-          <li>
-            <a href="/" class="flex items-center gap-2 w-fit text-black/80 transition-colors duration-300">
+          <li class="CSS-list-hover">
+            <a href="/" class="CSS-list-item-link z-20 relative flex items-center gap-2 w-fit text-black/80 transition-colors duration-300">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                 class="lucide lucide-home w-4 h-4">
@@ -26,9 +26,10 @@
               </svg>
               Trang chủ
             </a>
+            <span class="CSS-list-item"></span>
           </li>
-          <li>
-            <a href="/admin/manage-game-accounts" class="flex items-center gap-2 w-fit text-black/80 transition-colors duration-300">
+          <li class="CSS-list-hover">
+            <a href="/admin/manage-game-accounts" class="CSS-list-item-link z-20 relative flex items-center gap-2 w-fit text-black/80 transition-colors duration-300">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                 class="lucide lucide-users w-4 h-4">
@@ -39,6 +40,7 @@
               </svg>
               Trang quản lý tài khoản
             </a>
+            <span class="CSS-list-item"></span>
           </li>
         </ul>
       </div>
@@ -55,9 +57,12 @@
                   <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                 </svg>
               </div>
-              <span class="text-black/80">Facebook</span>
+              <div class="CSS-list-hover">
+                <span class="CSS-list-item-link relative z-20 text-black/80">Facebook</span>
+                <span class="CSS-list-item"></span>
+              </div>
             </a>
-            <a href="<?= $admin['zalo_link'] ?>" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 w-fit text-black/80">
+            <a href="<?= $admin['zalo_link'] ?>" target="_blank" class="flex items-center gap-3 w-fit text-black/80">
               <div class="w-10 h-10 bg-regular-zalo-cl rounded-full flex items-center justify-center transition-all duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 50 50" fill="none">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M22.782 0.166016H27.199C33.2653 0.166016 36.8103 1.05701 39.9572 2.74421C43.1041 4.4314 45.5875 6.89585 47.2557 10.0428C48.9429 13.1897 49.8339 16.7347 49.8339 22.801V27.1991C49.8339 33.2654 48.9429 36.8104 47.2557 39.9573C45.5685 43.1042 43.1041 45.5877 39.9572 47.2559C36.8103 48.9431 33.2653 49.8341 27.199 49.8341H22.8009C16.7346 49.8341 13.1896 48.9431 10.0427 47.2559C6.89583 45.5687 4.41243 43.1042 2.7442 39.9573C1.057 36.8104 0.166016 33.2654 0.166016 27.1991V22.801C0.166016 16.7347 1.057 13.1897 2.7442 10.0428C4.43139 6.89585 6.89583 4.41245 10.0427 2.74421C13.1707 1.05701 16.7346 0.166016 22.782 0.166016Z" fill="#0068FF" />
@@ -70,7 +75,10 @@
                   <path d="M29.4562 29.0944H30.5747V19.957H28.6221V28.2793C28.6221 28.7153 29.0012 29.0944 29.4562 29.0944Z" fill="#0068FF" />
                 </svg>
               </div>
-              <span class="text-black/80">Zalo</span>
+              <div class="CSS-list-hover">
+                <span class="CSS-list-item-link relative z-20 text-black/80">Zalo</span>
+                <span class="CSS-list-item"></span>
+              </div>
             </a>
           </div>
         </div>
