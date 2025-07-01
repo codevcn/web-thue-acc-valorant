@@ -4,7 +4,7 @@
   <div class="QUERY-modal-overlay absolute z-10 inset-0 bg-black/80"></div>
 
   <div
-    class="inset-0 z-20 p-6 relative w-full h-fit bg-regular-blue-cl text-gray-700 border border-solid border-gray-600 rounded-lg shadow-md">
+    class="inset-0 z-20 p-6 relative w-full h-fit bg-white text-gray-700 border border-solid border-gray-600 rounded-lg shadow-md">
     <!-- Close button -->
     <button id="close-rent-now-modal-btn" class="absolute top-6 right-6 text-black hover:scale-125 transition duration-200 text-xl font-bold">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x">

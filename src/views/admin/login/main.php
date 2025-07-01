@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gradient-to-br from-regular-from-blue-cl via-regular-via-blue-cl to-regular-to-blue-cl flex items-center justify-center p-6">
+<div class="min-h-screen bg-gradient-to-br from-regular-from-blue-cl via-regular-via-blue-cl to-regular-to-blue-cl flex items-center justify-center min-[550px]:px-6 py-6 px-4">
   <div class="w-full max-w-md">
     <!-- Header -->
     <div class="text-center mb-8">
@@ -14,7 +14,7 @@
     </div>
 
     <!-- Login Form -->
-    <div class="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20">
+    <div class="bg-white/10 backdrop-blur-lg rounded-3xl min-[550px]:p-8 p-6 shadow-2xl border border-white/20">
       <form id="login-form" class="space-y-6">
         <!-- Username Field -->
         <div class="space-y-2">

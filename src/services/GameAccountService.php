@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Services;
 
 use PDO;
+use DateTime;
+use DateTimeZone;
 
 class GameAccountService
 {
@@ -25,6 +27,7 @@ class GameAccountService
 
   public function advancedFetchAccounts(
     ?int $lastId = null,
+    ?string $lastUpdatedAt = null,
     ?string $rank = null,
     ?string $status = null,
     ?string $device_type = null,
@@ -35,10 +38,14 @@ class GameAccountService
     $sql = "SELECT * FROM game_accounts";
     $conditions = [];
     $params = [];
-    if ($lastId !== null) {
-      $conditions[] = 'id < :last_id';
+
+    // Load more logic kết hợp updated_at + id
+    if ($lastUpdatedAt !== null && $lastId !== null) {
+      $conditions[] = '(updated_at < :last_updated_at OR (updated_at = :last_updated_at AND id < :last_id))';
+      $params[':last_updated_at'] = $lastUpdatedAt;
       $params[':last_id'] = $lastId;
     }
+
     if ($rank !== null) {
       $conditions[] = 'rank = :rank';
       $params[':rank'] = $rank;
@@ -52,7 +59,7 @@ class GameAccountService
       $params[':device_type'] = $device_type;
     }
     if ($search_term !== null) {
-      $conditions[] = 'acc_name LIKE :search_term OR game_code LIKE :search_term OR `description` LIKE :search_term';
+      $conditions[] = '(acc_name LIKE :search_term OR game_code LIKE :search_term OR `description` LIKE :search_term)';
       $params[':search_term'] = '%' . $search_term . '%';
     }
     if ($date_from !== null) {
@@ -63,15 +70,20 @@ class GameAccountService
       $conditions[] = 'created_at <= :date_to';
       $params[':date_to'] = $this->convertDateFormat($date_to);
     }
+
     if (!empty($conditions)) {
       $sql .= " WHERE " . implode(' AND ', $conditions);
     }
-    $sql .= " ORDER BY id DESC LIMIT " . self::LIMIT;
+
+    // Sắp xếp đúng thứ tự load more theo thời gian chỉnh sửa gần nhất
+    $sql .= " ORDER BY updated_at DESC, id DESC LIMIT " . self::LIMIT;
+
     $stmt = $this->db->prepare($sql);
     foreach ($params as $key => $value) {
       $stmt->bindValue($key, $value);
     }
     $stmt->execute();
+
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
@@ -121,13 +133,20 @@ class GameAccountService
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  public function getNow(): string
+  {
+    return (new DateTime('now', new DateTimeZone('Asia/Ho_Chi_Minh')))->format('Y-m-d H:i:s');
+  }
+
   public function addNewAccounts(array $data): void
   {
-    $sql = "INSERT INTO game_accounts (acc_name, rank, game_code, `status`, `description`, device_type)
-        VALUES (:acc_name, :rank, :game_code, :status, :description, :device_type)";
+    $sql = "INSERT INTO game_accounts (acc_name, rank, game_code, `status`, `description`, device_type, created_at, updated_at)
+            VALUES (:acc_name, :rank, :game_code, :status, :description, :device_type, :created_at, :updated_at)";
 
     $this->db->beginTransaction();
     $stmt = $this->db->prepare($sql);
+
+    $now = $this->getNow();
 
     foreach ($data as $row) {
       $accName     = $row['accName'] ?? null;
@@ -137,7 +156,6 @@ class GameAccountService
       $description = $row['description'] ?? '';
       $deviceType  = $row['deviceType'] ?? null;
 
-      // Kiểm tra bắt buộc
       if (!$accName || !$rank || !$gameCode || !$deviceType || !$status) {
         throw new \InvalidArgumentException("Thiếu trường bắt buộc khi thêm account.");
       }
@@ -148,12 +166,15 @@ class GameAccountService
       $stmt->bindValue(':status', $status);
       $stmt->bindValue(':description', $description);
       $stmt->bindValue(':device_type', $deviceType);
+      $stmt->bindValue(':created_at', $now);
+      $stmt->bindValue(':updated_at', $now);
 
       $stmt->execute();
     }
 
     $this->db->commit();
   }
+
 
   public function updateAccount(int $accountId, array $data): void
   {
@@ -204,6 +225,8 @@ class GameAccountService
     if (empty($updateFields)) {
       throw new \InvalidArgumentException("Không có trường nào để cập nhật.");
     }
+    $updateFields[] = "updated_at = :updated_at";
+    $params[':updated_at'] = $this->getNow();
 
     $sql = "UPDATE game_accounts SET " . implode(', ', $updateFields) . " WHERE id = :id";
     $params[':id'] = $accountId;

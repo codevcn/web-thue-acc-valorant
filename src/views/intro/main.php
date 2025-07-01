@@ -10,7 +10,7 @@
 
   <!-- Left Side - Main Title -->
   <div class="QUERY-left-side-container">
-    <div class="flex flex-col items-start space-y-4 [max-width:700px]:items-center">
+    <div class="flex flex-col items-start space-y-4">
       <div class="flex items-center gap-2">
         <span class="bg-red-600 h-2 w-2 rounded-full"></span>
         <a href="/" class="text-xl lg:text-3xl font-bold text-red-600 text-left leading-tight hover:scale-105 cursor-pointer transition duration-200">
@@ -28,7 +28,7 @@
 
   <!-- Right Side - Intro Content -->
   <div class="QUERY-right-side-container">
-    <div class="flex flex-col items-end space-y-4 max-[700px]:items-center">
+    <div class="flex flex-col min-[700px]:items-end space-y-4 items-center">
       <div class="flex items-center gap-2 px-4 py-2 bg-blue-600/20 w-fit backdrop-blur-sm rounded-full border border-blue-500/30">
         <svg xmlns="http://www.w3.org/2000/svg" class="text-blue-300 lucide lucide-shield-icon lucide-shield" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
@@ -36,7 +36,7 @@
         <span class="text-blue-300 text-sm font-medium">VALORANT ACCOUNTS</span>
       </div>
 
-      <h1 class="text-5xl lg:text-7xl font-bold text-white text-right leading-tight space-y-2 max-[700px]:text-center">
+      <h1 class="text-5xl lg:text-7xl font-bold text-white min-[700px]:text-right leading-tight space-y-2 text-center">
         THUÊ ACC
         <span class="block text-transparent bg-clip-text bg-gradient-to-r from-regular-from-blue-cl via-regular-via-blue-cl to-regular-to-blue-cl">
           VALORANT
@@ -46,7 +46,7 @@
         </span>
       </h1>
 
-      <p class="text-xl text-gray-300 max-w-xl w-max leading-relaxed text-right max-[700px]:text-center max-[560px]:max-w-[300px]">
+      <p class="text-xl text-gray-300 min-[500px]:max-w-xl w-max leading-relaxed min-[700px]:text-right text-center max-w-[300px]">
         Trải nghiệm Valorant với những tài khoản premium, rank cao, skin đẹp. Dịch vụ uy
         tín, giá cả hợp lý.
       </p>
@@ -68,8 +68,8 @@
       </div>
     </div>
 
-    <div class="max-[700px]:block hidden mt-6">
-      <div class="flex items-center gap-4 [max-width:700px]:items-center">
+    <div class="block min-[700px]:hidden mt-6">
+      <div class="flex items-center gap-4">
         <div class="flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 hover:scale-105 cursor-pointer transition duration-200">
           <a href="/" class="flex items-center gap-2 w-max text-xl lg:text-3xl font-bold text-white leading-tight">
             <span>THUÊ NGAY</span>

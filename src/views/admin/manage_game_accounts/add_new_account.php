@@ -20,7 +20,7 @@
                 </svg>
                 <span class="text-sm text-gray-500">Chọn ảnh</span>
                 <div class="flex-1">
-                  <p class="text-sm text-gray-600">Hỗ trợ: JPG, PNG, GIF.</p>
+                  <p class="text-sm text-gray-600">Hỗ trợ: JPG, PNG, WEBP.</p>
                   <button type="button" id="remove-avatar-btn" class="text-sm text-red-600 hover:text-red-800 hidden">Xóa ảnh</button>
                 </div>
               </div>

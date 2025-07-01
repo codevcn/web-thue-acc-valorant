@@ -80,23 +80,27 @@ class HomePageManager {
     })
   }
 
+  getLastAccount() {
+    const accounts = this.gameAccounts
+    if (accounts.length > 0) {
+      return accounts.at(-1)
+    }
+    return null
+  }
+
   fetchAccounts() {
     if (this.isFetchingItems || !this.isMoreItems) return
     this.isFetchingItems = true
 
     AppLoadingHelper.show()
-
-    let last_id
-    if (this.gameAccounts.length > 0) {
-      last_id = this.gameAccounts.at(-1).id
-    } else {
-      last_id = URLHelper.getUrlQueryParam("last_id")
-    }
+    const lastAccount = this.getLastAccount()
+    let last_id = lastAccount ? lastAccount.id : null
+    let last_updated_at = lastAccount ? lastAccount.updated_at : null
     const rank = URLHelper.getUrlQueryParam("rank")
     const status = URLHelper.getUrlQueryParam("status")
     const device_type = URLHelper.getUrlQueryParam("device_type")
 
-    GameAccountService.fetchAccounts(last_id, rank, status, device_type)
+    GameAccountService.fetchAccounts(last_id, last_updated_at, rank, status, device_type)
       .then((accounts) => {
         if (accounts && accounts.length > 0) {
           this.gameAccounts = [...this.gameAccounts, ...accounts]

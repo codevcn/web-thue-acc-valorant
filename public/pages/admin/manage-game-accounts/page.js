@@ -9,6 +9,7 @@ import {
   NavigationHelper,
   LocalStorageHelper,
 } from "../../../utils/scripts/helpers.js"
+import { initUtils } from "../../../utils/scripts/init-utils.js"
 
 const sharedData = {
   gameAccounts: [],
@@ -24,12 +25,21 @@ class ManageGameAccountsPageManager {
     this.isMoreItems = true
 
     this.fetchAccounts()
-    this.initListeners()
     this.watchScrolling()
+
+    this.initListeners()
   }
 
   getAccountsTableBodyEle() {
     return this.accountsTableBody
+  }
+
+  getLastAccount() {
+    const accounts = sharedData.gameAccounts
+    if (accounts.length > 0) {
+      return accounts.at(-1)
+    }
+    return null
   }
 
   fetchAccounts() {
@@ -37,13 +47,9 @@ class ManageGameAccountsPageManager {
     this.isFetchingItems = true
 
     AppLoadingHelper.show()
-
-    let last_id
-    if (sharedData.gameAccounts.length > 0) {
-      last_id = sharedData.gameAccounts.at(-1).id
-    } else {
-      last_id = URLHelper.getUrlQueryParam("last_id")
-    }
+    const lastAccount = this.getLastAccount()
+    let last_id = lastAccount ? lastAccount.id : null
+    let last_updated_at = lastAccount ? lastAccount.updated_at : null
     const rank = URLHelper.getUrlQueryParam("rank")
     const status = URLHelper.getUrlQueryParam("status")
     const device_type = URLHelper.getUrlQueryParam("device_type")
@@ -53,6 +59,7 @@ class ManageGameAccountsPageManager {
 
     GameAccountService.fetchAccounts(
       last_id,
+      last_updated_at,
       rank,
       status,
       device_type,
@@ -65,6 +72,7 @@ class ManageGameAccountsPageManager {
           sharedData.gameAccounts = [...sharedData.gameAccounts, ...accounts]
           this.renderAccounts()
           this.initCatchDeleteAndUpdateAccountBtnClick()
+          initUtils.initTooltip()
         } else {
           this.isMoreItems = false
           this.loadMoreContainer.classList.remove("QUERY-is-more")
@@ -112,9 +120,11 @@ class ManageGameAccountsPageManager {
     this.accountsTableBody.innerHTML = ""
 
     const gameAccounts = sharedData.gameAccounts
+    let order_number = 1
     for (const account of gameAccounts) {
-      const accountRow = LitHTMLHelper.getFragment(AccountRow, account)
+      const accountRow = LitHTMLHelper.getFragment(AccountRow, account, order_number)
       this.accountsTableBody.appendChild(accountRow)
+      order_number++
     }
   }
 
@@ -256,7 +266,7 @@ class AddNewAccountManager {
     })
   }
 
-  validateFormData({ accName, rank, gameCode, status, deviceType }) {
+  validateFormData({ accName, rank, gameCode, status, deviceType, avatar }) {
     if (!accName) {
       Toaster.error("Tên tài khoản không được để trống")
       return false
@@ -277,6 +287,10 @@ class AddNewAccountManager {
       Toaster.error("Loại thiết bị không được để trống")
       return false
     }
+    if (!avatar) {
+      Toaster.error("Ảnh đại diện không được để trống")
+      return false
+    }
     return true
   }
 
@@ -293,13 +307,14 @@ class AddNewAccountManager {
       status: formData.get("status"),
       deviceType: formData.get("deviceType"),
     }
-    if (!this.validateFormData(data)) {
+    const avatar = this.avatarInput.files?.[0]
+    if (!this.validateFormData({ ...data, avatar })) {
       this.isSubmitting = false
       return
     }
 
     AppLoadingHelper.show()
-    GameAccountService.addNewAccounts([data], this.avatarInput.files?.[0])
+    GameAccountService.addNewAccounts([data], avatar)
       .then((data) => {
         if (data && data.success) {
           Toaster.success("Thông báo", "Thêm tài khoản thành công", () => {
@@ -502,7 +517,7 @@ class UpdateAccountManager {
     })
   }
 
-  validateFormData({ accName, rank, gameCode, status, deviceType }) {
+  validateFormData({ accName, rank, gameCode, status, deviceType, avatar }) {
     if (!accName) {
       Toaster.error("Tên tài khoản không được để trống")
       return false
@@ -523,6 +538,10 @@ class UpdateAccountManager {
       Toaster.error("Loại thiết bị không được để trống")
       return false
     }
+    if (!avatar) {
+      Toaster.error("Ảnh đại diện không được để trống")
+      return false
+    }
     return true
   }
 
@@ -539,13 +558,14 @@ class UpdateAccountManager {
       status: formData.get("status"),
       deviceType: formData.get("deviceType"),
     }
-    if (!this.validateFormData(data)) {
+    const avatar = this.avatarInput.files?.[0]
+    if (!this.validateFormData({ ...data, avatar })) {
       this.isSubmitting = false
       return
     }
 
     AppLoadingHelper.show()
-    GameAccountService.updateAccount(this.accountId, data, this.avatarInput.files?.[0])
+    GameAccountService.updateAccount(this.accountId, data, avatar)
       .then((data) => {
         if (data && data.success) {
           Toaster.success("Thông báo", "Cập nhật tài khoản thành công", () => {

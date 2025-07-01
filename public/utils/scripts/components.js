@@ -5,19 +5,21 @@ export const AccountCard = (account) => {
   return html`
     <div class="bg-white rounded-lg shadow-2xl overflow-hidden w-full">
       <div
-        class="CSS-styled-vt-scrollbar flex w-full aspect-[1825/612] overflow-y-auto relative max-[1242px]:aspect-auto max-[1242px]:block"
+        class="CSS-styled-vt-scrollbar min-[1242px]:flex w-full min-[1242px]:aspect-[1825/612] overflow-y-auto relative aspect-auto block"
       >
         <div
-          class="w-3/5 max-[1242px]:w-full max-[1242px]:h-fit bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl relative flex flex-col items-center justify-center"
+          class="min-[1242px]:w-3/5 w-full h-fit min-[1242px]:h-auto bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl relative flex flex-col items-center justify-center"
         >
           <img
             src="/images/account/${avatar ?? "default-game-account-avatar.png"}"
             alt="Account Avatar"
-            class="aspect-[365/204] ${avatar ? "object-cover" : "object-contain max-[1242px]:py-6"}"
+            class="aspect-[365/204] ${avatar
+              ? "object-cover"
+              : "object-contain py-6 min-[1242px]:py-0"}"
           />
         </div>
 
-        <div class="w-2/5 max-[1242px]:w-full bg-white p-6 flex flex-col justify-between">
+        <div class="min-[1242px]:w-2/5 w-full bg-white p-6 flex flex-col justify-between">
           <div class="flex items-center gap-2 mb-6">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -226,25 +228,19 @@ export const AccountDeviceType = ({ device_type, isActive }) => {
   `
 }
 
-export const AccountRow = (account) => {
+export const AccountRow = (account, order_number) => {
   const { acc_name, rank, game_code, status, description, created_at, device_type, id, avatar } =
     account
   const created_date_formatted = dayjs(created_at).format("DD/MM/YYYY HH:mm")
   return html`
     <tr class="hover:bg-blue-50 ${status == "Bận" ? "bg-red-100" : ""}">
-      <td class="px-3 py-3">
-        <input
-          type="checkbox"
-          class="account-checkbox rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-          value="${id}"
-        />
-      </td>
+      <td class="px-3 py-3 text-center">${order_number}</td>
       <td class="px-3 py-1">
         <div class="rounded-full flex items-center justify-center">
           <img
             src="/images/account/${avatar || "default-game-account-avatar.png"}"
             alt="Account Avatar"
-            class="w-[200px] aspect-[365/204] max-h-[100px] object-contain"
+            class="w-[200px] aspect-[365/204] min-w-[94px] max-h-[100px] object-contain object-center"
           />
         </div>
       </td>
@@ -268,10 +264,13 @@ export const AccountRow = (account) => {
       </td>
       <td class="px-3 py-3">
         <div class="text-sm text-gray-900 max-w-[100px] truncate">
-          ${description ||
-          html`<span class="QUERY-no-description text-gray-400 italic text-sm"
-            >Chưa có mô tả</span
-          >`}
+          ${description
+            ? html`<span class="QUERY-tooltip-trigger" data-vcn-tooltip-content="${description}"
+                >${description}</span
+              >`
+            : html`<span class="QUERY-no-description text-gray-400 italic text-sm"
+                >Chưa có mô tả</span
+              >`}
         </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">

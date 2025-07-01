@@ -20,7 +20,7 @@
       </button>
     </div>
 
-    <div class="flex gap-4">
+    <div class="flex gap-4 flex-wrap">
       <!-- Status Filter -->
       <div class="grow">
         <label class="block text-sm font-medium text-gray-700 mb-2">Trạng thái</label>

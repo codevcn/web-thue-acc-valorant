@@ -18,6 +18,7 @@ export default {
         "scrollbar-thumb-bgcl": "var(--vcn-scrollbar-thumb-bgcl)",
         "regular-zalo-cl": "var(--vcn-regular-zalo-cl)",
         "regular-facebook-cl": "var(--vcn-regular-facebook-cl)",
+        "regular-neon-cl": "var(--vcn-regular-neon-cl)",
       },
     },
   },

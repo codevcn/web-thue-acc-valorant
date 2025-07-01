@@ -39,7 +39,7 @@
     </div>
 
     <!-- Account Cards Grid -->
-    <div id="accounts-list" class="grid grid-cols-1 gap-8 max-[1242px]:grid-cols-2 max-[768px]:grid-cols-1">
+    <div id="accounts-list" class="grid min-[1242px]:grid-cols-1 gap-8 min-[830px]:grid-cols-2 grid-cols-1">
     </div>
 
     <!-- View More Button -->

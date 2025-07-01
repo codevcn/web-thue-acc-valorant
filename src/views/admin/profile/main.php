@@ -1,12 +1,12 @@
-<div class="min-h-screen bg-gradient-to-br from-regular-from-blue-cl via-regular-via-blue-cl to-regular-to-blue-cl p-6">
-  <div class="max-w-[90%] mx-auto">
+<div class="min-h-screen bg-gradient-to-br from-regular-from-blue-cl via-regular-via-blue-cl to-regular-to-blue-cl min-[550px]:px-6 py-6 pb-10 px-2">
+  <div class="min-[550px]:max-w-[90%] w-full mx-auto">
     <!-- Header -->
     <div class="text-center mb-8">
       <h1 class="text-4xl font-bold text-black mb-2">Hồ sơ quản trị viên</h1>
     </div>
 
     <!-- Main Profile Card -->
-    <div class="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20">
+    <div class="bg-white/10 backdrop-blur-lg rounded-3xl min-[550px]:px-8 py-8 px-2 shadow-2xl border border-white/20">
       <div class="grid lg:grid-cols-3 gap-8">
         <!-- Avatar Section -->
         <div class="lg:col-span-1 text-center">
@@ -27,9 +27,8 @@
 
         <!-- Information Section -->
         <div class="lg:col-span-2 space-y-6">
-
           <!-- Personal Information -->
-          <div class="bg-white/10 rounded-2xl p-6 backdrop-blur-sm border border-white/20">
+          <div class="bg-white/10 rounded-2xl min-[550px]:p-6 p-4 backdrop-blur-sm border border-white/20">
             <h3 class="text-black font-bold text-xl mb-4 gap-2 flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user">
                 <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
@@ -74,7 +73,7 @@
           </div>
 
           <!-- Security Information -->
-          <div class="bg-white/10 rounded-2xl p-6 backdrop-blur-sm border border-white/20">
+          <div class="bg-white/10 rounded-2xl min-[550px]:p-6 p-4 backdrop-blur-sm border border-white/20">
             <h3 class="text-black font-bold text-xl mb-4 gap-2 flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-icon lucide-shield">
                 <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
@@ -106,7 +105,7 @@
           </div>
 
           <!-- Social Links -->
-          <div class="bg-white/10 rounded-2xl p-6 backdrop-blur-sm border border-white/20">
+          <div class="bg-white/10 rounded-2xl min-[550px]:p-6 p-4 backdrop-blur-sm border border-white/20">
             <h3 class="text-black font-bold text-xl mb-4 gap-2 flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link">
                 <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
@@ -168,10 +167,15 @@
           </div>
 
           <!-- Rules -->
-          <div class="bg-white/10 rounded-2xl p-6 backdrop-blur-sm border border-white/20">
+          <div class="bg-white/10 rounded-2xl min-[550px]:p-6 p-4 backdrop-blur-sm border border-white/20">
             <h3 class="text-black font-bold text-xl mb-4 gap-2 flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-icon lucide-shield">
-                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil-ruler-icon lucide-pencil-ruler">
+                <path d="M13 7 8.7 2.7a2.41 2.41 0 0 0-3.4 0L2.7 5.3a2.41 2.41 0 0 0 0 3.4L7 13" />
+                <path d="m8 6 2-2" />
+                <path d="m18 16 2-2" />
+                <path d="m17 11 4.3 4.3c.94.94.94 2.46 0 3.4l-2.6 2.6c-.94.94-2.46.94-3.4 0L11 17" />
+                <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+                <path d="m15 5 4 4" />
               </svg>
               <span>Quy định thuê acc</span>
             </h3>

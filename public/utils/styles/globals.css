@@ -13,6 +13,7 @@
   --vcn-scrollbar-thumb-bgcl: #455159;
   --vcn-regular-zalo-cl: #0068ff;
   --vcn-regular-facebook-cl: #3a5998;
+  --vcn-regular-neon-cl: var(--vcn-regular-blue-cl);
 }
 
 [hidden] {
@@ -342,6 +343,27 @@ button {
   z-index: 999;
   max-width: min(250px, 100vw - 40px);
   word-break: break-all;
+}
+
+.CSS-neon-text-hover:hover {
+  color: var(--vcn-regular-neon-cl);
+  text-shadow: 0 0 10px var(--vcn-regular-neon-cl);
+}
+
+.QUERY-drawer-menu-board {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #fff;
+  z-index: 20;
+  height: 100vh;
+  padding: 1rem;
+  overflow-y: auto;
+  transition: transform 0.3s;
+  transform: translateX(100%);
+}
+.QUERY-drawer-menu-board.QUERY-drawer-menu-open {
+  transform: translateX(0);
 }
 
 /*# sourceMappingURL=globals.css.map */

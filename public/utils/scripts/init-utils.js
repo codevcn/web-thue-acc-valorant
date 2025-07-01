@@ -7,10 +7,47 @@ class InitUtils {
     this.initTooltip()
   }
 
+  hideShowDrawerMenu(isShow, drawerMenu) {
+    if (isShow) {
+      drawerMenu.hidden = false
+      requestAnimationFrame(() => {
+        drawerMenu.querySelector(".QUERY-drawer-menu-board").classList.add("QUERY-drawer-menu-open")
+      })
+    } else {
+      drawerMenu
+        .querySelector(".QUERY-drawer-menu-board")
+        .classList.remove("QUERY-drawer-menu-open")
+      setTimeout(() => {
+        drawerMenu.hidden = true
+      }, 300)
+    }
+  }
+
   initListeners() {
     const logoutBtn = document.getElementById("logout-btn")
     if (logoutBtn) {
       logoutBtn.addEventListener("click", this.logout.bind(this))
+    }
+    const drawerMenu = document.getElementById("header-drawer-menu")
+    if (drawerMenu) {
+      const openDrawerMenuBtn = document.getElementById("open-drawer-menu-btn")
+      if (openDrawerMenuBtn) {
+        openDrawerMenuBtn.addEventListener("click", (e) => {
+          this.hideShowDrawerMenu(true, drawerMenu)
+        })
+      }
+      const drawerMenuOverlay = drawerMenu.querySelector(".QUERY-drawer-menu-overlay")
+      drawerMenuOverlay.addEventListener("click", (e) => {
+        this.hideShowDrawerMenu(false, drawerMenu)
+      })
+      const closeDrawerMenuBtn = drawerMenu.querySelector(".QUERY-close-drawer-menu-btn")
+      closeDrawerMenuBtn.addEventListener("click", (e) => {
+        this.hideShowDrawerMenu(false, drawerMenu)
+      })
+    }
+    const logoutBtnDrawer = document.getElementById("logout-btn--drawer")
+    if (logoutBtnDrawer) {
+      logoutBtnDrawer.addEventListener("click", this.logout.bind(this))
     }
   }
 
@@ -34,14 +71,15 @@ class InitUtils {
 
   linkTooltip(trigger, tooltipContent) {
     const tooltip = document.getElementById("app-tooltip")
-    tooltip.innerHTML = tooltipContent
 
     const spacing = 8
 
     const onMouseMove = (e) => {
+      tooltip.innerHTML = tooltipContent
+      tooltip.hidden = false
+
       tooltip.style.left = "0px"
       tooltip.style.top = "0px"
-      tooltip.hidden = false
       tooltip.style.opacity = 1
 
       const tooltipRect = tooltip.getBoundingClientRect()

@@ -6,6 +6,7 @@ namespace Controllers\Apis;
 
 use Services\GameAccountService;
 use Services\FileService;
+use Utils\DevLogger;
 
 class GameAccountApiController
 {
@@ -21,6 +22,7 @@ class GameAccountApiController
   public function loadMoreAccounts(): array
   {
     $last_id = isset($_GET['last_id']) ? (int) $_GET['last_id'] : null;
+    $last_updated_at = isset($_GET['last_updated_at']) ? trim($_GET['last_updated_at']) : null;
     $rank = isset($_GET['rank']) ? trim($_GET['rank']) : null;
     $status = isset($_GET['status']) ? trim($_GET['status']) : null;
     $device_type = isset($_GET['device_type']) ? trim($_GET['device_type']) : null;
@@ -28,7 +30,16 @@ class GameAccountApiController
     $date_from = isset($_GET['date_from']) ? trim($_GET['date_from']) : null;
     $date_to = isset($_GET['date_to']) ? trim($_GET['date_to']) : null;
 
-    $accounts = $this->gameAccountService->advancedFetchAccounts($last_id, $rank, $status, $device_type, $search_term, $date_from, $date_to);
+    $accounts = $this->gameAccountService->advancedFetchAccounts(
+      $last_id,
+      $last_updated_at,
+      $rank,
+      $status,
+      $device_type,
+      $search_term,
+      $date_from,
+      $date_to
+    );
 
     return [
       'accounts' => $accounts,
@@ -186,7 +197,7 @@ class GameAccountApiController
         http_response_code(400);
         return [
           'success' => false,
-          'message' => 'Tạo ảnh đại diện thất bại'
+          'message' => 'Tạo ảnh đại diện thất bại: ' . $th->getMessage()
         ];
       }
 

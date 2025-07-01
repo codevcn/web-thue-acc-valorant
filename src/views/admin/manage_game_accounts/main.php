@@ -1,5 +1,5 @@
 <!-- Main Content -->
-<main class="mx-auto px-4 py-8 bg-gradient-to-br from-regular-from-blue-cl via-regular-via-blue-cl to-regular-to-blue-cl">
+<main class="mx-auto px-4 py-8 bg-gradient-to-br from-regular-from-blue-cl via-regular-via-blue-cl to-regular-to-blue-cl min-h-[calc(100vh-64px)]">
   <!-- Controls -->
   <div class="bg-white rounded-lg shadow mb-6">
     <div class="p-6 border-b border-gray-200">
@@ -105,5 +105,7 @@
 <?php require_once __DIR__ . '/add_new_account.php'; ?>
 <?php require_once __DIR__ . '/update_account.php'; ?>
 <?php require_once __DIR__ . '/delete_account.php'; ?>
+
+<?php require_once __DIR__ . '/../../templates/tooltip.php'; ?>
 
 <?php require_once __DIR__ . '/../../templates/app_loading.php'; ?>

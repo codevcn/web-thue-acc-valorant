@@ -1,8 +1,9 @@
 import { axiosClient } from "../utils/scripts/api-client.js"
 
 export class GameAccountService {
-  static async fetchAccounts(last_id, rank, status, device_type, search_term, date_from, date_to) {
+  static async fetchAccounts(last_id, last_updated_at, rank, status, device_type, search_term, date_from, date_to) {
     const params = {}
+    if (last_updated_at) params.last_updated_at = last_updated_at
     if (last_id) params.last_id = last_id
     if (rank) params.rank = rank
     if (status) params.status = status

@@ -22,9 +22,9 @@ class FileService
     $extension = strtolower($fileInfo['extension']);
 
     // Kiểm tra định dạng file hợp lệ
-    $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
     if (!in_array($extension, $allowedExtensions)) {
-      throw new \InvalidArgumentException('Định dạng file không được hỗ trợ. Chỉ chấp nhận: JPG, PNG, GIF.');
+      throw new \InvalidArgumentException('Định dạng file không được hỗ trợ. Chỉ chấp nhận: JPG, PNG, WEBP.');
     }
 
     // Kiểm tra kích thước file (tối đa 5MB)
