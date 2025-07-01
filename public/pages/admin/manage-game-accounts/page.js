@@ -358,10 +358,12 @@ class UpdateAccountManager {
     this.pickAvatarSection = document.getElementById("pick-avatar--update-section")
     this.avatarPreview = document.getElementById("avatar-preview-img--update-section")
     this.avatarInput = document.getElementById("avatar-input--update-section")
+    this.accountsTableBody = document.getElementById("accounts-table-body")
 
     this.isSubmitting = false
 
     this.initListeners()
+    this.initSwitchStatusQuickly()
   }
 
   initListeners() {
@@ -498,6 +500,51 @@ class UpdateAccountManager {
         this.isSubmitting = false
         AppLoadingHelper.hide()
       })
+  }
+
+  switchStatus(status) {
+    if (this.isSubmitting) return
+    this.isSubmitting = true
+
+    AppLoadingHelper.show()
+    GameAccountService.updateAccount(this.accountId, { status })
+      .then((data) => {
+        if (data && data.success) {
+          Toaster.success("Thông báo", "Cập nhật trạng thái tài khoản thành công", () => {
+            NavigationHelper.reloadPage()
+          })
+        }
+      })
+      .catch((error) => {
+        Toaster.error(
+          "Cập nhật trạng thái tài khoản thất bại",
+          AxiosErrorHandler.handleHTTPError(error).message
+        )
+      })
+      .finally(() => {
+        this.isSubmitting = false
+        AppLoadingHelper.hide()
+      })
+  }
+
+  initSwitchStatusQuickly() {
+    this.accountsTableBody.addEventListener("click", (e) => {
+      let target = e.target
+      while (target && !target.classList.contains("QUERY-switch-status-btn")) {
+        target = target.parentElement
+        if (target.classList.contains("QUERY-account-row-item") || target.tagName === "BODY") {
+          break
+        }
+      }
+      const accountId = target.dataset.vcnAccountId * 1
+      if (accountId) {
+        const account = sharedData.gameAccounts.find((account) => account.id === accountId)
+        if (account) {
+          this.accountId = account.id
+          this.switchStatus(account.status.toLowerCase() === "rảnh" ? "Bận" : "Rảnh")
+        }
+      }
+    })
   }
 }
 

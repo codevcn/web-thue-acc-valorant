@@ -31,7 +31,7 @@ class UserService
     return $res;
   }
 
-  public function updateAdmin(array $data): void
+  public function updateAdminProfile(array $data): void
   {
     $admin = $this->findAdmin();
     if (!$admin) {

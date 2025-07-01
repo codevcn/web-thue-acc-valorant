@@ -105,7 +105,7 @@ export const AccountCard = (account) => {
                 <span>Trạng Thái</span>
               </span>
               <span
-                class="font-bold text-white ${status == "Rảnh"
+                class="font-bold text-white ${status.toLowerCase() == "rảnh"
                   ? "bg-green-600"
                   : "bg-red-600"} px-4 py-0.5 rounded-lg"
               >
@@ -232,7 +232,11 @@ export const AccountRow = (account, order_number) => {
     account
   const created_date_formatted = dayjs(created_at).format("DD/MM/YYYY HH:mm")
   return html`
-    <tr class="hover:bg-blue-50 ${status == "Bận" ? "bg-red-100" : ""}">
+    <tr
+      class="QUERY-account-row-item hover:bg-blue-50 ${status.toLowerCase() == "bận"
+        ? "bg-red-100"
+        : ""}"
+    >
       <td class="px-3 py-3 text-center">${order_number}</td>
       <td class="px-3 py-1">
         <div class="rounded-full flex items-center justify-center">
@@ -254,7 +258,10 @@ export const AccountRow = (account, order_number) => {
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
         <span
-          class="inline-flex px-2 py-1 text-sm font-semibold rounded-full ${status == "Rảnh"
+          data-vcn-account-id="${id}"
+          data-vcn-tooltip-content="Nhấn để chuyển trạng thái của tài khoản"
+          class="QUERY-switch-status-btn QUERY-tooltip-trigger hover:scale-125 transition duration-200 cursor-pointer inline-flex px-2 py-1 text-sm font-semibold rounded-full ${status.toLowerCase() ==
+          "rảnh"
             ? "bg-green-600"
             : "bg-red-600"} text-white"
         >

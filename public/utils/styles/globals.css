@@ -341,8 +341,7 @@ button {
   opacity: 0;
   transition: opacity 0.2s ease;
   z-index: 999;
-  max-width: min(250px, 100vw - 40px);
-  word-break: break-all;
+  max-width: min(300px, 100vw - 40px);
 }
 
 .CSS-neon-text-hover:hover {

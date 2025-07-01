@@ -42,7 +42,7 @@ class AdminApiController
     }
 
     try {
-      $this->userService->updateAdmin($adminData);
+      $this->userService->updateAdminProfile($adminData);
     } catch (\Throwable $th) {
       if ($th instanceof \InvalidArgumentException) {
         http_response_code(400);
