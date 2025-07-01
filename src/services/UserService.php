@@ -42,8 +42,11 @@ class UserService
     $params = [];
 
     if (isset($data['password'])) {
-      $fields[] = "password = :password";
-      $params['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+      $password = $data['password'];
+      if ($password && $password !== "") {
+        $fields[] = "password = :password";
+        $params['password'] = password_hash($password, PASSWORD_DEFAULT);
+      }
     }
 
     foreach ($data as $key => $value) {

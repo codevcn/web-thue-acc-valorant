@@ -1,7 +1,7 @@
 <div class="relative min-h-screen overflow-hidden z-80">
   <div class="absolute inset-0 z-0">
     <video autoplay muted loop playsinline class="w-full h-full object-cover">
-      <source src="https://storage.googleapis.com/teko-gae.appspot.com/media/video/2024/5/7/d43e9c80-d2bb-41ba-b8e4-24a0d90624ff/header.mp4" type="video/mp4" />
+      <source src="/videos/UI/hero-section-video.mp4" type="video/mp4" />
     </video>
     <div class="absolute inset-0 bg-black/40"></div>
   </div>

@@ -1,5 +1,5 @@
 <div id="filters-section" class="bg-white rounded-lg shadow mt-4" hidden>
-  <div class="p-6">
+  <div class="min-[550px]:px-6 py-6 px-4">
     <div class="flex items-center justify-between mb-4">
       <h3 class="text-lg font-medium text-gray-900 flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-funnel-icon lucide-funnel">
@@ -51,8 +51,8 @@
       <!-- Date Range Filter -->
       <div class="grow-[2]">
         <label class="block text-sm font-medium text-gray-700 mb-2">Thời gian tạo</label>
-        <div class="flex gap-2 grow">
-          <div class="flex w-1/2 gap-1 items-center">
+        <div class="flex gap-2 grow min-[550px]:flex-nowrap flex-wrap">
+          <div class="flex min-[550px]:w-1/2 w-full gap-1 items-center">
             <label for="date-from-input" class="text-sm font-medium text-gray-600 min-w-max">Từ ngày</label>
             <input
               type="text"
@@ -60,7 +60,7 @@
               id="date-from-filter-field"
               placeholder="Nhập thời gian bắt đầu" />
           </div>
-          <div class="flex w-1/2 gap-1 items-center">
+          <div class="flex min-[550px]:w-1/2 w-full gap-1 items-center">
             <label for="date-to-input" class="text-sm font-medium text-gray-600 min-w-max">Đến ngày</label>
             <input
               type="text"

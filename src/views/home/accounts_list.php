@@ -1,5 +1,5 @@
 <div class="bg-gradient-to-br from-sky-50 to-cyan-50 pb-20 pt-16">
-  <div class="mx-auto px-6">
+  <div class="mx-auto min-[550px]:px-6 px-2">
     <!-- Section Header -->
     <div class="text-center mb-10">
       <h2 class="text-4xl md:text-5xl font-black text-gray-800 mb-4">
@@ -23,15 +23,13 @@
         </svg>
         <span>Lọc acc theo:</span>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex items-center flex-wrap gap-2">
         <button id="account-status-btn" class="CSS-button-white-decoration py-1.5 px-4">
           Trạng thái
         </button>
-        <div class="CSS-vertical-divider mx-2"></div>
         <button id="account-rank-types-btn" class="CSS-button-white-decoration py-1.5 px-4">
           Rank
         </button>
-        <div class="CSS-vertical-divider mx-2"></div>
         <button id="account-device-types-btn" class="CSS-button-white-decoration py-1.5 px-4">
           Loại máy
         </button>

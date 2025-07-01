@@ -56,7 +56,12 @@ $apiRouter->delete('/api/v1/game-accounts/delete/{accountId}', function ($accoun
 
 $apiRouter->post('/api/v1/admin/update-profile', function () use ($adminApiController, $authMiddleware) {
   $authMiddleware->handle();
-  return $adminApiController->updateAdmin();
+  return $adminApiController->updateAdminProfile();
+});
+
+$apiRouter->post('/api/v1/admin/update-web-ui', function () use ($adminApiController, $authMiddleware) {
+  $authMiddleware->handle();
+  return $adminApiController->updateWebUI();
 });
 
 $apiRouter->post('/api/v1/auth/login', function () use ($authApiController) {

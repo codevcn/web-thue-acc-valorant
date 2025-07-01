@@ -165,18 +165,11 @@ class AddNewAccountManager {
   constructor() {
     this.addNewAccountModal = document.getElementById("add-new-account-modal")
     this.addNewAccountForm = document.getElementById("add-new-account-form")
-    this.deviceTypeSelect = this.addNewAccountModal.querySelector(".QUERY-device-type-select")
-    this.rankTypesSelect = this.addNewAccountModal.querySelector(".QUERY-rank-types-select")
-    this.statusesSelect = this.addNewAccountModal.querySelector(".QUERY-statuses-select")
     this.pickAvatarSection = document.getElementById("pick-avatar--add-section")
     this.avatarPreview = document.getElementById("avatar-preview-img--add-section")
     this.avatarInput = document.getElementById("avatar-input--add-section")
 
     this.isSubmitting = false
-
-    this.fetchDeviceTypes()
-    this.fetchAccountRankTypes()
-    this.fetchAccountStatuses()
 
     this.initListeners()
   }
@@ -231,39 +224,6 @@ class AddNewAccountManager {
   hideModal() {
     this.addNewAccountModal.hidden = true
     this.addNewAccountForm.reset()
-  }
-
-  fetchDeviceTypes() {
-    GameAccountService.fetchDeviceTypes().then((deviceTypes) => {
-      for (const deviceType of deviceTypes) {
-        const option = document.createElement("option")
-        option.value = deviceType.device_type
-        option.textContent = deviceType.device_type
-        this.deviceTypeSelect.appendChild(option)
-      }
-    })
-  }
-
-  fetchAccountRankTypes() {
-    GameAccountService.fetchAccountRankTypes().then((rankTypes) => {
-      for (const rankType of rankTypes) {
-        const option = document.createElement("option")
-        option.value = rankType.rank
-        option.textContent = rankType.rank
-        this.rankTypesSelect.appendChild(option)
-      }
-    })
-  }
-
-  fetchAccountStatuses() {
-    GameAccountService.fetchAccountStatuses().then((statuses) => {
-      for (const status of statuses) {
-        const option = document.createElement("option")
-        option.value = status.status
-        option.textContent = status.status
-        this.statusesSelect.appendChild(option)
-      }
-    })
   }
 
   validateFormData({ accName, rank, gameCode, status, deviceType, avatar }) {
@@ -395,18 +355,11 @@ class UpdateAccountManager {
   constructor() {
     this.updateAccountModal = document.getElementById("update-account-modal")
     this.updateAccountForm = document.getElementById("update-account-form")
-    this.deviceTypeSelect = this.updateAccountModal.querySelector(".QUERY-device-type-select")
-    this.rankTypesSelect = this.updateAccountModal.querySelector(".QUERY-rank-types-select")
-    this.statusesSelect = this.updateAccountModal.querySelector(".QUERY-statuses-select")
     this.pickAvatarSection = document.getElementById("pick-avatar--update-section")
     this.avatarPreview = document.getElementById("avatar-preview-img--update-section")
     this.avatarInput = document.getElementById("avatar-input--update-section")
 
     this.isSubmitting = false
-
-    this.fetchDeviceTypes()
-    this.fetchAccountRankTypes()
-    this.fetchAccountStatuses()
 
     this.initListeners()
   }
@@ -468,9 +421,9 @@ class UpdateAccountManager {
     this.updateAccountForm.querySelector("input[name='accName']").value = acc_name
     this.updateAccountForm.querySelector("input[name='gameCode']").value = game_code
     this.updateAccountForm.querySelector("textarea[name='description']").value = description || ""
-    this.updateAccountForm.querySelector("select[name='status']").value = status
-    this.updateAccountForm.querySelector("select[name='deviceType']").value = device_type
-    this.updateAccountForm.querySelector("select[name='rank']").value = rank
+    this.updateAccountForm.querySelector("input[name='status']").value = status
+    this.updateAccountForm.querySelector("input[name='deviceType']").value = device_type
+    this.updateAccountForm.querySelector("input[name='rank']").value = rank
     this.updateAccountModal.hidden = false
     this.avatarPreview.src = `/images/account/${avatar || "default-game-account-avatar.png"}`
     if (!avatar) {
@@ -484,40 +437,7 @@ class UpdateAccountManager {
     this.updateAccountForm.reset()
   }
 
-  fetchDeviceTypes() {
-    GameAccountService.fetchDeviceTypes().then((deviceTypes) => {
-      for (const deviceType of deviceTypes) {
-        const option = document.createElement("option")
-        option.value = deviceType.device_type
-        option.textContent = deviceType.device_type
-        this.deviceTypeSelect.appendChild(option)
-      }
-    })
-  }
-
-  fetchAccountRankTypes() {
-    GameAccountService.fetchAccountRankTypes().then((rankTypes) => {
-      for (const rankType of rankTypes) {
-        const option = document.createElement("option")
-        option.value = rankType.rank
-        option.textContent = rankType.rank
-        this.rankTypesSelect.appendChild(option)
-      }
-    })
-  }
-
-  fetchAccountStatuses() {
-    GameAccountService.fetchAccountStatuses().then((statuses) => {
-      for (const status of statuses) {
-        const option = document.createElement("option")
-        option.value = status.status
-        option.textContent = status.status
-        this.statusesSelect.appendChild(option)
-      }
-    })
-  }
-
-  validateFormData({ accName, rank, gameCode, status, deviceType, avatar }) {
+  validateFormData({ accName, rank, gameCode, status, deviceType }) {
     if (!accName) {
       Toaster.error("Tên tài khoản không được để trống")
       return false
@@ -538,10 +458,6 @@ class UpdateAccountManager {
       Toaster.error("Loại thiết bị không được để trống")
       return false
     }
-    if (!avatar) {
-      Toaster.error("Ảnh đại diện không được để trống")
-      return false
-    }
     return true
   }
 
@@ -558,14 +474,13 @@ class UpdateAccountManager {
       status: formData.get("status"),
       deviceType: formData.get("deviceType"),
     }
-    const avatar = this.avatarInput.files?.[0]
-    if (!this.validateFormData({ ...data, avatar })) {
+    if (!this.validateFormData({ ...data })) {
       this.isSubmitting = false
       return
     }
 
     AppLoadingHelper.show()
-    GameAccountService.updateAccount(this.accountId, data, avatar)
+    GameAccountService.updateAccount(this.accountId, data, this.avatarInput.files?.[0])
       .then((data) => {
         if (data && data.success) {
           Toaster.success("Thông báo", "Cập nhật tài khoản thành công", () => {

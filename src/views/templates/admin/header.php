@@ -76,7 +76,7 @@
           </li>
           <li>
             <a href="/admin/profile" class="flex items-center py-2 rounded-lg CSS-neon-text-hover group">
-              <span>Trang cá nhân</span>
+              <span>Hồ sơ quản trị viên</span>
             </a>
           </li>
           <li>

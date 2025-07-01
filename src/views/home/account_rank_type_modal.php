@@ -1,4 +1,4 @@
-<div id="account-rank-type-modal" hidden class="QUERY-modal QUERY-rank-type-modal p-[80px] fixed inset-0 z-[90]">
+<div id="account-rank-type-modal" hidden class="QUERY-modal QUERY-rank-type-modal min-[600px]:px-[80px] px-[15px] py-[80px] fixed inset-0 z-[90]">
   <div class="QUERY-modal-overlay absolute z-10 inset-0 bg-black/80"></div>
 
   <button class="QUERY-close-modal-btn absolute z-30 top-6 right-6 rounded-full bg-[#3d3e48] p-2 text-white hover:scale-125 transition duration-200">
@@ -8,8 +8,8 @@
     </svg>
   </button>
 
-  <div id="account-rank-types" class="flex flex-wrap justify-start items-start content-start gap-2 relative z-20">
-    <button class="CSS-button-red-decoration QUERY-cancel-filter-btn py-1.5 px-4">
+  <div id="account-rank-types" class="flex flex-wrap justify-start items-start content-start gap-2 relative z-20 max-h-full pr-2 overflow-y-auto CSS-styled-vt-scrollbar">
+    <button class="CSS-button-red-decoration QUERY-cancel-filter-btn w-max py-1.5 px-4">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
         <polyline points="3,6 5,6 21,6"></polyline>
         <path d="M19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>

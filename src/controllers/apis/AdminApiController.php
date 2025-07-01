@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Controllers\Apis;
 
+use Services\FileService;
 use Services\RulesService;
 use Services\UserService;
 
@@ -18,7 +19,7 @@ class AdminApiController
     $this->rulesService = $rulesService;
   }
 
-  public function updateAdmin(): array
+  public function updateAdminProfile(): array
   {
     if (!isset($_POST['adminData'])) {
       http_response_code(400);
@@ -73,6 +74,41 @@ class AdminApiController
 
     return [
       'success' => true,
+    ];
+  }
+
+  public function updateWebUI(): array
+  {
+    $fileService = new FileService();
+
+    if (!isset($_FILES['ui_file'])) {
+      http_response_code(400);
+      return [
+        'success' => false,
+        'message' => 'Thiếu dữ liệu đầu vào'
+      ];
+    }
+
+    $file = $_FILES['ui_file'];
+    // Xác định có phải video không
+    $isVideo = in_array(strtolower(pathinfo($file['name'], PATHINFO_EXTENSION)), $fileService->getSupportedVideoExtensions());
+
+    try {
+      $result = $isVideo
+        ? $fileService->saveUIVideo($file)
+        : $fileService->saveUIImage($file);
+    } catch (\Throwable $e) {
+      http_response_code(500);
+      return [
+        'success' => false,
+        'message' => 'Lỗi cập nhật UI: ' . $e->getMessage()
+      ];
+    }
+
+    return [
+      'success' => true,
+      'message' => 'Cập nhật UI thành công!',
+      'file_url' => $result['url']
     ];
   }
 }

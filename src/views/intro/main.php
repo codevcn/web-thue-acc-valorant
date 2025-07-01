@@ -1,6 +1,6 @@
 <div id="page-intro" class="fixed inset-0 z-[99] overflow-hidden">
   <!-- Background Image -->
-  <div class="absolute z-10 inset-0 bg-center bg-cover bg-no-repeat bg-[url('/images/account/intro-bg.webp')]">
+  <div class="absolute z-10 inset-0 bg-center bg-cover bg-no-repeat bg-[url('/images/UI/intro-bg.webp')]">
     <!-- Dark Overlay -->
     <div class="absolute inset-0 bg-black/40"></div>
 

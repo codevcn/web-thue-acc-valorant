@@ -1,8 +1,8 @@
 <!-- Main Content -->
-<main class="mx-auto px-4 py-8 bg-gradient-to-br from-regular-from-blue-cl via-regular-via-blue-cl to-regular-to-blue-cl min-h-[calc(100vh-64px)]">
+<main class="mx-auto min-[550px]:px-4 px-2 py-8 bg-gradient-to-br from-regular-from-blue-cl via-regular-via-blue-cl to-regular-to-blue-cl min-h-[calc(100vh-64px)]">
   <!-- Controls -->
   <div class="bg-white rounded-lg shadow mb-6">
-    <div class="p-6 border-b border-gray-200">
+    <div class="min-[550px]:p-6 py-6 px-2 border-b border-gray-200">
       <div class="flex flex-col lg:flex-row gap-4 justify-between">
         <!-- Search and Filters -->
         <div class="flex flex-col sm:flex-row gap-4 grow">
@@ -13,7 +13,7 @@
               placeholder="Tìm kiếm theo tên acc, mã game, mô tả..."
               class="w-full pl-4 pr-10 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-2 outline-regular-blue-cl" />
             <button id="search-btn" class="absolute right-0 top-1/2 -translate-y-1/2 h-full px-4 text-white rounded-br-lg rounded-tr-lg bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl cursor-pointer transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-search-icon lucide-search" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-search-icon lucide-search hover:scale-125 transition duration-200" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m21 21-4.34-4.34" />
                 <circle cx="11" cy="11" r="8" />
               </svg>

@@ -196,7 +196,6 @@ export const AccountRankType = ({ rank, isActive }) => {
         ? "CSS-is-active"
         : ""}"
     >
-      <span>Rank </span>
       <span>${rank}</span>
     </button>
   `
