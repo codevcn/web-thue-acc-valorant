@@ -82,16 +82,6 @@ class GameAccountApiController
       ];
     }
 
-    // Xử lý file avatar
-    $avatarFile = $_FILES['avatar'] ?? null;
-    if (!$avatarFile) {
-      http_response_code(400);
-      return [
-        'success' => false,
-        'message' => 'Không có ảnh đại diện cho tài khoản'
-      ];
-    }
-
     // Lấy dữ liệu tài khoản (giả sử client stringify JSON và append vào formData)
     $accountsJson = $_POST['accounts'];
     $accounts = json_decode($accountsJson, true);
@@ -122,7 +112,9 @@ class GameAccountApiController
       ];
     }
 
-    if (count($accounts) == 1) {
+    // Xử lý file avatar
+    $avatarFile = $_FILES['avatar'] ?? null;
+    if (count($accounts) == 1 && $avatarFile) {
       // Lấy account record vừa insert
       $latestAccount = $this->gameAccountService->getLatestAccount();
 

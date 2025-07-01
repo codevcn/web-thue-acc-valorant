@@ -231,9 +231,10 @@ export const AccountRow = (account, order_number) => {
   const { acc_name, rank, game_code, status, description, created_at, device_type, id, avatar } =
     account
   const created_date_formatted = dayjs(created_at).format("DD/MM/YYYY HH:mm")
+  const lowerCasedStatus = status.toLowerCase()
   return html`
     <tr
-      class="QUERY-account-row-item hover:bg-blue-50 ${status.toLowerCase() == "bận"
+      class="QUERY-account-row-item hover:bg-blue-50 ${lowerCasedStatus == "bận"
         ? "bg-red-100"
         : ""}"
     >
@@ -251,22 +252,24 @@ export const AccountRow = (account, order_number) => {
         <div class="text-sm font-medium text-gray-900 max-w-[150px] truncate">${acc_name}</div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
-        <div class="text-sm font-medium">${rank}</div>
+        <div class="text-sm font-medium max-w-[100px] truncate">${rank}</div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
-        <div class="text-sm text-regular-blue-4 font-medium">${game_code}</div>
+        <div class="text-sm text-regular-blue-4 font-medium max-w-[100px] truncate">
+          ${game_code}
+        </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
-        <span
+        <div
           data-vcn-account-id="${id}"
           data-vcn-tooltip-content="Nhấn để chuyển trạng thái của tài khoản"
-          class="QUERY-switch-status-btn QUERY-tooltip-trigger hover:scale-125 transition duration-200 cursor-pointer inline-flex px-2 py-1 text-sm font-semibold rounded-full ${status.toLowerCase() ==
+          class="QUERY-switch-status-btn QUERY-tooltip-trigger max-w-[100px] truncate w-fit hover:scale-125 transition duration-200 cursor-pointer px-2 py-1 text-sm font-semibold rounded-full ${lowerCasedStatus ==
           "rảnh"
             ? "bg-green-600"
             : "bg-red-600"} text-white"
         >
           ${status}
-        </span>
+        </div>
       </td>
       <td class="px-3 py-3">
         <div class="text-sm text-gray-900 max-w-[100px] truncate">
@@ -283,7 +286,7 @@ export const AccountRow = (account, order_number) => {
         <div class="text-sm text-gray-500">${created_date_formatted}</div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
-        <div class="text-sm text-gray-900">${device_type}</div>
+        <div class="text-sm text-gray-900 max-w-[100px] truncate">${device_type}</div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
         <div class="flex items-center gap-2">
@@ -335,6 +338,69 @@ export const AccountRow = (account, order_number) => {
             </svg>
           </button>
         </div>
+      </td>
+    </tr>
+  `
+}
+
+export const AccountPreviewRow = (account, order_number) => {
+  const { accName, rank, gameCode, status, description, created_at, deviceType, avatar } =
+    account
+  const created_date_formatted = dayjs(created_at).format("DD/MM/YYYY HH:mm")
+  const lowerCasedStatus = status.toLowerCase()
+  return html`
+    <tr
+      class="QUERY-account-row-item hover:bg-blue-50 ${lowerCasedStatus === "bận"
+        ? "bg-red-100"
+        : ""}"
+    >
+      <td class="px-3 py-3 text-center">${order_number}</td>
+      <td class="px-3 py-1">
+        <div class="rounded-full flex items-center justify-center">
+          <img
+            src="/images/account/${avatar || "default-game-account-avatar.png"}"
+            alt="Account Avatar"
+            class="w-[200px] aspect-[365/204] min-w-[94px] max-h-[100px] object-contain object-center"
+          />
+        </div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div class="text-sm font-medium text-gray-900 max-w-[150px] truncate">${accName}</div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div class="text-sm font-medium max-w-[100px] truncate">${rank}</div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div class="text-sm text-regular-blue-4 font-medium max-w-[100px] truncate">
+          ${gameCode}
+        </div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div
+          class="max-w-[100px] truncate w-fit px-2 py-1 text-sm font-semibold rounded-full ${lowerCasedStatus ==
+          "rảnh"
+            ? "bg-green-600"
+            : "bg-red-600"} text-white"
+        >
+          ${status}
+        </div>
+      </td>
+      <td class="px-3 py-3">
+        <div class="text-sm text-gray-900 max-w-[100px] truncate">
+          ${description
+            ? html`<span class="QUERY-tooltip-trigger" data-vcn-tooltip-content="${description}"
+                >${description}</span
+              >`
+            : html`<span class="QUERY-no-description text-gray-400 italic text-sm"
+                >Chưa có mô tả</span
+              >`}
+        </div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div class="text-sm text-gray-500">${created_date_formatted}</div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div class="text-sm text-gray-900 max-w-[100px] truncate">${deviceType}</div>
       </td>
     </tr>
   `

@@ -27,22 +27,43 @@
               <path d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z" />
             </svg>
             <span>Bộ lọc</span>
-            <div id="count-applied-filters" class="px-2 py-[2px] text-sm bg-regular-blue-cl text-white font-semibold rounded-full" hidden>
-            </div>
+            <span id="count-applied-filters" class="inline-block px-2 py-[2px] text-sm bg-regular-blue-cl text-white font-semibold rounded-full" hidden>
+            </span>
           </button>
         </div>
 
         <!-- Action Buttons -->
         <div class="flex gap-2">
-          <button
-            id="add-new-account-btn"
-            class="bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl hover:scale-105 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
-            <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-plus-icon lucide-plus" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14" />
-              <path d="M12 5v14" />
-            </svg>
-            Thêm tài khoản
-          </button>
+          <div class="relative group">
+            <button class="bg-regular-blue-cl hover:scale-105 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-plus-icon lucide-plus" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14" />
+                <path d="M12 5v14" />
+              </svg>
+              Thêm tài khoản
+            </button>
+            <div class="flex flex-col items-center gap-2 bg-transparent absolute right-0 mt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-[opacity,visibility] duration-200 z-10">
+              <button id="import-accounts-from-excel-btn" class="flex items-center gap-2 outline outline-2 outline-white w-max text-left font-bold text-white px-4 py-2 bg-regular-blue-cl hover:scale-110 transition duration-200 rounded-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-sheet-icon lucide-sheet" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                  <line x1="3" x2="21" y1="9" y2="9" />
+                  <line x1="3" x2="21" y1="15" y2="15" />
+                  <line x1="9" x2="9" y1="9" y2="21" />
+                  <line x1="15" x2="15" y1="9" y2="21" />
+                </svg>
+                Thêm bằng excel
+              </button>
+              <button id="add-new-account-btn" class="flex items-center gap-2 outline outline-2 outline-white w-max text-left font-bold text-white px-4 py-2 bg-regular-blue-cl hover:scale-110 transition duration-200 rounded-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-hand-icon lucide-hand" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2" />
+                  <path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2" />
+                  <path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8" />
+                  <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />
+                </svg>
+                Thêm thủ công
+              </button>
+            </div>
+          </div>
 
           <div class="relative group">
             <button class="bg-gray-600 hover:scale-105 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
@@ -56,8 +77,15 @@
                 <path d="m6 9 6 6 6-6" />
               </svg>
             </button>
-            <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
-              <button id="export-accounts-table-to-excel-btn" class="w-full text-left px-4 py-2 hover:bg-gray-50 rounded-b-lg">
+            <div class="flex flex-col items-center gap-2 bg-transparent absolute right-0 mt-2 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-[opacity,visibility] duration-200 z-10">
+              <button id="export-accounts-table-to-excel-btn" class="flex items-center gap-2 outline outline-2 outline-white w-max text-left font-bold text-white px-4 py-2 bg-gray-600 hover:scale-110 transition duration-200 rounded-md">
+                <svg xmlns=" http://www.w3.org/2000/svg" class="lucide lucide-sheet-icon lucide-sheet text-white" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                  <line x1="3" x2="21" y1="9" y2="9" />
+                  <line x1="3" x2="21" y1="15" y2="15" />
+                  <line x1="9" x2="9" y1="9" y2="21" />
+                  <line x1="15" x2="15" y1="9" y2="21" />
+                </svg>
                 Xuất Excel
               </button>
             </div>
@@ -105,6 +133,7 @@
 <?php require_once __DIR__ . '/add_new_account.php'; ?>
 <?php require_once __DIR__ . '/update_account.php'; ?>
 <?php require_once __DIR__ . '/delete_account.php'; ?>
+<?php require_once __DIR__ . '/accounts_preview.php'; ?>
 
 <?php require_once __DIR__ . '/../../templates/tooltip.php'; ?>
 

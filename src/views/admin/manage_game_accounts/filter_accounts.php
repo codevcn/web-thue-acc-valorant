@@ -72,11 +72,15 @@
       </div>
     </div>
 
-    <!-- Active Filters Display -->
-    <div class="mt-4 pt-4 border-t border-gray-200" style="display: none;">
-      <div class="flex items-center gap-2 flex-wrap">
-        <span class="text-sm text-gray-600">Bộ lọc đang áp dụng:</span>
-      </div>
+    <div class="w-full flex justify-end mt-4">
+      <button
+        id="apply-filters-btn"
+        class="bg-regular-blue-cl hover:scale-105 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-icon lucide-check">
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+        <span>Áp dụng</span>
+      </button>
     </div>
   </div>
 </div>

@@ -15,7 +15,7 @@
             </svg>
           </div>
           <div class="text-sm">
-            <span class="font-medium text-gray-700">Quản lý tài khoản</span>
+            <span class="font-medium text-gray-700">Quản lý acc</span>
           </div>
         </a>
 

@@ -15,7 +15,7 @@ $requiredEnv = ['JWT_SECRET', 'JWT_EXPIRATION'];
 
 foreach ($requiredEnv as $key) {
   if (!isset($_ENV[$key]) || trim($_ENV[$key]) === '') {
-    echo ">>> $key variable does not exist. Stopping server.\n";
+    echo ">>> Important data does not exist. Stopping server.\n";
     exit(1);
   }
 }

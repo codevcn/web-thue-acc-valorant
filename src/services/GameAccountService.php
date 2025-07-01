@@ -138,7 +138,7 @@ class GameAccountService
     return (new DateTime('now', new DateTimeZone('Asia/Ho_Chi_Minh')))->format('Y-m-d H:i:s');
   }
 
-  public function addNewAccounts(array $data): void
+  public function addNewAccounts(array $data): ?int
   {
     $sql = "INSERT INTO game_accounts (acc_name, rank, game_code, `status`, `description`, device_type, created_at, updated_at)
             VALUES (:acc_name, :rank, :game_code, :status, :description, :device_type, :created_at, :updated_at)";
@@ -147,6 +147,7 @@ class GameAccountService
     $stmt = $this->db->prepare($sql);
 
     $now = $this->getNow();
+    $insertedAccountId = null;
 
     foreach ($data as $row) {
       $accName     = $row['accName'] ?? null;
@@ -170,11 +171,17 @@ class GameAccountService
       $stmt->bindValue(':updated_at', $now);
 
       $stmt->execute();
+
+      // Lấy ID của account vừa insert (SQLite)
+      if ($insertedAccountId === null) {
+        $insertedAccountId = $this->db->lastInsertId();
+      }
     }
 
     $this->db->commit();
-  }
 
+    return (int) $insertedAccountId;
+  }
 
   public function updateAccount(int $accountId, array $data): void
   {

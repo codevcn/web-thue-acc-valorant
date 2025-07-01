@@ -1,5 +1,5 @@
 import { GameAccountService } from "../../../services/game-account-services.js"
-import { AccountRow } from "../../../utils/scripts/components.js"
+import { AccountPreviewRow, AccountRow } from "../../../utils/scripts/components.js"
 import {
   LitHTMLHelper,
   AppLoadingHelper,
@@ -226,7 +226,7 @@ class AddNewAccountManager {
     this.addNewAccountForm.reset()
   }
 
-  validateFormData({ accName, rank, gameCode, status, deviceType, avatar }) {
+  validateFormData({ accName, rank, gameCode, status, deviceType }) {
     if (!accName) {
       Toaster.error("Tên tài khoản không được để trống")
       return false
@@ -247,10 +247,6 @@ class AddNewAccountManager {
       Toaster.error("Loại thiết bị không được để trống")
       return false
     }
-    if (!avatar) {
-      Toaster.error("Ảnh đại diện không được để trống")
-      return false
-    }
     return true
   }
 
@@ -267,14 +263,13 @@ class AddNewAccountManager {
       status: formData.get("status"),
       deviceType: formData.get("deviceType"),
     }
-    const avatar = this.avatarInput.files?.[0]
-    if (!this.validateFormData({ ...data, avatar })) {
+    if (!this.validateFormData({ ...data })) {
       this.isSubmitting = false
       return
     }
 
     AppLoadingHelper.show()
-    GameAccountService.addNewAccounts([data], avatar)
+    GameAccountService.addNewAccounts([data], this.avatarInput.files?.[0])
       .then((data) => {
         if (data && data.success) {
           Toaster.success("Thông báo", "Thêm tài khoản thành công", () => {
@@ -550,6 +545,10 @@ class UpdateAccountManager {
 
 class ImportExportManager {
   constructor() {
+    this.accountsPreviewModal = document.getElementById("accounts-preview-modal")
+
+    this.accountsImporting = []
+
     this.initListeners()
   }
 
@@ -561,6 +560,35 @@ class ImportExportManager {
     document.getElementById("import-accounts-from-excel-btn").addEventListener("click", (e) => {
       this.importAccountsFromExcel()
     })
+
+    this.accountsPreviewModal
+      .querySelector(".QUERY-accounts-preview-overlay")
+      .addEventListener("click", (e) => {
+        this.accountsImporting = []
+        this.hideAccountsPreviewModal()
+      })
+
+    document.getElementById("start-importing-accounts-btn").addEventListener("click", (e) => {
+      this.processImportAccounts()
+    })
+  }
+
+  showAccountsPreviewModal() {
+    this.accountsPreviewModal.hidden = false
+    const accountsPreviewTableBody = document.getElementById("accounts-preview-table-body")
+    accountsPreviewTableBody.innerHTML = ""
+
+    let order_number = 1
+    const accounts = this.accountsImporting
+    for (const account of accounts) {
+      const accountRow = LitHTMLHelper.getFragment(AccountPreviewRow, account, order_number)
+      accountsPreviewTableBody.appendChild(accountRow)
+      order_number++
+    }
+  }
+
+  hideAccountsPreviewModal() {
+    this.accountsPreviewModal.hidden = true
   }
 
   exportAccountsTableToExcel() {
@@ -648,7 +676,12 @@ class ImportExportManager {
               deviceType: row[7] || "",
             }))
             .filter(
-              (account) => account.accName && account.rank && account.gameCode && account.deviceType
+              (account) =>
+                account.accName &&
+                account.rank &&
+                account.gameCode &&
+                account.deviceType &&
+                account.status
             )
 
           if (accounts.length === 0) {
@@ -656,7 +689,8 @@ class ImportExportManager {
             return
           }
 
-          this.processImportAccounts(accounts)
+          this.accountsImporting = accounts
+          this.showAccountsPreviewModal()
         } catch (error) {
           Toaster.error("Lỗi", "Lỗi khi đọc file Excel")
         }
@@ -670,13 +704,13 @@ class ImportExportManager {
     document.body.removeChild(input)
   }
 
-  processImportAccounts(accounts) {
+  processImportAccounts() {
+    const accounts = this.accountsImporting
     AppLoadingHelper.show()
-
     GameAccountService.addNewAccounts(accounts)
       .then((data) => {
         if (data && data.success) {
-          Toaster.success("Thông báo", `Đã import thành công ${accounts.length} tài khoản`, () => {
+          Toaster.success("Thông báo", `Đã tải lên thành công ${accounts.length} tài khoản`, () => {
             NavigationHelper.reloadPage()
           })
         }
@@ -705,6 +739,7 @@ class FilterManager {
 
     this.fieldsRenderedCount = 2
     this.appliedFiltersCount = 0
+    this.urlForFilters = ""
 
     this.fetchRankTypes()
     this.fetchStatuses()
@@ -751,14 +786,18 @@ class FilterManager {
     document
       .getElementById("reset-all-filters-btn")
       .addEventListener("click", this.resetAllFilters.bind(this))
+
+    document
+      .getElementById("apply-filters-btn")
+      .addEventListener("click", this.applyFilters.bind(this))
   }
 
   initInputListeners() {
-    this.rankTypesSelect.addEventListener("change", this.applyFilters.bind(this))
-    this.statusesSelect.addEventListener("change", this.applyFilters.bind(this))
-    this.deviceTypeSelect.addEventListener("change", this.applyFilters.bind(this))
-    this.dateFromFilterField.addEventListener("change", this.applyFilters.bind(this))
-    this.dateToFilterField.addEventListener("change", this.applyFilters.bind(this))
+    this.rankTypesSelect.addEventListener("change", this.handleFilterChange.bind(this))
+    this.statusesSelect.addEventListener("change", this.handleFilterChange.bind(this))
+    this.deviceTypeSelect.addEventListener("change", this.handleFilterChange.bind(this))
+    this.dateFromFilterField.addEventListener("change", this.handleFilterChange.bind(this))
+    this.dateToFilterField.addEventListener("change", this.handleFilterChange.bind(this))
     this.searchBtn.addEventListener("click", this.searchAccounts.bind(this))
     this.searchInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
@@ -770,6 +809,11 @@ class FilterManager {
   adjustAppliedFiltersCount() {
     this.countAppliedFilters.hidden = this.appliedFiltersCount === 0
     this.countAppliedFilters.textContent = this.appliedFiltersCount
+    this.countAppliedFilters.dataset.countAppliedFilters = this.appliedFiltersCount
+    initUtils.linkTooltip(
+      this.countAppliedFilters,
+      `Bộ lọc đã áp dụng: ${this.appliedFiltersCount}`
+    )
   }
 
   hideFilters() {
@@ -850,43 +894,54 @@ class FilterManager {
     })
   }
 
-  applyFilters(e) {
+  saveQueryStringForFilters(keyValuePair = "rank=&status=&device_type=&date_from=&date_to=") {
+    const currentUrlForFilters = new URL(this.urlForFilters || window.location.href)
+    const params = new URLSearchParams(keyValuePair)
+    for (const [key, value] of params.entries()) {
+      if (value) {
+        currentUrlForFilters.searchParams.set(key, value)
+      } else {
+        currentUrlForFilters.searchParams.delete(key)
+      }
+    }
+    this.urlForFilters = currentUrlForFilters.toString()
+  }
+
+  handleFilterChange(e) {
     const formField = e.currentTarget
     const value = formField.value
     switch (formField.id) {
       case "date-from-filter-field":
-        this.filterAndNavigate("date_from=" + (value ? encodeURIComponent(value) : ""))
+        this.saveQueryStringForFilters("date_from=" + (value ? encodeURIComponent(value) : ""))
         break
       case "date-to-filter-field":
-        this.filterAndNavigate("date_to=" + (value ? encodeURIComponent(value) : ""))
+        this.saveQueryStringForFilters("date_to=" + (value ? encodeURIComponent(value) : ""))
         break
       case "rank-type-filter-field":
-        this.filterAndNavigate("rank=" + (value === "ALL" ? "" : encodeURIComponent(value)))
+        this.saveQueryStringForFilters(
+          "rank=" + (value && value !== "ALL" ? encodeURIComponent(value) : "")
+        )
         break
       case "status-filter-field":
-        this.filterAndNavigate("status=" + (value === "ALL" ? "" : encodeURIComponent(value)))
+        this.saveQueryStringForFilters(
+          "status=" + (value && value !== "ALL" ? encodeURIComponent(value) : "")
+        )
         break
       case "device-type-filter-field":
-        this.filterAndNavigate("device_type=" + (value === "ALL" ? "" : encodeURIComponent(value)))
+        this.saveQueryStringForFilters(
+          "device_type=" + (value && value !== "ALL" ? encodeURIComponent(value) : "")
+        )
         break
     }
   }
 
-  filterAndNavigate(keyValuePair = "rank=&status=&device_type=&date_from=&date_to=") {
-    const currentUrl = new URL(window.location.href)
-    const params = new URLSearchParams(keyValuePair)
-    for (const [key, value] of params.entries()) {
-      if (value) {
-        currentUrl.searchParams.set(key, value)
-      } else {
-        currentUrl.searchParams.delete(key)
-      }
-    }
-    NavigationHelper.pureNavigateTo(currentUrl.toString())
+  applyFilters() {
+    NavigationHelper.pureNavigateTo(this.urlForFilters)
   }
 
   resetAllFilters() {
-    this.filterAndNavigate()
+    this.saveQueryStringForFilters()
+    this.applyFilters()
   }
 
   updateActiveFiltersDisplay() {
@@ -959,16 +1014,17 @@ class FilterManager {
   searchAccounts() {
     const searchTerm = this.searchInput.value.trim()
     if (searchTerm) {
-      this.filterAndNavigate("search_term=" + encodeURIComponent(searchTerm))
+      this.saveQueryStringForFilters("search_term=" + encodeURIComponent(searchTerm))
     } else {
-      this.filterAndNavigate("search_term=")
+      this.saveQueryStringForFilters("search_term=")
     }
+    this.applyFilters()
   }
 }
 
-// new ImportExportManager()
+new ImportExportManager()
 new AddNewAccountManager()
 const updateAccountManager = new UpdateAccountManager()
 const deleteAccountManager = new DeleteAccountManager()
 new FilterManager()
-const manageGameAccountsPageManager = new ManageGameAccountsPageManager()
+new ManageGameAccountsPageManager()

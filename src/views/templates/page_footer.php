@@ -16,37 +16,37 @@
         <div class="space-y-6 min-[550px]:block flex flex-col items-center">
           <h4 class="text-xl font-bold text-black/80 min-[550px]:w-auto w-fit">Menu</h4>
           <div class="space-y-3 min-[550px]:block flex flex-col items-center">
-            <div class="CSS-list-hover">
-              <a href="/" class="CSS-list-item-link z-20 relative flex items-center gap-2 w-fit text-black/80 transition-colors duration-300">
+            <div class="CSS-shadow-hover-container">
+              <a href="/" class="CSS-shadow-hover-content z-20 relative flex items-center gap-2 w-fit text-black/80 transition-colors duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house">
                   <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
                   <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                 </svg>
                 Trang chủ
               </a>
-              <span class="CSS-list-item"></span>
+              <span class="CSS-shadow-hover-shadow"></span>
             </div>
-            <div class="CSS-list-hover">
-              <a href="/admin/manage-game-accounts" class="CSS-list-item-link z-20 relative flex items-center gap-2 w-fit text-black/80 transition-colors duration-300">
+            <div class="CSS-shadow-hover-container">
+              <a href="/admin/manage-game-accounts" class="CSS-shadow-hover-content z-20 relative flex items-center gap-2 w-fit text-black/80 transition-colors duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-icon lucide-users">
                   <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                   <path d="M16 3.128a4 4 0 0 1 0 7.744" />
                   <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
                   <circle cx="9" cy="7" r="4" />
                 </svg>
-                Trang quản lý tài khoản
+                Trang quản lý
               </a>
-              <span class="CSS-list-item"></span>
+              <span class="CSS-shadow-hover-shadow"></span>
             </div>
-            <div class="CSS-list-hover">
-              <a href="/intro" class="CSS-list-item-link z-20 relative flex items-center gap-2 w-fit text-black/80 transition-colors duration-300">
+            <div class="CSS-shadow-hover-container">
+              <a href="/intro" class="CSS-shadow-hover-content z-20 relative flex items-center gap-2 w-fit text-black/80 transition-colors duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-play-icon lucide-circle-play">
                   <circle cx="12" cy="12" r="10" />
                   <polygon points="10 8 16 12 10 16 10 8" />
                 </svg>
                 Trang giới thiệu
               </a>
-              <span class="CSS-list-item"></span>
+              <span class="CSS-shadow-hover-shadow"></span>
             </div>
           </div>
         </div>
@@ -63,9 +63,9 @@
                     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                   </svg>
                 </div>
-                <div class="CSS-list-hover">
-                  <span class="CSS-list-item-link relative z-20 text-black/80">Facebook</span>
-                  <span class="CSS-list-item"></span>
+                <div class="CSS-shadow-hover-container">
+                  <span class="CSS-shadow-hover-content relative z-20 text-black/80">Facebook</span>
+                  <span class="CSS-shadow-hover-shadow"></span>
                 </div>
               </a>
               <a href="<?= $admin['zalo_link'] ?>" target="_blank" class="flex items-center gap-3 w-fit text-black/80">
@@ -81,9 +81,9 @@
                     <path d="M29.4562 29.0944H30.5747V19.957H28.6221V28.2793C28.6221 28.7153 29.0012 29.0944 29.4562 29.0944Z" fill="#0068FF" />
                   </svg>
                 </div>
-                <div class="CSS-list-hover">
-                  <span class="CSS-list-item-link relative z-20 text-black/80">Zalo</span>
-                  <span class="CSS-list-item"></span>
+                <div class="CSS-shadow-hover-container">
+                  <span class="CSS-shadow-hover-content relative z-20 text-black/80">Zalo</span>
+                  <span class="CSS-shadow-hover-shadow"></span>
                 </div>
               </a>
               <a href="tel:<?= $admin['phone'] ?>" target="_blank" class="flex items-center gap-3 w-fit text-black/80">
@@ -92,9 +92,9 @@
                     <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
                   </svg>
                 </div>
-                <div class="CSS-list-hover">
-                  <span class="CSS-list-item-link relative z-20 text-black/80">Phone</span>
-                  <span class="CSS-list-item"></span>
+                <div class="CSS-shadow-hover-container">
+                  <span class="CSS-shadow-hover-content relative z-20 text-black/80">Phone</span>
+                  <span class="CSS-shadow-hover-shadow"></span>
                 </div>
               </a>
             </div>

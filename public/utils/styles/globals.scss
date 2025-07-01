@@ -181,15 +181,15 @@ button {
     1px -1px #000, -1px 1px #000;
 }
 
-.CSS-list-hover {
+.CSS-shadow-hover-container {
   position: relative;
   width: fit-content;
 
-  .CSS-list-item {
+  .CSS-shadow-hover-shadow {
     position: absolute;
-    bottom: -8px;
+    top: 50%;
     right: calc(50% - 12px);
-    transform: translateX(50%);
+    transform: translateX(50%) translateY(-50%);
     box-sizing: content-box;
     padding: 0 8px;
     opacity: 0;
@@ -197,19 +197,18 @@ button {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
     border-radius: 0.5rem;
-    transition: bottom 0.2s, right 0.2s, opacity 0.2s;
+    transition: right 0.2s, opacity 0.2s;
     cursor: pointer;
     z-index: 10;
   }
 
   &:hover {
-    .CSS-list-item {
-      bottom: 0;
+    .CSS-shadow-hover-shadow {
       right: 50%;
       opacity: 1;
     }
 
-    .CSS-list-item-link {
+    .CSS-shadow-hover-content {
       color: white;
     }
   }
