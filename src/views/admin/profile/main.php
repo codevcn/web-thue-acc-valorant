@@ -7,7 +7,7 @@
 
     <!-- Main Profile Card -->
     <div class="bg-white/10 backdrop-blur-lg rounded-3xl min-[550px]:px-8 py-8 px-2 shadow-2xl border border-white/20">
-      <div class="grid lg:grid-cols-3 gap-8">
+      <div class="grid lg:grid-cols-3 gap-1">
         <!-- Avatar Section -->
         <div class="lg:col-span-1 text-center">
           <div class="relative inline-block mb-6">

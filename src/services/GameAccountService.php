@@ -7,6 +7,7 @@ namespace Services;
 use PDO;
 use DateTime;
 use DateTimeZone;
+use Utils\DevLogger;
 
 class GameAccountService
 {
@@ -33,8 +34,10 @@ class GameAccountService
     ?string $device_type = null,
     ?string $search_term = null,
     ?string $date_from = null,
-    ?string $date_to = null
+    ?string $date_to = null,
+    ?string $order_type = null
   ): array {
+    DevLogger::log("run here 2.1");
     $sql = "SELECT * FROM game_accounts";
     $conditions = [];
     $params = [];
@@ -70,13 +73,20 @@ class GameAccountService
       $conditions[] = 'created_at <= :date_to';
       $params[':date_to'] = $this->convertDateFormat($date_to);
     }
-
+    
     if (!empty($conditions)) {
       $sql .= " WHERE " . implode(' AND ', $conditions);
     }
-
-    // Sắp xếp đúng thứ tự load more theo thời gian chỉnh sửa gần nhất
-    $sql .= " ORDER BY updated_at DESC, id DESC LIMIT " . self::LIMIT;
+    DevLogger::log("order_type: " . $order_type);
+    $order_condition = " ORDER BY created_at DESC, id DESC LIMIT " . self::LIMIT;
+    if ($order_type !== null) {
+      DevLogger::log("run here 3");
+      if ($order_type === 'updated_at') {
+        $order_condition = " ORDER BY updated_at DESC, id DESC LIMIT " . self::LIMIT;
+      }
+    }
+    $sql .= $order_condition;
+    DevLogger::log("sql: " . $sql);
 
     $stmt = $this->db->prepare($sql);
     foreach ($params as $key => $value) {

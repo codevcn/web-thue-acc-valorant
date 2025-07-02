@@ -104,7 +104,7 @@ class HomePageManager {
       .then((accounts) => {
         if (accounts && accounts.length > 0) {
           this.gameAccounts = [...this.gameAccounts, ...accounts]
-          this.renderAccounts(accounts)
+          this.renderNewAccounts(accounts)
           initUtils.initTooltip()
         } else {
           this.isMoreItems = false
@@ -121,7 +121,7 @@ class HomePageManager {
       })
   }
 
-  renderAccounts(accounts) {
+  renderNewAccounts(accounts) {
     for (const account of accounts) {
       const fragment = LitHTMLHelper.getFragment(AccountCard, account)
       this.accountsList.appendChild(fragment)

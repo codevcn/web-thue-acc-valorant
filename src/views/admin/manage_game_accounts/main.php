@@ -42,7 +42,7 @@
               </svg>
               Thêm tài khoản
             </button>
-            <div class="flex flex-col items-center gap-2 bg-transparent absolute right-0 mt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-[opacity,visibility] duration-200 z-10">
+            <div class="flex flex-col items-center gap-2 bg-transparent absolute left-0 mt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-[opacity,visibility] duration-200 z-10">
               <button id="import-accounts-from-excel-btn" class="flex items-center gap-2 outline outline-2 outline-white w-max text-left font-bold text-white px-4 py-2 bg-regular-blue-cl hover:scale-110 transition duration-200 rounded-md">
                 <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-sheet-icon lucide-sheet" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />

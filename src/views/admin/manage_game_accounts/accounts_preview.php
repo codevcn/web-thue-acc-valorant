@@ -1,4 +1,4 @@
-<div id="accounts-preview-modal" hidden class="fixed inset-0 z-[99] p-8">
+<div id="accounts-preview-modal" hidden class="fixed inset-0 z-[99] min-[550px]:px-8 py-8 px-2">
   <div class="QUERY-accounts-preview-overlay fixed inset-0 bg-black/50 z-10"></div>
 
   <div class="flex flex-col gap-4 relative z-20 h-full">

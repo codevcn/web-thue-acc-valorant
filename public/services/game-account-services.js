@@ -9,7 +9,8 @@ export class GameAccountService {
     device_type,
     search_term,
     date_from,
-    date_to
+    date_to,
+    order_type
   ) {
     const params = {}
     if (last_updated_at) params.last_updated_at = last_updated_at
@@ -20,6 +21,7 @@ export class GameAccountService {
     if (search_term) params.search_term = search_term
     if (date_from) params.date_from = date_from
     if (date_to) params.date_to = date_to
+    if (order_type) params.order_type = order_type
     const { data } = await axiosClient.get("/game-accounts/load-more", { params })
     return data.accounts
   }

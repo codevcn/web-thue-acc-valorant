@@ -21,6 +21,7 @@ class GameAccountApiController
 
   public function loadMoreAccounts(): array
   {
+    DevLogger::log("run here 1");
     $last_id = isset($_GET['last_id']) ? (int) $_GET['last_id'] : null;
     $last_updated_at = isset($_GET['last_updated_at']) ? trim($_GET['last_updated_at']) : null;
     $rank = isset($_GET['rank']) ? trim($_GET['rank']) : null;
@@ -29,7 +30,9 @@ class GameAccountApiController
     $search_term = isset($_GET['search_term']) ? trim($_GET['search_term']) : null;
     $date_from = isset($_GET['date_from']) ? trim($_GET['date_from']) : null;
     $date_to = isset($_GET['date_to']) ? trim($_GET['date_to']) : null;
+    $order_type = isset($_GET['order_type']) ? trim($_GET['order_type']) : null;
 
+    DevLogger::log("run here 2");
     $accounts = $this->gameAccountService->advancedFetchAccounts(
       $last_id,
       $last_updated_at,
@@ -38,7 +41,8 @@ class GameAccountApiController
       $device_type,
       $search_term,
       $date_from,
-      $date_to
+      $date_to,
+      $order_type
     );
 
     return [

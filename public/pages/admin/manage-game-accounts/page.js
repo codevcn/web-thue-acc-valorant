@@ -66,12 +66,14 @@ class ManageGameAccountsPageManager {
       device_type,
       search_term,
       date_from,
-      date_to
+      date_to,
+      "updated_at"
     )
       .then((accounts) => {
         if (accounts && accounts.length > 0) {
+          const startOrderNumber = sharedData.gameAccounts.length + 1
           sharedData.gameAccounts = [...sharedData.gameAccounts, ...accounts]
-          this.renderAccounts()
+          this.renderNewAccounts(accounts, startOrderNumber)
           this.initCatchDeleteAndUpdateAccountBtnClick()
           initUtils.initTooltip()
         } else {
@@ -117,12 +119,9 @@ class ManageGameAccountsPageManager {
     })
   }
 
-  renderAccounts() {
-    this.accountsTableBody.innerHTML = ""
-
-    const gameAccounts = sharedData.gameAccounts
-    let order_number = 1
-    for (const account of gameAccounts) {
+  renderNewAccounts(newAccounts, startOrderNumber) {
+    let order_number = startOrderNumber
+    for (const account of newAccounts) {
       const accountRow = LitHTMLHelper.getFragment(AccountRow, account, order_number)
       this.accountsTableBody.appendChild(accountRow)
       order_number++
@@ -292,7 +291,6 @@ class AddNewAccountManager {
     AppLoadingHelper.show()
     GameAccountService.addNewAccounts([data], this.avatarInput.files?.[0])
       .then((data) => {
-        console.log('>>> data:', data)
         if (data && data.success) {
           Toaster.success("Thông báo", "Thêm tài khoản thành công", () => {
             NavigationHelper.reloadPage()
