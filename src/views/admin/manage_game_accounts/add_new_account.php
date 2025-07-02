@@ -45,34 +45,34 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Tên tài khoản</label>
-          <input type="text" name="accName" value="CodeVCN#12345" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: PRO#1234">
+          <input type="text" name="accName" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: PRO#1234">
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Rank</label>
-          <input type="text" name="rank" value="gold 1" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: Mã 001">
+          <input type="text" name="rank" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: gold 1">
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Mã game</label>
-          <input type="text" name="gameCode" value="Mã 099" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: Mã 001">
+          <input type="text" name="gameCode" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: Mã 001">
         </div>
       </div>
 
       <div class="mt-4">
         <label class="block text-sm font-medium text-gray-700 mb-2">Mô tả</label>
-        <textarea name="description" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" rows="3" placeholder="Mô tả chi tiết về tài khoản...">OKE VCN</textarea>
+        <textarea name="description" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" rows="3" placeholder="Mô tả chi tiết về tài khoản..."></textarea>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Trạng thái</label>
-          <input type="text" name="status" value="active" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: Mã 001">
+          <input type="text" name="status" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="Rảnh, Bận">
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Loại máy</label>
-          <input type="text" name="deviceType" value="PC" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: Mã 001">
+          <input type="text" name="deviceType" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="Máy nhà, Máy net">
         </div>
       </div>
     </form>
