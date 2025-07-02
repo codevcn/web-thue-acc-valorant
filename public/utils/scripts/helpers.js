@@ -2,10 +2,9 @@ import { render } from "https://esm.run/lit-html@1"
 
 export class LitHTMLHelper {
   static getFragment(Render, ...data) {
-    const component = Render(...data)
-    const fragment = document.createDocumentFragment()
-    render(component, fragment)
-    return fragment
+    const container = document.createElement("div")
+    render(Render(...data), container)
+    return container.firstElementChild
   }
 }
 

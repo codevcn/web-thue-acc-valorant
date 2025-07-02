@@ -192,11 +192,26 @@ export const AccountRankType = ({ rank, isActive }) => {
   return html`
     <button
       data-rank="${rank}"
-      class="CSS-button-blue-decoration QUERY-filter-by-rank-item py-1.5 px-4 ${isActive
-        ? "CSS-is-active"
-        : ""}"
+      class="QUERY-filter-by-rank-type-item CSS-hover-flash-button text-base border border-white/80 border-solid py-[15px] px-6 bg-gray-600 flex items-center gap-2 ${isActive
+        ? "bg-regular-blue-cl text-black font-bold"
+        : "text-white"}"
     >
-      <span>${rank}</span>
+      <span class="CSS-hover-flash-button-content">${rank}</span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-check-check-icon lucide-check-check ${isActive ? "block" : "hidden"}"
+      >
+        <path d="M18 6 7 17l-5-5" />
+        <path d="m22 10-7.5 7.5L13 16" />
+      </svg>
     </button>
   `
 }
@@ -205,11 +220,26 @@ export const AccountStatus = ({ status, isActive }) => {
   return html`
     <button
       data-status="${status}"
-      class="CSS-button-blue-decoration QUERY-filter-by-status-item py-1.5 px-4 ${isActive
-        ? "CSS-is-active"
-        : ""}"
+      class="QUERY-filter-by-status-item CSS-hover-flash-button text-base border border-white/80 border-solid py-[15px] px-6 bg-gray-600 flex items-center gap-2 ${isActive
+        ? "bg-regular-blue-cl text-black font-bold"
+        : "text-white"}"
     >
-      <span>${status}</span>
+      <span class="CSS-hover-flash-button-content">${status}</span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-check-check-icon lucide-check-check ${isActive ? "block" : "hidden"}"
+      >
+        <path d="M18 6 7 17l-5-5" />
+        <path d="m22 10-7.5 7.5L13 16" />
+      </svg>
     </button>
   `
 }
@@ -218,11 +248,26 @@ export const AccountDeviceType = ({ device_type, isActive }) => {
   return html`
     <button
       data-device-type="${device_type}"
-      class="CSS-button-blue-decoration QUERY-filter-by-device-type-item py-1.5 px-4 ${isActive
-        ? "CSS-is-active"
-        : ""}"
+      class="QUERY-filter-by-device-type-item CSS-hover-flash-button text-base border border-white/80 border-solid py-[15px] px-6 bg-gray-600 flex items-center gap-2 ${isActive
+        ? "bg-regular-blue-cl text-black font-bold"
+        : "text-white"}"
     >
-      <span>${device_type}</span>
+      <span class="CSS-hover-flash-button-content">${device_type}</span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-check-check-icon lucide-check-check ${isActive ? "block" : "hidden"}"
+      >
+        <path d="M18 6 7 17l-5-5" />
+        <path d="m22 10-7.5 7.5L13 16" />
+      </svg>
     </button>
   `
 }
@@ -344,8 +389,7 @@ export const AccountRow = (account, order_number) => {
 }
 
 export const AccountPreviewRow = (account, order_number) => {
-  const { accName, rank, gameCode, status, description, created_at, deviceType, avatar } =
-    account
+  const { accName, rank, gameCode, status, description, created_at, deviceType, avatar } = account
   const created_date_formatted = dayjs(created_at).format("DD/MM/YYYY HH:mm")
   const lowerCasedStatus = status.toLowerCase()
   return html`

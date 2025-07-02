@@ -37,6 +37,7 @@ class HomePageManager {
     this.closeRentNowModalBtn = document.getElementById("close-rent-now-modal-btn")
     this.accNameRentNowModal = document.getElementById("acc-name--rent-now-modal")
     this.scrollToTopBtn = document.getElementById("scroll-to-top-btn")
+    this.accountAllAccountsBtn = document.getElementById("account-all-accounts-btn")
 
     this.isFetchingItems = false
     this.isMoreItems = true
@@ -44,6 +45,7 @@ class HomePageManager {
     this.selectedAccount = null
 
     this.initLoadMoreButtonListener()
+    this.initAccountAllAccountsListener()
     this.initAccountRankTypesListener()
     this.initAccountStatusListener()
     this.initAccountDeviceTypesListener()
@@ -67,13 +69,13 @@ class HomePageManager {
 
   initModalOverlayListeners() {
     this.accountRankTypesModalOverlay.addEventListener("click", () => {
-      this.hideShowAccountRankTypes(false)
+      this.hideShowAccountRankTypesModal(false)
     })
     this.accountStatusesModalOverlay.addEventListener("click", () => {
-      this.hideShowAccountStatus(false)
+      this.hideShowAccountStatusModal(false)
     })
     this.accountDeviceTypesModalOverlay.addEventListener("click", () => {
-      this.hideShowAccountDeviceTypes(false)
+      this.hideShowAccountDeviceTypesModal(false)
     })
     this.rentNowModalOverlay.addEventListener("click", () => {
       this.hideRentNowModal()
@@ -128,16 +130,40 @@ class HomePageManager {
     }
   }
 
+  moveItemsToTop(arr, conditionChecker) {
+    const result = []
+
+    for (const item of arr) {
+      if (conditionChecker(item)) {
+        result.unshift(item)
+      } else {
+        result.push(item)
+      }
+    }
+
+    return result
+  }
+
   fetchAccountRankTypes() {
     GameAccountService.fetchAccountRankTypes().then((rankTypes) => {
-      const rankParam = URLHelper.getUrlQueryParam("rank")
       if (rankTypes && rankTypes.length > 0) {
-        for (const rankType of rankTypes) {
+        const rankParam = URLHelper.getUrlQueryParam("rank")
+        const orderedRankTypes = this.moveItemsToTop(
+          rankTypes,
+          (rankType) => rankType.rank === rankParam
+        )
+        for (const rankType of orderedRankTypes) {
+          const isActive = rankParam === rankType.rank
           const fragment = LitHTMLHelper.getFragment(AccountRankType, {
             ...rankType,
-            isActive: rankParam === rankType.rank,
+            isActive,
           })
           this.accountRankTypes.appendChild(fragment)
+          if (isActive) {
+            document
+              .querySelector("#account-rank-types-btn .QUERY-active-icon")
+              .classList.remove("hidden")
+          }
         }
       }
     })
@@ -147,12 +173,23 @@ class HomePageManager {
     GameAccountService.fetchAccountStatuses().then((statuses) => {
       const statusParam = URLHelper.getUrlQueryParam("status")
       if (statuses && statuses.length > 0) {
-        for (const status of statuses) {
+        let isActive = false
+        const orderedStatuses = this.moveItemsToTop(
+          statuses,
+          (status) => status.status === statusParam
+        )
+        for (const status of orderedStatuses) {
+          isActive = statusParam === status.status
           const fragment = LitHTMLHelper.getFragment(AccountStatus, {
             ...status,
-            isActive: statusParam === status.status,
+            isActive,
           })
           this.accountStatuses.appendChild(fragment)
+          if (isActive) {
+            document
+              .querySelector("#account-status-btn .QUERY-active-icon")
+              .classList.remove("hidden")
+          }
         }
       }
     })
@@ -162,12 +199,23 @@ class HomePageManager {
     GameAccountService.fetchDeviceTypes().then((deviceTypes) => {
       const deviceTypeParam = URLHelper.getUrlQueryParam("device_type")
       if (deviceTypes && deviceTypes.length > 0) {
-        for (const deviceType of deviceTypes) {
+        let isActive = false
+        const orderedDeviceTypes = this.moveItemsToTop(
+          deviceTypes,
+          (deviceType) => deviceType.device_type === deviceTypeParam
+        )
+        for (const deviceType of orderedDeviceTypes) {
+          isActive = deviceTypeParam === deviceType.device_type
           const fragment = LitHTMLHelper.getFragment(AccountDeviceType, {
             ...deviceType,
-            isActive: deviceTypeParam === deviceType.device_type,
+            isActive,
           })
           this.accountDeviceTypes.appendChild(fragment)
+          if (isActive) {
+            document
+              .querySelector("#account-device-types-btn .QUERY-active-icon")
+              .classList.remove("hidden")
+          }
         }
       }
     })
@@ -179,7 +227,7 @@ class HomePageManager {
     })
   }
 
-  hideShowAccountRankTypes(isShow) {
+  hideShowAccountRankTypesModal(isShow) {
     if (isShow) {
       this.accountRankTypesModal.hidden = false
     } else {
@@ -187,7 +235,7 @@ class HomePageManager {
     }
   }
 
-  hideShowAccountStatus(isShow) {
+  hideShowAccountStatusModal(isShow) {
     if (isShow) {
       this.accountStatusesModal.hidden = false
     } else {
@@ -195,7 +243,7 @@ class HomePageManager {
     }
   }
 
-  hideShowAccountDeviceTypes(isShow) {
+  hideShowAccountDeviceTypesModal(isShow) {
     if (isShow) {
       this.accountDeviceTypesModal.hidden = false
     } else {
@@ -203,24 +251,30 @@ class HomePageManager {
     }
   }
 
+  initAccountAllAccountsListener() {
+    this.accountAllAccountsBtn.addEventListener("click", () => {
+      this.filterAndNavigate()
+    })
+  }
+
   initAccountRankTypesListener() {
     const accountRankTypesBtn = document.getElementById("account-rank-types-btn")
     accountRankTypesBtn.addEventListener("click", () => {
-      this.hideShowAccountRankTypes(true)
+      this.hideShowAccountRankTypesModal(true)
     })
   }
 
   initAccountStatusListener() {
     const accountStatusBtn = document.getElementById("account-status-btn")
     accountStatusBtn.addEventListener("click", () => {
-      this.hideShowAccountStatus(true)
+      this.hideShowAccountStatusModal(true)
     })
   }
 
   initAccountDeviceTypesListener() {
     const accountDeviceTypesBtn = document.getElementById("account-device-types-btn")
     accountDeviceTypesBtn.addEventListener("click", () => {
-      this.hideShowAccountDeviceTypes(true)
+      this.hideShowAccountDeviceTypesModal(true)
     })
   }
 
@@ -236,7 +290,7 @@ class HomePageManager {
   initFilterByRankListener() {
     this.accountRankTypesModal.addEventListener("click", (e) => {
       let target = e.target
-      while (target && !target.classList.contains("QUERY-filter-by-rank-item")) {
+      while (target && !target.classList.contains("QUERY-filter-by-rank-type-item")) {
         target = target.parentElement
         if (target.id === "account-rank-type-modal" || target.tagName === "BODY" || !target) {
           return
@@ -297,7 +351,7 @@ class HomePageManager {
     }
   }
 
-  filterAndNavigate(keyValuePair) {
+  filterAndNavigate(keyValuePair = "rank=&status=&device_type=") {
     const currentUrl = new URL(window.location.href)
     const params = new URLSearchParams(keyValuePair)
     for (const [key, value] of params.entries()) {

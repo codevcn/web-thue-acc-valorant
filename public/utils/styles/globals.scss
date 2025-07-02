@@ -255,3 +255,32 @@ button {
     transform: translateX(0);
   }
 }
+
+.CSS-hover-flash-button {
+  position: relative;
+  overflow: hidden;
+
+  .CSS-hover-flash-button-content {
+    z-index: 20;
+  }
+
+  &::after {
+    background-color: white;
+    content: "";
+    height: calc(100% + 50px);
+    left: -120%;
+    opacity: 0.2;
+    position: absolute;
+    top: 50%;
+    transform: rotate(20deg) translateY(-50%);
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    width: 50px;
+    z-index: 10;
+  }
+
+  &:hover {
+    &::after {
+      left: 120%;
+    }
+  }
+}

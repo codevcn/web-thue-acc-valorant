@@ -23,15 +23,35 @@
         </svg>
         <span>Lọc acc theo:</span>
       </div>
-      <div class="flex items-center flex-wrap gap-2">
-        <button id="account-status-btn" class="CSS-button-white-decoration py-1.5 px-4">
-          Trạng thái
+      <div class="flex items-center justify-center flex-wrap gap-2">
+        <button id="account-all-accounts-btn" class="CSS-button-white-decoration py-1.5 px-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-align-justify-icon lucide-align-justify">
+            <path d="M3 12h18" />
+            <path d="M3 18h18" />
+            <path d="M3 6h18" />
+          </svg>
+          <span>Tất cả các acc</span>
         </button>
-        <button id="account-rank-types-btn" class="CSS-button-white-decoration py-1.5 px-4">
-          Rank
+        <button id="account-status-btn" class="CSS-button-white-decoration py-1.5 px-4 flex items-center gap-2">
+          <span>Trạng thái</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="QUERY-active-icon hidden text-regular-blue-cl lucide lucide-check-check-icon lucide-check-check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 7 17l-5-5" />
+            <path d="m22 10-7.5 7.5L13 16" />
+          </svg>
         </button>
-        <button id="account-device-types-btn" class="CSS-button-white-decoration py-1.5 px-4">
-          Loại máy
+        <button id="account-rank-types-btn" class="CSS-button-white-decoration py-1.5 px-4 flex items-center gap-2">
+          <span>Rank</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="QUERY-active-icon hidden text-regular-blue-cl lucide lucide-check-check-icon lucide-check-check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 7 17l-5-5" />
+            <path d="m22 10-7.5 7.5L13 16" />
+          </svg>
+        </button>
+        <button id="account-device-types-btn" class="CSS-button-white-decoration py-1.5 px-4 flex items-center gap-2">
+          <span>Loại máy</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="QUERY-active-icon hidden text-regular-blue-cl lucide lucide-check-check-icon lucide-check-check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 7 17l-5-5" />
+            <path d="m22 10-7.5 7.5L13 16" />
+          </svg>
         </button>
       </div>
     </div>
