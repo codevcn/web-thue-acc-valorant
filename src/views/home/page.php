@@ -8,7 +8,7 @@
   <title>Thuê Acc Valorant - Dương Anh Tuấn</title>
 </head>
 
-<body>
+<body class="bg-gradient-to-br from-regular-from-blue-cl via-regular-via-blue-cl to-regular-to-blue-cl">
   <?php require_once __DIR__ . '/main.php'; ?>
   <?php require_once __DIR__ . '/../templates/page_footer.php'; ?>
   <?php require_once __DIR__ . '/../templates/bottom_scripts.php'; ?>

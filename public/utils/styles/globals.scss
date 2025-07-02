@@ -1,4 +1,5 @@
 @use "colors.scss";
+@use "animations.scss";
 
 [hidden] {
   display: none;
@@ -282,5 +283,18 @@ button {
     &::after {
       left: 120%;
     }
+  }
+}
+
+#app-loading {
+  .animation-loading-shapes {
+    width: 40px;
+    height: 40px;
+    color: var(--vcn-regular-blue-cl);
+    background: linear-gradient(currentColor 0 0), linear-gradient(currentColor 0 0),
+      linear-gradient(currentColor 0 0), linear-gradient(currentColor 0 0);
+    background-size: 21px 21px;
+    background-repeat: no-repeat;
+    animation: app-loading-shapes 1.5s infinite cubic-bezier(0.3, 1, 0, 1);
   }
 }

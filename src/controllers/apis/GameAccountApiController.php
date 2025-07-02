@@ -6,7 +6,6 @@ namespace Controllers\Apis;
 
 use Services\GameAccountService;
 use Services\FileService;
-use Utils\DevLogger;
 
 class GameAccountApiController
 {
@@ -21,7 +20,6 @@ class GameAccountApiController
 
   public function loadMoreAccounts(): array
   {
-    DevLogger::log("run here 1");
     $last_id = isset($_GET['last_id']) ? (int) $_GET['last_id'] : null;
     $last_updated_at = isset($_GET['last_updated_at']) ? trim($_GET['last_updated_at']) : null;
     $rank = isset($_GET['rank']) ? trim($_GET['rank']) : null;
@@ -32,7 +30,6 @@ class GameAccountApiController
     $date_to = isset($_GET['date_to']) ? trim($_GET['date_to']) : null;
     $order_type = isset($_GET['order_type']) ? trim($_GET['order_type']) : null;
 
-    DevLogger::log("run here 2");
     $accounts = $this->gameAccountService->advancedFetchAccounts(
       $last_id,
       $last_updated_at,
