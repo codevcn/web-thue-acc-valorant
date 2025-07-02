@@ -128,7 +128,8 @@
   </div>
 </main>
 
-<?php require_once __DIR__ . '/../../templates/btn_scroll_to.php'; ?>
+<?php require_once __DIR__ . '/../../templates/btn_scroll_to_top.php'; ?>
+<?php require_once __DIR__ . '/../../templates/btn_scroll_to_bottom.php'; ?>
 
 <?php require_once __DIR__ . '/add_new_account.php'; ?>
 <?php require_once __DIR__ . '/update_account.php'; ?>

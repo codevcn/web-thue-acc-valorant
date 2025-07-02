@@ -6,6 +6,7 @@ namespace Controllers\Apis;
 
 use Services\GameAccountService;
 use Services\FileService;
+use Utils\DevLogger;
 
 class GameAccountApiController
 {
@@ -97,6 +98,15 @@ class GameAccountApiController
     try {
       $this->gameAccountService->addNewAccounts($accounts);
     } catch (\Throwable $th) {
+      // Bắt lỗi vi phạm UNIQUE
+      if ($th->getCode() === '23000' && str_contains($th->getMessage(), 'game_code')) {
+        http_response_code(400);
+        return [
+          'success' => false,
+          'message' => "Mã game đã tồn tại."
+        ];
+      }
+
       if ($th instanceof \InvalidArgumentException) {
         http_response_code(400);
         return [

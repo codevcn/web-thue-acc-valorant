@@ -6,6 +6,10 @@ $dbPath = __DIR__ . '/database/app.sqlite';
 $db = new PDO('sqlite:' . $dbPath);
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+$db->exec("
+CREATE UNIQUE INDEX index_game_code ON game_accounts(game_code);
+");
+
 // // Tạo bảng users như cũ
 // $db->exec("CREATE TABLE IF NOT EXISTS users (
 //   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -77,8 +81,8 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 //   $stmt->execute($acc);
 // }
 
-$password = password_hash('123456', PASSWORD_DEFAULT);
-$stmt = $db->prepare("UPDATE users SET [password] = ? WHERE username = ?");
-$stmt->execute([$password, 'admin']);
+// $password = password_hash('123456', PASSWORD_DEFAULT);
+// $stmt = $db->prepare("UPDATE users SET [password] = ? WHERE username = ?");
+// $stmt->execute([$password, 'admin']);
 
-echo ">>> Database migrated and updated.";
+echo ">>> Database updated.";

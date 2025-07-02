@@ -20,6 +20,7 @@ class ManageGameAccountsPageManager {
     this.accountsTableBody = document.getElementById("accounts-table-body")
     this.loadMoreContainer = document.getElementById("load-more-container")
     this.scrollToTopBtn = document.getElementById("scroll-to-top-btn")
+    this.scrollToBottomBtn = document.getElementById("scroll-to-bottom-btn")
 
     this.isFetchingItems = false
     this.isMoreItems = true
@@ -139,6 +140,18 @@ class ManageGameAccountsPageManager {
     })
   }
 
+  scrollToBottom() {
+    const pageScrollHeight = document.body.scrollHeight
+    window.scrollTo({
+      top: pageScrollHeight - document.documentElement.clientHeight - 100,
+      behavior: "instant",
+    })
+    window.scrollTo({
+      top: pageScrollHeight,
+      behavior: "smooth",
+    })
+  }
+
   watchScrolling() {
     window.addEventListener("scroll", (e) => {
       const THRESHOLD = 300
@@ -149,6 +162,13 @@ class ManageGameAccountsPageManager {
         this.scrollToTopBtn.classList.remove("bottom-6")
         this.scrollToTopBtn.classList.add("bottom-[-60px]")
       }
+      if (window.scrollY < document.body.scrollHeight - window.innerHeight - THRESHOLD) {
+        this.scrollToBottomBtn.classList.remove("bottom-[-60px]")
+        this.scrollToBottomBtn.classList.add("bottom-[100px]")
+      } else {
+        this.scrollToBottomBtn.classList.remove("bottom-[100px]")
+        this.scrollToBottomBtn.classList.add("bottom-[-60px]")
+      }
     })
   }
 
@@ -158,6 +178,7 @@ class ManageGameAccountsPageManager {
     })
 
     this.scrollToTopBtn.addEventListener("click", this.scrollToTop.bind(this))
+    this.scrollToBottomBtn.addEventListener("click", this.scrollToBottom.bind(this))
   }
 }
 
@@ -271,6 +292,7 @@ class AddNewAccountManager {
     AppLoadingHelper.show()
     GameAccountService.addNewAccounts([data], this.avatarInput.files?.[0])
       .then((data) => {
+        console.log('>>> data:', data)
         if (data && data.success) {
           Toaster.success("Thông báo", "Thêm tài khoản thành công", () => {
             NavigationHelper.reloadPage()
@@ -571,6 +593,11 @@ class ImportExportManager {
     document.getElementById("start-importing-accounts-btn").addEventListener("click", (e) => {
       this.processImportAccounts()
     })
+
+    document.getElementById("cancel-importing-accounts-btn").addEventListener("click", (e) => {
+      this.accountsImporting = []
+      this.hideAccountsPreviewModal()
+    })
   }
 
   showAccountsPreviewModal() {
@@ -585,6 +612,8 @@ class ImportExportManager {
       accountsPreviewTableBody.appendChild(accountRow)
       order_number++
     }
+
+    initUtils.initTooltip()
   }
 
   hideAccountsPreviewModal() {

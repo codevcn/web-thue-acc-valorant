@@ -142,45 +142,52 @@ class GameAccountService
   {
     $sql = "INSERT INTO game_accounts (acc_name, rank, game_code, `status`, `description`, device_type, created_at, updated_at)
             VALUES (:acc_name, :rank, :game_code, :status, :description, :device_type, :created_at, :updated_at)";
+    try {
 
-    $this->db->beginTransaction();
-    $stmt = $this->db->prepare($sql);
+      $this->db->beginTransaction();
+      $stmt = $this->db->prepare($sql);
 
-    $now = $this->getNow();
-    $insertedAccountId = null;
+      $now = $this->getNow();
+      $insertedAccountId = null;
 
-    foreach ($data as $row) {
-      $accName     = $row['accName'] ?? null;
-      $rank        = $row['rank'] ?? null;
-      $gameCode    = $row['gameCode'] ?? null;
-      $status      = $row['status'] ?? null;
-      $description = $row['description'] ?? '';
-      $deviceType  = $row['deviceType'] ?? null;
+      foreach ($data as $row) {
+        $accName     = $row['accName'] ?? null;
+        $rank        = $row['rank'] ?? null;
+        $gameCode    = $row['gameCode'] ?? null;
+        $status      = $row['status'] ?? null;
+        $description = $row['description'] ?? '';
+        $deviceType  = $row['deviceType'] ?? null;
 
-      if (!$accName || !$rank || !$gameCode || !$deviceType || !$status) {
-        throw new \InvalidArgumentException("Thiếu trường bắt buộc khi thêm account.");
+        if (!$accName || !$rank || !$gameCode || !$deviceType || !$status) {
+          throw new \InvalidArgumentException("Thiếu trường bắt buộc khi thêm account.");
+        }
+
+        $stmt->bindValue(':acc_name', $accName);
+        $stmt->bindValue(':rank', $rank);
+        $stmt->bindValue(':game_code', $gameCode);
+        $stmt->bindValue(':status', $status);
+        $stmt->bindValue(':description', $description);
+        $stmt->bindValue(':device_type', $deviceType);
+        $stmt->bindValue(':created_at', $now);
+        $stmt->bindValue(':updated_at', $now);
+
+        $stmt->execute();
+
+        // Lấy ID của account vừa insert (SQLite)
+        if ($insertedAccountId === null) {
+          $insertedAccountId = $this->db->lastInsertId();
+        }
       }
 
-      $stmt->bindValue(':acc_name', $accName);
-      $stmt->bindValue(':rank', $rank);
-      $stmt->bindValue(':game_code', $gameCode);
-      $stmt->bindValue(':status', $status);
-      $stmt->bindValue(':description', $description);
-      $stmt->bindValue(':device_type', $deviceType);
-      $stmt->bindValue(':created_at', $now);
-      $stmt->bindValue(':updated_at', $now);
+      $this->db->commit();
 
-      $stmt->execute();
+      return (int) $insertedAccountId;
+    } catch (\PDOException $e) {
+      $this->db->rollBack();
 
-      // Lấy ID của account vừa insert (SQLite)
-      if ($insertedAccountId === null) {
-        $insertedAccountId = $this->db->lastInsertId();
-      }
+      // Các lỗi khác
+      throw $e;
     }
-
-    $this->db->commit();
-
-    return (int) $insertedAccountId;
   }
 
   public function updateAccount(int $accountId, array $data): void
@@ -272,6 +279,14 @@ class GameAccountService
   {
     $stmt = $this->db->prepare("SELECT * FROM game_accounts WHERE id = :id");
     $stmt->bindValue(':id', $accountId);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+  }
+
+  public function findAccountByGameCode(string $gameCode): ?array
+  {
+    $stmt = $this->db->prepare("SELECT * FROM game_accounts WHERE game_code = :game_code");
+    $stmt->bindValue(':game_code', $gameCode);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
   }

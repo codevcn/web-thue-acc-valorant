@@ -152,7 +152,7 @@ Tree view of: D:\Programs-v-Later\laragon\www\web-thue-acc-valorant
 │           │   └── header.php
 │           ├── app_loading.php
 │           ├── bottom_scripts.php
-│           ├── btn_scroll_to.php
+│           ├── btn_scroll_to_top.php
 │           ├── head.php
 │           ├── page_footer.php
 │           └── tooltip.php

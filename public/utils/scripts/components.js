@@ -386,7 +386,7 @@ export const AccountPreviewRow = (account, order_number) => {
         </div>
       </td>
       <td class="px-3 py-3">
-        <div class="text-sm text-gray-900 max-w-[100px] truncate">
+        <div class="text-sm text-gray-900 max-w-[150px] truncate">
           ${description
             ? html`<span class="QUERY-tooltip-trigger" data-vcn-tooltip-content="${description}"
                 >${description}</span
