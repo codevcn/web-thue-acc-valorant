@@ -1,12 +1,12 @@
 <footer class="bg-gradient-to-l from-regular-from-blue-cl to-regular-to-blue-cl text-black/80">
   <div class="mx-auto px-10 pt-8 pb-4">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-8">
-      <div href="/" class="space-y-6 min-[600px]:block flex flex-col items-center">
-        <a href="/" class="block h-[110px] w-[150px] overflow-hidden relative">
+      <div href="/" class="pt-4 min-[600px]:block flex flex-col items-center">
+        <a href="/" class="block h-[110px] w-[150px] overflow-hidden relative animate-bounce">
           <img src="/images/UI/ghost.webp" alt="Logo" class="absolute top-[-22px] left-0 h-[150px] min-w-[150px]">
         </a>
-        <h3 class="CSS-small-text-stroke text-2xl font-bold text-white mb-4 w-fit">thueaccvaloranttime.com</h3>
-        <p class="text-black/80 leading-relaxed w-fit min-[600px]:text-left text-center">
+        <h3 class="CSS-small-text-stroke text-2xl font-bold text-white w-fit mt-4">thueaccvaloranttime.com</h3>
+        <p class="text-black/80 leading-relaxed w-fit min-[600px]:text-left text-center mt-4">
           Chuyên cung cấp dịch vụ cho thuê tài khoản Valorant chất lượng cao với giá cả hợp lý.
           Đảm bảo tài khoản an toàn, không bị ban, không bị hack.
         </p>

@@ -1,8 +1,6 @@
 <div class="relative min-h-screen overflow-hidden z-80">
   <div class="absolute inset-0 z-0">
-    <video autoplay muted loop playsinline class="w-full h-full object-cover">
-      <source src="/videos/UI/hero-section-video.mp4" type="video/mp4" />
-    </video>
+    <img src="/images/UI/hero-section-bg.png" alt="Hero Section Background" class="w-full h-full object-cover">
     <div class="absolute inset-0 bg-black/40"></div>
   </div>
 
@@ -40,7 +38,7 @@
                   <div class="flex items-center gap-3">
                     <div class="w-3 h-3 bg-cyan-400 rounded-full"></div>
                     <span class="text-white font-bold text-lg">30K - 3 GIỜ</span>
-                    <span class="text-red-400 font-bold">+ 1 GIỜ</span>
+                    <span class="text-yellow-400 font-bold">+ 1 GIỜ</span>
                   </div>
                   <div class="text-cyan-300 font-bold">Phổ biến</div>
                 </div>
@@ -48,7 +46,7 @@
                   <div class="flex items-center gap-3">
                     <div class="w-3 h-3 bg-blue-400 rounded-full"></div>
                     <span class="text-white font-bold text-lg">40K - 4 GIỜ</span>
-                    <span class="text-red-400 font-bold">+ 2 GIỜ</span>
+                    <span class="text-yellow-400 font-bold">+ 2 GIỜ</span>
                   </div>
                   <div class="text-blue-300 font-bold">Tốt nhất</div>
                 </div>

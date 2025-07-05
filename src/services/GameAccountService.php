@@ -48,8 +48,8 @@ class GameAccountService
     }
 
     if ($rank !== null) {
-      $conditions[] = 'rank = :rank';
-      $params[':rank'] = $rank;
+      $conditions[] = 'rank LIKE :rank';
+      $params[':rank'] = $rank . '%';
     }
     if ($status !== null) {
       $conditions[] = 'status = :status';
@@ -71,7 +71,7 @@ class GameAccountService
       $conditions[] = 'created_at <= :date_to';
       $params[':date_to'] = $this->convertDateFormat($date_to);
     }
-    
+
     if (!empty($conditions)) {
       $sql .= " WHERE " . implode(' AND ', $conditions);
     }
@@ -119,7 +119,7 @@ class GameAccountService
 
   public function fetchAccountRankTypes(): array
   {
-    $stmt = $this->db->prepare("SELECT DISTINCT `rank` FROM game_accounts");
+    $stmt = $this->db->prepare("SELECT * FROM `ranks`");
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }

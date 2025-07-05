@@ -12,6 +12,7 @@ export default {
         "regular-blue-2": "var(--vcn-regular-blue-2)",
         "regular-blue-3": "var(--vcn-regular-blue-3)",
         "regular-blue-4": "var(--vcn-regular-blue-4)",
+        "regular-blue-5": "var(--vcn-regular-blue-5)",
         "regular-blue-cl": "var(--vcn-regular-blue-cl)",
         "regular-blue-hover-cl": "var(--vcn-regular-blue-hover-cl)",
         "scrollbar-track-bgcl": "var(--vcn-scrollbar-track-bgcl)",

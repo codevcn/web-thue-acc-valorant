@@ -45,10 +45,10 @@ class HomePageManager {
     this.selectedAccount = null
 
     this.initLoadMoreButtonListener()
-    this.initAccountAllAccountsListener()
-    this.initAccountRankTypesListener()
-    this.initAccountStatusListener()
-    this.initAccountDeviceTypesListener()
+    // this.initAccountAllAccountsListener()
+    // this.initAccountRankTypesListener()
+    // this.initAccountStatusListener()
+    // this.initAccountDeviceTypesListener()
     this.initCloseModalListener()
     this.initFilterByRankListener()
     this.initFilterByStatusListener()
@@ -65,6 +65,8 @@ class HomePageManager {
     this.fetchAccountRankTypes()
     this.fetchAccountStatuses()
     this.fetchAccountDeviceTypes()
+
+    window.scrollTo({ top: 800, behavior: "instant" })
   }
 
   initModalOverlayListeners() {
@@ -130,7 +132,7 @@ class HomePageManager {
     }
   }
 
-  moveItemsToTop(arr, conditionChecker) {
+  moveActiveItemsToTop(arr, conditionChecker) {
     const result = []
 
     for (const item of arr) {
@@ -146,14 +148,16 @@ class HomePageManager {
 
   fetchAccountRankTypes() {
     GameAccountService.fetchAccountRankTypes().then((rankTypes) => {
+      console.log(">>> rankTypes:", rankTypes)
       if (rankTypes && rankTypes.length > 0) {
         const rankParam = URLHelper.getUrlQueryParam("rank")
-        const orderedRankTypes = this.moveItemsToTop(
+        const orderedRankTypes = this.moveActiveItemsToTop(
           rankTypes,
-          (rankType) => rankType.rank === rankParam
+          (rankType) => rankType.type === rankParam
         )
+        console.log(">>> orderedRankTypes:", orderedRankTypes)
         for (const rankType of orderedRankTypes) {
-          const isActive = rankParam === rankType.rank
+          const isActive = rankParam === rankType.type
           const fragment = LitHTMLHelper.getFragment(AccountRankType, {
             ...rankType,
             isActive,
@@ -161,7 +165,7 @@ class HomePageManager {
           this.accountRankTypes.appendChild(fragment)
           if (isActive) {
             document
-              .querySelector("#account-rank-types-btn .QUERY-active-icon")
+              .querySelector("#account-rank-types-container .QUERY-active-icon")
               .classList.remove("hidden")
           }
         }
@@ -174,7 +178,7 @@ class HomePageManager {
       const statusParam = URLHelper.getUrlQueryParam("status")
       if (statuses && statuses.length > 0) {
         let isActive = false
-        const orderedStatuses = this.moveItemsToTop(
+        const orderedStatuses = this.moveActiveItemsToTop(
           statuses,
           (status) => status.status === statusParam
         )
@@ -187,7 +191,7 @@ class HomePageManager {
           this.accountStatuses.appendChild(fragment)
           if (isActive) {
             document
-              .querySelector("#account-status-btn .QUERY-active-icon")
+              .querySelector("#account-statuses-container .QUERY-active-icon")
               .classList.remove("hidden")
           }
         }
@@ -200,7 +204,7 @@ class HomePageManager {
       const deviceTypeParam = URLHelper.getUrlQueryParam("device_type")
       if (deviceTypes && deviceTypes.length > 0) {
         let isActive = false
-        const orderedDeviceTypes = this.moveItemsToTop(
+        const orderedDeviceTypes = this.moveActiveItemsToTop(
           deviceTypes,
           (deviceType) => deviceType.device_type === deviceTypeParam
         )
@@ -213,7 +217,7 @@ class HomePageManager {
           this.accountDeviceTypes.appendChild(fragment)
           if (isActive) {
             document
-              .querySelector("#account-device-types-btn .QUERY-active-icon")
+              .querySelector("#account-device-types-container .QUERY-active-icon")
               .classList.remove("hidden")
           }
         }

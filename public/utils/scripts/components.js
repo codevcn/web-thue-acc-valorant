@@ -188,19 +188,19 @@ export const AccountCard = (account) => {
   `
 }
 
-export const AccountRankType = ({ rank, isActive }) => {
+export const AccountRankType = ({ type, isActive }) => {
   return html`
     <button
-      data-rank="${rank}"
-      class="QUERY-filter-by-rank-type-item CSS-hover-flash-button text-base border border-white/80 border-solid py-[15px] px-6 bg-gray-600 flex items-center gap-2 ${isActive
-        ? "bg-regular-blue-cl text-black font-bold"
+      data-rank="${type}"
+      class="QUERY-filter-by-rank-type-item CSS-hover-flash-button flex items-center gap-2 bg-[#3674B5] rounded-lg px-4 py-1.5 text-base focus:outline-none ${isActive
+        ? "bg-[#f8e65e] text-black font-bold"
         : "text-white"}"
     >
-      <span class="CSS-hover-flash-button-content">${rank}</span>
+      <span class="CSS-hover-flash-button-content">${type}</span>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
+        width="20"
+        height="20"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -219,16 +219,16 @@ export const AccountRankType = ({ rank, isActive }) => {
 export const AccountStatus = ({ status, isActive }) => {
   return html`
     <button
-      data-status="${status}"
-      class="QUERY-filter-by-status-item CSS-hover-flash-button text-base border border-white/80 border-solid py-[15px] px-6 bg-gray-600 flex items-center gap-2 ${isActive
-        ? "bg-regular-blue-cl text-black font-bold"
+      data-rank="${status}"
+      class="QUERY-filter-by-rank-type-item CSS-hover-flash-button flex items-center gap-2 bg-[#3674B5] rounded-lg px-4 py-1.5 text-base focus:outline-none ${isActive
+        ? "bg-[#f8e65e] text-black font-bold"
         : "text-white"}"
     >
       <span class="CSS-hover-flash-button-content">${status}</span>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
+        width="20"
+        height="20"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -247,16 +247,16 @@ export const AccountStatus = ({ status, isActive }) => {
 export const AccountDeviceType = ({ device_type, isActive }) => {
   return html`
     <button
-      data-device-type="${device_type}"
-      class="QUERY-filter-by-device-type-item CSS-hover-flash-button text-base border border-white/80 border-solid py-[15px] px-6 bg-gray-600 flex items-center gap-2 ${isActive
-        ? "bg-regular-blue-cl text-black font-bold"
+      data-rank="${device_type}"
+      class="QUERY-filter-by-rank-type-item CSS-hover-flash-button flex items-center gap-2 bg-[#3674B5] rounded-lg px-4 py-1.5 text-base focus:outline-none ${isActive
+        ? "bg-[#f8e65e] text-black font-bold"
         : "text-white"}"
     >
       <span class="CSS-hover-flash-button-content">${device_type}</span>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
+        width="20"
+        height="20"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
