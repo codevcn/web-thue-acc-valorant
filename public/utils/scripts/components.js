@@ -3,24 +3,24 @@ import { html } from "https://esm.run/lit-html@1"
 export const AccountCard = (account) => {
   const { status, rank, avatar, game_code, device_type, description, acc_name, id } = account
   return html`
-    <div class="bg-white rounded-lg shadow-2xl overflow-hidden w-full">
+    <div class="rounded-lg overflow-hidden w-full">
       <div
-        class="CSS-styled-vt-scrollbar min-[1242px]:flex w-full min-[1242px]:aspect-[1825/612] overflow-y-auto relative aspect-auto block"
+        class="CSS-styled-vt-scrollbar flex min-[1242px]:flex-row flex-col gap-4 w-full min-[1242px]:aspect-[1825/612] overflow-y-auto relative aspect-auto"
       >
         <div
-          class="min-[1242px]:w-3/5 w-full h-fit min-[1242px]:h-auto bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl relative flex flex-col items-center justify-center"
+          class="min-[1242px]:w-3/5 w-full rounded-lg overflow-hidden h-fit min-[1242px]:h-auto bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl relative flex flex-col items-center justify-center"
         >
           <img
             src="/images/account/${avatar ?? "default-game-account-avatar.png"}"
             alt="Account Avatar"
-            class="aspect-[365/204] ${avatar
+            class="aspect-[16/9] ${avatar
               ? "object-cover"
               : "object-contain py-6 min-[1242px]:py-0"}"
           />
         </div>
 
-        <div class="min-[1242px]:w-2/5 w-full bg-white p-6 flex flex-col justify-between">
-          <div class="flex items-center gap-2 mb-6">
+        <div class="min-[1242px]:w-2/5 w-full bg-white p-6 flex flex-col justify-between rounded-lg">
+          <div class="flex items-center gap-2 mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -40,7 +40,7 @@ export const AccountCard = (account) => {
             <h2 class="text-xl font-bold text-gray-800">THÔNG TIN TÀI KHOẢN</h2>
           </div>
 
-          <div class="space-y-4 flex-1">
+          <div class="space-y-3 flex-1">
             <div class="flex justify-between items-center gap-6">
               <span class="text-gray-600 font-medium flex items-center gap-2">
                 <svg
