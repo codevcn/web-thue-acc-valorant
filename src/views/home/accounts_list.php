@@ -30,7 +30,4 @@
   </div>
 </div>
 
-<?php require_once __DIR__ . '/account_rank_type_modal.php'; ?>
-<?php require_once __DIR__ . '/account_status_modal.php'; ?>
-<?php require_once __DIR__ . '/account_device_type_modal.php'; ?>
 <?php require_once __DIR__ . '/rent_now_modal.php'; ?>

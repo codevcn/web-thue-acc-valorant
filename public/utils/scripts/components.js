@@ -191,7 +191,7 @@ export const AccountCard = (account) => {
 export const AccountRankType = ({ type, isActive }) => {
   return html`
     <button
-      data-rank="${type}"
+      data-rank-type="${type}"
       class="QUERY-filter-by-rank-type-item CSS-hover-flash-button flex items-center gap-2 bg-[#3674B5] rounded-lg px-4 py-1.5 text-base focus:outline-none ${isActive
         ? "bg-[#f8e65e] text-black font-bold"
         : "text-white"}"
@@ -219,8 +219,8 @@ export const AccountRankType = ({ type, isActive }) => {
 export const AccountStatus = ({ status, isActive }) => {
   return html`
     <button
-      data-rank="${status}"
-      class="QUERY-filter-by-rank-type-item CSS-hover-flash-button flex items-center gap-2 bg-[#3674B5] rounded-lg px-4 py-1.5 text-base focus:outline-none ${isActive
+      data-status="${status}"
+      class="QUERY-filter-by-status-item CSS-hover-flash-button flex items-center gap-2 bg-[#3674B5] rounded-lg px-4 py-1.5 text-base focus:outline-none ${isActive
         ? "bg-[#f8e65e] text-black font-bold"
         : "text-white"}"
     >
@@ -247,8 +247,8 @@ export const AccountStatus = ({ status, isActive }) => {
 export const AccountDeviceType = ({ device_type, isActive }) => {
   return html`
     <button
-      data-rank="${device_type}"
-      class="QUERY-filter-by-rank-type-item CSS-hover-flash-button flex items-center gap-2 bg-[#3674B5] rounded-lg px-4 py-1.5 text-base focus:outline-none ${isActive
+      data-device-type="${device_type}"
+      class="QUERY-filter-by-device-type-item CSS-hover-flash-button flex items-center gap-2 bg-[#3674B5] rounded-lg px-4 py-1.5 text-base focus:outline-none ${isActive
         ? "bg-[#f8e65e] text-black font-bold"
         : "text-white"}"
     >

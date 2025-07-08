@@ -1,6 +1,5 @@
 <!-- Rent Now Modal -->
-<div id="rent-now-modal" tabindex="-1" hidden
-  class="flex justify-center p-6 items-center overflow-y-auto overflow-x-hidden fixed inset-0 z-[990]">
+<div id="rent-now-modal" hidden class="flex justify-center p-6 items-center overflow-y-auto overflow-x-hidden fixed inset-0 z-[990]">
   <div class="QUERY-modal-overlay absolute z-10 inset-0 bg-black/80"></div>
 
   <div

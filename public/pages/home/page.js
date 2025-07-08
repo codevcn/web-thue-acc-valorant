@@ -20,24 +20,15 @@ class HomePageManager {
     this.loadMoreBtn = document.getElementById("load-more-btn")
     this.loadMoreContainer = document.getElementById("load-more-container")
     this.accountsList = document.getElementById("accounts-list")
-    this.accountRankTypesModal = document.getElementById("account-rank-type-modal")
     this.accountRankTypes = document.getElementById("account-rank-types")
-    this.accountStatusesModal = document.getElementById("account-status-modal")
     this.accountStatuses = document.getElementById("account-statuses")
     this.accountDeviceTypes = document.getElementById("account-device-types")
-    this.accountRankTypesModalOverlay =
-      this.accountRankTypesModal.querySelector(".QUERY-modal-overlay")
-    this.accountStatusesModalOverlay =
-      this.accountStatusesModal.querySelector(".QUERY-modal-overlay")
-    this.accountDeviceTypesModal = document.getElementById("account-device-type-modal")
-    this.accountDeviceTypesModalOverlay =
-      this.accountDeviceTypesModal.querySelector(".QUERY-modal-overlay")
     this.rentNowModal = document.getElementById("rent-now-modal")
     this.rentNowModalOverlay = this.rentNowModal.querySelector(".QUERY-modal-overlay")
     this.closeRentNowModalBtn = document.getElementById("close-rent-now-modal-btn")
     this.accNameRentNowModal = document.getElementById("acc-name--rent-now-modal")
     this.scrollToTopBtn = document.getElementById("scroll-to-top-btn")
-    this.accountAllAccountsBtn = document.getElementById("account-all-accounts-btn")
+    this.cancelAllFiltersBtn = document.getElementById("cancel-all-filters-btn")
 
     this.isFetchingItems = false
     this.isMoreItems = true
@@ -45,19 +36,16 @@ class HomePageManager {
     this.selectedAccount = null
 
     this.initLoadMoreButtonListener()
-    // this.initAccountAllAccountsListener()
-    // this.initAccountRankTypesListener()
-    // this.initAccountStatusListener()
-    // this.initAccountDeviceTypesListener()
     this.initCloseModalListener()
     this.initFilterByRankListener()
     this.initFilterByStatusListener()
     this.initFilterByDeviceTypeListener()
-    this.initModalOverlayListeners()
-    this.initCancelFilterListener()
+    this.initCancelFilterListeners()
     this.initAccountsListListener()
     this.initCloseRentNowModalListener()
     this.initScrollToTopBtnListener()
+    this.initCancelAllFiltersListener()
+    this.initModalOverlayListener()
 
     this.watchScrolling()
 
@@ -67,21 +55,6 @@ class HomePageManager {
     this.fetchAccountDeviceTypes()
 
     window.scrollTo({ top: 800, behavior: "instant" })
-  }
-
-  initModalOverlayListeners() {
-    this.accountRankTypesModalOverlay.addEventListener("click", () => {
-      this.hideShowAccountRankTypesModal(false)
-    })
-    this.accountStatusesModalOverlay.addEventListener("click", () => {
-      this.hideShowAccountStatusModal(false)
-    })
-    this.accountDeviceTypesModalOverlay.addEventListener("click", () => {
-      this.hideShowAccountDeviceTypesModal(false)
-    })
-    this.rentNowModalOverlay.addEventListener("click", () => {
-      this.hideRentNowModal()
-    })
   }
 
   getLastAccount() {
@@ -231,55 +204,15 @@ class HomePageManager {
     })
   }
 
-  hideShowAccountRankTypesModal(isShow) {
-    if (isShow) {
-      this.accountRankTypesModal.hidden = false
-    } else {
-      this.accountRankTypesModal.hidden = true
-    }
-  }
-
-  hideShowAccountStatusModal(isShow) {
-    if (isShow) {
-      this.accountStatusesModal.hidden = false
-    } else {
-      this.accountStatusesModal.hidden = true
-    }
-  }
-
-  hideShowAccountDeviceTypesModal(isShow) {
-    if (isShow) {
-      this.accountDeviceTypesModal.hidden = false
-    } else {
-      this.accountDeviceTypesModal.hidden = true
-    }
-  }
-
-  initAccountAllAccountsListener() {
-    this.accountAllAccountsBtn.addEventListener("click", () => {
-      this.filterAndNavigate()
+  initCancelFilterListeners() {
+    this.accountStatuses.querySelector(".QUERY-cancel-filter-btn").addEventListener("click", () => {
+      this.filterAndNavigate(`status=`)
     })
-  }
-
-  initAccountRankTypesListener() {
-    const accountRankTypesBtn = document.getElementById("account-rank-types-btn")
-    accountRankTypesBtn.addEventListener("click", () => {
-      this.hideShowAccountRankTypesModal(true)
-    })
-  }
-
-  initAccountStatusListener() {
-    const accountStatusBtn = document.getElementById("account-status-btn")
-    accountStatusBtn.addEventListener("click", () => {
-      this.hideShowAccountStatusModal(true)
-    })
-  }
-
-  initAccountDeviceTypesListener() {
-    const accountDeviceTypesBtn = document.getElementById("account-device-types-btn")
-    accountDeviceTypesBtn.addEventListener("click", () => {
-      this.hideShowAccountDeviceTypesModal(true)
-    })
+    this.accountRankTypes
+      .querySelector(".QUERY-cancel-filter-btn")
+      .addEventListener("click", () => {
+        this.filterAndNavigate(`rank=`)
+      })
   }
 
   initCloseModalListener() {
@@ -292,67 +225,45 @@ class HomePageManager {
   }
 
   initFilterByRankListener() {
-    this.accountRankTypesModal.addEventListener("click", (e) => {
+    this.accountRankTypes.addEventListener("click", (e) => {
       let target = e.target
       while (target && !target.classList.contains("QUERY-filter-by-rank-type-item")) {
         target = target.parentElement
-        if (target.id === "account-rank-type-modal" || target.tagName === "BODY" || !target) {
+        if (target.id === "account-rank-types" || target.tagName === "BODY") {
           return
         }
       }
-      const rank = target.dataset.rank
-      if (rank) {
-        this.filterAndNavigate(`rank=${rank}`)
-      }
+      const rankType = target.dataset.rankType
+      this.filterAndNavigate(`rank=${rankType}`)
     })
   }
 
   initFilterByStatusListener() {
-    this.accountStatusesModal.addEventListener("click", (e) => {
+    this.accountStatuses.addEventListener("click", (e) => {
       let target = e.target
       while (target && !target.classList.contains("QUERY-filter-by-status-item")) {
         target = target.parentElement
-        if (target.id === "account-status-modal" || target.tagName === "BODY" || !target) {
+        if (target.id === "account-statuses" || target.tagName === "BODY") {
           return
         }
       }
       const status = target.dataset.status
-      if (status) {
-        this.filterAndNavigate(`status=${status}`)
-      }
+      this.filterAndNavigate(`status=${status}`)
     })
   }
 
   initFilterByDeviceTypeListener() {
-    this.accountDeviceTypesModal.addEventListener("click", (e) => {
+    this.accountDeviceTypes.addEventListener("click", (e) => {
       let target = e.target
       while (target && !target.classList.contains("QUERY-filter-by-device-type-item")) {
         target = target.parentElement
-        if (target.id === "account-device-type-modal" || target.tagName === "BODY" || !target) {
+        if (target.id === "account-device-types" || target.tagName === "BODY") {
           return
         }
       }
       const deviceType = target.dataset.deviceType
-      if (deviceType) {
-        this.filterAndNavigate(`device_type=${deviceType}`)
-      }
+      this.filterAndNavigate(`device_type=${deviceType}`)
     })
-  }
-
-  initCancelFilterListener() {
-    const cancelFilterBtns = document.querySelectorAll(".QUERY-modal .QUERY-cancel-filter-btn")
-    for (const cancelFilterBtn of cancelFilterBtns) {
-      cancelFilterBtn.addEventListener("click", () => {
-        const modal = cancelFilterBtn.closest(".QUERY-modal")
-        if (modal.classList.contains("QUERY-rank-type-modal")) {
-          this.filterAndNavigate("rank=")
-        } else if (modal.classList.contains("QUERY-status-modal")) {
-          this.filterAndNavigate("status=")
-        } else if (modal.classList.contains("QUERY-device-type-modal")) {
-          this.filterAndNavigate("device_type=")
-        }
-      })
-    }
   }
 
   filterAndNavigate(keyValuePair = "rank=&status=&device_type=") {
@@ -389,6 +300,19 @@ class HomePageManager {
     })
   }
 
+  initModalOverlayListener() {
+    console.log('>>> run this initModalOverlayListener')
+    this.rentNowModalOverlay.addEventListener("click", () => {
+      this.hideRentNowModal()
+    })
+  }
+
+  initCancelAllFiltersListener() {
+    this.cancelAllFiltersBtn.addEventListener("click", () => {
+      this.filterAndNavigate()
+    })
+  }
+
   showRentNowModal() {
     this.accNameRentNowModal.textContent = this.selectedAccount.acc_name
     this.rentNowModal.hidden = false
@@ -399,7 +323,9 @@ class HomePageManager {
   }
 
   initCloseRentNowModalListener() {
+    console.log(">>> init CloseRentNowModalListener")
     this.closeRentNowModalBtn.addEventListener("click", () => {
+      console.log(">>> closeRentNowModalBtn clicked")
       this.hideRentNowModal()
     })
   }

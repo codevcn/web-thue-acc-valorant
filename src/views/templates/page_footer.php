@@ -2,7 +2,7 @@
   <div class="mx-auto px-10 pt-8 pb-4">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-8">
       <div href="/" class="pt-4 min-[600px]:block flex flex-col items-center">
-        <a href="/" class="block h-[110px] w-[150px] overflow-hidden relative animate-bounce">
+        <a href="/" class="block h-[110px] w-[150px] overflow-hidden relative">
           <img src="/images/UI/ghost.webp" alt="Logo" class="absolute top-[-22px] left-0 h-[150px] min-w-[150px]">
         </a>
         <h3 class="CSS-small-text-stroke text-2xl font-bold text-white w-fit mt-4">thueaccvaloranttime.com</h3>

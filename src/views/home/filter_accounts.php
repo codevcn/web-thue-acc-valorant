@@ -14,12 +14,6 @@
       </svg>
       <span class="text-xl font-bold">Lọc acc theo</span>
     </div>
-    <button id="close-rent-now-modal-btn" class="absolute top-6 right-6 hover:scale-125 transition duration-200 text-xl font-bold">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x">
-        <path d="M18 6 6 18" />
-        <path d="m6 6 12 12" />
-      </svg>
-    </button>
   </div>
   <div class="flex flex-wrap gap-x-8 gap-y-4 mb-0">
     <!-- Rank -->
@@ -27,7 +21,7 @@
       <p class="text-lg font-medium mb-1 flex items-center gap-2 pl-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="w-6 h-6 text-current fill-current"
+          class="w-5 h-5 text-current fill-current"
           viewBox="0 0 24 24">
           <path
             d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
@@ -39,6 +33,9 @@
         </svg>
       </p>
       <div id="account-rank-types" class="grid grid-cols-2 gap-2">
+        <button class="QUERY-cancel-filter-btn CSS-hover-flash-button flex items-center gap-2 bg-[#3674B5] text-white rounded-lg px-4 py-1.5 text-base focus:outline-none ${isActive">
+          Tất cả
+        </button>
       </div>
     </div>
     <!-- Trạng thái -->
@@ -46,8 +43,8 @@
       <p class="text-lg font-medium mb-1 flex items-center gap-2 pl-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
+          width="20"
+          height="20"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -66,6 +63,9 @@
         </svg>
       </p>
       <div id="account-statuses" class="grid grid-cols-2 gap-2">
+        <button class="QUERY-cancel-filter-btn CSS-hover-flash-button flex items-center gap-2 bg-[#3674B5] text-white rounded-lg px-4 py-1.5 text-base focus:outline-none ${isActive">
+          Tất cả
+        </button>
       </div>
     </div>
     <!-- Loại máy -->
@@ -73,7 +73,7 @@
       <p class="text-lg font-medium mb-1 flex items-center gap-2 pl-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="w-6 h-6 text-current"
+          class="w-5 h-5 text-current"
           fill="none"
           stroke="currentColor"
           stroke-width="2"
@@ -94,18 +94,12 @@
     </div>
     <!-- Actions -->
     <div class="w-full flex gap-4 justify-end">
-      <button class="flex items-center gap-2 bg-red-600 hover:scale-110 text-white rounded-lg px-4 py-1.5 w-max text-base font-medium transition duration-200">
+      <button id="cancel-all-filters-btn" class="flex items-center gap-2 bg-red-600 hover:scale-110 text-white rounded-lg px-4 py-1.5 w-max text-base font-medium transition duration-200">
         <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-x-icon lucide-x" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M18 6 6 18" />
           <path d="m6 6 12 12" />
         </svg>
         <span>Hủy lọc</span>
-      </button>
-      <button class="flex items-center gap-2 bg-black/80 hover:scale-110 text-[#67c2ff] rounded-lg px-4 py-1.5 w-max text-base font-medium transition duration-200">
-        <span>Áp dụng</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-check-icon lucide-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20 6 9 17l-5-5" />
-        </svg>
       </button>
     </div>
   </div>
