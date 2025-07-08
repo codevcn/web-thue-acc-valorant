@@ -5,12 +5,15 @@ declare(strict_types=1);
 use Controllers\HomeController;
 use Controllers\AdminController;
 use Controllers\AuthController;
-use Services\UserService;
+use Controllers\SaleController;
+
 use Core\AuthMiddleware;
+use Core\UserMiddleware;
+
 use Services\JwtService;
 use Services\AuthService;
 use Services\RulesService;
-use Core\UserMiddleware;
+use Services\UserService;
 
 // Initialize services
 $jwtService = new JwtService();
@@ -22,6 +25,7 @@ $rulesService = new RulesService($db);
 $homeController = new HomeController($userService, $rulesService);
 $adminController = new AdminController($userService, $authService, $rulesService);
 $authController = new AuthController($authService);
+$saleController = new SaleController();
 
 // Initialize middleware
 $authMiddleware = new AuthMiddleware($authService);
@@ -54,4 +58,8 @@ $router->get('/admin/profile', function () use ($adminController, $authMiddlewar
 
 $router->get('/intro', function () use ($homeController) {
 	$homeController->showIntroPage();
+});
+
+$router->get('/sale', function () use ($saleController) {
+	$saleController->showSalePage();
 });

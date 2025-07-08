@@ -19,7 +19,7 @@
       </div>
       <div class="flex items-center gap-2">
         <span class="bg-white h-2 w-2 rounded-full"></span>
-        <a href="/" class="text-base lg:text-xl font-bold text-white text-left leading-tight hover:scale-110 cursor-pointer transition duration-200">
+        <a href="/sale" class="text-base lg:text-xl font-bold text-white text-left leading-tight hover:scale-110 cursor-pointer transition duration-200">
           SALE
         </a>
       </div>
@@ -53,17 +53,13 @@
     </div>
 
     <!-- Stats -->
-    <div class="grid grid-cols-3 gap-6 mt-4">
-      <div class="text-center">
-        <div class="text-3xl font-bold text-white">500+</div>
-        <div class="text-gray-400 text-sm">Tài khoản</div>
-      </div>
+    <div class="flex justify-end gap-16 mt-4">
       <div class="text-center">
         <div class="text-3xl font-bold text-white">98%</div>
         <div class="text-gray-400 text-sm">Hài lòng</div>
       </div>
       <div class="text-center">
-        <div class="text-3xl font-bold text-white">24/7</div>
+        <div class="text-3xl font-bold text-white">7h - 0h</div>
         <div class="text-gray-400 text-sm">Hỗ trợ</div>
       </div>
     </div>

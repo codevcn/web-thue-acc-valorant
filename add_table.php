@@ -22,12 +22,18 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 // ('Bất Tử'),
 // ('Tỏa sáng')");
 
-$db->exec("CREATE TABLE IF NOT EXISTS `status` (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  [type] TEXT NOT NULL
-)");
+// $db->exec("CREATE TABLE IF NOT EXISTS `status` (
+//   id INTEGER PRIMARY KEY AUTOINCREMENT,
+//   [type] TEXT NOT NULL
+// )");
 
-$db->exec("INSERT INTO `status` ([type]) 
-VALUES 
-('Rảnh'),
-('Bận')");
+// $db->exec("INSERT INTO `status` ([type]) 
+// VALUES 
+// ('Rảnh'),
+// ('Bận')");
+
+$db->exec("CREATE TABLE IF NOT EXISTS `sale_accounts` (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  acc_id INTEGER NOT NULL,
+  FOREIGN KEY (acc_id) REFERENCES game_accounts(id)
+)");

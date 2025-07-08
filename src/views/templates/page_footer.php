@@ -13,7 +13,7 @@
       </div>
 
       <div class="grid min-[550px]:grid-cols-2 grid-cols-1 gap-12">
-        <div class="space-y-6 min-[550px]:block flex flex-col items-center">
+        <div class="space-y-4 min-[550px]:block flex flex-col items-center">
           <h4 class="text-xl font-bold text-black/80 min-[550px]:w-auto w-fit">Menu</h4>
           <div class="space-y-3 min-[550px]:block flex flex-col items-center">
             <div class="CSS-shadow-hover-container">
@@ -48,28 +48,40 @@
               </a>
               <span class="CSS-shadow-hover-shadow"></span>
             </div>
+            <div class="CSS-shadow-hover-container">
+              <a href="/sale" class="CSS-shadow-hover-content z-20 relative flex items-center gap-2 w-fit text-black/80 transition-colors duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-coins-icon lucide-coins">
+                  <circle cx="8" cy="8" r="6" />
+                  <path d="M18.09 10.37A6 6 0 1 1 10.34 18" />
+                  <path d="M7 6h1v4" />
+                  <path d="m16.71 13.88.7.71-2.82 2.82" />
+                </svg>
+                Sale
+              </a>
+              <span class="CSS-shadow-hover-shadow"></span>
+            </div>
           </div>
         </div>
 
-        <div class="space-y-6 min-[550px]:block flex flex-col items-center">
+        <div class="space-y-4 min-[550px]:block flex flex-col items-center">
           <h4 class="text-xl font-bold text-black/80 min-[550px]:w-auto w-fit">Liên hệ</h4>
           <div class="space-y-4 min-[550px]:block flex flex-col items-center">
             <p class="text-black/80 text-base min-[550px]:text-left text-center">Liên hệ với chúng tôi qua các kênh mạng xã hội</p>
             <div class="flex flex-col space-y-3">
               <a href="<?= $admin['facebook_link'] ?>" class="flex items-center gap-3 w-fit text-white transition-all duration-300">
-                <div class="w-10 h-10 bg-regular-facebook-cl rounded-full flex items-center justify-center transition-colors duration-300">
+                <span class="w-10 h-10 bg-regular-facebook-cl rounded-full flex items-center justify-center transition-colors duration-300">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                   </svg>
-                </div>
-                <div class="CSS-shadow-hover-container">
+                </span>
+                <span class="block CSS-shadow-hover-container">
                   <span class="CSS-shadow-hover-content relative z-20 text-black/80">Facebook</span>
                   <span class="CSS-shadow-hover-shadow"></span>
-                </div>
+                </span>
               </a>
               <a href="<?= $admin['zalo_link'] ?>" target="_blank" class="flex items-center gap-3 w-fit text-black/80">
-                <div class="w-10 h-10 bg-regular-zalo-cl rounded-full flex items-center justify-center transition-all duration-300">
+                <span class="w-10 h-10 bg-regular-zalo-cl rounded-full flex items-center justify-center transition-all duration-300">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 50 50" fill="none">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M22.782 0.166016H27.199C33.2653 0.166016 36.8103 1.05701 39.9572 2.74421C43.1041 4.4314 45.5875 6.89585 47.2557 10.0428C48.9429 13.1897 49.8339 16.7347 49.8339 22.801V27.1991C49.8339 33.2654 48.9429 36.8104 47.2557 39.9573C45.5685 43.1042 43.1041 45.5877 39.9572 47.2559C36.8103 48.9431 33.2653 49.8341 27.199 49.8341H22.8009C16.7346 49.8341 13.1896 48.9431 10.0427 47.2559C6.89583 45.5687 4.41243 43.1042 2.7442 39.9573C1.057 36.8104 0.166016 33.2654 0.166016 27.1991V22.801C0.166016 16.7347 1.057 13.1897 2.7442 10.0428C4.43139 6.89585 6.89583 4.41245 10.0427 2.74421C13.1707 1.05701 16.7346 0.166016 22.782 0.166016Z" fill="#0068FF" />
                     <path opacity="0.12" fill-rule="evenodd" clip-rule="evenodd" d="M49.8336 26.4736V27.1994C49.8336 33.2657 48.9427 36.8107 47.2555 39.9576C45.5683 43.1045 43.1038 45.5879 39.9569 47.2562C36.81 48.9434 33.265 49.8344 27.1987 49.8344H22.8007C17.8369 49.8344 14.5612 49.2378 11.8104 48.0966L7.27539 43.4267L49.8336 26.4736Z" fill="#001A33" />
@@ -80,22 +92,22 @@
                     <path d="M40.4867 19.6162C37.8516 19.6162 35.7095 21.7584 35.7095 24.3934C35.7095 27.0285 37.8516 29.1707 40.4867 29.1707C43.1217 29.1707 45.2639 27.0285 45.2639 24.3934C45.2639 21.7584 43.1217 19.6162 40.4867 19.6162ZM40.4867 27.2181C38.9322 27.2181 37.681 25.9669 37.681 24.4124C37.681 22.8579 38.9322 21.6067 40.4867 21.6067C42.0412 21.6067 43.2924 22.8579 43.2924 24.4124C43.2924 25.9669 42.0412 27.2181 40.4867 27.2181Z" fill="#0068FF" />
                     <path d="M29.4562 29.0944H30.5747V19.957H28.6221V28.2793C28.6221 28.7153 29.0012 29.0944 29.4562 29.0944Z" fill="#0068FF" />
                   </svg>
-                </div>
-                <div class="CSS-shadow-hover-container">
+                </span>
+                <span class="block CSS-shadow-hover-container">
                   <span class="CSS-shadow-hover-content relative z-20 text-black/80">Zalo</span>
                   <span class="CSS-shadow-hover-shadow"></span>
-                </div>
+                </span>
               </a>
               <a href="tel:<?= $admin['phone'] ?>" target="_blank" class="flex items-center gap-3 w-fit text-black/80">
-                <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center transition-all duration-300">
+                <span class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center transition-all duration-300">
                   <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-phone-icon lucide-phone text-white" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
                   </svg>
-                </div>
-                <div class="CSS-shadow-hover-container">
+                </span>
+                <span class="block CSS-shadow-hover-container">
                   <span class="CSS-shadow-hover-content relative z-20 text-black/80">Phone</span>
                   <span class="CSS-shadow-hover-shadow"></span>
-                </div>
+                </span>
               </a>
             </div>
           </div>
