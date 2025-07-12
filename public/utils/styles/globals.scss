@@ -121,6 +121,15 @@ button {
   }
 }
 
+@mixin CSS-background-dot-decoration() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/images/UI/button-decoration.png");
+  background-size: 2px;
+  background-color: #0d161c;
+}
+
 @mixin CSS-button-line-decoration($color) {
   $line-height: 4px;
 
@@ -368,4 +377,8 @@ button {
       display: block;
     }
   }
+}
+
+.CSS-background-dot-decoration {
+  @include CSS-background-dot-decoration();
 }

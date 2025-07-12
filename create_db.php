@@ -14,15 +14,10 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 // $stmt->execute(['- Không được rao bán Acc này ra ngoài, nếu có bất cứ hành vi nào sẽ bị cấm thuê vĩnh viễn!\n- Nghiêm cấm hành vi AFK, HACK, CHEAT, BOT, ... Nếu phát hiện sẽ bị cấm thuê vĩnh viễn!']);
 
 $db->exec("CREATE TABLE IF NOT EXISTS sale_accounts (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  [status] TEXT NOT NULL,
-  price TEXT NOT NULL,
-  gmail TEXT NOT NULL,
-  letter TEXT NOT NULL CHECK(letter IN ('Back', 'Có')),
-  commitment TEXT NOT NULL,
-  [description] TEXT NOT NULL,
-  avatar TEXT,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+   id INTEGER PRIMARY KEY AUTOINCREMENT,
+    rent_acc_rules TEXT NOT NULL,
+    commitment TEXT NOT NULL,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 )");
 
 // $password = password_hash('123456', PASSWORD_DEFAULT);

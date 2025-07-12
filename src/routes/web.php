@@ -27,7 +27,7 @@ $saleAccountService = new SaleAccountService($db);
 $homeController = new HomeController($userService, $rulesService);
 $adminController = new AdminController($userService, $authService, $rulesService);
 $authController = new AuthController($authService);
-$saleController = new SaleController($saleAccountService);
+$saleController = new SaleController($saleAccountService, $rulesService, $userService);
 
 // Initialize middleware
 $authMiddleware = new AuthMiddleware($authService);

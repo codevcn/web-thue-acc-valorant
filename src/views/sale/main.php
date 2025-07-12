@@ -64,7 +64,7 @@
                   </div>
                   <span data-vcn-tooltip-content="Giá bán" class="QUERY-tooltip-trigger"><?= $sale_account['price'] ?></span>
                 </div>
-                <button id="by-now-btn" class="QUERY-load-more-btn CSS-button-blue-line-decoration min-h-[42px] mt-4">
+                <button id="by-now-btn" class="QUERY-buy-now-btn CSS-button-blue-line-decoration min-h-[42px] mt-4">
                   MUA NGAY
                 </button>
               </div>
@@ -83,7 +83,7 @@
                 <h4 class="text-base font-bold">Tình trạng</h4>
                 <div><?= $sale_account['status'] ?></div>
               </div>
-              <button class="CSS-button-blue-line-decoration text-base font-bold py-1 px-4 flex-1">
+              <button class="QUERY-commitment-btn CSS-button-blue-line-decoration text-base font-bold py-1 px-4 flex-1">
                 Cam kết
               </button>
             </div>
@@ -110,24 +110,87 @@
   </button>
 
   <!-- Dots Indicator -->
-  <div id="dots" class="flex justify-center mt-8 gap-2 w-full">
+  <div id="pages" class="flex justify-center mt-8 gap-2 CSS-background-dot-decoration w-full py-2 px-4 relative">
     <?php foreach ($sale_accounts as $sale_account) : ?>
-      <button class="h-12 min-w-[90px] border-1 box-content border-solid border-black hover:scale-110 active:scale-90 transition duration-200">
+      <button data-vcn-tooltip-content="Nhấn để xem chi tiết" class="QUERY-tooltip-trigger h-12 min-w-[90px] border-1 box-content border-solid border-white hover:scale-110 active:scale-90 transition duration-200">
         <img class="h-full min-w-[90px] object-cover box-content" src="/dev/sale-account.png" alt="Account Avatar">
       </button>
     <?php endforeach; ?>
+
+    <div id="counter" class="absolute top-2 right-2 rounded-md bg-white/40 text-center text-white w-fit mx-auto py-0.5 px-2 font-bold">
+      <span class="QUERY-current-page">1</span> / <span><?= $slides_count ?></span>
+    </div>
   </div>
 
-  <!-- Account Counter -->
-  <div class="text-center mt-4 text-gray-600">
-    <span id="counter" class="font-medium">1</span><span> /5</span>
-  </div>
+  <section id="pagination" class="flex justify-center gap-1 items-center mt-6 w-full">
+
+    <!-- Nút Previous -->
+    <button
+      class="<?= $current_page <= 1 ? 'opacity-60 cursor-not-allowed pointer-events-none' : '' ?> QUERY-prev-btn flex items-center justify-center rounded-md bg-blue-100 border border-solid border-blue-300 h-8 w-8 hover:scale-110 active:scale-90 transition duration-200">
+      <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-600 lucide lucide-chevron-left-icon lucide-chevron-left" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m15 18-6-6 6-6" />
+      </svg>
+    </button>
+
+    <?php
+    function renderPageButton($pageNum, $currentPage)
+    {
+      $isActive = $pageNum == $currentPage;
+      $class = $isActive
+        ? 'rounded-md bg-blue-300 text-black font-bold border border-solid border-blue-600 h-8 w-8 hover:scale-110 active:scale-90 transition duration-200'
+        : 'rounded-md bg-blue-100 border border-solid border-blue-300 h-8 w-8 hover:scale-110 active:scale-90 transition duration-200';
+      echo "<button data-page-num=\"$pageNum\" class=\"$class\">$pageNum</button>";
+    }
+
+    $DOT = '<span class="px-2 font-bold">...</span>';
+
+    if ($total_pages <= 7) {
+      for ($i = 1; $i <= $total_pages; $i++) {
+        renderPageButton($i, $current_page);
+      }
+    } else {
+      renderPageButton(1, $current_page);
+
+      if ($current_page > 3) echo $DOT;
+
+      $start = max(2, $current_page - 1);
+      $end = min($total_pages - 1, $current_page + 1);
+
+      for ($i = $start; $i <= $end; $i++) {
+        renderPageButton($i, $current_page);
+      }
+
+      if ($current_page < $total_pages - 2) echo $DOT;
+
+      renderPageButton($total_pages, $current_page);
+    }
+    ?>
+
+    <!-- Nút Next -->
+    <button
+      class="<?= $current_page >= $total_pages ? 'opacity-60 cursor-not-allowed pointer-events-none' : '' ?> QUERY-next-btn flex items-center justify-center rounded-md bg-blue-100 border border-solid border-blue-300 h-8 w-8 hover:scale-110 active:scale-90 transition duration-200">
+      <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-600 lucide lucide-chevron-right-icon lucide-chevron-right" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6" />
+      </svg>
+    </button>
+  </section>
 </div>
 
 <script>
+
+</script>
+
+<script>
   window.APP_DATA = {
-    saleAccounts: <?= json_encode($sale_accounts) ?>
+    saleAccounts: <?= json_encode($sale_accounts) ?>,
+    slidesCount: <?= $slides_count ?>,
+    totalPages: <?= $total_pages ?>,
+    currentPage: <?= $current_page ?>,
+    limit: <?= $limit ?>
   }
 </script>
+
+<?php require_once __DIR__ . '/commitment_modal.php'; ?>
+<?php require_once __DIR__ . '/by_now_modal.php'; ?>
 
 <?php require_once __DIR__ . '/../templates/tooltip.php'; ?>

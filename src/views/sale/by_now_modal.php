@@ -1,34 +1,32 @@
-<!-- Rent Now Modal -->
-<div id="rent-now-modal" hidden class="flex justify-center p-6 items-center overflow-y-auto overflow-x-hidden fixed inset-0 z-[990]">
+<!-- Buy Modal -->
+<div id="buy-now-modal" hidden class="flex justify-center p-6 items-center overflow-y-auto overflow-x-hidden fixed inset-0 z-[990]">
   <div class="QUERY-modal-overlay absolute z-10 inset-0 bg-black/80"></div>
 
   <div
-    class="inset-0 z-20 p-6 relative w-fit h-fit bg-white/10 backdrop-blur-md text-gray-700 border border-solid border-gray-600 rounded-lg shadow-md">
+    class="inset-0 z-20 min-w-[300px] p-6 relative w-fit h-fit bg-white/10 backdrop-blur-md text-gray-700 border border-solid border-white/20 rounded-lg shadow-md">
     <!-- Close button -->
-    <button id="close-rent-now-modal-btn" class="absolute top-6 right-6 text-white hover:scale-125 transition duration-200 text-xl font-bold">
+    <button id="close-buy-now-modal-btn" class="absolute top-6 right-6 text-white hover:scale-125 transition duration-200 text-xl font-bold">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x">
         <path d="M18 6 6 18" />
         <path d="m6 6 12 12" />
       </svg>
     </button>
 
-    <h3 class="text-xl font-bold text-sky-300 mb-4">Quy định thuê Acc</h3>
+    <h3 class="text-xl font-bold text-sky-300 mb-4">Quy định mua Acc</h3>
 
     <div class="mb-4">
       <h3 class="block text-sm font-semibold text-white mb-2">Quy định:</h3>
       <div
-        class="bg-transparent border border-gray-600 border-solid w-full px-3 py-2 rounded-md text-sm text-white focus:outline-none focus:ring-2 focus:ring-regular-light-blue-cl">
-        <p class="whitespace-pre-line">- Tên Acc: <span id="acc-name--rent-now-modal" class="font-bold text-base text-white"></span>
-          <?php echo htmlspecialchars($rules['rent_acc_rules']) ?>
-        </p>
+        class="bg-transparent border border-white/20 border-solid w-full px-3 py-2 rounded-md text-sm text-white focus:outline-none focus:ring-2 focus:ring-regular-light-blue-cl">
+        <p class="whitespace-pre-line"><?php echo htmlspecialchars($rules['rent_acc_rules']) ?></p>
       </div>
     </div>
 
     <p class="text-sm text-blue-300 mb-2 italic font-semibold">
-      Thuê acc bằng cách liên hệ với người cho thuê qua Zalo hoặc Facebook!
+      Mua acc bằng cách liên hệ với người cho thuê qua Zalo hoặc Facebook!
     </p>
 
-    <div class="flex justify-center items-center gap-4 w-full mt-4">
+    <div class="flex justify-center items-center gap-4 w-full mt-2">
       <a href="<?= $admin['zalo_link'] ?>" target="_blank" class="grow bg-regular-zalo-cl text-white font-bold py-3 px-6 rounded-xl transition duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 50 50" fill="none">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M22.782 0.166016H27.199C33.2653 0.166016 36.8103 1.05701 39.9572 2.74421C43.1041 4.4314 45.5875 6.89585 47.2557 10.0428C48.9429 13.1897 49.8339 16.7347 49.8339 22.801V27.1991C49.8339 33.2654 48.9429 36.8104 47.2557 39.9573C45.5685 43.1042 43.1041 45.5877 39.9572 47.2559C36.8103 48.9431 33.2653 49.8341 27.199 49.8341H22.8009C16.7346 49.8341 13.1896 48.9431 10.0427 47.2559C6.89583 45.5687 4.41243 43.1042 2.7442 39.9573C1.057 36.8104 0.166016 33.2654 0.166016 27.1991V22.801C0.166016 16.7347 1.057 13.1897 2.7442 10.0428C4.43139 6.89585 6.89583 4.41245 10.0427 2.74421C13.1707 1.05701 16.7346 0.166016 22.782 0.166016Z" fill="#0068FF" />
