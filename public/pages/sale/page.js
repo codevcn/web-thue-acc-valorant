@@ -208,36 +208,5 @@ class CommitmentModalManager {
   }
 }
 
-class BuyNowModalManager {
-  constructor() {
-    this.modal = document.getElementById("buy-now-modal")
-    this.closeButton = document.getElementById("close-buy-now-modal-btn")
-    this.buyNowBtns = document.querySelectorAll(
-      "#slides-container .QUERY-account-container .QUERY-buy-now-btn"
-    )
-
-    this.initEvents()
-  }
-
-  initEvents() {
-    this.closeButton.addEventListener("click", () => this.closeModal())
-    this.modal
-      .querySelector(".QUERY-modal-overlay")
-      .addEventListener("click", () => this.closeModal())
-    this.buyNowBtns.forEach((btn) => {
-      btn.addEventListener("click", () => this.openModal())
-    })
-  }
-
-  closeModal() {
-    this.modal.hidden = true
-  }
-
-  openModal() {
-    this.modal.hidden = false
-  }
-}
-
 new CommitmentModalManager()
-new BuyNowModalManager()
 new SalePageManager()

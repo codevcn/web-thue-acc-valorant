@@ -47,29 +47,6 @@
           class="QUERY-device-type-select w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-2 outline-regular-blue-cl">
         </select>
       </div>
-
-      <!-- Date Range Filter -->
-      <div class="grow-[2]">
-        <label class="block text-sm font-medium text-gray-700 mb-2">Thời gian tạo</label>
-        <div class="flex gap-2 grow min-[550px]:flex-nowrap flex-wrap">
-          <div class="flex min-[550px]:w-1/2 w-full gap-1 items-center">
-            <label for="date-from-input" class="text-sm font-medium text-gray-600 min-w-max">Từ ngày</label>
-            <input
-              type="text"
-              class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-2 outline-regular-blue-cl text-sm"
-              id="date-from-filter-field"
-              placeholder="Nhập thời gian bắt đầu" />
-          </div>
-          <div class="flex min-[550px]:w-1/2 w-full gap-1 items-center">
-            <label for="date-to-input" class="text-sm font-medium text-gray-600 min-w-max">Đến ngày</label>
-            <input
-              type="text"
-              class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-2 outline-regular-blue-cl text-sm"
-              id="date-to-filter-field"
-              placeholder="Nhập thời gian kết thúc" />
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="w-full flex justify-end mt-4">

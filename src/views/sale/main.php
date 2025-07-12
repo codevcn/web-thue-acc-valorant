@@ -191,6 +191,5 @@
 </script>
 
 <?php require_once __DIR__ . '/commitment_modal.php'; ?>
-<?php require_once __DIR__ . '/by_now_modal.php'; ?>
 
 <?php require_once __DIR__ . '/../templates/tooltip.php'; ?>

@@ -17,6 +17,7 @@ svg {
 input,
 textarea {
   border: none;
+  border-width: 0;
   outline: none;
 }
 
@@ -381,4 +382,36 @@ button {
 
 .CSS-background-dot-decoration {
   @include CSS-background-dot-decoration();
+}
+
+.CSS-notification-red-dot {
+  $color: #ff0000;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 13px;
+    height: 13px;
+    background-color: transparent;
+    outline: 2px solid $color;
+    border-radius: 50%;
+    top: -3px;
+    right: -7px;
+    animation: notification-red-dot 1s infinite ease-in-out;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    background-color: $color;
+    border-radius: 50%;
+    top: 0;
+    right: -5px;
+  }
 }

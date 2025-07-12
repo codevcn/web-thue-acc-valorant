@@ -1,11 +1,12 @@
 <div id="page-intro" class="fixed inset-0 z-[99] overflow-hidden">
   <!-- Background Image -->
-  <div class="absolute z-10 inset-0 bg-center bg-cover bg-no-repeat bg-[url('/images/UI/intro-bg.webp')]">
+  <div class="absolute z-10 inset-0">
     <!-- Dark Overlay -->
-    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="absolute inset-0 bg-black/40 z-20"></div>
 
-    <!-- Gradient Overlay for better text readability -->
-    <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-purple-900/30"></div>
+    <div class="absolute inset-0 z-10">
+      <video src="/videos/UI/intro-bg.mp4" autoplay muted loop class="w-full h-full object-cover"></video>
+    </div>
   </div>
 
   <!-- Left Side - Main Title -->
@@ -19,7 +20,7 @@
       </div>
       <div class="flex items-center gap-2">
         <span class="bg-white h-2 w-2 rounded-full"></span>
-        <a href="/sale" class="text-base lg:text-xl font-bold text-white text-left leading-tight hover:scale-110 cursor-pointer transition duration-200">
+        <a href="/sale" class="CSS-notification-red-dot text-base lg:text-xl font-bold text-white text-left leading-tight hover:scale-110 cursor-pointer transition duration-200">
           SALE
         </a>
       </div>
@@ -47,7 +48,7 @@
       </h1>
 
       <p class="text-xl text-gray-300 min-[500px]:max-w-xl w-max leading-relaxed min-[700px]:text-right text-center max-w-[300px]">
-        Trải nghiệm Valorant với những tài khoản premium, rank cao, skin đẹp. Dịch vụ uy
+        Trải nghiệm Valorant với những tài khoản premium, các loại rank, skin đẹp. Dịch vụ uy
         tín, giá cả hợp lý.
       </p>
     </div>

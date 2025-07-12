@@ -32,8 +32,6 @@ class GameAccountService
     ?string $status = null,
     ?string $device_type = null,
     ?string $search_term = null,
-    ?string $date_from = null,
-    ?string $date_to = null,
     ?string $order_type = null
   ): array {
     $sql = "SELECT * FROM game_accounts";
@@ -63,14 +61,6 @@ class GameAccountService
       $conditions[] = '(acc_name LIKE :search_term OR game_code LIKE :search_term OR `description` LIKE :search_term)';
       $params[':search_term'] = '%' . $search_term . '%';
     }
-    if ($date_from !== null) {
-      $conditions[] = 'created_at >= :date_from';
-      $params[':date_from'] = $this->convertDateFormat($date_from);
-    }
-    if ($date_to !== null) {
-      $conditions[] = 'created_at <= :date_to';
-      $params[':date_to'] = $this->convertDateFormat($date_to);
-    }
 
     if (!empty($conditions)) {
       $sql .= " WHERE " . implode(' AND ', $conditions);
@@ -90,31 +80,6 @@ class GameAccountService
     $stmt->execute();
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
-  }
-
-  /**
-   * Chuyển đổi định dạng date từ dd/mm/yyyy HH:mm thành Y-m-d H:i:s
-   */
-  private function convertDateFormat(string $dateString): string
-  {
-    // Kiểm tra nếu dateString rỗng hoặc null
-    if (empty($dateString)) {
-      return '';
-    }
-
-    // Kiểm tra định dạng dd/mm/yyyy HH:mm
-    if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{1,2})$/', $dateString, $matches)) {
-      $day = str_pad($matches[1], 2, '0', STR_PAD_LEFT);
-      $month = str_pad($matches[2], 2, '0', STR_PAD_LEFT);
-      $year = $matches[3];
-      $hour = str_pad($matches[4], 2, '0', STR_PAD_LEFT);
-      $minute = str_pad($matches[5], 2, '0', STR_PAD_LEFT);
-
-      return "{$year}-{$month}-{$day} {$hour}:{$minute}:00";
-    }
-
-    // Nếu không khớp định dạng, trả về nguyên bản
-    return $dateString;
   }
 
   public function fetchAccountRankTypes(): array
@@ -209,6 +174,8 @@ class GameAccountService
     $description = $data['description'] ?? null;
     $deviceType  = $data['deviceType'] ?? null;
     $avatar      = $data['avatar'] ?? null;
+    $rentAddTime = $data['rentAddTime'] ?? null;
+    $rentToTime  = $data['rentToTime'] ?? null;
 
     $updateFields = [];
     $params = [];
@@ -241,6 +208,20 @@ class GameAccountService
       $updateFields[] = "avatar = :avatar";
       $params[':avatar'] = $avatar;
     }
+    if ($rentAddTime !== null || $rentToTime !== null) {
+      $updateFields[] = "rent_from_time = :rent_from_time";
+      $params[':rent_from_time'] = $this->getNow();
+      $updateFields[] = "`status` = :status";
+      $params[':status'] = "Bận";
+      if ($rentAddTime !== null) {
+        $updateFields[] = "rent_add_time = :rent_add_time";
+        $params[':rent_add_time'] = $rentAddTime;
+      }
+      if ($rentToTime !== null) {
+        $updateFields[] = "rent_to_time = :rent_to_time";
+        $params[':rent_to_time'] = $rentToTime;
+      }
+    }
     if (empty($updateFields)) {
       throw new \InvalidArgumentException("Không có trường nào để cập nhật.");
     }
@@ -250,16 +231,20 @@ class GameAccountService
     $sql = "UPDATE game_accounts SET " . implode(', ', $updateFields) . " WHERE id = :id";
     $params[':id'] = $accountId;
 
-    $this->db->beginTransaction();
-    $stmt = $this->db->prepare($sql);
+    try {
+      $this->db->beginTransaction();
 
-    foreach ($params as $param => $value) {
-      $stmt->bindValue($param, $value);
+      $stmt = $this->db->prepare($sql);
+      foreach ($params as $param => $value) {
+        $stmt->bindValue($param, $value);
+      }
+
+      $stmt->execute();
+      $this->db->commit();
+    } catch (\Throwable $e) {
+      $this->db->rollBack();
+      throw $e;
     }
-    $stmt->bindValue(':id', $accountId);
-    $stmt->execute();
-
-    $this->db->commit();
   }
 
   public function deleteAccount(int $accountId): void

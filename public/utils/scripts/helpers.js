@@ -136,3 +136,54 @@ export class LocalStorageHelper {
     return localStorage.getItem(this.KEY_SHOW_FILTERS)
   }
 }
+
+export class TimeHelper {
+  static NOT_STARTED = "NOT_STARTED"
+  static OUT_OF_TIME = "OUT_OF_TIME"
+
+  static getRemainingRentalTime(rentFrom, rentTo) {
+    const now = new Date()
+    const fromTime = new Date(rentFrom)
+    const toTime = new Date(rentTo)
+
+    // Nếu chưa đến thời gian bắt đầu thuê
+    if (now < fromTime) {
+      return this.NOT_STARTED
+    }
+
+    // Nếu đã hết thời gian thuê
+    if (now >= toTime) {
+      return this.OUT_OF_TIME
+    }
+
+    const remainingMs = toTime - now
+
+    const totalSeconds = Math.floor(remainingMs / 1000)
+    const hours = Math.floor(totalSeconds / 3600)
+    const minutes = Math.floor((totalSeconds % 3600) / 60)
+    const seconds = totalSeconds % 60
+
+    return `${hours} giờ ${minutes} phút ${seconds} giây`
+  }
+
+  static getRentalDuration(rentFrom, rentTo) {
+    const from = new Date(rentFrom)
+    const to = new Date(rentTo)
+
+    if (isNaN(from) || isNaN(to)) {
+      return "INVALID_TIME"
+    }
+
+    const durationMs = to - from
+
+    if (durationMs <= 0) {
+      return "INVALID_TIME"
+    }
+
+    const totalMinutes = Math.floor(durationMs / 60000)
+    const hours = Math.floor(totalMinutes / 60)
+    const minutes = totalMinutes % 60
+
+    return `${hours} giờ ${minutes} phút`
+  }
+}

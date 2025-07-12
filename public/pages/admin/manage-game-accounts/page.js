@@ -24,6 +24,7 @@ class ManageGameAccountsPageManager {
 
     this.isFetchingItems = false
     this.isMoreItems = true
+    this.rentTimeInputId = null
 
     this.fetchAccounts()
     this.watchScrolling()
@@ -55,8 +56,6 @@ class ManageGameAccountsPageManager {
     const status = URLHelper.getUrlQueryParam("status")
     const device_type = URLHelper.getUrlQueryParam("device_type")
     const search_term = URLHelper.getUrlQueryParam("search_term")
-    const date_from = URLHelper.getUrlQueryParam("date_from")
-    const date_to = URLHelper.getUrlQueryParam("date_to")
 
     GameAccountService.fetchAccounts(
       last_id,
@@ -65,15 +64,14 @@ class ManageGameAccountsPageManager {
       status,
       device_type,
       search_term,
-      date_from,
-      date_to,
-      "updated_at"
+      "created_at"
     )
       .then((accounts) => {
         if (accounts && accounts.length > 0) {
           const startOrderNumber = sharedData.gameAccounts.length + 1
           sharedData.gameAccounts = [...sharedData.gameAccounts, ...accounts]
           this.renderNewAccounts(accounts, startOrderNumber)
+          this.initRentTimeInputListeners()
           this.initCatchDeleteAndUpdateAccountBtnClick()
           initUtils.initTooltip()
         } else {
@@ -178,6 +176,63 @@ class ManageGameAccountsPageManager {
 
     this.scrollToTopBtn.addEventListener("click", this.scrollToTop.bind(this))
     this.scrollToBottomBtn.addEventListener("click", this.scrollToBottom.bind(this))
+  }
+
+  initRentTimeInputListeners() {
+    document.addEventListener("click", (e) => {
+      const target = e.target
+      if (target && !target.closest(".QUERY-rent-time-input-container")) {
+        const rentTimeActions = this.accountsTableBody.querySelector(
+          `.QUERY-account-row-item .QUERY-rent-time-input-container-${this.rentTimeInputId} .QUERY-rent-time-actions`
+        )
+        if (rentTimeActions) {
+          rentTimeActions.hidden = true
+        }
+        this.rentTimeInputId = null
+      }
+    })
+
+    this.accountsTableBody.addEventListener("click", (e) => {
+      let target = e.target
+      while (target && target.tagName !== "INPUT") {
+        target = target.parentElement
+        if (target && target.classList.contains("accounts-table-body")) {
+          return
+        }
+      }
+      if (!target) return
+      this.rentTimeInputId = target.dataset.rentTimeInputId * 1
+      const actionsSection = target.nextElementSibling
+      if (actionsSection) {
+        actionsSection.hidden = false
+      }
+    })
+    // bắt sự kiện lưu thời gian cho thuê
+    this.accountsTableBody.addEventListener("click", (e) => {
+      let target = e.target
+      while (target && !target.classList.contains("QUERY-rent-time-save-action")) {
+        target = target.parentElement
+        if (target && target.classList.contains("accounts-table-body")) {
+          return
+        }
+      }
+      if (target) {
+        const input = target.closest(".QUERY-rent-time-input-container").querySelector("input")
+        if (input) {
+          const value = input.value
+          if (value && this.rentTimeInputId) {
+            let rentToTimeValue = input.dataset.rentToTimeValue
+            rentToTimeValue = rentToTimeValue ? dayjs(rentToTimeValue) : dayjs() // nếu ko có thời gian cho thuê thì lấy thời gian hiện tại
+            rentToTimeValue = rentToTimeValue.add(value, "hours").format("YYYY-MM-DD HH:mm:ss")
+            updateAccountManager.updateRentTime(
+              this.rentTimeInputId,
+              rentToTimeValue,
+              input.dataset.rentTimeType
+            )
+          }
+        }
+      }
+    })
   }
 }
 
@@ -379,6 +434,16 @@ class UpdateAccountManager {
 
     this.initListeners()
     this.initSwitchStatusQuickly()
+  }
+
+  updateRentTime(accountId, toTime, type) {
+    GameAccountService.updateAccount(accountId, { rentToTime: toTime }).then((data) => {
+      if (data && data.success) {
+        Toaster.success("Thông báo", "Cập nhật thời gian cho thuê thành công", () => {
+          NavigationHelper.reloadPage()
+        })
+      }
+    })
   }
 
   initListeners() {
@@ -627,7 +692,6 @@ class ImportExportManager {
       "Mã game",
       "Trạng thái",
       "Mô tả",
-      "Ngày tạo",
       "Loại máy",
     ]
     rows.push(headerRow)
@@ -652,7 +716,6 @@ class ImportExportManager {
         tds[4]?.innerText.trim(), // game_code
         tds[5]?.innerText.trim(), // status
         description, // description
-        tds[7]?.innerText.trim(), // created_date
         tds[8]?.innerText.trim(), // device_type
       ]
 
@@ -758,8 +821,6 @@ class FilterManager {
     this.rankTypesSelect = this.filtersSection.querySelector(".QUERY-rank-types-select")
     this.statusesSelect = this.filtersSection.querySelector(".QUERY-statuses-select")
     this.deviceTypeSelect = this.filtersSection.querySelector(".QUERY-device-type-select")
-    this.dateFromFilterField = document.getElementById("date-from-filter-field")
-    this.dateToFilterField = document.getElementById("date-to-filter-field")
     this.searchBtn = document.getElementById("search-btn")
     this.searchInput = document.getElementById("search-input")
     this.countAppliedFilters = document.getElementById("count-applied-filters")
@@ -771,34 +832,9 @@ class FilterManager {
     this.fetchRankTypes()
     this.fetchStatuses()
     this.fetchDeviceTypes()
-    this.initFlatpickr()
 
     this.initShowFilters()
     this.initListeners()
-  }
-
-  initFlatpickr() {
-    // Khởi tạo flatpickr cho input date từ
-    flatpickr("#date-from-filter-field", {
-      dateFormat: "d/m/Y H:i",
-      enableTime: true,
-      time_24hr: true,
-      placeholder: "dd/mm/yyyy HH:mm",
-      allowInput: true,
-      clickOpens: true,
-      minuteIncrement: 1,
-    })
-
-    // Khởi tạo flatpickr cho input date đến
-    flatpickr("#date-to-filter-field", {
-      dateFormat: "d/m/Y H:i",
-      enableTime: true,
-      time_24hr: true,
-      placeholder: "dd/mm/yyyy HH:mm",
-      allowInput: true,
-      clickOpens: true,
-      minuteIncrement: 1,
-    })
   }
 
   initListeners() {
@@ -823,8 +859,6 @@ class FilterManager {
     this.rankTypesSelect.addEventListener("change", this.handleFilterChange.bind(this))
     this.statusesSelect.addEventListener("change", this.handleFilterChange.bind(this))
     this.deviceTypeSelect.addEventListener("change", this.handleFilterChange.bind(this))
-    this.dateFromFilterField.addEventListener("change", this.handleFilterChange.bind(this))
-    this.dateToFilterField.addEventListener("change", this.handleFilterChange.bind(this))
     this.searchBtn.addEventListener("click", this.searchAccounts.bind(this))
     this.searchInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
@@ -873,8 +907,8 @@ class FilterManager {
 
       for (const rankType of rankTypes) {
         const option = document.createElement("option")
-        option.value = rankType.rank
-        option.textContent = rankType.rank
+        option.value = rankType.type
+        option.textContent = rankType.type
         this.rankTypesSelect.appendChild(option)
       }
 
@@ -921,7 +955,7 @@ class FilterManager {
     })
   }
 
-  saveQueryStringForFilters(keyValuePair = "rank=&status=&device_type=&date_from=&date_to=") {
+  saveQueryStringForFilters(keyValuePair = "rank=&status=&device_type=") {
     const currentUrlForFilters = new URL(this.urlForFilters || window.location.href)
     const params = new URLSearchParams(keyValuePair)
     for (const [key, value] of params.entries()) {
@@ -938,12 +972,6 @@ class FilterManager {
     const formField = e.currentTarget
     const value = formField.value
     switch (formField.id) {
-      case "date-from-filter-field":
-        this.saveQueryStringForFilters("date_from=" + (value ? encodeURIComponent(value) : ""))
-        break
-      case "date-to-filter-field":
-        this.saveQueryStringForFilters("date_to=" + (value ? encodeURIComponent(value) : ""))
-        break
       case "rank-type-filter-field":
         this.saveQueryStringForFilters(
           "rank=" + (value && value !== "ALL" ? encodeURIComponent(value) : "")
@@ -996,34 +1024,6 @@ class FilterManager {
       this.appliedFiltersCount++
     } else {
       this.deviceTypeSelect.value = "ALL"
-    }
-
-    const dateFromValue = URLHelper.getUrlQueryParam("date_from")
-    if (dateFromValue) {
-      this.dateFromFilterField.value = dateFromValue
-      if (this.dateFromFilterField._flatpickr) {
-        this.dateFromFilterField._flatpickr.setDate(dateFromValue)
-        this.appliedFiltersCount++
-      }
-    } else {
-      this.dateFromFilterField.value = ""
-      if (this.dateFromFilterField._flatpickr) {
-        this.dateFromFilterField._flatpickr.clear()
-      }
-    }
-
-    const dateToValue = URLHelper.getUrlQueryParam("date_to")
-    if (dateToValue) {
-      this.dateToFilterField.value = dateToValue
-      if (this.dateToFilterField._flatpickr) {
-        this.dateToFilterField._flatpickr.setDate(dateToValue)
-        this.appliedFiltersCount++
-      }
-    } else {
-      this.dateToFilterField.value = ""
-      if (this.dateToFilterField._flatpickr) {
-        this.dateToFilterField._flatpickr.clear()
-      }
     }
 
     const searchTerm = URLHelper.getUrlQueryParam("search_term")

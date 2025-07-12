@@ -58,8 +58,16 @@ class UserService
 
     if (!empty($fields)) {
       $sql = "UPDATE users SET " . implode(', ', $fields) . " WHERE role = 'ADMIN'";
-      $stmt = $this->db->prepare($sql);
-      $stmt->execute($params);
+
+      try {
+        $this->db->beginTransaction();
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        $this->db->commit();
+      } catch (\Throwable $e) {
+        $this->db->rollBack();
+        throw $e;
+      }
     }
   }
 }

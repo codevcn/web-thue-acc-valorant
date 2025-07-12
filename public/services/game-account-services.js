@@ -8,8 +8,6 @@ export class GameAccountService {
     status,
     device_type,
     search_term,
-    date_from,
-    date_to,
     order_type
   ) {
     const params = {}
@@ -19,8 +17,6 @@ export class GameAccountService {
     if (status) params.status = status
     if (device_type) params.device_type = device_type
     if (search_term) params.search_term = search_term
-    if (date_from) params.date_from = date_from
-    if (date_to) params.date_to = date_to
     if (order_type) params.order_type = order_type
     const { data } = await axiosClient.get("/game-accounts/load-more", { params })
     return data.accounts
@@ -49,10 +45,10 @@ export class GameAccountService {
     return data
   }
 
-  static async updateAccount(accountId, accountData, imgFile) {
+  static async updateAccount(accountId, accountData, avatar) {
     const dataToSubmit = new FormData()
     dataToSubmit.set("account", JSON.stringify(accountData))
-    if (imgFile) dataToSubmit.set("avatar", imgFile)
+    if (avatar) dataToSubmit.set("avatar", avatar)
     const { data } = await axiosClient.post(`/game-accounts/update/${accountId}`, dataToSubmit)
     return data
   }

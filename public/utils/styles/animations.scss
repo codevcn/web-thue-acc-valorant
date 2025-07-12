@@ -19,3 +19,14 @@
     background-position: 100% 0, 100% 100%, 0 100%, 0 0;
   }
 }
+
+@keyframes notification-red-dot {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}

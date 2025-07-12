@@ -53,8 +53,6 @@ class HomePageManager {
     this.fetchAccountRankTypes()
     this.fetchAccountStatuses()
     this.fetchAccountDeviceTypes()
-
-    window.scrollTo({ top: 800, behavior: "instant" })
   }
 
   getLastAccount() {
@@ -121,14 +119,12 @@ class HomePageManager {
 
   fetchAccountRankTypes() {
     GameAccountService.fetchAccountRankTypes().then((rankTypes) => {
-      console.log(">>> rankTypes:", rankTypes)
       if (rankTypes && rankTypes.length > 0) {
         const rankParam = URLHelper.getUrlQueryParam("rank")
         const orderedRankTypes = this.moveActiveItemsToTop(
           rankTypes,
           (rankType) => rankType.type === rankParam
         )
-        console.log(">>> orderedRankTypes:", orderedRankTypes)
         for (const rankType of orderedRankTypes) {
           const isActive = rankParam === rankType.type
           const fragment = LitHTMLHelper.getFragment(AccountRankType, {
@@ -301,7 +297,6 @@ class HomePageManager {
   }
 
   initModalOverlayListener() {
-    console.log('>>> run this initModalOverlayListener')
     this.rentNowModalOverlay.addEventListener("click", () => {
       this.hideRentNowModal()
     })
@@ -323,9 +318,7 @@ class HomePageManager {
   }
 
   initCloseRentNowModalListener() {
-    console.log(">>> init CloseRentNowModalListener")
     this.closeRentNowModalBtn.addEventListener("click", () => {
-      console.log(">>> closeRentNowModalBtn clicked")
       this.hideRentNowModal()
     })
   }

@@ -1,4 +1,5 @@
 import { html } from "https://esm.run/lit-html@1"
+import { TimeHelper } from "./helpers.js"
 
 export const AccountCard = (account) => {
   const { status, rank, avatar, game_code, device_type, description, acc_name, id } = account
@@ -19,7 +20,9 @@ export const AccountCard = (account) => {
           />
         </div>
 
-        <div class="min-[1242px]:w-2/5 w-full bg-white p-6 flex flex-col justify-between rounded-lg">
+        <div
+          class="min-[1242px]:w-2/5 w-full bg-white p-6 flex flex-col justify-between rounded-lg"
+        >
           <div class="flex items-center gap-2 mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -273,9 +276,18 @@ export const AccountDeviceType = ({ device_type, isActive }) => {
 }
 
 export const AccountRow = (account, order_number) => {
-  const { acc_name, rank, game_code, status, description, created_at, device_type, id, avatar } =
-    account
-  const created_date_formatted = dayjs(created_at).format("DD/MM/YYYY HH:mm")
+  const {
+    acc_name,
+    rank,
+    game_code,
+    status,
+    description,
+    device_type,
+    id,
+    avatar,
+    rent_from_time,
+    rent_to_time,
+  } = account
   const lowerCasedStatus = status.toLowerCase()
   return html`
     <tr
@@ -308,7 +320,7 @@ export const AccountRow = (account, order_number) => {
         <div
           data-vcn-account-id="${id}"
           data-vcn-tooltip-content="Nhấn để chuyển trạng thái của tài khoản"
-          class="QUERY-switch-status-btn QUERY-tooltip-trigger max-w-[100px] truncate w-fit hover:scale-125 transition duration-200 cursor-pointer px-2 py-1 text-sm font-semibold rounded-full ${lowerCasedStatus ==
+          class="QUERY-switch-status-btn QUERY-tooltip-trigger max-w-[100px] truncate w-fit active:scale-90 hover:scale-125 transition duration-200 cursor-pointer px-2 py-1 text-sm font-semibold rounded-full ${lowerCasedStatus ==
           "rảnh"
             ? "bg-green-600"
             : "bg-red-600"} text-white"
@@ -327,8 +339,78 @@ export const AccountRow = (account, order_number) => {
               >`}
         </div>
       </td>
-      <td class="px-3 py-3 whitespace-nowrap">
-        <div class="text-sm text-gray-500">${created_date_formatted}</div>
+      <td class="px-3 py-3">
+        <div class="flex flex-col gap-2 w-full text-sm max-w-[150px]">
+          ${rent_from_time && rent_to_time
+            ? html`<div
+                  class="text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal"
+                >
+                  <span class="font-bold">Thời gian bắt đầu thuê:</span>
+                  <span>${dayjs(rent_from_time).format("DD/MM/YYYY HH:mm")}</span>
+                </div>
+                <div
+                  class="text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal"
+                >
+                  <span class="font-bold">Thời gian cho thuê:</span>
+                  <span>${TimeHelper.getRentalDuration(rent_from_time, rent_to_time)}</span>
+                </div>
+                <div
+                  class="text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal"
+                >
+                  <span class="font-bold">Thời gian còn lại:</span>
+                  <span>${TimeHelper.getRemainingRentalTime(rent_from_time, rent_to_time)}</span>
+                </div>
+                <div
+                  class="QUERY-rent-time-input-container QUERY-rent-time-input-container-${id} relative w-full text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal"
+                >
+                  <span class="font-bold">Thời gian thuê thêm:</span>
+                  <input
+                    type="number"
+                    class="QUERY-tooltip-trigger mt-0.5 max-w-full bg-transparent pb-1 border-b border-solid border-gray-400"
+                    data-vcn-tooltip-content="Nhập số giờ thuê thêm"
+                    data-rent-time-input-id="${id}"
+                    data-rent-to-time-value="${rent_to_time}"
+                    data-rent-time-type="add-time"
+                    min="0"
+                    placeholder="Nhập số giờ thuê thêm"
+                    name="rent-add-time"
+                  />
+                  <div
+                    hidden
+                    class="QUERY-rent-time-actions absolute top-[calc(100%+5px)] right-0 w-full h-full"
+                  >
+                    <button
+                      class="QUERY-rent-time-save-action bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
+                    >
+                      Lưu
+                    </button>
+                  </div>
+                </div>`
+            : html`<div
+                class="QUERY-rent-time-input-container QUERY-rent-time-input-container-${id} relative w-full"
+              >
+                <input
+                  type="number"
+                  class="QUERY-tooltip-trigger max-w-full bg-transparent pb-1 border-b border-solid border-gray-400"
+                  data-vcn-tooltip-content="Nhập số giờ cho thuê"
+                  data-rent-time-input-id="${id}"
+                  data-rent-time-type="to-time"
+                  min="0"
+                  placeholder="Nhập số giờ cho thuê"
+                  name="rent-to-time"
+                />
+                <div
+                  hidden
+                  class="QUERY-rent-time-actions absolute top-[calc(100%+5px)] right-0 w-full h-full"
+                >
+                  <button
+                    class="QUERY-rent-time-save-action bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
+                  >
+                    Lưu
+                  </button>
+                </div>
+              </div>`}
+        </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
         <div class="text-sm text-gray-900 max-w-[100px] truncate">${device_type}</div>
@@ -389,8 +471,7 @@ export const AccountRow = (account, order_number) => {
 }
 
 export const AccountPreviewRow = (account, order_number) => {
-  const { accName, rank, gameCode, status, description, created_at, deviceType, avatar } = account
-  const created_date_formatted = dayjs(created_at).format("DD/MM/YYYY HH:mm")
+  const { accName, rank, gameCode, status, description, deviceType, avatar } = account
   const lowerCasedStatus = status.toLowerCase()
   return html`
     <tr
@@ -439,9 +520,6 @@ export const AccountPreviewRow = (account, order_number) => {
                 >Chưa có mô tả</span
               >`}
         </div>
-      </td>
-      <td class="px-3 py-3 whitespace-nowrap">
-        <div class="text-sm text-gray-500">${created_date_formatted}</div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
         <div class="text-sm text-gray-900 max-w-[100px] truncate">${deviceType}</div>

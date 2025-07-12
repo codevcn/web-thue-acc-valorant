@@ -26,8 +26,6 @@ class GameAccountApiController
     $status = isset($_GET['status']) ? trim($_GET['status']) : null;
     $device_type = isset($_GET['device_type']) ? trim($_GET['device_type']) : null;
     $search_term = isset($_GET['search_term']) ? trim($_GET['search_term']) : null;
-    $date_from = isset($_GET['date_from']) ? trim($_GET['date_from']) : null;
-    $date_to = isset($_GET['date_to']) ? trim($_GET['date_to']) : null;
     $order_type = isset($_GET['order_type']) ? trim($_GET['order_type']) : null;
 
     $accounts = $this->gameAccountService->advancedFetchAccounts(
@@ -37,8 +35,6 @@ class GameAccountApiController
       $status,
       $device_type,
       $search_term,
-      $date_from,
-      $date_to,
       $order_type
     );
 
