@@ -14,18 +14,20 @@ use Services\JwtService;
 use Services\AuthService;
 use Services\RulesService;
 use Services\UserService;
+use Services\SaleAccountService;
 
 // Initialize services
 $jwtService = new JwtService();
 $authService = new AuthService($db, $jwtService);
 $userService = new UserService($db);
 $rulesService = new RulesService($db);
+$saleAccountService = new SaleAccountService($db);
 
 // Initialize controllers
 $homeController = new HomeController($userService, $rulesService);
 $adminController = new AdminController($userService, $authService, $rulesService);
 $authController = new AuthController($authService);
-$saleController = new SaleController();
+$saleController = new SaleController($saleAccountService);
 
 // Initialize middleware
 $authMiddleware = new AuthMiddleware($authService);

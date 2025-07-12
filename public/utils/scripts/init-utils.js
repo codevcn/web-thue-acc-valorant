@@ -2,6 +2,8 @@ import { AppLoadingHelper, AxiosErrorHandler, NavigationHelper, Toaster } from "
 import { AuthService } from "../../services/auth-service.js"
 
 class InitUtils {
+  static TOOLTIP_SELECTOR = ".QUERY-tooltip-trigger"
+
   constructor() {
     this.initListeners()
     this.initTooltip()
@@ -122,7 +124,7 @@ class InitUtils {
   }
 
   initTooltip() {
-    document.querySelectorAll(".QUERY-tooltip-trigger").forEach((trigger) => {
+    document.querySelectorAll(InitUtils.TOOLTIP_SELECTOR).forEach((trigger) => {
       this.linkTooltip(trigger, trigger.dataset.vcnTooltipContent)
     })
   }

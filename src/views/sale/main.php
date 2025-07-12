@@ -15,379 +15,107 @@
   <!-- Main Slider Container -->
   <div
     id="slider"
-    class="relative overflow-hidden shadow-2xl cursor-grab active:cursor-grabbing">
+    class="relative overflow-hidden cursor-grab active:cursor-grabbing">
     <div
       id="slides-container"
       class="flex transition-transform duration-500 ease-out">
-      <!-- Slide 1 -->
-      <div class="w-full flex-shrink-0 select-none">
-        <div class="flex flex-col lg:flex-row min-h-[500px] lg:min-h-[400px]">
-          <!-- Left side - Avatar -->
-          <div class="flex-1 bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center p-8 lg:p-12">
-            <div class="text-8xl lg:text-9xl filter drop-shadow-2xl transform hover:scale-110 transition-transform duration-300">
-              🎮
-            </div>
+      <?php foreach ($sale_accounts as $sale_account) : ?>
+        <div data-account-id="<?= $sale_account['id'] ?>" class="QUERY-account-container w-full flex-shrink-0">
+          <div class="text-sm font-medium bg-blue-100 rounded-md px-4 py-1 border-l-4 border-solid border-blue-300 border">
+            Sale | <span class="font-bold">00:00:00</span>
           </div>
-          <!-- Right side - Account Info -->
-          <div class="flex-1 bg-white p-6 lg:p-8 flex flex-col justify-between">
-            <!-- Header -->
-            <div class="space-y-6">
-              <div class="flex items-center gap-3">
-                <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
-                  <div class="w-3 h-3 bg-white rounded-full"></div>
-                </div>
-                <h2 class="text-xl lg:text-2xl font-bold text-gray-800">THÔNG TIN TÀI KHOẢN</h2>
+
+          <div class="mt-2 rounded-lg">
+            <div class="flex items-stretch gap-4">
+              <div class="h-[408px] min-w-[700px] w-[700px]">
+                <!-- <img class="w-full h-full object-cover" src="/images/sale-accounts/<?= $sale_account['avatar'] ?? 'default-sale-account-avatar.png' ?>" alt="Account Avatar"> -->
+                <img class="w-full h-full object-cover" src="/dev/sale-account.png" alt="Account Avatar">
               </div>
-              <!-- Account Details -->
-              <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="users" class="w-5 h-5 text-blue-500"></i>
-                    <span class="text-gray-600">Tên tài khoản</span>
+              <div class="flex flex-col grow h-[408px]">
+                <div class="flex items-center justify-between w-full gap-4 pt-3 pb-2 px-4 text-lg font-bold bg-white/80 backdrop-blur-md border border-solid border-b-0 border-gray-300 rounded-t-md">
+                  <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-text-icon lucide-text" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M15 18H3" />
+                      <path d="M17 6H3" />
+                      <path d="M21 12H3" />
+                    </svg>
+                    <span>Mô tả</span>
                   </div>
-                  <span class="font-semibold text-gray-800">CodeVCN#88</span>
+                  <button data-vcn-tooltip-content="Copy mô tả" class="QUERY-tooltip-trigger QUERY-copy-btn QUERY-not-copied p-0.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="QUERY-copy-icon lucide lucide-copy-icon lucide-copy" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="QUERY-copied-icon lucide lucide-check-check-icon lucide-check-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 6 7 17l-5-5" />
+                      <path d="m22 10-7.5 7.5L13 16" />
+                    </svg>
+                  </button>
                 </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="star" class="w-5 h-5 text-yellow-500"></i>
-                    <span class="text-gray-600">Rank</span>
+                <div class="grow w-full pb-4 px-4 bg-white border border-solid border-t-0 border-gray-300 rounded-b-md whitespace-pre-line overflow-y-auto CSS-styled-vt-scrollbar"><?= $sale_account['description'] ?></div>
+                <div class="flex items-center gap-2 mt-4 bg-green-50 border border-solid border-green-300 py-2 px-4 w-full rounded-md">
+                  <div class="rounded-full p-0.5 border-[1.5px] border-solid border-black">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#000" width="20" height="20" viewBox="0 0 32 32">
+                      <g>
+                        <path d="M19.8,26.1h-0.2c-2.4,0-4.8,0-7.2,0c-0.3,0-0.5-0.1-0.6-0.3c-2.5-3.2-5.1-6.3-7.6-9.5C4.1,16.1,4,16,4,15.8   c0-3.1,0-6.1,0-9.2c0-0.1,0-0.2,0.1-0.2h0.1c5.2,6.5,10.4,13,15.5,19.5c0,0,0,0.1,0.1,0.1L19.8,26.1L19.8,26.1z" />
+                        <path d="M27.8,16.3c-0.7,0.9-1.5,1.8-2.2,2.8c-0.2,0.2-0.4,0.3-0.6,0.3c-2.4,0-4.8,0-7.1,0c0,0-0.1,0-0.1,0c-0.1,0-0.2-0.1-0.1-0.2   c0,0,0-0.1,0.1-0.1c2.4-3,4.7-5.9,7.1-8.9c1-1.2,2-2.5,2.9-3.7c0-0.1,0.1-0.1,0.2-0.1c0,0,0.1,0,0.1,0c0,0.1,0,0.1,0,0.2   c0,3,0,6.1,0,9.1C28,16,27.9,16.2,27.8,16.3L27.8,16.3z" />
+                      </g>
+                    </svg>
                   </div>
-                  <span class="font-semibold text-yellow-500">Vàng 2</span>
+                  <span data-vcn-tooltip-content="Giá bán" class="QUERY-tooltip-trigger"><?= $sale_account['price'] ?></span>
                 </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <div class="w-5 h-5 flex items-center justify-center">
-                      <div class="w-3 h-3 bg-blue-500 rounded"></div>
-                    </div>
-                    <span class="text-gray-600">Trạng Thái</span>
-                  </div>
-                  <span class="px-3 py-1 rounded-full text-white text-sm font-medium bg-green-500">Rảnh</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="code" class="w-5 h-5 text-blue-500"></i>
-                    <span class="text-gray-600">Mã Game</span>
-                  </div>
-                  <span class="font-semibold text-gray-800">Ma 099</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="monitor" class="w-5 h-5 text-blue-500"></i>
-                    <span class="text-gray-600">Loại Máy</span>
-                  </div>
-                  <span class="font-semibold text-gray-800">Tất cả</span>
-                </div>
-                <div class="pt-2">
-                  <p class="text-gray-600 text-sm">
-                    <span class="font-medium">Mô tả:</span> Acc valorant uy tín chất lượng
-                  </p>
-                </div>
+                <button id="by-now-btn" class="QUERY-load-more-btn CSS-button-blue-line-decoration min-h-[42px] mt-4">
+                  MUA NGAY
+                </button>
               </div>
             </div>
-            <!-- Rent Button -->
-            <button
-              class="w-full bg-black text-white font-bold py-4 px-6 rounded-lg hover:bg-gray-800 transition-colors duration-300 transform hover:scale-105 active:scale-95 shadow-lg select-none">
-              THUÊ NGAY
-            </button>
+
+            <div class="flex items-stretch gap-2 mt-4">
+              <div class="flex flex-col items-center justify-center flex-1 bg-blue-100 border border-solid border-blue-300 border-t-4 rounded-md py-1 px-4">
+                <h4 class="text-base font-bold">Gmail</h4>
+                <div><?= $sale_account['gmail'] ?></div>
+              </div>
+              <div class="flex flex-col items-center justify-center flex-1 bg-blue-100 border border-solid border-blue-300 border-t-4 rounded-md py-1 px-4">
+                <h4 class="text-base font-bold">Thư</h4>
+                <div><?= $sale_account['letter'] ?></div>
+              </div>
+              <div class="flex flex-col items-center justify-center flex-1 bg-blue-100 border border-solid border-blue-300 border-t-4 rounded-md py-1 px-4">
+                <h4 class="text-base font-bold">Tình trạng</h4>
+                <div><?= $sale_account['status'] ?></div>
+              </div>
+              <button class="CSS-button-blue-line-decoration text-base font-bold py-1 px-4 flex-1">
+                Cam kết
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- Slide 2 -->
-      <div class="w-full flex-shrink-0 select-none">
-        <div class="flex flex-col lg:flex-row min-h-[500px] lg:min-h-[400px]">
-          <div class="flex-1 bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center p-8 lg:p-12">
-            <div class="text-8xl lg:text-9xl filter drop-shadow-2xl transform hover:scale-110 transition-transform duration-300">
-              ⚔️
-            </div>
-          </div>
-          <div class="flex-1 bg-white p-6 lg:p-8 flex flex-col justify-between">
-            <div class="space-y-6">
-              <div class="flex items-center gap-3">
-                <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
-                  <div class="w-3 h-3 bg-white rounded-full"></div>
-                </div>
-                <h2 class="text-xl lg:text-2xl font-bold text-gray-800">THÔNG TIN TÀI KHOẢN</h2>
-              </div>
-              <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="users" class="w-5 h-5 text-blue-500"></i>
-                    <span class="text-gray-600">Tên tài khoản</span>
-                  </div>
-                  <span class="font-semibold text-gray-800">ProGamer#77</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="star" class="w-5 h-5 text-gray-400"></i>
-                    <span class="text-gray-600">Rank</span>
-                  </div>
-                  <span class="font-semibold text-gray-400">Bạc 3</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <div class="w-5 h-5 flex items-center justify-center">
-                      <div class="w-3 h-3 bg-blue-500 rounded"></div>
-                    </div>
-                    <span class="text-gray-600">Trạng Thái</span>
-                  </div>
-                  <span class="px-3 py-1 rounded-full text-white text-sm font-medium bg-yellow-500">Bận</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="code" class="w-5 h-5 text-blue-500"></i>
-                    <span class="text-gray-600">Mã Game</span>
-                  </div>
-                  <span class="font-semibold text-gray-800">Ma 045</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="monitor" class="w-5 h-5 text-blue-500"></i>
-                    <span class="text-gray-600">Loại Máy</span>
-                  </div>
-                  <span class="font-semibold text-gray-800">PC</span>
-                </div>
-                <div class="pt-2">
-                  <p class="text-gray-600 text-sm">
-                    <span class="font-medium">Mô tả:</span> Account chất lượng cao, rank ổn định
-                  </p>
-                </div>
-              </div>
-            </div>
-            <button
-              class="w-full bg-black text-white font-bold py-4 px-6 rounded-lg hover:bg-gray-800 transition-colors duration-300 transform hover:scale-105 active:scale-95 shadow-lg select-none"
-              disabled>
-              KHÔNG KHẢ DỤNG
-            </button>
-          </div>
-        </div>
-      </div>
-      <!-- Slide 3 -->
-      <div class="w-full flex-shrink-0 select-none">
-        <div class="flex flex-col lg:flex-row min-h-[500px] lg:min-h-[400px]">
-          <div class="flex-1 bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center p-8 lg:p-12">
-            <div class="text-8xl lg:text-9xl filter drop-shadow-2xl transform hover:scale-110 transition-transform duration-300">
-              💎
-            </div>
-          </div>
-          <div class="flex-1 bg-white p-6 lg:p-8 flex flex-col justify-between">
-            <div class="space-y-6">
-              <div class="flex items-center gap-3">
-                <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
-                  <div class="w-3 h-3 bg-white rounded-full"></div>
-                </div>
-                <h2 class="text-xl lg:text-2xl font-bold text-gray-800">THÔNG TIN TÀI KHOẢN</h2>
-              </div>
-              <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="users" class="w-5 h-5 text-blue-500"></i>
-                    <span class="text-gray-600">Tên tài khoản</span>
-                  </div>
-                  <span class="font-semibold text-gray-800">ElitePlayer#99</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="star" class="w-5 h-5 text-cyan-400"></i>
-                    <span class="text-gray-600">Rank</span>
-                  </div>
-                  <span class="font-semibold text-cyan-400">Kim Cương</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <div class="w-5 h-5 flex items-center justify-center">
-                      <div class="w-3 h-3 bg-blue-500 rounded"></div>
-                    </div>
-                    <span class="text-gray-600">Trạng Thái</span>
-                  </div>
-                  <span class="px-3 py-1 rounded-full text-white text-sm font-medium bg-green-500">Rảnh</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="code" class="w-5 h-5 text-blue-500"></i>
-                    <span class="text-gray-600">Mã Game</span>
-                  </div>
-                  <span class="font-semibold text-gray-800">Ma 156</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="monitor" class="w-5 h-5 text-blue-500"></i>
-                    <span class="text-gray-600">Loại Máy</span>
-                  </div>
-                  <span class="font-semibold text-gray-800">Mobile</span>
-                </div>
-                <div class="pt-2">
-                  <p class="text-gray-600 text-sm">
-                    <span class="font-medium">Mô tả:</span> Acc cao cấp, skill tốt, giá hợp lý
-                  </p>
-                </div>
-              </div>
-            </div>
-            <button
-              class="w-full bg-black text-white font-bold py-4 px-6 rounded-lg hover:bg-gray-800 transition-colors duration-300 transform hover:scale-105 active:scale-95 shadow-lg select-none">
-              THUÊ NGAY
-            </button>
-          </div>
-        </div>
-      </div>
-      <!-- Slide 4 -->
-      <div class="w-full flex-shrink-0 select-none">
-        <div class="flex flex-col lg:flex-row min-h-[500px] lg:min-h-[400px]">
-          <div class="flex-1 bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center p-8 lg:p-12">
-            <div class="text-8xl lg:text-9xl filter drop-shadow-2xl transform hover:scale-110 transition-transform duration-300">
-              🔥
-            </div>
-          </div>
-          <div class="flex-1 bg-white p-6 lg:p-8 flex flex-col justify-between">
-            <div class="space-y-6">
-              <div class="flex items-center gap-3">
-                <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
-                  <div class="w-3 h-3 bg-white rounded-full"></div>
-                </div>
-                <h2 class="text-xl lg:text-2xl font-bold text-gray-800">THÔNG TIN TÀI KHOẢN</h2>
-              </div>
-              <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="users" class="w-5 h-5 text-blue-500"></i>
-                    <span class="text-gray-600">Tên tài khoản</span>
-                  </div>
-                  <span class="font-semibold text-gray-800">TopRanker#55</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="star" class="w-5 h-5 text-red-500"></i>
-                    <span class="text-gray-600">Rank</span>
-                  </div>
-                  <span class="font-semibold text-red-500">Immortal</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <div class="w-5 h-5 flex items-center justify-center">
-                      <div class="w-3 h-3 bg-blue-500 rounded"></div>
-                    </div>
-                    <span class="text-gray-600">Trạng Thái</span>
-                  </div>
-                  <span class="px-3 py-1 rounded-full text-white text-sm font-medium bg-green-500">Rảnh</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="code" class="w-5 h-5 text-blue-500"></i>
-                    <span class="text-gray-600">Mã Game</span>
-                  </div>
-                  <span class="font-semibold text-gray-800">Ma 234</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="monitor" class="w-5 h-5 text-blue-500"></i>
-                    <span class="text-gray-600">Loại Máy</span>
-                  </div>
-                  <span class="font-semibold text-gray-800">Console</span>
-                </div>
-                <div class="pt-2">
-                  <p class="text-gray-600 text-sm">
-                    <span class="font-medium">Mô tả:</span> Account rank cao nhất, trải nghiệm tuyệt vời
-                  </p>
-                </div>
-              </div>
-            </div>
-            <button
-              class="w-full bg-black text-white font-bold py-4 px-6 rounded-lg hover:bg-gray-800 transition-colors duration-300 transform hover:scale-105 active:scale-95 shadow-lg select-none">
-              THUÊ NGAY
-            </button>
-          </div>
-        </div>
-      </div>
-      <!-- Slide 5 -->
-      <div class="w-full flex-shrink-0 select-none">
-        <div class="flex flex-col lg:flex-row min-h-[500px] lg:min-h-[400px]">
-          <div class="flex-1 bg-gradient-to-br from-slate-400 to-gray-600 flex items-center justify-center p-8 lg:p-12">
-            <div class="text-8xl lg:text-9xl filter drop-shadow-2xl transform hover:scale-110 transition-transform duration-300">
-              🏆
-            </div>
-          </div>
-          <div class="flex-1 bg-white p-6 lg:p-8 flex flex-col justify-between">
-            <div class="space-y-6">
-              <div class="flex items-center gap-3">
-                <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
-                  <div class="w-3 h-3 bg-white rounded-full"></div>
-                </div>
-                <h2 class="text-xl lg:text-2xl font-bold text-gray-800">THÔNG TIN TÀI KHOẢN</h2>
-              </div>
-              <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="users" class="w-5 h-5 text-blue-500"></i>
-                    <span class="text-gray-600">Tên tài khoản</span>
-                  </div>
-                  <span class="font-semibold text-gray-800">SkillMaster#33</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="star" class="w-5 h-5 text-slate-300"></i>
-                    <span class="text-gray-600">Rank</span>
-                  </div>
-                  <span class="font-semibold text-slate-300">Bạch Kim</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <div class="w-5 h-5 flex items-center justify-center">
-                      <div class="w-3 h-3 bg-blue-500 rounded"></div>
-                    </div>
-                    <span class="text-gray-600">Trạng Thái</span>
-                  </div>
-                  <span class="px-3 py-1 rounded-full text-white text-sm font-medium bg-red-500">Offline</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="code" class="w-5 h-5 text-blue-500"></i>
-                    <span class="text-gray-600">Mã Game</span>
-                  </div>
-                  <span class="font-semibold text-gray-800">Ma 178</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <i data-lucide="monitor" class="w-5 h-5 text-blue-500"></i>
-                    <span class="text-gray-600">Loại Máy</span>
-                  </div>
-                  <span class="font-semibold text-gray-800">Tất cả</span>
-                </div>
-                <div class="pt-2">
-                  <p class="text-gray-600 text-sm">
-                    <span class="font-medium">Mô tả:</span> Acc chuyên nghiệp, gameplay mượt mà
-                  </p>
-                </div>
-              </div>
-            </div>
-            <button
-              class="w-full bg-black text-white font-bold py-4 px-6 rounded-lg hover:bg-gray-800 transition-colors duration-300 transform hover:scale-105 active:scale-95 shadow-lg select-none"
-              disabled>
-              KHÔNG KHẢ DỤNG
-            </button>
-          </div>
-        </div>
-      </div>
+      <?php endforeach; ?>
     </div>
   </div>
 
   <!-- Navigation Buttons -->
   <button
     id="prev-button"
-    class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 z-10">
-    <i data-lucide="chevron-left" class="w-6 h-6"></i>
+    class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-90 z-10">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left-icon lucide-chevron-left">
+      <path d="m15 18-6-6 6-6" />
+    </svg>
   </button>
   <button
     id="next-button"
-    class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 z-10">
-    <i data-lucide="chevron-right" class="w-6 h-6"></i>
+    class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-90 z-10">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right">
+      <path d="m9 18 6-6-6-6" />
+    </svg>
   </button>
 
   <!-- Dots Indicator -->
-  <div id="dots" class="flex justify-center mt-8 space-x-2">
-    <button class="w-8 h-3 rounded-full bg-blue-500"></button>
-    <button class="w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400"></button>
-    <button class="w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400"></button>
-    <button class="w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400"></button>
-    <button class="w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400"></button>
+  <div id="dots" class="flex justify-center mt-8 gap-2 w-full">
+    <?php foreach ($sale_accounts as $sale_account) : ?>
+      <button class="h-12 min-w-[90px] border-1 box-content border-solid border-black hover:scale-110 active:scale-90 transition duration-200">
+        <img class="h-full min-w-[90px] object-cover box-content" src="/dev/sale-account.png" alt="Account Avatar">
+      </button>
+    <?php endforeach; ?>
   </div>
 
   <!-- Account Counter -->
@@ -397,5 +125,9 @@
 </div>
 
 <script>
-  lucide.createIcons();
+  window.APP_DATA = {
+    saleAccounts: <?= json_encode($sale_accounts) ?>
+  }
 </script>
+
+<?php require_once __DIR__ . '/../templates/tooltip.php'; ?>

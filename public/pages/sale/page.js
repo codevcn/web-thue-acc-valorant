@@ -1,3 +1,5 @@
+import { initUtils } from "../../utils/scripts/init-utils.js"
+
 class SalePageManager {
   constructor() {
     this.slider = document.getElementById("slider")
@@ -16,6 +18,8 @@ class SalePageManager {
 
     this.initEvents()
     this.updateSlider()
+
+    initUtils.initTooltip()
   }
 
   updateSlider() {
@@ -118,6 +122,21 @@ class SalePageManager {
     document.querySelectorAll("button").forEach((button) => {
       button.addEventListener("mousedown", (e) => e.stopPropagation())
       button.addEventListener("touchstart", (e) => e.stopPropagation())
+    })
+
+    // Copy button
+    document.querySelectorAll(".QUERY-copy-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault()
+        const accountId = e.target.closest(".QUERY-account-container").dataset.accountId * 1
+        const account = window.APP_DATA.saleAccounts.find((account) => account.id === accountId)
+        navigator.clipboard.writeText(account.description).then(() => {
+          btn.classList.add("QUERY-is-copied")
+          setTimeout(() => {
+            btn.classList.remove("QUERY-is-copied")
+          }, 1000)
+        })
+      })
     })
   }
 }

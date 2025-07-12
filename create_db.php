@@ -10,18 +10,20 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 //   rent_acc_rules TEXT NOT NULL,
 //   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 // )");
-$stmt = $db->prepare("INSERT INTO rules (rent_acc_rules) VALUES (?)");
-$stmt->execute(['- Không được rao bán Acc này ra ngoài, nếu có bất cứ hành vi nào sẽ bị cấm thuê vĩnh viễn!\n- Nghiêm cấm hành vi AFK, HACK, CHEAT, BOT, ... Nếu phát hiện sẽ bị cấm thuê vĩnh viễn!']);
+// $stmt = $db->prepare("INSERT INTO rules (rent_acc_rules) VALUES (?)");
+// $stmt->execute(['- Không được rao bán Acc này ra ngoài, nếu có bất cứ hành vi nào sẽ bị cấm thuê vĩnh viễn!\n- Nghiêm cấm hành vi AFK, HACK, CHEAT, BOT, ... Nếu phát hiện sẽ bị cấm thuê vĩnh viễn!']);
 
-// $db->exec("CREATE TABLE IF NOT EXISTS game_accounts (
-//   id INTEGER PRIMARY KEY AUTOINCREMENT,
-//   acc_name TEXT NOT NULL,
-//   rank TEXT NOT NULL,
-//   game_code TEXT NOT NULL,
-//   [status] TEXT NOT NULL DEFAULT 'AVAILABLE' CHECK([status] IN ('AVAILABLE', 'RENTED')),
-//   [description] TEXT,
-//   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-// )");
+$db->exec("CREATE TABLE IF NOT EXISTS sale_accounts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  [status] TEXT NOT NULL,
+  price TEXT NOT NULL,
+  gmail TEXT NOT NULL,
+  letter TEXT NOT NULL CHECK(letter IN ('Back', 'Có')),
+  commitment TEXT NOT NULL,
+  [description] TEXT NOT NULL,
+  avatar TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+)");
 
 // $password = password_hash('123456', PASSWORD_DEFAULT);
 // $stmt = $db->prepare("INSERT INTO users (username, [password], full_name, phone, [role]) VALUES (?, ?, ?, ?, ?)");
