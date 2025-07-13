@@ -26,7 +26,8 @@ class ManageGameAccountsPageManager {
     this.isMoreItems = true
     this.rentTimeInputId = null
 
-    this.fetchAccounts()
+    this.updateAccountRentTime()
+
     this.watchScrolling()
 
     this.initListeners()
@@ -44,11 +45,26 @@ class ManageGameAccountsPageManager {
     return null
   }
 
+  updateAccountRentTime() {
+    AppLoadingHelper.show("Đang cập nhật thời gian cho thuê...")
+    GameAccountService.updateAccountRentTime()
+      .then((data) => {
+        if (data && data.success) {
+          AppLoadingHelper.hide()
+          this.fetchAccounts()
+        }
+      })
+      .catch((error) => {
+        AppLoadingHelper.hide()
+        Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
+      })
+  }
+
   fetchAccounts() {
     if (this.isFetchingItems || !this.isMoreItems) return
     this.isFetchingItems = true
 
-    AppLoadingHelper.show()
+    AppLoadingHelper.show("Đang tải dữ liệu...")
     const lastAccount = this.getLastAccount()
     let last_id = lastAccount ? lastAccount.id : null
     let last_updated_at = lastAccount ? lastAccount.updated_at : null
@@ -64,7 +80,7 @@ class ManageGameAccountsPageManager {
       status,
       device_type,
       search_term,
-      "created_at"
+      "updated_at"
     )
       .then((accounts) => {
         if (accounts && accounts.length > 0) {
@@ -178,8 +194,21 @@ class ManageGameAccountsPageManager {
     this.scrollToBottomBtn.addEventListener("click", this.scrollToBottom.bind(this))
   }
 
+  submitRentTimeFromInput(input) {
+    const value = input.value
+    if (value) {
+      if (!this.rentTimeInputId) return
+      let rentToTimeValue = input.dataset.rentToTimeValue
+      rentToTimeValue = rentToTimeValue ? dayjs(rentToTimeValue) : dayjs() // nếu ko có thời gian cho thuê thì lấy thời gian hiện tại
+      rentToTimeValue = rentToTimeValue.add(value, "hours").format("YYYY-MM-DD HH:mm:ss")
+      updateAccountManager.updateRentTime(this.rentTimeInputId, rentToTimeValue)
+    } else {
+      Toaster.error("Thời gian thuê không được để trống")
+    }
+  }
+
   initRentTimeInputListeners() {
-    document.addEventListener("click", (e) => {
+    document.body.addEventListener("click", (e) => {
       const target = e.target
       if (target && !target.closest(".QUERY-rent-time-input-container")) {
         const rentTimeActions = this.accountsTableBody.querySelector(
@@ -192,7 +221,7 @@ class ManageGameAccountsPageManager {
       }
     })
 
-    this.accountsTableBody.addEventListener("click", (e) => {
+    this.accountsTableBody.addEventListener("focusin", (e) => {
       let target = e.target
       while (target && target.tagName !== "INPUT") {
         target = target.parentElement
@@ -216,21 +245,24 @@ class ManageGameAccountsPageManager {
           return
         }
       }
-      if (target) {
-        const input = target.closest(".QUERY-rent-time-input-container").querySelector("input")
-        if (input) {
-          const value = input.value
-          if (value && this.rentTimeInputId) {
-            let rentToTimeValue = input.dataset.rentToTimeValue
-            rentToTimeValue = rentToTimeValue ? dayjs(rentToTimeValue) : dayjs() // nếu ko có thời gian cho thuê thì lấy thời gian hiện tại
-            rentToTimeValue = rentToTimeValue.add(value, "hours").format("YYYY-MM-DD HH:mm:ss")
-            updateAccountManager.updateRentTime(
-              this.rentTimeInputId,
-              rentToTimeValue,
-              input.dataset.rentTimeType
-            )
+      if (!target) return
+      const input = target.closest(".QUERY-rent-time-input-container").querySelector("input")
+      if (input) {
+        this.submitRentTimeFromInput(input)
+      }
+    })
+    // bắt sự kiện nhấn enter trong input
+    this.accountsTableBody.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        let target = e.target
+        while (target && target.tagName !== "INPUT") {
+          target = target.parentElement
+          if (target && target.classList.contains("accounts-table-body")) {
+            return
           }
         }
+        if (!target) return
+        this.submitRentTimeFromInput(target)
       }
     })
   }
@@ -436,14 +468,67 @@ class UpdateAccountManager {
     this.initSwitchStatusQuickly()
   }
 
-  updateRentTime(accountId, toTime, type) {
-    GameAccountService.updateAccount(accountId, { rentToTime: toTime }).then((data) => {
-      if (data && data.success) {
-        Toaster.success("Thông báo", "Cập nhật thời gian cho thuê thành công", () => {
-          NavigationHelper.reloadPage()
-        })
-      }
-    })
+  setAccountRowUI(accountRow, dataToRefresh) {
+    const { acc_name, game_code, description, status, device_type, rank, avatar } = dataToRefresh
+    if (avatar) {
+      accountRow.querySelector(".QUERY-account-UI-item-avatar").src = `/images/account/${avatar}`
+    }
+    if (acc_name) {
+      accountRow.querySelector(".QUERY-account-UI-item-acc-name").textContent = acc_name
+    }
+    if (rank) {
+      accountRow.querySelector(".QUERY-account-UI-item-rank").textContent = rank
+    }
+    if (game_code) {
+      accountRow.querySelector(".QUERY-account-UI-item-game-code").textContent = game_code
+    }
+    if (status) {
+      accountRow.querySelector(".QUERY-account-UI-item-status").textContent = status
+    }
+    if (description) {
+      accountRow.querySelector(".QUERY-account-UI-item-description").textContent = description
+    }
+    if (device_type) {
+      accountRow.querySelector(".QUERY-account-UI-item-device-type").textContent = device_type
+    }
+  }
+
+  refreshAccountRowOnUI(accountId, ...fieldsToRefresh) {
+    GameAccountService.refreshAccount(accountId, ...fieldsToRefresh)
+      .then((data) => {
+        if (data && data.success) {
+          const account = data.account
+          if (account) {
+            sharedData.gameAccounts = sharedData.gameAccounts.map((acc) =>
+              acc.id === accountId ? account : acc
+            )
+            const accountRow = this.accountsTableBody.querySelector(
+              `.QUERY-account-row-item-${accountId}`
+            )
+            if (accountRow) {
+              this.setAccountRowUI(accountRow, account)
+            }
+          }
+        }
+      })
+      .catch((error) => {
+        Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
+      })
+  }
+
+  updateRentTime(accountId, toTime) {
+    AppLoadingHelper.show()
+    GameAccountService.updateAccount(accountId, { rentToTime: toTime })
+      .then((data) => {
+        if (data && data.success) {
+          Toaster.success("Thông báo", "Cập nhật thời gian cho thuê thành công", () => {
+            this.refreshAccountRowOnUI(accountId, "rent_from_time", "rent_to_time")
+          })
+        }
+      })
+      .finally(() => {
+        AppLoadingHelper.hide()
+      })
   }
 
   initListeners() {
@@ -582,12 +667,12 @@ class UpdateAccountManager {
       })
   }
 
-  switchStatus(status) {
+  switchStatus() {
     if (this.isSubmitting) return
     this.isSubmitting = true
 
     AppLoadingHelper.show()
-    GameAccountService.updateAccount(this.accountId, { status })
+    GameAccountService.switchAccountStatus(this.accountId)
       .then((data) => {
         if (data && data.success) {
           Toaster.success("Thông báo", "Cập nhật trạng thái tài khoản thành công", () => {
@@ -621,7 +706,7 @@ class UpdateAccountManager {
         const account = sharedData.gameAccounts.find((account) => account.id === accountId)
         if (account) {
           this.accountId = account.id
-          this.switchStatus(account.status.toLowerCase() === "rảnh" ? "Bận" : "Rảnh")
+          this.switchStatus()
         }
       }
     })

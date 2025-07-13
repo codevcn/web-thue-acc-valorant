@@ -57,4 +57,23 @@ export class GameAccountService {
     const { data } = await axiosClient.delete(`/game-accounts/delete/${accountId}`)
     return data
   }
+
+  static async switchAccountStatus(accountId) {
+    const { data } = await axiosClient.post(`/game-accounts/switch-status/${accountId}`)
+    return data
+  }
+
+  static async updateAccountRentTime() {
+    const { data } = await axiosClient.post("/game-accounts/update-rent-time")
+    return data
+  }
+
+  static async refreshAccount(accountId, ...fieldsToRefresh) {
+    const { data } = await axiosClient.get(`/game-accounts/refresh/${accountId}`, {
+      params: {
+        fields_to_refresh: fieldsToRefresh,
+      },
+    })
+    return data
+  }
 }

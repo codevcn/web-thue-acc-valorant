@@ -6,6 +6,7 @@ namespace Controllers\Apis;
 
 use Services\GameAccountService;
 use Services\FileService;
+use Utils\DevLogger;
 
 class GameAccountApiController
 {
@@ -249,6 +250,81 @@ class GameAccountApiController
 
     return [
       'success' => true,
+    ];
+  }
+
+  public function switchAccountStatus(string $accountId): array
+  {
+    try {
+      $this->gameAccountService->switchAccountStatus((int) $accountId);
+    } catch (\Throwable $th) {
+      if ($th instanceof \InvalidArgumentException) {
+        http_response_code(400);
+        return [
+          'success' => false,
+          'message' => $th->getMessage()
+        ];
+      }
+
+      http_response_code(500);
+      return [
+        'success' => false,
+        'message' => 'Lỗi hệ thống'
+      ];
+    }
+
+    return [
+      'success' => true,
+    ];
+  }
+
+  public function updateAccountRentTime(): array
+  {
+    try {
+      $this->gameAccountService->updateAccountRentTime();
+    } catch (\Throwable $th) {
+      if ($th instanceof \InvalidArgumentException) {
+        http_response_code(400);
+        return [
+          'success' => false,
+          'message' => $th->getMessage()
+        ];
+      }
+      http_response_code(500);
+      return [
+        'success' => false,
+        'message' => 'Lỗi hệ thống'
+      ];
+    }
+
+    return [
+      'success' => true,
+    ];
+  }
+
+  public function refreshAccount(string $accountId): array
+  {
+    $fieldsToRefresh = $_GET['fields_to_refresh'] ?? [];
+    try {
+      $refreshedAccount = $this->gameAccountService->refreshAccount((int) $accountId, $fieldsToRefresh);
+    } catch (\Throwable $th) {
+      if ($th instanceof \InvalidArgumentException) {
+        http_response_code(400);
+        return [
+          'success' => false,
+          'message' => $th->getMessage()
+        ];
+      }
+      http_response_code(500);
+      return [
+        'success' => false,
+        'message' => 'Lỗi hệ thống'
+      ];
+    }
+
+    return [
+      'success' => true,
+      'account' => $refreshedAccount,
     ];
   }
 }

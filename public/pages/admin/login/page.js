@@ -82,9 +82,7 @@ class LoginPageManager {
     AuthService.login(username, password)
       .then((data) => {
         if (data.success) {
-          Toaster.success("Đăng nhập thành công", "", () => {
-            NavigationHelper.pureNavigateTo("/admin/manage-game-accounts")
-          })
+          NavigationHelper.pureNavigateTo("/admin/manage-game-accounts")
         } else {
           Toaster.error(data.message)
         }

@@ -54,6 +54,11 @@ $apiRouter->delete('/api/v1/game-accounts/delete/{accountId}', function ($accoun
   return $gameAccountApiController->deleteAccount($accountId);
 });
 
+$apiRouter->post('/api/v1/game-accounts/switch-status/{accountId}', function ($accountId) use ($gameAccountApiController, $authMiddleware) {
+  $authMiddleware->handle();
+  return $gameAccountApiController->switchAccountStatus($accountId);
+});
+
 $apiRouter->post('/api/v1/admin/update-profile', function () use ($adminApiController, $authMiddleware) {
   $authMiddleware->handle();
   return $adminApiController->updateAdminProfile();
@@ -62,6 +67,16 @@ $apiRouter->post('/api/v1/admin/update-profile', function () use ($adminApiContr
 $apiRouter->post('/api/v1/admin/update-web-ui', function () use ($adminApiController, $authMiddleware) {
   $authMiddleware->handle();
   return $adminApiController->updateWebUI();
+});
+
+$apiRouter->post('/api/v1/game-accounts/update-rent-time', function () use ($gameAccountApiController, $authMiddleware) {
+  $authMiddleware->handle();
+  return $gameAccountApiController->updateAccountRentTime();
+});
+
+$apiRouter->get('/api/v1/game-accounts/refresh/{accountId}', function ($accountId) use ($gameAccountApiController, $authMiddleware) {
+  $authMiddleware->handle();
+  return $gameAccountApiController->refreshAccount($accountId);
 });
 
 $apiRouter->post('/api/v1/auth/login', function () use ($authApiController) {

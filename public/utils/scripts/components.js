@@ -276,6 +276,7 @@ export const AccountDeviceType = ({ device_type, isActive }) => {
 }
 
 export const AccountRow = (account, order_number) => {
+  console.log(">>> account:", account)
   const {
     acc_name,
     rank,
@@ -289,6 +290,84 @@ export const AccountRow = (account, order_number) => {
     rent_to_time,
   } = account
   const lowerCasedStatus = status.toLowerCase()
+
+  const RentTime = (rentFromTime, rentToTime) => {
+    const RentalTimeDetails = (durationTime, remainingTime) => html`<div
+        class="text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal"
+      >
+        <span class="font-bold">Thời gian bắt đầu thuê gần nhất:</span>
+        <span>${dayjs(rentFromTime).format("DD/MM/YYYY, HH:mm")}</span>
+      </div>
+      <div class="text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal">
+        <span class="font-bold">Thời gian cho thuê:</span>
+        <span>${durationTime}</span>
+      </div>
+      <div class="text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal">
+        <span class="font-bold">Thời gian thuê còn lại:</span>
+        <span>${remainingTime}</span>
+      </div>`
+    const RentToTimeInput = () => html`<div
+      class="QUERY-rent-time-input-container QUERY-rent-time-input-container-${id} relative w-full"
+    >
+      <span class="font-bold">Cho thuê:</span>
+      <input
+        type="number"
+        class="QUERY-tooltip-trigger max-w-full bg-transparent pb-1 border-b border-solid border-gray-400"
+        data-vcn-tooltip-content="Nhập số giờ cho thuê"
+        data-rent-time-input-id="${id}"
+        min="0"
+        placeholder="Nhập số giờ cho thuê"
+        name="rent-to-time"
+      />
+      <div
+        hidden
+        class="QUERY-rent-time-actions absolute top-[calc(100%+5px)] right-0 w-full h-full"
+      >
+        <button
+          class="QUERY-rent-time-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
+        >
+          Lưu
+        </button>
+      </div>
+    </div>`
+    if (rentFromTime && rentToTime) {
+      const durationTime = TimeHelper.getRentalDuration(rentFromTime, rentToTime)
+      const remainingTime = TimeHelper.getRemainingRentalTime(rentFromTime, rentToTime)
+      if (remainingTime === TimeHelper.OUT_OF_TIME) {
+        return html`${RentalTimeDetails(
+          durationTime,
+          "Đã hết thời gian cho thuê"
+        )}${RentToTimeInput()}`
+      }
+      return html`${RentalTimeDetails(durationTime, remainingTime)}${html`<div
+        class="QUERY-rent-time-input-container QUERY-rent-time-input-container-${id} relative w-full text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal"
+      >
+        <span class="font-bold">Thời gian thuê thêm:</span>
+        <input
+          type="number"
+          class="QUERY-tooltip-trigger mt-0.5 max-w-full bg-transparent pb-1 border-b border-solid border-gray-400"
+          data-vcn-tooltip-content="Nhập số giờ thuê thêm"
+          data-rent-time-input-id="${id}"
+          data-rent-to-time-value="${rent_to_time}"
+          min="0"
+          placeholder="Nhập số giờ thuê thêm"
+          name="rent-add-time"
+        />
+        <div
+          hidden
+          class="QUERY-rent-time-actions absolute top-[calc(100%+5px)] right-0 w-full h-full"
+        >
+          <button
+            class="QUERY-rent-time-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
+          >
+            Lưu
+          </button>
+        </div>
+      </div>`}`
+    }
+    return RentToTimeInput()
+  }
+
   return html`
     <tr
       class="QUERY-account-row-item hover:bg-blue-50 ${lowerCasedStatus == "bận"
@@ -296,7 +375,7 @@ export const AccountRow = (account, order_number) => {
         : ""}"
     >
       <td class="px-3 py-3 text-center">${order_number}</td>
-      <td class="px-3 py-1">
+      <td class="px-3 py-2">
         <div class="rounded-full flex items-center justify-center">
           <img
             src="/images/account/${avatar || "default-game-account-avatar.png"}"
@@ -341,75 +420,7 @@ export const AccountRow = (account, order_number) => {
       </td>
       <td class="px-3 py-3">
         <div class="flex flex-col gap-2 w-full text-sm max-w-[150px]">
-          ${rent_from_time && rent_to_time
-            ? html`<div
-                  class="text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal"
-                >
-                  <span class="font-bold">Thời gian bắt đầu thuê:</span>
-                  <span>${dayjs(rent_from_time).format("DD/MM/YYYY HH:mm")}</span>
-                </div>
-                <div
-                  class="text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal"
-                >
-                  <span class="font-bold">Thời gian cho thuê:</span>
-                  <span>${TimeHelper.getRentalDuration(rent_from_time, rent_to_time)}</span>
-                </div>
-                <div
-                  class="text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal"
-                >
-                  <span class="font-bold">Thời gian còn lại:</span>
-                  <span>${TimeHelper.getRemainingRentalTime(rent_from_time, rent_to_time)}</span>
-                </div>
-                <div
-                  class="QUERY-rent-time-input-container QUERY-rent-time-input-container-${id} relative w-full text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal"
-                >
-                  <span class="font-bold">Thời gian thuê thêm:</span>
-                  <input
-                    type="number"
-                    class="QUERY-tooltip-trigger mt-0.5 max-w-full bg-transparent pb-1 border-b border-solid border-gray-400"
-                    data-vcn-tooltip-content="Nhập số giờ thuê thêm"
-                    data-rent-time-input-id="${id}"
-                    data-rent-to-time-value="${rent_to_time}"
-                    data-rent-time-type="add-time"
-                    min="0"
-                    placeholder="Nhập số giờ thuê thêm"
-                    name="rent-add-time"
-                  />
-                  <div
-                    hidden
-                    class="QUERY-rent-time-actions absolute top-[calc(100%+5px)] right-0 w-full h-full"
-                  >
-                    <button
-                      class="QUERY-rent-time-save-action bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
-                    >
-                      Lưu
-                    </button>
-                  </div>
-                </div>`
-            : html`<div
-                class="QUERY-rent-time-input-container QUERY-rent-time-input-container-${id} relative w-full"
-              >
-                <input
-                  type="number"
-                  class="QUERY-tooltip-trigger max-w-full bg-transparent pb-1 border-b border-solid border-gray-400"
-                  data-vcn-tooltip-content="Nhập số giờ cho thuê"
-                  data-rent-time-input-id="${id}"
-                  data-rent-time-type="to-time"
-                  min="0"
-                  placeholder="Nhập số giờ cho thuê"
-                  name="rent-to-time"
-                />
-                <div
-                  hidden
-                  class="QUERY-rent-time-actions absolute top-[calc(100%+5px)] right-0 w-full h-full"
-                >
-                  <button
-                    class="QUERY-rent-time-save-action bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
-                  >
-                    Lưu
-                  </button>
-                </div>
-              </div>`}
+          ${RentTime(rent_from_time, rent_to_time)}
         </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
@@ -419,8 +430,8 @@ export const AccountRow = (account, order_number) => {
         <div class="flex items-center gap-2">
           <button
             data-account-id="${id}"
-            class="QUERY-update-account-btn text-regular-blue-cl hover:text-regular-blue-hover-cl transition-colors"
-            title="Chỉnh sửa"
+            class="QUERY-update-account-btn QUERY-tooltip-trigger text-regular-blue-cl hover:scale-110 transition duration-200"
+            data-vcn-tooltip-content="Chỉnh sửa"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -442,8 +453,8 @@ export const AccountRow = (account, order_number) => {
           </button>
           <button
             data-account-id="${id}"
-            class="QUERY-delete-account-btn text-red-600 hover:text-red-900 transition-colors"
-            title="Xóa"
+            class="QUERY-delete-account-btn QUERY-tooltip-trigger text-red-600 hover:scale-110 transition duration-200"
+            data-vcn-tooltip-content="Xóa"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -475,7 +486,8 @@ export const AccountPreviewRow = (account, order_number) => {
   const lowerCasedStatus = status.toLowerCase()
   return html`
     <tr
-      class="QUERY-account-row-item hover:bg-blue-50 ${lowerCasedStatus === "bận"
+      class="QUERY-account-row-item QUERY-account-row-item-${id} hover:bg-blue-50 ${lowerCasedStatus ===
+      "bận"
         ? "bg-red-100"
         : ""}"
     >
@@ -485,24 +497,32 @@ export const AccountPreviewRow = (account, order_number) => {
           <img
             src="/images/account/${avatar || "default-game-account-avatar.png"}"
             alt="Account Avatar"
-            class="w-[200px] aspect-[365/204] min-w-[94px] max-h-[100px] object-contain object-center"
+            class="QUERY-account-UI-item-avatar w-[200px] aspect-[365/204] min-w-[94px] max-h-[100px] object-contain object-center"
           />
         </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
-        <div class="text-sm font-medium text-gray-900 max-w-[150px] truncate">${accName}</div>
+        <div
+          class="QUERY-account-UI-item-acc-name text-sm font-medium text-gray-900 max-w-[150px] truncate"
+        >
+          ${accName}
+        </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
-        <div class="text-sm font-medium max-w-[100px] truncate">${rank}</div>
+        <div class="QUERY-account-UI-item-rank text-sm font-medium max-w-[100px] truncate">
+          ${rank}
+        </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
-        <div class="text-sm text-regular-blue-4 font-medium max-w-[100px] truncate">
+        <div
+          class="QUERY-account-UI-item-game-code text-sm text-regular-blue-4 font-medium max-w-[100px] truncate"
+        >
           ${gameCode}
         </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
         <div
-          class="max-w-[100px] truncate w-fit px-2 py-1 text-sm font-semibold rounded-full ${lowerCasedStatus ==
+          class="QUERY-account-UI-item-status max-w-[100px] truncate w-fit px-2 py-1 text-sm font-semibold rounded-full ${lowerCasedStatus ==
           "rảnh"
             ? "bg-green-600"
             : "bg-red-600"} text-white"
@@ -511,7 +531,7 @@ export const AccountPreviewRow = (account, order_number) => {
         </div>
       </td>
       <td class="px-3 py-3">
-        <div class="text-sm text-gray-900 max-w-[150px] truncate">
+        <div class="QUERY-account-UI-item-description text-sm text-gray-900 max-w-[150px] truncate">
           ${description
             ? html`<span class="QUERY-tooltip-trigger" data-vcn-tooltip-content="${description}"
                 >${description}</span
@@ -522,7 +542,9 @@ export const AccountPreviewRow = (account, order_number) => {
         </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
-        <div class="text-sm text-gray-900 max-w-[100px] truncate">${deviceType}</div>
+        <div class="QUERY-account-UI-item-device-type text-sm text-gray-900 max-w-[100px] truncate">
+          ${deviceType}
+        </div>
       </td>
     </tr>
   `

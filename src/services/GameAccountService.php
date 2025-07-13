@@ -163,7 +163,8 @@ class GameAccountService
   public function updateAccount(int $accountId, array $data): void
   {
     // Kiểm tra tài khoản có tồn tại không
-    if (!$this->findAccountById($accountId)) {
+    $account = $this->findAccountById($accountId);
+    if (!$account) {
       throw new \InvalidArgumentException("Tài khoản không tồn tại.");
     }
 
@@ -174,7 +175,6 @@ class GameAccountService
     $description = $data['description'] ?? null;
     $deviceType  = $data['deviceType'] ?? null;
     $avatar      = $data['avatar'] ?? null;
-    $rentAddTime = $data['rentAddTime'] ?? null;
     $rentToTime  = $data['rentToTime'] ?? null;
 
     $updateFields = [];
@@ -208,19 +208,17 @@ class GameAccountService
       $updateFields[] = "avatar = :avatar";
       $params[':avatar'] = $avatar;
     }
-    if ($rentAddTime !== null || $rentToTime !== null) {
-      $updateFields[] = "rent_from_time = :rent_from_time";
-      $params[':rent_from_time'] = $this->getNow();
-      $updateFields[] = "`status` = :status";
-      $params[':status'] = "Bận";
-      if ($rentAddTime !== null) {
-        $updateFields[] = "rent_add_time = :rent_add_time";
-        $params[':rent_add_time'] = $rentAddTime;
+    if ($rentToTime !== null) {
+      if ($account['status'] === 'Rảnh') {
+        $updateFields[] = "`status` = :status";
+        $params[':status'] = "Bận";
       }
-      if ($rentToTime !== null) {
-        $updateFields[] = "rent_to_time = :rent_to_time";
-        $params[':rent_to_time'] = $rentToTime;
+      if ($account['rent_from_time'] === null) {
+        $updateFields[] = "rent_from_time = :rent_from_time";
+        $params[':rent_from_time'] = $this->getNow();
       }
+      $updateFields[] = "rent_to_time = :rent_to_time";
+      $params[':rent_to_time'] = $rentToTime;
     }
     if (empty($updateFields)) {
       throw new \InvalidArgumentException("Không có trường nào để cập nhật.");
@@ -245,6 +243,70 @@ class GameAccountService
       $this->db->rollBack();
       throw $e;
     }
+  }
+
+  public function updateAccountRentTime(): void
+  {
+    $now = $this->getNow();
+
+    $sql = "
+        UPDATE game_accounts
+        SET `status` = 'Rảnh',
+            updated_at = :now
+        WHERE status = 'Bận'
+          AND rent_to_time IS NOT NULL
+          AND rent_to_time < :now
+    ";
+
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute([':now' => $now]);
+  }
+
+  public function checkAccountIsRenting(array $account): bool
+  {
+    $rentFromTime = $account['rent_from_time'] ?? null;
+    $rentToTime   = $account['rent_to_time'] ?? null;
+
+    if ($rentFromTime === null || $rentToTime === null) {
+      return false;
+    }
+
+    $nowString = $this->getNow();
+    $now = DateTime::createFromFormat('Y-m-d H:i:s', $nowString, new DateTimeZone('Asia/Ho_Chi_Minh'));
+    $from = DateTime::createFromFormat('Y-m-d H:i:s', $account['rent_from_time'], new DateTimeZone('Asia/Ho_Chi_Minh'));
+    $to   = DateTime::createFromFormat('Y-m-d H:i:s', $account['rent_to_time'], new DateTimeZone('Asia/Ho_Chi_Minh'));
+
+    if ($now && $from && $to) {
+      if ($now >= $from && $now <= $to) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+
+  public function switchAccountStatus(int $accountId,): void
+  {
+    $account = $this->findAccountById($accountId);
+    if (!$account) {
+      throw new \InvalidArgumentException("Tài khoản không tồn tại.");
+    }
+    if ($this->checkAccountIsRenting($account)) {
+      throw new \InvalidArgumentException("Tài khoản đang được thuê, không thể chuyển trạng thái.");
+    }
+
+    $sql = "UPDATE game_accounts SET `status` = :status, updated_at = :updated_at WHERE id = :id";
+    $params = [
+      ':id' => $accountId,
+      ':status' => $account['status'] === 'Bận' ? 'Rảnh' : 'Bận',
+      ':updated_at' => $this->getNow()
+    ];
+    $stmt = $this->db->prepare($sql);
+    foreach ($params as $param => $value) {
+      $stmt->bindValue($param, $value);
+    }
+    $stmt->execute();
   }
 
   public function deleteAccount(int $accountId): void
@@ -279,5 +341,49 @@ class GameAccountService
     $stmt->bindValue(':game_code', $gameCode);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+  }
+
+  public function refreshAccount(int $accountId, array $fieldsToRefresh): array
+  {
+    $account = $this->findAccountById($accountId);
+    if (!$account) {
+      throw new \InvalidArgumentException("Tài khoản không tồn tại.");
+    }
+    // Nếu fieldsToRefresh rỗng, trả về toàn bộ account
+    if (empty($fieldsToRefresh)) {
+      throw new \InvalidArgumentException("Không có trường nào để làm mới.");
+    }
+
+    // Lấy danh sách các cột hợp lệ trong bảng game_accounts
+    $validColumns = [
+      'acc_name',
+      'rank',
+      'game_code',
+      'status',
+      'description',
+      'device_type',
+      'avatar',
+      'rent_from_time',
+      'rent_to_time',
+      'updated_at',
+      'id'
+    ];
+
+    $columnsToSelect = [];
+    foreach ($fieldsToRefresh as $field) {
+      if (in_array($field, $validColumns)) {
+        $columnsToSelect[] = $field;
+      }
+    }
+
+    if (empty($columnsToSelect)) {
+      throw new \InvalidArgumentException("Không có trường hợp lệ để làm mới.");
+    }
+
+    $sql = "SELECT " . implode(', ', $columnsToSelect) . " FROM game_accounts WHERE id = :id";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':id', $accountId);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 }

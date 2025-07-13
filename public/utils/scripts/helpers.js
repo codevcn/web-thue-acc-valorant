@@ -95,14 +95,19 @@ export class Toaster {
 }
 
 export class AppLoadingHelper {
-  static show() {
-    const appLoading = document.getElementById("app-loading")
-    appLoading.hidden = false
+  static element = document.getElementById("app-loading")
+
+  static show(message) {
+    this.setMessage(message)
+    this.element.hidden = false
   }
 
   static hide() {
-    const appLoading = document.getElementById("app-loading")
-    appLoading.hidden = true
+    this.element.hidden = true
+  }
+
+  static setMessage(message) {
+    this.element.querySelector(".QUERY-app-loading-message").textContent = message
   }
 }
 
@@ -138,22 +143,23 @@ export class LocalStorageHelper {
 }
 
 export class TimeHelper {
-  static NOT_STARTED = "NOT_STARTED"
   static OUT_OF_TIME = "OUT_OF_TIME"
+  static INVALID_TIME = "INVALID_TIME"
+  static NOT_STARTED = "NOT_STARTED"
 
-  static getRemainingRentalTime(rentFrom, rentTo) {
+  static getRemainingRentalTime(rentFrom, rentTo, NOT_STARTED_TEXT, OUT_OF_TIME_TEXT) {
     const now = new Date()
     const fromTime = new Date(rentFrom)
     const toTime = new Date(rentTo)
 
     // Nếu chưa đến thời gian bắt đầu thuê
     if (now < fromTime) {
-      return this.NOT_STARTED
+      return NOT_STARTED_TEXT || this.NOT_STARTED
     }
 
     // Nếu đã hết thời gian thuê
     if (now >= toTime) {
-      return this.OUT_OF_TIME
+      return OUT_OF_TIME_TEXT || this.OUT_OF_TIME
     }
 
     const remainingMs = toTime - now
@@ -166,21 +172,21 @@ export class TimeHelper {
     return `${hours} giờ ${minutes} phút ${seconds} giây`
   }
 
-  static getRentalDuration(rentFrom, rentTo) {
+  static getRentalDuration(rentFrom, rentTo, INVALID_TIME_TEXT) {
     const from = new Date(rentFrom)
     const to = new Date(rentTo)
 
     if (isNaN(from) || isNaN(to)) {
-      return "INVALID_TIME"
+      return INVALID_TIME_TEXT || this.INVALID_TIME
     }
 
     const durationMs = to - from
 
     if (durationMs <= 0) {
-      return "INVALID_TIME"
+      return INVALID_TIME_TEXT || this.INVALID_TIME
     }
 
-    const totalMinutes = Math.floor(durationMs / 60000)
+    const totalMinutes = Math.ceil(durationMs / 60000)
     const hours = Math.floor(totalMinutes / 60)
     const minutes = totalMinutes % 60
 
