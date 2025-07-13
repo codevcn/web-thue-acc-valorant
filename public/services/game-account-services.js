@@ -68,12 +68,8 @@ export class GameAccountService {
     return data
   }
 
-  static async refreshAccount(accountId, ...fieldsToRefresh) {
-    const { data } = await axiosClient.get(`/game-accounts/refresh/${accountId}`, {
-      params: {
-        fields_to_refresh: fieldsToRefresh,
-      },
-    })
+  static async fetchSingleAccount(accountId) {
+    const { data } = await axiosClient.get(`/game-accounts/fetch-single-account/${accountId}`)
     return data
   }
 }

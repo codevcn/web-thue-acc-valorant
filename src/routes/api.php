@@ -74,9 +74,9 @@ $apiRouter->post('/api/v1/game-accounts/update-rent-time', function () use ($gam
   return $gameAccountApiController->updateAccountRentTime();
 });
 
-$apiRouter->get('/api/v1/game-accounts/refresh/{accountId}', function ($accountId) use ($gameAccountApiController, $authMiddleware) {
+$apiRouter->get('/api/v1/game-accounts/fetch-single-account/{accountId}', function ($accountId) use ($gameAccountApiController, $authMiddleware) {
   $authMiddleware->handle();
-  return $gameAccountApiController->refreshAccount($accountId);
+  return $gameAccountApiController->fetchSingleAccount($accountId);
 });
 
 $apiRouter->post('/api/v1/auth/login', function () use ($authApiController) {

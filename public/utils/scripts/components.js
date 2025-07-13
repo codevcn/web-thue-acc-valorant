@@ -275,7 +275,7 @@ export const AccountDeviceType = ({ device_type, isActive }) => {
   `
 }
 
-export const AccountRow = (account, order_number) => {
+export const AccountRow = (account, orderNumber) => {
   console.log(">>> account:", account)
   const {
     acc_name,
@@ -370,11 +370,13 @@ export const AccountRow = (account, order_number) => {
 
   return html`
     <tr
-      class="QUERY-account-row-item hover:bg-blue-50 ${lowerCasedStatus == "bận"
+      data-account-order-number="${orderNumber}"
+      class="QUERY-account-row-item QUERY-account-row-item-${id} hover:bg-blue-50 ${lowerCasedStatus ==
+      "bận"
         ? "bg-red-100"
         : ""}"
     >
-      <td class="px-3 py-3 text-center">${order_number}</td>
+      <td class="px-3 py-3 text-center">${orderNumber}</td>
       <td class="px-3 py-2">
         <div class="rounded-full flex items-center justify-center">
           <img
@@ -481,17 +483,16 @@ export const AccountRow = (account, order_number) => {
   `
 }
 
-export const AccountPreviewRow = (account, order_number) => {
+export const AccountPreviewRow = (account, orderNumber) => {
   const { accName, rank, gameCode, status, description, deviceType, avatar } = account
   const lowerCasedStatus = status.toLowerCase()
   return html`
     <tr
-      class="QUERY-account-row-item QUERY-account-row-item-${id} hover:bg-blue-50 ${lowerCasedStatus ===
-      "bận"
+      class="QUERY-account-row-item hover:bg-blue-50 ${lowerCasedStatus === "bận"
         ? "bg-red-100"
         : ""}"
     >
-      <td class="px-3 py-3 text-center">${order_number}</td>
+      <td class="px-3 py-3 text-center">${orderNumber}</td>
       <td class="px-3 py-1">
         <div class="rounded-full flex items-center justify-center">
           <img

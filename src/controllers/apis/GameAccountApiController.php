@@ -6,7 +6,6 @@ namespace Controllers\Apis;
 
 use Services\GameAccountService;
 use Services\FileService;
-use Utils\DevLogger;
 
 class GameAccountApiController
 {
@@ -105,6 +104,15 @@ class GameAccountApiController
         ];
       }
 
+      // Bắt lỗi vi phạm CHECK constraint trong SQLite
+      if ($th instanceof \PDOException && str_contains($th->getMessage(), 'CHECK constraint failed')) {
+        http_response_code(400);
+        return [
+          'success' => false,
+          'message' => 'Giá trị đầu vào không hợp lệ.'
+        ];
+      }
+
       if ($th instanceof \InvalidArgumentException) {
         http_response_code(400);
         return [
@@ -183,12 +191,12 @@ class GameAccountApiController
 
     // Xử lý file avatar (nếu có)
     $avatarFile = $_FILES['avatar'] ?? null;
+    $imgName = null;
     if ($avatarFile) {
       $oldAvatar = $oldAccount['avatar'];
       if ($oldAvatar) {
         $this->fileService->deleteAvatarImage($oldAvatar);
       }
-      $imgName = null;
       try {
         $avatarInfo = $this->fileService->saveAvatarImage($avatarFile, $accountIdInt);
         $imgName = $avatarInfo['fileName'];
@@ -206,7 +214,18 @@ class GameAccountApiController
     try {
       $this->gameAccountService->updateAccount($accountIdInt, $account);
     } catch (\Throwable $th) {
-      $this->fileService->deleteAvatarImage($imgName);
+      if ($imgName) {
+        $this->fileService->deleteAvatarImage($imgName);
+      }
+
+      // Bắt lỗi vi phạm CHECK constraint trong SQLite
+      if ($th instanceof \PDOException && str_contains($th->getMessage(), 'CHECK constraint failed')) {
+        http_response_code(400);
+        return [
+          'success' => false,
+          'message' => 'Giá trị đầu vào không hợp lệ.'
+        ];
+      }
 
       if ($th instanceof \InvalidArgumentException) {
         http_response_code(400);
@@ -302,11 +321,10 @@ class GameAccountApiController
     ];
   }
 
-  public function refreshAccount(string $accountId): array
+  public function fetchSingleAccount(string $accountId): array
   {
-    $fieldsToRefresh = $_GET['fields_to_refresh'] ?? [];
     try {
-      $refreshedAccount = $this->gameAccountService->refreshAccount((int) $accountId, $fieldsToRefresh);
+      $refreshedAccount = $this->gameAccountService->refreshAccount((int) $accountId);
     } catch (\Throwable $th) {
       if ($th instanceof \InvalidArgumentException) {
         http_response_code(400);

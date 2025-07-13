@@ -193,6 +193,9 @@ class GameAccountService
       $params[':game_code'] = $gameCode;
     }
     if ($status !== null) {
+      if ($status === 'Rảnh' && $this->checkAccountIsRenting($account)) {
+        throw new \InvalidArgumentException("Tài khoản đang được thuê, không thể cập nhật trạng thái.");
+      }
       $updateFields[] = "`status` = :status";
       $params[':status'] = $status;
     }
@@ -286,20 +289,21 @@ class GameAccountService
   }
 
 
-  public function switchAccountStatus(int $accountId,): void
+  public function switchAccountStatus(int $accountId): void
   {
     $account = $this->findAccountById($accountId);
     if (!$account) {
       throw new \InvalidArgumentException("Tài khoản không tồn tại.");
     }
-    if ($this->checkAccountIsRenting($account)) {
+    $currentStatus = $account['status'];
+    if ($currentStatus === 'Bận' && $this->checkAccountIsRenting($account)) {
       throw new \InvalidArgumentException("Tài khoản đang được thuê, không thể chuyển trạng thái.");
     }
 
     $sql = "UPDATE game_accounts SET `status` = :status, updated_at = :updated_at WHERE id = :id";
     $params = [
       ':id' => $accountId,
-      ':status' => $account['status'] === 'Bận' ? 'Rảnh' : 'Bận',
+      ':status' => $currentStatus === 'Bận' ? 'Rảnh' : 'Bận',
       ':updated_at' => $this->getNow()
     ];
     $stmt = $this->db->prepare($sql);
@@ -343,47 +347,13 @@ class GameAccountService
     return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
   }
 
-  public function refreshAccount(int $accountId, array $fieldsToRefresh): array
+  public function refreshAccount(int $accountId): array
   {
     $account = $this->findAccountById($accountId);
     if (!$account) {
       throw new \InvalidArgumentException("Tài khoản không tồn tại.");
     }
-    // Nếu fieldsToRefresh rỗng, trả về toàn bộ account
-    if (empty($fieldsToRefresh)) {
-      throw new \InvalidArgumentException("Không có trường nào để làm mới.");
-    }
 
-    // Lấy danh sách các cột hợp lệ trong bảng game_accounts
-    $validColumns = [
-      'acc_name',
-      'rank',
-      'game_code',
-      'status',
-      'description',
-      'device_type',
-      'avatar',
-      'rent_from_time',
-      'rent_to_time',
-      'updated_at',
-      'id'
-    ];
-
-    $columnsToSelect = [];
-    foreach ($fieldsToRefresh as $field) {
-      if (in_array($field, $validColumns)) {
-        $columnsToSelect[] = $field;
-      }
-    }
-
-    if (empty($columnsToSelect)) {
-      throw new \InvalidArgumentException("Không có trường hợp lệ để làm mới.");
-    }
-
-    $sql = "SELECT " . implode(', ', $columnsToSelect) . " FROM game_accounts WHERE id = :id";
-    $stmt = $this->db->prepare($sql);
-    $stmt->bindValue(':id', $accountId);
-    $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    return $account;
   }
 }

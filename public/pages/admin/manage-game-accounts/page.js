@@ -468,33 +468,13 @@ class UpdateAccountManager {
     this.initSwitchStatusQuickly()
   }
 
-  setAccountRowUI(accountRow, dataToRefresh) {
-    const { acc_name, game_code, description, status, device_type, rank, avatar } = dataToRefresh
-    if (avatar) {
-      accountRow.querySelector(".QUERY-account-UI-item-avatar").src = `/images/account/${avatar}`
-    }
-    if (acc_name) {
-      accountRow.querySelector(".QUERY-account-UI-item-acc-name").textContent = acc_name
-    }
-    if (rank) {
-      accountRow.querySelector(".QUERY-account-UI-item-rank").textContent = rank
-    }
-    if (game_code) {
-      accountRow.querySelector(".QUERY-account-UI-item-game-code").textContent = game_code
-    }
-    if (status) {
-      accountRow.querySelector(".QUERY-account-UI-item-status").textContent = status
-    }
-    if (description) {
-      accountRow.querySelector(".QUERY-account-UI-item-description").textContent = description
-    }
-    if (device_type) {
-      accountRow.querySelector(".QUERY-account-UI-item-device-type").textContent = device_type
-    }
+  setAccountRowUI(accountRow, dataToRefresh, orderNumber) {
+    const newAccountRow = LitHTMLHelper.getFragment(AccountRow, dataToRefresh, orderNumber)
+    accountRow.replaceWith(newAccountRow)
   }
 
-  refreshAccountRowOnUI(accountId, ...fieldsToRefresh) {
-    GameAccountService.refreshAccount(accountId, ...fieldsToRefresh)
+  refreshAccountRowOnUI(accountId) {
+    GameAccountService.fetchSingleAccount(accountId)
       .then((data) => {
         if (data && data.success) {
           const account = data.account
@@ -506,7 +486,7 @@ class UpdateAccountManager {
               `.QUERY-account-row-item-${accountId}`
             )
             if (accountRow) {
-              this.setAccountRowUI(accountRow, account)
+              this.setAccountRowUI(accountRow, account, accountRow.dataset.accountOrderNumber * 1)
             }
           }
         }
@@ -522,7 +502,7 @@ class UpdateAccountManager {
       .then((data) => {
         if (data && data.success) {
           Toaster.success("Thông báo", "Cập nhật thời gian cho thuê thành công", () => {
-            this.refreshAccountRowOnUI(accountId, "rent_from_time", "rent_to_time")
+            this.refreshAccountRowOnUI(accountId)
           })
         }
       })
@@ -650,9 +630,8 @@ class UpdateAccountManager {
     GameAccountService.updateAccount(this.accountId, data, this.avatarInput.files?.[0])
       .then((data) => {
         if (data && data.success) {
-          Toaster.success("Thông báo", "Cập nhật tài khoản thành công", () => {
-            NavigationHelper.reloadPage()
-          })
+          this.refreshAccountRowOnUI(this.accountId)
+          Toaster.success("Thông báo", "Cập nhật tài khoản thành công")
         }
       })
       .catch((error) => {
@@ -675,9 +654,8 @@ class UpdateAccountManager {
     GameAccountService.switchAccountStatus(this.accountId)
       .then((data) => {
         if (data && data.success) {
-          Toaster.success("Thông báo", "Cập nhật trạng thái tài khoản thành công", () => {
-            NavigationHelper.reloadPage()
-          })
+          this.refreshAccountRowOnUI(this.accountId)
+          Toaster.success("Thông báo", "Cập nhật trạng thái tài khoản thành công")
         }
       })
       .catch((error) => {
