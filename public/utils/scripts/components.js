@@ -12,7 +12,7 @@ export const AccountCard = (account) => {
           class="min-[1242px]:w-3/5 w-full rounded-lg overflow-hidden h-fit min-[1242px]:h-auto bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl relative flex flex-col items-center justify-center"
         >
           <img
-            src="/images/account/${avatar ?? "default-game-account-avatar.png"}"
+            src="/images/account/${avatar ?? "default-account-avatar.png"}"
             alt="Account Avatar"
             class="aspect-[16/9] ${avatar
               ? "object-cover"
@@ -275,8 +275,7 @@ export const AccountDeviceType = ({ device_type, isActive }) => {
   `
 }
 
-export const AccountRow = (account, orderNumber) => {
-  console.log(">>> account:", account)
+export const AccountRow = (account, orderNumber, ranksToRender) => {
   const {
     acc_name,
     rank,
@@ -380,7 +379,7 @@ export const AccountRow = (account, orderNumber) => {
       <td class="px-3 py-2">
         <div class="rounded-full flex items-center justify-center">
           <img
-            src="/images/account/${avatar || "default-game-account-avatar.png"}"
+            src="/images/account/${avatar || "default-account-avatar.png"}"
             alt="Account Avatar"
             class="w-[200px] aspect-[365/204] min-w-[94px] max-h-[100px] object-contain object-center"
           />
@@ -390,7 +389,20 @@ export const AccountRow = (account, orderNumber) => {
         <div class="text-sm font-medium text-gray-900 max-w-[150px] truncate">${acc_name}</div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
-        <div class="text-sm font-medium max-w-[100px] truncate">${rank}</div>
+        <div
+          class="max-w-[100px] overflow-hidden rounded-3xl truncate hover:shadow-md transition duration-200"
+        >
+          <select
+            name="ranks-select"
+            class="QUERY-ranks-select-${id} QUERY-ranks-select QUERY-tooltip-trigger outline-none bg-transparent text-sm font-medium appearance-none cursor-pointer px-2 py-1"
+            data-vcn-tooltip-content="Chọn hạng"
+            data-account-id="${id}"
+          >
+            ${ranksToRender.map(
+              (rnk) => html`<option value="${rnk}" ?selected=${rnk === rank}>${rnk}</option>`
+            )}
+          </select>
+        </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
         <div class="text-sm text-regular-blue-4 font-medium max-w-[100px] truncate">
@@ -425,7 +437,7 @@ export const AccountRow = (account, orderNumber) => {
           ${RentTime(rent_from_time, rent_to_time)}
         </div>
       </td>
-      <td class="px-3 py-3 whitespace-nowrap">
+      <td class="px-3 py-3">
         <div class="text-sm text-gray-900 max-w-[100px] truncate">${device_type}</div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
@@ -496,7 +508,7 @@ export const AccountPreviewRow = (account, orderNumber) => {
       <td class="px-3 py-1">
         <div class="rounded-full flex items-center justify-center">
           <img
-            src="/images/account/${avatar || "default-game-account-avatar.png"}"
+            src="/images/account/${avatar || "default-account-avatar.png"}"
             alt="Account Avatar"
             class="QUERY-account-UI-item-avatar w-[200px] aspect-[365/204] min-w-[94px] max-h-[100px] object-contain object-center"
           />
@@ -545,6 +557,121 @@ export const AccountPreviewRow = (account, orderNumber) => {
       <td class="px-3 py-3 whitespace-nowrap">
         <div class="QUERY-account-UI-item-device-type text-sm text-gray-900 max-w-[100px] truncate">
           ${deviceType}
+        </div>
+      </td>
+    </tr>
+  `
+}
+
+export const SaleAccountRow = (account, orderNumber) => {
+  const { letter, price, gmail, status, description, avatar, id } = account
+  const lowerCasedStatus = status.toLowerCase()
+  return html`
+    <tr
+      class="QUERY-account-row-item QUERY-account-row-item-${id} hover:bg-blue-50 ${lowerCasedStatus ===
+      "bận"
+        ? "bg-red-100"
+        : ""}"
+    >
+      <td class="px-3 py-3 text-center">${orderNumber}</td>
+      <td class="px-3 py-1">
+        <div class="rounded-full flex items-center justify-center">
+          <img
+            src="/images/account/${avatar || "default-account-avatar.png"}"
+            alt="Account Avatar"
+            class="QUERY-account-UI-item-avatar w-[200px] aspect-[365/204] min-w-[94px] max-h-[100px] object-contain object-center"
+          />
+        </div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div
+          class="QUERY-account-UI-item-acc-name text-sm font-medium text-gray-900 max-w-[150px] truncate"
+        >
+          ${letter}
+        </div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div class="QUERY-account-UI-item-rank text-sm font-medium max-w-[100px] truncate">
+          ${price}
+        </div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div
+          class="QUERY-account-UI-item-game-code text-sm text-regular-blue-4 font-medium max-w-[100px] truncate"
+        >
+          ${gmail}
+        </div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div
+          class="QUERY-account-UI-item-status max-w-[100px] truncate w-fit px-2 py-1 text-sm font-semibold rounded-full ${lowerCasedStatus ==
+          "tốt"
+            ? "bg-green-600"
+            : "bg-red-600"} text-white"
+        >
+          ${status}
+        </div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div class="QUERY-account-UI-item-description text-sm text-gray-900 max-w-[200px] truncate">
+          ${description
+            ? html`<span class="QUERY-tooltip-trigger" data-vcn-tooltip-content="${description}"
+                >${description}</span
+              >`
+            : html`<span class="QUERY-no-description text-gray-400 italic text-sm"
+                >Chưa có mô tả</span
+              >`}
+        </div>
+      </td>
+      <td class="px-3 py-3">
+        <div class="flex items-center gap-2">
+          <button
+            data-account-id="${id}"
+            class="QUERY-update-account-btn QUERY-tooltip-trigger text-regular-blue-cl hover:scale-110 transition duration-200"
+            data-vcn-tooltip-content="Chỉnh sửa"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-square-pen-icon lucide-square-pen"
+            >
+              <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+              <path
+                d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+              />
+            </svg>
+          </button>
+          <button
+            data-account-id="${id}"
+            class="QUERY-delete-account-btn QUERY-tooltip-trigger text-red-600 hover:scale-110 transition duration-200"
+            data-vcn-tooltip-content="Xóa"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-trash2-icon lucide-trash-2"
+            >
+              <path d="M3 6h18" />
+              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+              <line x1="10" x2="10" y1="11" y2="17" />
+              <line x1="14" x2="14" y1="11" y2="17" />
+            </svg>
+          </button>
         </div>
       </td>
     </tr>

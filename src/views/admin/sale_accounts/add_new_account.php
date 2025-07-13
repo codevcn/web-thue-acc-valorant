@@ -4,7 +4,7 @@
 
   <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto relative z-20 CSS-styled-vt-scrollbar">
     <div class="p-6 border-b border-gray-200">
-      <h2 class="text-xl font-bold text-gray-900">Thêm tài khoản mới</h2>
+      <h2 class="text-xl font-bold text-gray-900">Thêm tài khoản sale mới</h2>
     </div>
 
     <form id="add-new-account-form" class="px-6 py-4">
@@ -44,18 +44,21 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Tên tài khoản</label>
-          <input type="text" name="accName" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: PRO#1234">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Thư</label>
+          <select name="letter" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1">
+            <option value="Back">Back</option>
+            <option value="Có">Có</option>
+          </select>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Rank</label>
-          <input type="text" name="rank" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: gold 1">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Giá</label>
+          <input type="text" name="price" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: 100000">
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Mã game</label>
-          <input type="text" name="gameCode" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: Mã 001">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Gmail</label>
+          <input type="text" name="gmail" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: Có">
         </div>
       </div>
 
@@ -67,12 +70,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Trạng thái</label>
-          <input type="text" name="status" value="Rảnh" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="Rảnh, Bận">
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Loại máy</label>
-          <input type="text" name="deviceType" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="Máy nhà, Máy net">
+          <input type="text" name="status" value="Tốt" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="Rảnh, Bận">
         </div>
       </div>
     </form>

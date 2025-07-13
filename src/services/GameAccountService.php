@@ -7,6 +7,7 @@ namespace Services;
 use PDO;
 use DateTime;
 use DateTimeZone;
+use Utils\Helper;
 
 class GameAccountService
 {
@@ -105,7 +106,7 @@ class GameAccountService
 
   public function getNow(): string
   {
-    return (new DateTime('now', new DateTimeZone('Asia/Ho_Chi_Minh')))->format('Y-m-d H:i:s');
+    return Helper::getNowWithTimezone();
   }
 
   public function addNewAccounts(array $data): ?int
@@ -128,8 +129,20 @@ class GameAccountService
         $description = $row['description'] ?? '';
         $deviceType  = $row['deviceType'] ?? null;
 
-        if (!$accName || !$rank || !$gameCode || !$deviceType || !$status) {
-          throw new \InvalidArgumentException("Thiếu trường bắt buộc khi thêm account.");
+        if (!$accName) {
+          throw new \InvalidArgumentException("Trường tên tài khoản không được để trống.");
+        }
+        if (!$rank) {
+          throw new \InvalidArgumentException("Trường rank không được để trống.");
+        }
+        if (!$gameCode) {
+          throw new \InvalidArgumentException("Trường mã game không được để trống.");
+        }
+        if (!$deviceType) {
+          throw new \InvalidArgumentException("Trường loại máy không được để trống.");
+        }
+        if (!$status) {
+          throw new \InvalidArgumentException("Trường trạng thái không được để trống.");
         }
 
         $stmt->bindValue(':acc_name', $accName);
@@ -255,9 +268,10 @@ class GameAccountService
     $sql = "
         UPDATE game_accounts
         SET `status` = 'Rảnh',
-            updated_at = :now
-        WHERE status = 'Bận'
-          AND rent_to_time IS NOT NULL
+            updated_at = :now,
+            rent_from_time = NULL,
+            rent_to_time = NULL
+        WHERE rent_to_time IS NOT NULL
           AND rent_to_time < :now
     ";
 

@@ -15,6 +15,7 @@ use Services\AuthService;
 use Services\RulesService;
 use Services\UserService;
 use Services\SaleAccountService;
+use Services\GameAccountService;
 
 // Initialize services
 $jwtService = new JwtService();
@@ -22,12 +23,13 @@ $authService = new AuthService($db, $jwtService);
 $userService = new UserService($db);
 $rulesService = new RulesService($db);
 $saleAccountService = new SaleAccountService($db);
+$gameAccountService = new GameAccountService($db);
 
 // Initialize controllers
 $homeController = new HomeController($userService, $rulesService);
-$adminController = new AdminController($userService, $authService, $rulesService);
+$adminController = new AdminController($userService, $authService, $rulesService, $gameAccountService);
 $authController = new AuthController($authService);
-$saleController = new SaleController($saleAccountService, $rulesService, $userService);
+$saleController = new SaleController($saleAccountService, $rulesService);
 
 // Initialize middleware
 $authMiddleware = new AuthMiddleware($authService);
@@ -39,6 +41,15 @@ $router->get('/', function () use ($homeController, $userMiddleware) {
 	$homeController->showHomePage();
 });
 
+$router->get('/intro', function () use ($homeController) {
+	$homeController->showIntroPage();
+});
+
+$router->get('/sale', function () use ($saleController, $userMiddleware) {
+	$userMiddleware->checkIsFirstVisit();
+	$saleController->showSalePage();
+});
+
 // Auth routes
 $router->get('/admin/login', function () use ($authController, $userMiddleware) {
 	$userMiddleware->checkIsFirstVisit();
@@ -46,22 +57,17 @@ $router->get('/admin/login', function () use ($authController, $userMiddleware) 
 });
 
 // Protected admin routes
-$router->get('/admin/manage-game-accounts', function () use ($adminController, $authMiddleware, $userMiddleware) {
-	$userMiddleware->checkIsFirstVisit();
+$router->get('/admin/manage-game-accounts', function () use ($adminController, $authMiddleware) {
 	$authMiddleware->handle();
 	$adminController->showManageGameAccountsPage();
 });
 
-$router->get('/admin/profile', function () use ($adminController, $authMiddleware, $userMiddleware) {
-	$userMiddleware->checkIsFirstVisit();
+$router->get('/admin/profile', function () use ($adminController, $authMiddleware) {
 	$authMiddleware->handle();
 	$adminController->showProfilePage();
 });
 
-$router->get('/intro', function () use ($homeController) {
-	$homeController->showIntroPage();
-});
-
-$router->get('/sale', function () use ($saleController) {
-	$saleController->showSalePage();
+$router->get('/admin/sale-accounts', function () use ($adminController, $authMiddleware) {
+	$authMiddleware->handle();
+	$adminController->showSaleAccountsPage();
 });

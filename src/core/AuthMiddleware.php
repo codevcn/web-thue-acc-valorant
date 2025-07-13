@@ -26,4 +26,15 @@ class AuthMiddleware
 
     return true;
   }
+
+  public function handleApi(): bool
+  {
+    $auth = $this->authService->verifyAuth();
+
+    if (!$auth) {
+      return false;
+    }
+
+    return true;
+  }
 }

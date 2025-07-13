@@ -7,19 +7,19 @@
   <div class="relative z-10 min-h-screen flex items-center font-bold">
     <div class="mx-auto px-6 py-[30px]">
       <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-8">
-          <h1 class="text-4xl font-black text-white mb-4 leading-tight">
+        <div class="text-center mb-4">
+          <h1 class="text-4xl font-black text-white mb-2 leading-tight">
             CHUYỂN TIỀN CHƠI
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400">
               + CỌC THÊM 20K
             </span>
           </h1>
-          <div class="w-24 h-1 bg-gradient-to-r from-sky-400 to-cyan-400 mx-auto rounded-full"></div>
+          <div class="w-48 h-1 bg-gradient-to-r from-sky-400 to-cyan-400 mx-auto rounded-full"></div>
         </div>
 
-        <div class="grid lg:grid-cols-2 gap-8 items-start">
+        <div class="grid lg:grid-cols-3 gap-4 items-start">
           <div class="space-y-8">
-            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20">
+            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20">
               <h2 class="text-2xl font-bold text-sky-300 mb-6 flex items-center gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                   <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
@@ -29,31 +29,25 @@
               <div class="space-y-4">
                 <div class="flex items-center justify-between p-2 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
                   <div class="flex items-center gap-3">
-                    <div class="w-3 h-3 bg-sky-400 rounded-full"></div>
                     <span class="text-white font-bold text-lg">20K - 2 GIỜ</span>
                   </div>
-                  <div class="text-sky-300 font-bold">Cơ bản</div>
                 </div>
                 <div class="flex items-center justify-between p-2 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
                   <div class="flex items-center gap-3">
-                    <div class="w-3 h-3 bg-cyan-400 rounded-full"></div>
                     <span class="text-white font-bold text-lg">30K - 3 GIỜ</span>
                     <span class="text-yellow-400 font-bold">+ 1 GIỜ</span>
                   </div>
-                  <div class="text-cyan-300 font-bold">Phổ biến</div>
                 </div>
                 <div class="flex items-center justify-between p-2 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
                   <div class="flex items-center gap-3">
-                    <div class="w-3 h-3 bg-blue-400 rounded-full"></div>
                     <span class="text-white font-bold text-lg">40K - 4 GIỜ</span>
                     <span class="text-yellow-400 font-bold">+ 2 GIỜ</span>
                   </div>
-                  <div class="text-blue-300 font-bold">Tốt nhất</div>
                 </div>
               </div>
             </div>
 
-            <div class="bg-gradient-to-r from-sky-500/20 to-cyan-500/20 backdrop-blur-md rounded-2xl p-5 border border-sky-300/30">
+            <div class="bg-gradient-to-r from-sky-500/20 to-cyan-500/20 backdrop-blur-md rounded-2xl p-3 border border-sky-300/30">
               <h3 class="font-bold text-sky-300 mb-4 flex items-center gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                   <polyline points="20 12 20 22 4 22 4 12"></polyline>
@@ -87,10 +81,10 @@
             </div>
           </div>
 
-          <div class="space-y-8">
+          <div class="space-y-4">
             <div class="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20">
-              <h3 class="text-2xl font-bold text-yellow-400 mb-6">MÁY NHÀ:</h3>
-              <div class="space-y-4 mb-6 text-lg">
+              <h3 class="text-2xl font-bold text-yellow-400 mb-6">MÁY NHÀ</h3>
+              <div class="space-y-4 mb-4 text-lg">
                 <div class="flex items-center gap-3">
                   <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
                   <span class="text-white">20K - 2 giờ</span>
@@ -112,12 +106,65 @@
                 (Y/c: Bật HVCI + SCB + TPM)
               </div>
             </div>
-            <div class="text-center mb-8">
+            <div class="text-center">
               <div class="CSS-small-text-stroke text-regular-blue-cl text-xl md:text-2xl lg:text-3xl font-bold mb-2 tracking-wide">
-                thueaccvaloranttime.com
+                shopthuevalorantime.com
               </div>
               <div class="CSS-small-text-stroke text-white/90 text-base md:text-lg font-bold CSS-outlined-text">
                 Dương Anh Tuấn
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20">
+            <div class="mb-6 px-2 rounded-lg">
+              <h1 class="text-pink-400 text-2xl font-bold">Lưu ý trừ cọc</h1>
+            </div>
+
+            <div class="space-y-4 text-base leading-relaxed">
+              <div class="break-normal">
+                <span class="text-white">-</span>
+                <span class="text-sky-400 font-semibold">Cọc sẽ được hoàn lại: </span>
+                <span class="text-white font-semibold">Lấy cọc </span>
+                <span class="text-yellow-500"><span class="text-white">(</span>sau khi chơi xong gửi mã QR, bên mình sẽ tiến hành kiểm tra Account nếu không vấn đề gì sẽ tiến hành hoàn
+                  cọc và thông báo</span><span class="text-white">)</span>
+              </div>
+
+              <div class="break-normal">
+                <span class="text-white">-</span>
+                <span class="text-red-400 font-bold">AFK</span>
+                <span class="text-white">bị ban hàng chờ</span>
+                <span class="text-red-400 font-bold">- 20k</span>
+                <span class="text-white">(Bị thông báo AFK</span>
+                <span class="text-red-400 font-bold">- 10k</span><span class="text-white">)</span>
+                <span class="text-white"> bất kể lí do nào !</span>
+              </div>
+
+              <div class="break-normal">
+                <span class="text-white">-</span>
+                <span class="text-red-400 font-bold">Bị Cấm Chat</span>
+              </div>
+
+              <div class="break-normal">
+                <span class="text-white">-</span>
+                <span class="text-red-400 font-bold">Chơi quá giờ</span>
+                <span class="text-white">(Hết giờ thuê mà vẫn còn trong trận) bất kể lí do nào !</span>
+              </div>
+
+              <div class="break-normal">
+                <span class="text-white">-</span>
+                <span class="text-white">Bất kể việc gì khiến bạn không thể chơi được tiếp (trừ việc hết giờ)</span>
+                <span class="text-yellow-400">phải thông báo lại cho admin hỗ trợ</span>
+              </div>
+
+              <div class="break-normal">
+                <span class="text-red-400 font-bold">- Không toxic, không smuff</span>
+              </div>
+
+              <div class="break-normal">
+                <span class="text-white">( Sẽ có</span>
+                <span class="text-sky-400 font-bold">khuyến mãi</span>
+                <span class="text-white">cho những bạn để cọc )</span>
               </div>
             </div>
           </div>
@@ -126,7 +173,7 @@
     </div>
   </div>
 
-  <div id="ghost-logo" class="absolute bottom-8 right-[-100px] rotate-[-30deg] h-[300px] w-[300px] overflow-hidden">
-    <img src="/images/UI/ghost.webp" alt="Logo" class="absolute top-[-90px] left-[-90px] h-[500px] min-w-[500px]">
+  <div id="ghost-logo" class="absolute bottom-[-60px] left-1/2 -translate-x-1/2 h-[235px] w-[180px] overflow-hidden">
+    <img src="/images/UI/ghost.webp" alt="Logo" class="absolute top-[-50px] left-[-60px] h-[280px] min-w-[280px]">
   </div>
 </div>

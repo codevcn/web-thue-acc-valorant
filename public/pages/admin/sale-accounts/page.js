@@ -1,5 +1,5 @@
-import { GameAccountService } from "../../../services/game-account-services.js"
-import { AccountPreviewRow, AccountRow } from "../../../utils/scripts/components.js"
+import { SaleAccountService } from "../../../services/sale-account-service.js"
+import { AccountPreviewRow, SaleAccountRow } from "../../../utils/scripts/components.js"
 import {
   LitHTMLHelper,
   AppLoadingHelper,
@@ -8,16 +8,15 @@ import {
   URLHelper,
   NavigationHelper,
   LocalStorageHelper,
-  ValidationHelper,
+  StringHelper,
 } from "../../../utils/scripts/helpers.js"
 import { initUtils } from "../../../utils/scripts/init-utils.js"
 
 const sharedData = {
-  gameAccounts: [],
-  rankTypes: window.APP_DATA.ranks,
+  saleAccounts: [],
 }
 
-class ManageGameAccountsPageManager {
+class SaleAccountsPageManager {
   constructor() {
     this.accountsTableBody = document.getElementById("accounts-table-body")
     this.loadMoreContainer = document.getElementById("load-more-container")
@@ -26,10 +25,8 @@ class ManageGameAccountsPageManager {
 
     this.isFetchingItems = false
     this.isMoreItems = true
-    this.rentTimeInputId = null
 
-    this.updateAccountRentTime()
-    this.initRankSelectListeners()
+    this.fetchAccounts()
 
     this.watchScrolling()
 
@@ -41,29 +38,11 @@ class ManageGameAccountsPageManager {
   }
 
   getLastAccount() {
-    const accounts = sharedData.gameAccounts
+    const accounts = sharedData.saleAccounts
     if (accounts.length > 0) {
       return accounts.at(-1)
     }
     return null
-  }
-
-  updateAccountRentTime() {
-    AppLoadingHelper.show("Đang cập nhật thời gian cho thuê...")
-    GameAccountService.updateAccountRentTime()
-      .then((data) => {
-        if (data && data.success) {
-          AppLoadingHelper.hide()
-          this.fetchAccounts()
-        }
-      })
-      .catch((error) => {
-        AppLoadingHelper.hide()
-        Toaster.error(
-          "Lỗi cập nhật thời gian cho thuê",
-          AxiosErrorHandler.handleHTTPError(error).message
-        )
-      })
   }
 
   fetchAccounts() {
@@ -73,27 +52,16 @@ class ManageGameAccountsPageManager {
     AppLoadingHelper.show("Đang tải dữ liệu...")
     const lastAccount = this.getLastAccount()
     let last_id = lastAccount ? lastAccount.id : null
-    let last_updated_at = lastAccount ? lastAccount.updated_at : null
-    const rank = URLHelper.getUrlQueryParam("rank")
     const status = URLHelper.getUrlQueryParam("status")
-    const device_type = URLHelper.getUrlQueryParam("device_type")
     const search_term = URLHelper.getUrlQueryParam("search_term")
+    const letter = URLHelper.getUrlQueryParam("letter")
 
-    GameAccountService.fetchAccounts(
-      last_id,
-      last_updated_at,
-      rank,
-      status,
-      device_type,
-      search_term,
-      "updated_at"
-    )
+    SaleAccountService.fetchAccounts(last_id, status, search_term, letter)
       .then((accounts) => {
         if (accounts && accounts.length > 0) {
-          const startOrderNumber = sharedData.gameAccounts.length + 1
-          sharedData.gameAccounts = [...sharedData.gameAccounts, ...accounts]
+          const startOrderNumber = sharedData.saleAccounts.length + 1
+          sharedData.saleAccounts = [...sharedData.saleAccounts, ...accounts]
           this.renderNewAccounts(accounts, startOrderNumber)
-          this.initRentTimeInputListeners()
           this.initCatchDeleteAndUpdateAccountBtnClick()
           initUtils.initTooltip()
         } else {
@@ -142,12 +110,7 @@ class ManageGameAccountsPageManager {
   renderNewAccounts(newAccounts, startOrderNumber) {
     let order_number = startOrderNumber
     for (const account of newAccounts) {
-      const accountRow = LitHTMLHelper.getFragment(
-        AccountRow,
-        account,
-        order_number,
-        UIEditor.convertRankTypesToRenderingRanks(sharedData.rankTypes)
-      )
+      const accountRow = LitHTMLHelper.getFragment(SaleAccountRow, account, order_number)
       this.accountsTableBody.appendChild(accountRow)
       order_number++
     }
@@ -204,112 +167,6 @@ class ManageGameAccountsPageManager {
     this.scrollToTopBtn.addEventListener("click", this.scrollToTop.bind(this))
     this.scrollToBottomBtn.addEventListener("click", this.scrollToBottom.bind(this))
   }
-
-  submitRentTimeFromInput(input) {
-    const value = input.value || ""
-    if (value) {
-      if (!ValidationHelper.isPureInteger(value)) {
-        Toaster.error("Thời gian cho thuê phải là một số nguyên")
-        return
-      }
-      if (!this.rentTimeInputId) return
-      let rentToTimeValue = input.dataset.rentToTimeValue
-      rentToTimeValue = rentToTimeValue ? dayjs(rentToTimeValue) : dayjs() // nếu ko có thời gian cho thuê thì lấy thời gian hiện tại
-      rentToTimeValue = rentToTimeValue.add(value, "hours").format("YYYY-MM-DD HH:mm:ss")
-      updateAccountManager.updateRentTime(this.rentTimeInputId, rentToTimeValue)
-    } else {
-      Toaster.error("Thời gian thuê không được để trống")
-    }
-  }
-
-  initRentTimeInputListeners() {
-    document.body.addEventListener("click", (e) => {
-      const target = e.target
-      if (target && !target.closest(".QUERY-rent-time-input-container")) {
-        const rentTimeActions = this.accountsTableBody.querySelector(
-          `.QUERY-account-row-item .QUERY-rent-time-input-container-${this.rentTimeInputId} .QUERY-rent-time-actions`
-        )
-        if (rentTimeActions) {
-          rentTimeActions.hidden = true
-        }
-        this.rentTimeInputId = null
-      }
-    })
-
-    this.accountsTableBody.addEventListener("focusin", (e) => {
-      let target = e.target
-      while (target && target.tagName !== "INPUT") {
-        target = target.parentElement
-        if (target && target.classList.contains("accounts-table-body")) {
-          return
-        }
-      }
-      if (!target) return
-      this.rentTimeInputId = target.dataset.rentTimeInputId * 1
-      const actionsSection = target.nextElementSibling
-      if (actionsSection) {
-        actionsSection.hidden = false
-      }
-    })
-    // bắt sự kiện lưu thời gian cho thuê
-    this.accountsTableBody.addEventListener("click", (e) => {
-      let target = e.target
-      while (target && !target.classList.contains("QUERY-rent-time-save-action")) {
-        target = target.parentElement
-        if (target && target.classList.contains("accounts-table-body")) {
-          return
-        }
-      }
-      if (!target) return
-      const input = target.closest(".QUERY-rent-time-input-container").querySelector("input")
-      if (input) {
-        this.submitRentTimeFromInput(input)
-      }
-    })
-    // bắt sự kiện nhấn enter trong input
-    this.accountsTableBody.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault()
-        let target = e.target
-        while (target && target.tagName !== "INPUT") {
-          target = target.parentElement
-          if (target && target.classList.contains("accounts-table-body")) {
-            return
-          }
-        }
-        if (!target) return
-        this.submitRentTimeFromInput(target)
-      }
-    })
-  }
-
-  initRankSelectListeners() {
-    this.accountsTableBody.addEventListener("change", (e) => {
-      let target = e.target
-      while (target && !target.classList.contains("QUERY-ranks-select")) {
-        target = target.parentElement
-        if (target && target.classList.contains("accounts-table-body")) {
-          return
-        }
-      }
-      if (!target) return
-      const accountId = target.dataset.accountId
-      const rank = target.value
-      AppLoadingHelper.show()
-      GameAccountService.updateAccount(accountId, { rank })
-        .then((data) => {
-          if (data && data.success) {
-            uiEditor.refreshAccountRowOnUI(accountId)
-          }
-        })
-        .catch((error) => {
-          Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
-        })
-        .finally(() => {
-          AppLoadingHelper.hide()
-        })
-    })
-  }
 }
 
 class UIEditor {
@@ -317,47 +174,25 @@ class UIEditor {
     this.accountsTableBody = document.getElementById("accounts-table-body")
   }
 
-  setAccountRow(accountRow, accountData, orderNumber, ranksToRender) {
-    const newAccountRow = LitHTMLHelper.getFragment(
-      AccountRow,
-      accountData,
-      orderNumber,
-      ranksToRender
-    )
+  setAccountRow(accountRow, accountData, orderNumber) {
+    const newAccountRow = LitHTMLHelper.getFragment(SaleAccountRow, accountData, orderNumber)
     accountRow.replaceWith(newAccountRow)
   }
 
-  static convertRankTypesToRenderingRanks(rankTypes) {
-    const ranksToRender = []
-    for (const { type } of rankTypes) {
-      if (type !== "Tỏa sáng") {
-        ranksToRender.push(`${type} 1`, `${type} 2`, `${type} 3`)
-      } else {
-        ranksToRender.push(type)
-      }
-    }
-    return ranksToRender
-  }
-
   refreshAccountRowOnUI(accountId) {
-    GameAccountService.fetchSingleAccount(accountId)
+    SaleAccountService.fetchSingleAccount(accountId)
       .then((data) => {
         if (data && data.success) {
           const account = data.account
           if (account) {
-            sharedData.gameAccounts = sharedData.gameAccounts.map((acc) =>
+            sharedData.saleAccounts = sharedData.saleAccounts.map((acc) =>
               acc.id === accountId ? account : acc
             )
             const accountRow = this.accountsTableBody.querySelector(
               `.QUERY-account-row-item-${accountId}`
             )
             if (accountRow) {
-              this.setAccountRow(
-                accountRow,
-                account,
-                accountRow.dataset.accountOrderNumber * 1,
-                UIEditor.convertRankTypesToRenderingRanks(sharedData.rankTypes)
-              )
+              this.setAccountRow(accountRow, account, accountRow.dataset.accountOrderNumber * 1)
               initUtils.initTooltip()
             }
           }
@@ -434,25 +269,25 @@ class AddNewAccountManager {
     this.addNewAccountForm.reset()
   }
 
-  validateFormData({ accName, rank, gameCode, status, deviceType }) {
-    if (!accName) {
-      Toaster.error("Tên tài khoản không được để trống")
+  validateFormData({ gmail, price, status, letter, description }) {
+    if (!gmail) {
+      Toaster.error("Gmail không được để trống")
       return false
     }
-    if (!rank) {
-      Toaster.error("Rank không được để trống")
+    if (!price) {
+      Toaster.error("Giá không được để trống")
       return false
     }
-    if (!gameCode) {
-      Toaster.error("Mã game không được để trống")
+    if (!letter) {
+      Toaster.error("Thư không được để trống")
       return false
     }
     if (!status) {
       Toaster.error("Trạng thái không được để trống")
       return false
     }
-    if (!deviceType) {
-      Toaster.error("Loại thiết bị không được để trống")
+    if (!description) {
+      Toaster.error("Mô tả không được để trống")
       return false
     }
     return true
@@ -464,12 +299,11 @@ class AddNewAccountManager {
 
     const formData = new FormData(this.addNewAccountForm)
     const data = {
-      accName: formData.get("accName"),
-      rank: formData.get("rank"),
-      gameCode: formData.get("gameCode"),
       description: formData.get("description"),
       status: formData.get("status"),
-      deviceType: formData.get("deviceType"),
+      letter: formData.get("letter"),
+      gmail: formData.get("gmail"),
+      price: formData.get("price"),
     }
     if (!this.validateFormData({ ...data })) {
       this.isSubmitting = false
@@ -477,7 +311,7 @@ class AddNewAccountManager {
     }
 
     AppLoadingHelper.show()
-    GameAccountService.addNewAccounts([data], this.avatarInput.files?.[0])
+    SaleAccountService.addNewAccounts([data], this.avatarInput.files?.[0])
       .then((data) => {
         if (data && data.success) {
           Toaster.success("Thông báo", "Thêm tài khoản thành công", () => {
@@ -522,7 +356,7 @@ class DeleteAccountManager {
   showModal(targetBtn) {
     const { accountId } = targetBtn.dataset
     this.accountId = accountId ? accountId * 1 : null
-    const account = sharedData.gameAccounts.find((account) => account.id === this.accountId)
+    const account = sharedData.saleAccounts.find((account) => account.id === this.accountId)
     document.getElementById("delete-account-name").textContent = account.acc_name
     this.deleteAccountModal.hidden = false
   }
@@ -536,7 +370,7 @@ class DeleteAccountManager {
     this.isDeleting = true
 
     AppLoadingHelper.show()
-    GameAccountService.deleteAccount(this.accountId)
+    SaleAccountService.deleteAccount(this.accountId)
       .then((data) => {
         if (data && data.success) {
           Toaster.success("Thông báo", "Xóa tài khoản thành công", () => {
@@ -566,22 +400,6 @@ class UpdateAccountManager {
     this.isSubmitting = false
 
     this.initListeners()
-    this.initSwitchStatusQuickly()
-  }
-
-  updateRentTime(accountId, toTime) {
-    AppLoadingHelper.show()
-    GameAccountService.updateAccount(accountId, { rentToTime: toTime })
-      .then((data) => {
-        if (data && data.success) {
-          Toaster.success("Thông báo", "Cập nhật thời gian cho thuê thành công", () => {
-            uiEditor.refreshAccountRowOnUI(accountId)
-          })
-        }
-      })
-      .finally(() => {
-        AppLoadingHelper.hide()
-      })
   }
 
   initListeners() {
@@ -635,15 +453,14 @@ class UpdateAccountManager {
   showModal(targetBtn) {
     const { accountId } = targetBtn.dataset
     this.accountId = accountId ? accountId * 1 : null
-    const account = sharedData.gameAccounts.find((account) => account.id === this.accountId)
-    const { avatar, acc_name, game_code, description, status, device_type, rank } = account
-    document.getElementById("update-account-name").textContent = acc_name
-    this.updateAccountForm.querySelector("input[name='accName']").value = acc_name
-    this.updateAccountForm.querySelector("input[name='gameCode']").value = game_code
+    const account = sharedData.saleAccounts.find((account) => account.id === this.accountId)
+    const { description, status, letter, avatar, gmail, price } = account
+    // document.getElementById("update-account-name").textContent = letter
     this.updateAccountForm.querySelector("textarea[name='description']").value = description || ""
     this.updateAccountForm.querySelector("input[name='status']").value = status
-    this.updateAccountForm.querySelector("input[name='deviceType']").value = device_type
-    this.updateAccountForm.querySelector("input[name='rank']").value = rank
+    this.updateAccountForm.querySelector("select[name='letter']").value = letter
+    this.updateAccountForm.querySelector("input[name='gmail']").value = gmail
+    this.updateAccountForm.querySelector("input[name='price']").value = price
     this.updateAccountModal.hidden = false
     this.avatarPreview.src = `/images/account/${avatar || "default-account-avatar.png"}`
     if (!avatar) {
@@ -657,25 +474,25 @@ class UpdateAccountManager {
     this.updateAccountForm.reset()
   }
 
-  validateFormData({ accName, rank, gameCode, status, deviceType }) {
-    if (!accName) {
-      Toaster.error("Tên tài khoản không được để trống")
+  validateFormData({ gmail, price, status, letter, description }) {
+    if (!gmail) {
+      Toaster.error("Gmail không được để trống")
       return false
     }
-    if (!rank) {
-      Toaster.error("Rank không được để trống")
+    if (!price) {
+      Toaster.error("Giá không được để trống")
       return false
     }
-    if (!gameCode) {
-      Toaster.error("Mã game không được để trống")
+    if (!letter) {
+      Toaster.error("Thư không được để trống")
       return false
     }
     if (!status) {
       Toaster.error("Trạng thái không được để trống")
       return false
     }
-    if (!deviceType) {
-      Toaster.error("Loại thiết bị không được để trống")
+    if (!description) {
+      Toaster.error("Mô tả không được để trống")
       return false
     }
     return true
@@ -687,12 +504,11 @@ class UpdateAccountManager {
 
     const formData = new FormData(this.updateAccountForm)
     const data = {
-      accName: formData.get("accName"),
-      rank: formData.get("rank"),
-      gameCode: formData.get("gameCode"),
       description: formData.get("description"),
       status: formData.get("status"),
-      deviceType: formData.get("deviceType"),
+      letter: formData.get("letter"),
+      gmail: formData.get("gmail"),
+      price: formData.get("price"),
     }
     if (!this.validateFormData({ ...data })) {
       this.isSubmitting = false
@@ -700,7 +516,7 @@ class UpdateAccountManager {
     }
 
     AppLoadingHelper.show()
-    GameAccountService.updateAccount(this.accountId, data, this.avatarInput.files?.[0])
+    SaleAccountService.updateAccount(this.accountId, data, this.avatarInput.files?.[0])
       .then((data) => {
         if (data && data.success) {
           uiEditor.refreshAccountRowOnUI(this.accountId)
@@ -717,50 +533,6 @@ class UpdateAccountManager {
         this.isSubmitting = false
         AppLoadingHelper.hide()
       })
-  }
-
-  switchStatus() {
-    if (this.isSubmitting) return
-    this.isSubmitting = true
-
-    AppLoadingHelper.show()
-    GameAccountService.switchAccountStatus(this.accountId)
-      .then((data) => {
-        if (data && data.success) {
-          uiEditor.refreshAccountRowOnUI(this.accountId)
-          Toaster.success("Thông báo", "Cập nhật trạng thái tài khoản thành công")
-        }
-      })
-      .catch((error) => {
-        Toaster.error(
-          "Cập nhật trạng thái tài khoản thất bại",
-          AxiosErrorHandler.handleHTTPError(error).message
-        )
-      })
-      .finally(() => {
-        this.isSubmitting = false
-        AppLoadingHelper.hide()
-      })
-  }
-
-  initSwitchStatusQuickly() {
-    this.accountsTableBody.addEventListener("click", (e) => {
-      let target = e.target
-      while (target && !target.classList.contains("QUERY-switch-status-btn")) {
-        target = target.parentElement
-        if (target.classList.contains("QUERY-account-row-item") || target.tagName === "BODY") {
-          break
-        }
-      }
-      const accountId = target.dataset.vcnAccountId * 1
-      if (accountId) {
-        const account = sharedData.gameAccounts.find((account) => account.id === accountId)
-        if (account) {
-          this.accountId = account.id
-          this.switchStatus()
-        }
-      }
-    })
   }
 }
 
@@ -821,15 +593,7 @@ class ImportExportManager {
 
   exportAccountsTableToExcel() {
     const rows = []
-    const headerRow = [
-      "Avatar",
-      "Tên tài khoản",
-      "Rank",
-      "Mã game",
-      "Trạng thái",
-      "Mô tả",
-      "Loại máy",
-    ]
+    const headerRow = ["Avatar", "Thư", "Giá", "Gmail", "Trạng thái", "Mô tả"]
     rows.push(headerRow)
 
     // Lấy tất cả các hàng từ tbody
@@ -847,12 +611,11 @@ class ImportExportManager {
         : descRow.innerText.trim()
       const row = [
         avatar, // avatar
-        tds[2]?.innerText.trim(), // acc_name
-        tds[3]?.innerText.trim(), // rank
-        tds[4]?.innerText.trim(), // game_code
+        tds[2]?.innerText.trim(), // letter
+        tds[3]?.innerText.trim(), // price
+        tds[4]?.innerText.trim(), // gmail
         tds[5]?.innerText.trim(), // status
         description, // description
-        tds[8]?.innerText.trim(), // device_type
       ]
 
       rows.push(row)
@@ -860,10 +623,10 @@ class ImportExportManager {
 
     const worksheet = XLSX.utils.aoa_to_sheet(rows)
     const workbook = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(workbook, worksheet, "GameAccounts")
+    XLSX.utils.book_append_sheet(workbook, worksheet, "SaleAccounts")
 
     const today = dayjs().format("YYYY-MM-DD_HH-mm-ss")
-    XLSX.writeFile(workbook, `DanhSachTaiKhoan_${today}.xlsx`)
+    XLSX.writeFile(workbook, `DanhSachTaiKhoanSale_${today}.xlsx`)
   }
 
   importAccountsFromExcel() {
@@ -894,21 +657,13 @@ class ImportExportManager {
 
           const accounts = rows
             .map((row) => ({
-              accName: row[1] || "",
-              rank: row[2] || "",
-              gameCode: row[3] || "",
+              letter: row[1] || "",
+              price: row[2] || "",
+              gmail: row[3] || "",
               status: row[4] || "",
               description: row[5] || "",
-              deviceType: row[6] || "",
             }))
-            .filter(
-              (account) =>
-                account.accName &&
-                account.rank &&
-                account.gameCode &&
-                account.deviceType &&
-                account.status
-            )
+            .filter((account) => account.letter && account.price && account.gmail && account.status)
 
           if (accounts.length === 0) {
             Toaster.error("Lỗi", "Không có dữ liệu hợp lệ trong file Excel")
@@ -933,7 +688,7 @@ class ImportExportManager {
   processImportAccounts() {
     const accounts = this.accountsImporting
     AppLoadingHelper.show()
-    GameAccountService.addNewAccounts(accounts)
+    SaleAccountService.addNewAccounts(accounts)
       .then((data) => {
         if (data && data.success) {
           Toaster.success("Thông báo", `Đã tải lên thành công ${accounts.length} tài khoản`, () => {
@@ -954,23 +709,18 @@ class FilterManager {
   constructor() {
     this.filtersSection = document.getElementById("filters-section")
     this.toggleFiltersBtn = document.getElementById("toggle-filters-btn")
-    this.rankTypesSelect = this.filtersSection.querySelector(".QUERY-rank-types-select")
-    this.statusesSelect = this.filtersSection.querySelector(".QUERY-statuses-select")
-    this.deviceTypeSelect = this.filtersSection.querySelector(".QUERY-device-type-select")
+    this.statusInput = this.filtersSection.querySelector(".QUERY-status-input")
+    this.letterSelect = this.filtersSection.querySelector(".QUERY-letter-select")
     this.searchBtn = document.getElementById("search-btn")
     this.searchInput = document.getElementById("search-input")
     this.countAppliedFilters = document.getElementById("count-applied-filters")
 
-    this.fieldsRenderedCount = 2
     this.appliedFiltersCount = 0
     this.urlForFilters = ""
 
-    this.renderRankTypes()
-    this.fetchStatuses()
-    this.fetchDeviceTypes()
-
     this.initShowFilters()
     this.initListeners()
+    this.updateActiveFiltersDisplay()
   }
 
   initListeners() {
@@ -992,15 +742,30 @@ class FilterManager {
   }
 
   initInputListeners() {
-    this.rankTypesSelect.addEventListener("change", this.handleFilterChange.bind(this))
-    this.statusesSelect.addEventListener("change", this.handleFilterChange.bind(this))
-    this.deviceTypeSelect.addEventListener("change", this.handleFilterChange.bind(this))
+    this.letterSelect.addEventListener("change", this.handleFilterSelectChange.bind(this))
     this.searchBtn.addEventListener("click", this.searchAccounts.bind(this))
     this.searchInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         this.searchAccounts()
       }
     })
+    this.statusInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        this.applyFilters()
+      }
+    })
+  }
+
+  handleFilterSelectChange(e) {
+    const formField = e.currentTarget
+    const value = formField.value
+    switch (formField.id) {
+      case "letter-filter-field":
+        this.saveQueryStringForFilters(
+          "letter=" + (value && value !== "ALL" ? encodeURIComponent(value) : "")
+        )
+        break
+    }
   }
 
   adjustAppliedFiltersCount() {
@@ -1034,64 +799,7 @@ class FilterManager {
     }
   }
 
-  renderRankTypes() {
-    const rankTypes = sharedData.rankTypes
-
-    const allOption = document.createElement("option")
-    allOption.value = "ALL"
-    allOption.textContent = "Tất cả rank"
-    this.rankTypesSelect.appendChild(allOption)
-
-    for (const rankType of rankTypes) {
-      const option = document.createElement("option")
-      option.value = rankType.type
-      option.textContent = rankType.type
-      this.rankTypesSelect.appendChild(option)
-    }
-
-    this.fieldsRenderedCount++
-    this.updateActiveFiltersDisplay()
-  }
-
-  fetchStatuses() {
-    GameAccountService.fetchAccountStatuses().then((statuses) => {
-      const allOption = document.createElement("option")
-      allOption.value = "ALL"
-      allOption.textContent = "Tất cả trạng thái"
-      this.statusesSelect.appendChild(allOption)
-
-      for (const status of statuses) {
-        const option = document.createElement("option")
-        option.value = status.status
-        option.textContent = status.status
-        this.statusesSelect.appendChild(option)
-      }
-
-      this.fieldsRenderedCount++
-      this.updateActiveFiltersDisplay()
-    })
-  }
-
-  fetchDeviceTypes() {
-    GameAccountService.fetchDeviceTypes().then((deviceTypes) => {
-      const allOption = document.createElement("option")
-      allOption.value = "ALL"
-      allOption.textContent = "Tất cả loại máy"
-      this.deviceTypeSelect.appendChild(allOption)
-
-      for (const deviceType of deviceTypes) {
-        const option = document.createElement("option")
-        option.value = deviceType.device_type
-        option.textContent = deviceType.device_type
-        this.deviceTypeSelect.appendChild(option)
-      }
-
-      this.fieldsRenderedCount++
-      this.updateActiveFiltersDisplay()
-    })
-  }
-
-  saveQueryStringForFilters(keyValuePair = "rank=&status=&device_type=") {
+  saveQueryStringForFilters(keyValuePair = "status=&letter=&search_term=") {
     const currentUrlForFilters = new URL(this.urlForFilters || window.location.href)
     const params = new URLSearchParams(keyValuePair)
     for (const [key, value] of params.entries()) {
@@ -1104,29 +812,19 @@ class FilterManager {
     this.urlForFilters = currentUrlForFilters.toString()
   }
 
-  handleFilterChange(e) {
-    const formField = e.currentTarget
-    const value = formField.value
-    switch (formField.id) {
-      case "rank-type-filter-field":
-        this.saveQueryStringForFilters(
-          "rank=" + (value && value !== "ALL" ? encodeURIComponent(value) : "")
-        )
-        break
-      case "status-filter-field":
-        this.saveQueryStringForFilters(
-          "status=" + (value && value !== "ALL" ? encodeURIComponent(value) : "")
-        )
-        break
-      case "device-type-filter-field":
-        this.saveQueryStringForFilters(
-          "device_type=" + (value && value !== "ALL" ? encodeURIComponent(value) : "")
-        )
-        break
+  saveInputValueToQueryString() {
+    const statusValue = this.statusInput.value?.trim()
+    if (statusValue) {
+      this.saveQueryStringForFilters(
+        "status=" + encodeURIComponent(StringHelper.capitalizeFirstLetter(statusValue))
+      )
+    } else {
+      this.saveQueryStringForFilters("status=")
     }
   }
 
   applyFilters() {
+    this.saveInputValueToQueryString()
     NavigationHelper.pureNavigateTo(this.urlForFilters)
   }
 
@@ -1136,38 +834,24 @@ class FilterManager {
   }
 
   updateActiveFiltersDisplay() {
-    if (this.fieldsRenderedCount < 5) return
-
-    const rankValue = URLHelper.getUrlQueryParam("rank")
-    if (rankValue) {
-      this.rankTypesSelect.value = rankValue
-      this.appliedFiltersCount++
-    } else {
-      this.rankTypesSelect.value = "ALL"
-    }
-
     const statusValue = URLHelper.getUrlQueryParam("status")
     if (statusValue) {
-      this.statusesSelect.value = statusValue
+      this.statusInput.value = statusValue
       this.appliedFiltersCount++
-    } else {
-      this.statusesSelect.value = "ALL"
     }
 
-    const deviceTypeValue = URLHelper.getUrlQueryParam("device_type")
-    if (deviceTypeValue) {
-      this.deviceTypeSelect.value = deviceTypeValue
+    const letterValue = URLHelper.getUrlQueryParam("letter")
+    if (letterValue) {
+      this.letterSelect.value = letterValue
       this.appliedFiltersCount++
     } else {
-      this.deviceTypeSelect.value = "ALL"
+      this.letterSelect.value = "ALL"
     }
 
     const searchTerm = URLHelper.getUrlQueryParam("search_term")
     if (searchTerm) {
       this.searchInput.value = searchTerm
       this.appliedFiltersCount++
-    } else {
-      this.searchInput.value = ""
     }
 
     this.adjustAppliedFiltersCount()
@@ -1175,7 +859,7 @@ class FilterManager {
   }
 
   searchAccounts() {
-    const searchTerm = this.searchInput.value.trim()
+    const searchTerm = this.searchInput.value?.trim()
     if (searchTerm) {
       this.saveQueryStringForFilters("search_term=" + encodeURIComponent(searchTerm))
     } else {
@@ -1191,4 +875,4 @@ new AddNewAccountManager()
 const updateAccountManager = new UpdateAccountManager()
 const deleteAccountManager = new DeleteAccountManager()
 new FilterManager()
-new ManageGameAccountsPageManager()
+new SaleAccountsPageManager()

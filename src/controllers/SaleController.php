@@ -6,19 +6,16 @@ namespace Controllers;
 
 use Services\SaleAccountService;
 use Services\RulesService;
-use Services\UserService;
 
 class SaleController
 {
   private $saleAccountService;
   private $rulesService;
-  private $userService;
 
-  public function __construct(SaleAccountService $saleAccountService, RulesService $rulesService, UserService $userService)
+  public function __construct(SaleAccountService $saleAccountService, RulesService $rulesService)
   {
     $this->saleAccountService = $saleAccountService;
     $this->rulesService = $rulesService;
-    $this->userService = $userService;
   }
 
   public function showSalePage(): void
@@ -26,9 +23,8 @@ class SaleController
     $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
     $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : SaleAccountService::LIMIT;
 
-    $saleAccounts = $this->saleAccountService->advancedFetchAccounts($page, $limit);
+    $saleAccounts = $this->saleAccountService->fetchAccountsWithPagination($page, $limit);
     $accountsCount = count($saleAccounts);
-    $admin = $this->userService->findAdmin();
 
     $rules = $this->rulesService->findRules();
 

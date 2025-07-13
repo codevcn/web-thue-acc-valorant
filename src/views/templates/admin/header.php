@@ -3,10 +3,23 @@
   <div class="mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       <a href="/" class="flex items-center gap-4">
-        <h1 class="text-xl font-bold text-regular-blue-cl">thueaccvaloranttime.com</h1>
+        <h1 class="text-xl font-bold text-regular-blue-cl">shopthuevalorantime.com</h1>
       </a>
 
       <div class="items-center gap-4 min-[730px]:flex hidden">
+        <a href="/admin/sale-accounts" class="flex items-center gap-2 hover:bg-gray-100 rounded-lg p-2 transition duration-300 cursor-pointer">
+          <div class="w-8 h-8 bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl rounded-full flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="text-white lucide lucide-coins-icon lucide-coins" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="8" cy="8" r="6" />
+              <path d="M18.09 10.37A6 6 0 1 1 10.34 18" />
+              <path d="M7 6h1v4" />
+              <path d="m16.71 13.88.7.71-2.82 2.82" />
+            </svg>
+          </div>
+          <div class="text-sm">
+            <span class="font-medium text-gray-700">Sale</span>
+          </div>
+        </a>
         <a href="/admin/manage-game-accounts" class="flex items-center gap-2 hover:bg-gray-100 rounded-lg p-2 transition duration-300 cursor-pointer">
           <div class="w-8 h-8 bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl rounded-full flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-settings-icon lucide-settings text-white" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -18,7 +31,6 @@
             <span class="font-medium text-gray-700">Quản lý acc</span>
           </div>
         </a>
-
 
         <a href="/admin/profile" class="flex items-center gap-3 hover:bg-gray-100 rounded-lg p-2 transition duration-300 cursor-pointer">
           <div class="w-8 h-8 bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl rounded-full flex items-center justify-center">

@@ -29,6 +29,7 @@ class HomePageManager {
     this.accNameRentNowModal = document.getElementById("acc-name--rent-now-modal")
     this.scrollToTopBtn = document.getElementById("scroll-to-top-btn")
     this.cancelAllFiltersBtn = document.getElementById("cancel-all-filters-btn")
+    this.acceptRulesCheckbox = document.getElementById("accept-rules-checkbox")
 
     this.isFetchingItems = false
     this.isMoreItems = true
@@ -46,6 +47,7 @@ class HomePageManager {
     this.initScrollToTopBtnListener()
     this.initCancelAllFiltersListener()
     this.initModalOverlayListener()
+    this.initAcceptRulesCheckboxListener()
 
     this.watchScrolling()
 
@@ -310,6 +312,7 @@ class HomePageManager {
 
   showRentNowModal() {
     this.accNameRentNowModal.textContent = this.selectedAccount.acc_name
+    this.acceptRulesCheckbox.checked = false
     this.rentNowModal.hidden = false
   }
 
@@ -340,6 +343,17 @@ class HomePageManager {
     this.scrollToTopBtn.addEventListener("click", () => {
       window.scrollTo({ top: 100, behavior: "instant" })
       window.scrollTo({ top: 0, behavior: "smooth" })
+    })
+  }
+
+  initAcceptRulesCheckboxListener() {
+    this.acceptRulesCheckbox.addEventListener("change", () => {
+      const rentNowModalContactLinks = document.getElementById("rent-now-modal-contact-links")
+      if (this.acceptRulesCheckbox.checked) {
+        rentNowModalContactLinks.classList.remove("opacity-50", "pointer-events-none")
+      } else {
+        rentNowModalContactLinks.classList.add("opacity-50", "pointer-events-none")
+      }
     })
   }
 }

@@ -12,12 +12,15 @@ use Services\AuthService;
 use Services\JwtService;
 use Core\AuthMiddleware;
 use Services\RulesService;
+use Controllers\Apis\SaleAccountApiController;
+use Services\SaleAccountService;
 
 // Initialize API controller
 $gameAccountApiController = new GameAccountApiController(new GameAccountService($db), new FileService());
 $adminApiController = new AdminApiController(new UserService($db), new RulesService($db));
 $authApiController = new AuthApiController(new AuthService($db, new JwtService()));
 $authService = new AuthService($db, new JwtService());
+$saleAccountApiController = new SaleAccountApiController(new SaleAccountService($db), new FileService());
 
 // Initialize middleware
 $authMiddleware = new AuthMiddleware($authService);
@@ -40,37 +43,79 @@ $apiRouter->get('/api/v1/game-accounts/device-types', function () use ($gameAcco
 });
 
 $apiRouter->post('/api/v1/game-accounts/add-new', function () use ($gameAccountApiController, $authMiddleware) {
-  $authMiddleware->handle();
+  if (!$authMiddleware->handleApi()) {
+    http_response_code(401);
+    return [
+      'success' => false,
+      'message' => 'Unauthorized'
+    ];
+  }
   return $gameAccountApiController->addNewAccounts();
 });
 
 $apiRouter->post('/api/v1/game-accounts/update/{accountId}', function ($accountId) use ($gameAccountApiController, $authMiddleware) {
-  $authMiddleware->handle();
+  if (!$authMiddleware->handleApi()) {
+    http_response_code(401);
+    return [
+      'success' => false,
+      'message' => 'Unauthorized'
+    ];
+  }
   return $gameAccountApiController->updateAccount($accountId);
 });
 
 $apiRouter->delete('/api/v1/game-accounts/delete/{accountId}', function ($accountId) use ($gameAccountApiController, $authMiddleware) {
-  $authMiddleware->handle();
+  if (!$authMiddleware->handleApi()) {
+    http_response_code(401);
+    return [
+      'success' => false,
+      'message' => 'Unauthorized'
+    ];
+  }
   return $gameAccountApiController->deleteAccount($accountId);
 });
 
 $apiRouter->post('/api/v1/game-accounts/switch-status/{accountId}', function ($accountId) use ($gameAccountApiController, $authMiddleware) {
-  $authMiddleware->handle();
+  if (!$authMiddleware->handleApi()) {
+    http_response_code(401);
+    return [
+      'success' => false,
+      'message' => 'Unauthorized'
+    ];
+  }
   return $gameAccountApiController->switchAccountStatus($accountId);
 });
 
 $apiRouter->post('/api/v1/admin/update-profile', function () use ($adminApiController, $authMiddleware) {
-  $authMiddleware->handle();
+  if (!$authMiddleware->handleApi()) {
+    http_response_code(401);
+    return [
+      'success' => false,
+      'message' => 'Unauthorized'
+    ];
+  }
   return $adminApiController->updateAdminProfile();
 });
 
 $apiRouter->post('/api/v1/admin/update-web-ui', function () use ($adminApiController, $authMiddleware) {
-  $authMiddleware->handle();
+  if (!$authMiddleware->handleApi()) {
+    http_response_code(401);
+    return [
+      'success' => false,
+      'message' => 'Unauthorized'
+    ];
+  }
   return $adminApiController->updateWebUI();
 });
 
 $apiRouter->post('/api/v1/game-accounts/update-rent-time', function () use ($gameAccountApiController, $authMiddleware) {
-  $authMiddleware->handle();
+  if (!$authMiddleware->handleApi()) {
+    http_response_code(401);
+    return [
+      'success' => false,
+      'message' => 'Unauthorized'
+    ];
+  }
   return $gameAccountApiController->updateAccountRentTime();
 });
 
@@ -85,4 +130,60 @@ $apiRouter->post('/api/v1/auth/login', function () use ($authApiController) {
 
 $apiRouter->get('/api/v1/auth/logout', function () use ($authApiController) {
   return $authApiController->logout();
+});
+
+// Sale Account API Routes
+$apiRouter->get('/api/v1/sale-accounts/load-more', function () use ($saleAccountApiController, $authMiddleware) {
+  if (!$authMiddleware->handleApi()) {
+    http_response_code(401);
+    return [
+      'success' => false,
+      'message' => 'Unauthorized'
+    ];
+  }
+  return $saleAccountApiController->loadMoreAccounts();
+});
+
+$apiRouter->post('/api/v1/sale-accounts/add-new', function () use ($saleAccountApiController, $authMiddleware) {
+  if (!$authMiddleware->handleApi()) {
+    http_response_code(401);
+    return [
+      'success' => false,
+      'message' => 'Unauthorized'
+    ];
+  }
+  return $saleAccountApiController->addNewAccounts();
+});
+
+$apiRouter->post('/api/v1/sale-accounts/update/{accountId}', function ($accountId) use ($saleAccountApiController, $authMiddleware) {
+  if (!$authMiddleware->handleApi()) {
+    http_response_code(401);
+    return [
+      'success' => false,
+      'message' => 'Unauthorized'
+    ];
+  }
+  return $saleAccountApiController->updateAccount($accountId);
+});
+
+$apiRouter->delete('/api/v1/sale-accounts/delete/{accountId}', function ($accountId) use ($saleAccountApiController, $authMiddleware) {
+  if (!$authMiddleware->handleApi()) {
+    http_response_code(401);
+    return [
+      'success' => false,
+      'message' => 'Unauthorized'
+    ];
+  }
+  return $saleAccountApiController->deleteAccount($accountId);
+});
+
+$apiRouter->get('/api/v1/sale-accounts/fetch-single-account/{accountId}', function ($accountId) use ($saleAccountApiController, $authMiddleware) {
+  if (!$authMiddleware->handleApi()) {
+    http_response_code(401);
+    return [
+      'success' => false,
+      'message' => 'Unauthorized'
+    ];
+  }
+  return $saleAccountApiController->fetchSingleAccount($accountId);
 });

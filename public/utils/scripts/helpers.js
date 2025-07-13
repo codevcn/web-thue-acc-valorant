@@ -12,8 +12,6 @@ export class AxiosErrorHandler {
   static MAX_LEN_OF_ERROR_MESSAGE = 100
 
   static handleHTTPError(originalError) {
-    console.error(">>> original error:", originalError)
-
     let statusCode = 500 // Internal Server Error
     let message = "Unknown Error!"
     let isCanceled = false
@@ -191,5 +189,17 @@ export class TimeHelper {
     const minutes = totalMinutes % 60
 
     return `${hours} giờ ${minutes} phút`
+  }
+}
+
+export class ValidationHelper {
+  static isPureInteger(text) {
+    return /^\d+$/.test(text)
+  }
+}
+
+export class StringHelper {
+  static capitalizeFirstLetter(text) {
+    return text.charAt(0).toUpperCase() + text.slice(1)
   }
 }

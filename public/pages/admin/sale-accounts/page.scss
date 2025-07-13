@@ -1,0 +1,28 @@
+#load-more-container {
+  &.QUERY-is-more {
+    .QUERY-no-more-text {
+      display: none;
+    }
+  }
+
+  &.QUERY-no-more {
+    .QUERY-load-more-btn {
+      display: none;
+    }
+  }
+}
+
+#pick-avatar--add-section,
+#pick-avatar--update-section {
+  &.QUERY-at-avatar-input-section {
+    .QUERY-avatar-preview-section {
+      display: none;
+    }
+  }
+
+  &.QUERY-at-avatar-preview-section {
+    .QUERY-avatar-input-section {
+      display: none;
+    }
+  }
+}

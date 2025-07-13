@@ -116,7 +116,7 @@
     </div>
     <div class="flex flex-col md:flex-row justify-center items-center gap-4 border-t border-black/40">
       <div class="text-black/80 text-sm mt-4 min-[550px]:text-left text-center">
-        © 2024 thueaccvaloranttime.com. Tất cả quyền được bảo lưu.
+        © 2024 shopthuevalorantime.com. Tất cả quyền được bảo lưu.
       </div>
     </div>
   </div>
