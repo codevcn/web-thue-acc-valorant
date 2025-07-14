@@ -82,8 +82,13 @@
       <div class="py-4 overflow-y-auto">
         <ul class="space-y-2 font-medium text-gray-600">
           <li>
+            <a href="/admin/sale-accounts" class="flex items-center py-2 rounded-lg CSS-neon-text-hover group">
+              <span>Sale</span>
+            </a>
+          </li>
+          <li>
             <a href="/admin/manage-game-accounts" class="flex items-center py-2 rounded-lg CSS-neon-text-hover group">
-              <span>Quản lý tài khoản</span>
+              <span>Quản lý acc</span>
             </a>
           </li>
           <li>

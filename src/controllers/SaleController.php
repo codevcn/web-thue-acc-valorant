@@ -21,7 +21,7 @@ class SaleController
   public function showSalePage(): void
   {
     $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : SaleAccountService::LIMIT;
+    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : SaleAccountService::LIMIT_WITH_PAGINATION;
 
     $saleAccounts = $this->saleAccountService->fetchAccountsWithPagination($page, $limit);
     $accountsCount = count($saleAccounts);

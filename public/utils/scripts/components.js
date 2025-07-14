@@ -6,7 +6,7 @@ export const AccountCard = (account) => {
   return html`
     <div class="rounded-lg overflow-hidden w-full">
       <div
-        class="CSS-styled-vt-scrollbar flex min-[1242px]:flex-row flex-col gap-4 w-full min-[1242px]:aspect-[1825/612] overflow-y-auto relative aspect-auto"
+        class="CSS-styled-scrollbar flex min-[1242px]:flex-row flex-col gap-4 w-full min-[1242px]:aspect-[1825/612] overflow-y-auto relative aspect-auto"
       >
         <div
           class="min-[1242px]:w-3/5 w-full rounded-lg overflow-hidden h-fit min-[1242px]:h-auto bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl relative flex flex-col items-center justify-center"
@@ -320,7 +320,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
       />
       <div
         hidden
-        class="QUERY-rent-time-actions absolute top-[calc(100%+5px)] right-0 w-full h-full"
+        class="QUERY-rent-time-actions absolute z-20 top-[calc(100%+5px)] right-0 w-full h-full"
       >
         <button
           class="QUERY-rent-time-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
@@ -354,7 +354,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         />
         <div
           hidden
-          class="QUERY-rent-time-actions absolute top-[calc(100%+5px)] right-0 w-full h-full"
+          class="QUERY-rent-time-actions absolute z-20 top-[calc(100%+5px)] right-0 w-full h-full"
         >
           <button
             class="QUERY-rent-time-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
@@ -370,13 +370,14 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
   return html`
     <tr
       data-account-order-number="${orderNumber}"
+      data-account-id="${id}"
       class="QUERY-account-row-item QUERY-account-row-item-${id} hover:bg-blue-50 ${lowerCasedStatus ==
       "bận"
         ? "bg-red-100"
         : ""}"
     >
       <td class="px-3 py-3 text-center">${orderNumber}</td>
-      <td class="px-3 py-2">
+      <td class="px-3 py-2 min-[768px]:table-cell hidden">
         <div class="rounded-full flex items-center justify-center">
           <img
             src="/images/account/${avatar || "default-account-avatar.png"}"
@@ -568,13 +569,14 @@ export const SaleAccountRow = (account, orderNumber) => {
   const lowerCasedStatus = status.toLowerCase()
   return html`
     <tr
+      data-account-id="${id}"
       class="QUERY-account-row-item QUERY-account-row-item-${id} hover:bg-blue-50 ${lowerCasedStatus ===
       "bận"
         ? "bg-red-100"
         : ""}"
     >
       <td class="px-3 py-3 text-center">${orderNumber}</td>
-      <td class="px-3 py-1">
+      <td class="px-3 py-1 min-[768px]:table-cell hidden">
         <div class="rounded-full flex items-center justify-center">
           <img
             src="/images/account/${avatar || "default-account-avatar.png"}"

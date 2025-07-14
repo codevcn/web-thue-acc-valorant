@@ -15,7 +15,7 @@
       <span class="text-xl font-bold">Lọc acc theo</span>
     </div>
   </div>
-  <div class="grid grid-cols-1 min-[610px]:grid-cols-2 min-[860px]:grid-cols-3 gap-x-8 gap-y-4 mb-0 pr-1 CSS-styled-vt-scrollbar max-h-[300px] overflow-y-scroll min-[860px]:overflow-y-auto">
+  <div class="grid grid-cols-1 min-[610px]:grid-cols-2 min-[860px]:grid-cols-3 gap-x-8 gap-y-4 mb-0 pr-1 CSS-styled-scrollbar max-h-[300px] overflow-y-scroll min-[860px]:overflow-y-auto">
     <!-- Rank -->
     <div id="account-rank-types-container" class="flex-1 min-w-[220px] mb-4">
       <p class="text-lg font-medium mb-1 flex items-center gap-2 pl-1">

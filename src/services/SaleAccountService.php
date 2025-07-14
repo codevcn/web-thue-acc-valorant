@@ -10,7 +10,8 @@ use Utils\Helper;
 class SaleAccountService
 {
   private $db;
-  const LIMIT = 5;
+  const LIMIT_WITH_LOAD_MORE = 10;
+  const LIMIT_WITH_PAGINATION = 5;
 
   public function __construct(PDO $db)
   {
@@ -27,7 +28,7 @@ class SaleAccountService
   // Fetch with pagination
   public function fetchAccountsWithPagination(
     int $page = 1,
-    int $limit = self::LIMIT
+    int $limit = self::LIMIT_WITH_PAGINATION
   ): array {
     $sql = "SELECT * FROM sale_accounts";
 
@@ -72,7 +73,7 @@ class SaleAccountService
     if (!empty($conditions)) {
       $sql .= " WHERE " . implode(' AND ', $conditions);
     }
-    $order_condition = " ORDER BY created_at DESC, id DESC LIMIT " . self::LIMIT;
+    $order_condition = " ORDER BY created_at DESC, id DESC LIMIT " . self::LIMIT_WITH_LOAD_MORE;
     $sql .= $order_condition;
 
     $stmt = $this->db->prepare($sql);

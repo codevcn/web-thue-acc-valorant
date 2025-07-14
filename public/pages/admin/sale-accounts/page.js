@@ -99,11 +99,19 @@ class SaleAccountsPageManager {
         }
       }
       if (isDeleteBtn) {
-        deleteAccountManager.showModal(target)
+        deleteAccountManager.showModal(target.dataset.accountId * 1)
       }
       if (isUpdateBtn) {
-        updateAccountManager.showModal(target)
+        updateAccountManager.showModal(target.dataset.accountId * 1)
       }
+    })
+
+    // khi click lên row (cho dễ thao tác trên điện thoại)
+    this.accountsTableBody.addEventListener("click", (e) => {
+      let target = e.target
+      if (!target || target.tagName !== "TD") return
+      const accountId = target.closest(".QUERY-account-row-item").dataset.accountId
+      updateAccountManager.showModal(accountId * 1)
     })
   }
 
@@ -353,9 +361,8 @@ class DeleteAccountManager {
     })
   }
 
-  showModal(targetBtn) {
-    const { accountId } = targetBtn.dataset
-    this.accountId = accountId ? accountId * 1 : null
+  showModal(accountId) {
+    this.accountId = accountId
     const account = sharedData.saleAccounts.find((account) => account.id === this.accountId)
     document.getElementById("delete-account-name").textContent = account.acc_name
     this.deleteAccountModal.hidden = false
@@ -450,9 +457,8 @@ class UpdateAccountManager {
     this.switchToAvatarInputSection()
   }
 
-  showModal(targetBtn) {
-    const { accountId } = targetBtn.dataset
-    this.accountId = accountId ? accountId * 1 : null
+  showModal(accountId) {
+    this.accountId = accountId
     const account = sharedData.saleAccounts.find((account) => account.id === this.accountId)
     const { description, status, letter, avatar, gmail, price } = account
     // document.getElementById("update-account-name").textContent = letter

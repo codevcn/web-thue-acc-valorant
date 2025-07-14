@@ -18,6 +18,7 @@ class ProfilePageManager {
     this.scrollToTopBtn = document.getElementById("scroll-to-top-btn")
     this.updateProfileBtn = document.getElementById("update-profile-btn")
     this.rulesTextarea = document.getElementById("rules-textarea")
+    this.commitmentTextarea = document.getElementById("commitment-textarea")
 
     this.MIN_LENGTH_OF_PASSWORD = 6
 
@@ -73,8 +74,12 @@ class ProfilePageManager {
       return
     }
 
-    AppLoadingHelper.show()
-    AdminService.updateProfile(dataToSend, this.rulesTextarea.value || null)
+    AppLoadingHelper.show("Đang cập nhật hồ sơ...")
+    AdminService.updateProfile(
+      dataToSend,
+      this.rulesTextarea.value || null,
+      this.commitmentTextarea.value || null
+    )
       .then((res) => {
         Toaster.success(
           "Cập nhật thành công",
@@ -143,6 +148,8 @@ class ProfilePageManager {
     this.facebookLinkInput.addEventListener("keydown", this.catchEnterKey.bind(this))
     this.zaloLinkInput.addEventListener("keydown", this.catchEnterKey.bind(this))
     this.passwordInput.addEventListener("keydown", this.catchEnterKey.bind(this))
+    this.rulesTextarea.addEventListener("keydown", this.catchEnterKey.bind(this))
+    this.commitmentTextarea.addEventListener("keydown", this.catchEnterKey.bind(this))
   }
 
   watchScrolling() {

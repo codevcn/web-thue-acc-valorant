@@ -72,6 +72,19 @@ class AdminApiController
       }
     }
 
+    if (isset($_POST['commitmentData'])) {
+      $commitmentData = $_POST['commitmentData'];
+      try {
+        $this->rulesService->updateCommitment($commitmentData);
+      } catch (\Throwable $th) {
+        http_response_code(500);
+        return [
+          'success' => false,
+          'message' => 'Đã xảy ra lỗi khi cập nhật cam kết mua acc'
+        ];
+      }
+    }
+
     return [
       'success' => true,
     ];

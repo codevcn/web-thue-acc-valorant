@@ -2,7 +2,7 @@
 <div id="add-new-account-modal" hidden class="QUERY-modal fixed inset-0 flex items-center justify-center z-90 p-4">
   <div class="QUERY-modal-overlay absolute z-10 inset-0 bg-black/50"></div>
 
-  <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto relative z-20 CSS-styled-vt-scrollbar">
+  <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto relative z-20 CSS-styled-scrollbar">
     <div class="p-6 border-b border-gray-200">
       <h2 class="text-xl font-bold text-gray-900">Thêm tài khoản mới</h2>
     </div>
@@ -50,7 +50,8 @@
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Rank</label>
-          <input type="text" name="rank" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: gold 1">
+          <select id="ranks-select--add-section" type="text" name="rank" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1">
+          </select>
         </div>
 
         <div>
@@ -67,12 +68,14 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Trạng thái</label>
-          <input type="text" name="status" value="Rảnh" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="Rảnh, Bận">
+          <select id="status-select--add-section" type="text" name="status" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1">
+          </select>
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Loại máy</label>
-          <input type="text" name="deviceType" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="Máy nhà, Máy net">
+          <select id="device-types-select--add-section" type="text" name="deviceType" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1">
+          </select>
         </div>
       </div>
     </form>

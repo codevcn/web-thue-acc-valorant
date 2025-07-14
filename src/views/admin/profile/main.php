@@ -187,6 +187,25 @@
             </div>
           </div>
 
+          <!-- Commitment -->
+          <div class="bg-white/10 rounded-2xl min-[550px]:p-6 p-4 backdrop-blur-sm border border-white/20">
+            <h3 class="text-black font-bold text-xl mb-4 gap-2 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-receipt-text-icon lucide-receipt-text">
+                <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z" />
+                <path d="M14 8H8" />
+                <path d="M16 12H8" />
+                <path d="M13 16H8" />
+              </svg>
+              <span>Cam kết mua acc</span>
+            </h3>
+            <div class="space-y-1">
+              <label class="text-black text-sm font-medium">Cam kết</label>
+              <div class="bg-white/10 rounded-lg border border-white/40">
+                <textarea name="commitment" id="commitment-textarea" rows="5" class="text-black p-3 w-full bg-transparent placeholder:text-gray-600 <?= $rules['commitment'] ? '' : 'text-gray-600 text-sm' ?>" placeholder="Nhập cam kết mua acc..."><?= $rules['commitment'] ?? 'Chưa có cam kết mua acc...' ?></textarea>
+              </div>
+            </div>
+          </div>
+
           <div class="flex justify-center mt-8">
             <button id="update-profile-btn" class="bg-gradient-to-l from-regular-from-blue-cl to-regular-to-blue-cl hover:scale-105 text-black font-semibold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
               <div class="flex items-center space-x-2">

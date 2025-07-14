@@ -224,18 +224,19 @@ button {
   }
 }
 
-.CSS-styled-vt-scrollbar::-webkit-scrollbar {
+.CSS-styled-scrollbar::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
-.CSS-styled-vt-scrollbar::-webkit-scrollbar-track {
+.CSS-styled-scrollbar::-webkit-scrollbar-track {
   background-color: var(--vcn-scrollbar-track-bgcl);
   border-radius: 5px;
 }
-.CSS-styled-vt-scrollbar::-webkit-scrollbar-thumb {
+.CSS-styled-scrollbar::-webkit-scrollbar-thumb {
   background-color: var(--vcn-regular-blue-cl);
   border-radius: 5px;
 }
-.CSS-styled-vt-scrollbar::-webkit-scrollbar-thumb:hover {
+.CSS-styled-scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: var(--vcn-regular-blue-hover-cl);
 }
 

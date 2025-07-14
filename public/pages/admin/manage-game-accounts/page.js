@@ -112,6 +112,7 @@ class ManageGameAccountsPageManager {
   }
 
   initCatchDeleteAndUpdateAccountBtnClick() {
+    // khi click lên btn delete hoặc update
     this.accountsTableBody.addEventListener("click", (e) => {
       let target = e.target
       let isDeleteBtn = false,
@@ -131,11 +132,19 @@ class ManageGameAccountsPageManager {
         }
       }
       if (isDeleteBtn) {
-        deleteAccountManager.showModal(target)
+        deleteAccountManager.showModal(target.dataset.accountId * 1)
       }
       if (isUpdateBtn) {
-        updateAccountManager.showModal(target)
+        updateAccountManager.showModal(target.dataset.accountId * 1)
       }
+    })
+
+    // khi click lên row (cho dễ thao tác trên điện thoại)
+    this.accountsTableBody.addEventListener("click", (e) => {
+      let target = e.target
+      if (!target || target.tagName !== "TD") return
+      const accountId = target.closest(".QUERY-account-row-item").dataset.accountId
+      updateAccountManager.showModal(accountId * 1)
     })
   }
 
@@ -210,6 +219,10 @@ class ManageGameAccountsPageManager {
     if (value) {
       if (!ValidationHelper.isPureInteger(value)) {
         Toaster.error("Thời gian cho thuê phải là một số nguyên")
+        return
+      }
+      if (value * 1 <= 0) {
+        Toaster.error("Thời gian cho thuê phải lớn hơn 0")
         return
       }
       if (!this.rentTimeInputId) return
@@ -376,10 +389,57 @@ class AddNewAccountManager {
     this.pickAvatarSection = document.getElementById("pick-avatar--add-section")
     this.avatarPreview = document.getElementById("avatar-preview-img--add-section")
     this.avatarInput = document.getElementById("avatar-input--add-section")
+    this.ranksSelect = document.getElementById("ranks-select--add-section")
+    this.statusSelect = document.getElementById("status-select--add-section")
+    this.deviceTypesSelect = document.getElementById("device-types-select--add-section")
 
     this.isSubmitting = false
 
+    this.statusOptions = []
+    this.deviceTypeOptions = []
+
     this.initListeners()
+  }
+
+  setStatusOptions(options) {
+    this.statusOptions = options
+  }
+
+  setDeviceTypeOptions(options) {
+    this.deviceTypeOptions = options
+  }
+
+  renderRanksSelect() {
+    const rankTypes = UIEditor.convertRankTypesToRenderingRanks(sharedData.rankTypes)
+    this.ranksSelect.innerHTML = ""
+    for (const rank of rankTypes) {
+      const option = document.createElement("option")
+      option.value = rank
+      option.textContent = rank
+      this.ranksSelect.appendChild(option)
+    }
+  }
+
+  renderStatusSelect() {
+    this.statusSelect.innerHTML = ""
+    const statuses = this.statusOptions
+    for (const status of statuses) {
+      const option = document.createElement("option")
+      option.value = status
+      option.textContent = status
+      this.statusSelect.appendChild(option)
+    }
+  }
+
+  renderDeviceTypesSelect() {
+    this.deviceTypesSelect.innerHTML = ""
+    const deviceTypes = this.deviceTypeOptions
+    for (const deviceType of deviceTypes) {
+      const option = document.createElement("option")
+      option.value = deviceType
+      option.textContent = deviceType
+      this.deviceTypesSelect.appendChild(option)
+    }
   }
 
   initListeners() {
@@ -426,6 +486,9 @@ class AddNewAccountManager {
   }
 
   showModal() {
+    this.renderRanksSelect()
+    this.renderStatusSelect()
+    this.renderDeviceTypesSelect()
     this.addNewAccountModal.hidden = false
   }
 
@@ -519,10 +582,9 @@ class DeleteAccountManager {
     })
   }
 
-  showModal(targetBtn) {
-    const { accountId } = targetBtn.dataset
-    this.accountId = accountId ? accountId * 1 : null
-    const account = sharedData.gameAccounts.find((account) => account.id === this.accountId)
+  showModal(accountId) {
+    this.accountId = accountId
+    const account = sharedData.gameAccounts.find((account) => account.id === accountId)
     document.getElementById("delete-account-name").textContent = account.acc_name
     this.deleteAccountModal.hidden = false
   }
@@ -562,11 +624,66 @@ class UpdateAccountManager {
     this.avatarPreview = document.getElementById("avatar-preview-img--update-section")
     this.avatarInput = document.getElementById("avatar-input--update-section")
     this.accountsTableBody = document.getElementById("accounts-table-body")
+    this.ranksSelect = document.getElementById("ranks-select--update-section")
+    this.statusSelect = document.getElementById("status-select--update-section")
+    this.deviceTypesSelect = document.getElementById("device-types-select--update-section")
 
     this.isSubmitting = false
+    this.statusOptions = []
+    this.deviceTypeOptions = []
 
     this.initListeners()
     this.initSwitchStatusQuickly()
+  }
+
+  setStatusOptions(options) {
+    this.statusOptions = options
+  }
+
+  setDeviceTypeOptions(options) {
+    this.deviceTypeOptions = options
+  }
+
+  renderRanksSelect(account) {
+    const rankTypes = UIEditor.convertRankTypesToRenderingRanks(sharedData.rankTypes)
+    this.ranksSelect.innerHTML = ""
+    for (const rank of rankTypes) {
+      const option = document.createElement("option")
+      option.value = rank
+      option.textContent = rank
+      if (rank === account.rank) {
+        option.selected = true
+      }
+      this.ranksSelect.appendChild(option)
+    }
+  }
+
+  renderStatusSelect(account) {
+    this.statusSelect.innerHTML = ""
+    const statuses = this.statusOptions
+    for (const status of statuses) {
+      const option = document.createElement("option")
+      option.value = status
+      option.textContent = status
+      if (status === account.status) {
+        option.selected = true
+      }
+      this.statusSelect.appendChild(option)
+    }
+  }
+
+  renderDeviceTypesSelect(account) {
+    this.deviceTypesSelect.innerHTML = ""
+    const deviceTypes = this.deviceTypeOptions
+    for (const deviceType of deviceTypes) {
+      const option = document.createElement("option")
+      option.value = deviceType
+      option.textContent = deviceType
+      if (deviceType === account.device_type) {
+        option.selected = true
+      }
+      this.deviceTypesSelect.appendChild(option)
+    }
   }
 
   updateRentTime(accountId, toTime) {
@@ -578,6 +695,9 @@ class UpdateAccountManager {
             uiEditor.refreshAccountRowOnUI(accountId)
           })
         }
+      })
+      .catch((error) => {
+        Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
       })
       .finally(() => {
         AppLoadingHelper.hide()
@@ -632,18 +752,17 @@ class UpdateAccountManager {
     this.switchToAvatarInputSection()
   }
 
-  showModal(targetBtn) {
-    const { accountId } = targetBtn.dataset
-    this.accountId = accountId ? accountId * 1 : null
-    const account = sharedData.gameAccounts.find((account) => account.id === this.accountId)
-    const { avatar, acc_name, game_code, description, status, device_type, rank } = account
+  showModal(accountId) {
+    this.accountId = accountId
+    const account = sharedData.gameAccounts.find((account) => account.id === accountId)
+    const { avatar, acc_name, game_code, description } = account
     document.getElementById("update-account-name").textContent = acc_name
     this.updateAccountForm.querySelector("input[name='accName']").value = acc_name
     this.updateAccountForm.querySelector("input[name='gameCode']").value = game_code
     this.updateAccountForm.querySelector("textarea[name='description']").value = description || ""
-    this.updateAccountForm.querySelector("input[name='status']").value = status
-    this.updateAccountForm.querySelector("input[name='deviceType']").value = device_type
-    this.updateAccountForm.querySelector("input[name='rank']").value = rank
+    this.renderRanksSelect(account)
+    this.renderStatusSelect(account)
+    this.renderDeviceTypesSelect(account)
     this.updateAccountModal.hidden = false
     this.avatarPreview.src = `/images/account/${avatar || "default-account-avatar.png"}`
     if (!avatar) {
@@ -950,6 +1069,7 @@ class ImportExportManager {
   }
 }
 
+// class này có load data dùng chung cho các class khác trong cùng file này
 class FilterManager {
   constructor() {
     this.filtersSection = document.getElementById("filters-section")
@@ -1069,6 +1189,9 @@ class FilterManager {
 
       this.fieldsRenderedCount++
       this.updateActiveFiltersDisplay()
+
+      addNewAccountManager.setStatusOptions(statuses.map(({ status }) => status))
+      updateAccountManager.setStatusOptions(statuses.map(({ status }) => status))
     })
   }
 
@@ -1088,6 +1211,9 @@ class FilterManager {
 
       this.fieldsRenderedCount++
       this.updateActiveFiltersDisplay()
+
+      addNewAccountManager.setDeviceTypeOptions(deviceTypes.map(({ device_type }) => device_type))
+      updateAccountManager.setDeviceTypeOptions(deviceTypes.map(({ device_type }) => device_type))
     })
   }
 
@@ -1187,7 +1313,7 @@ class FilterManager {
 
 const uiEditor = new UIEditor()
 new ImportExportManager()
-new AddNewAccountManager()
+const addNewAccountManager = new AddNewAccountManager()
 const updateAccountManager = new UpdateAccountManager()
 const deleteAccountManager = new DeleteAccountManager()
 new FilterManager()

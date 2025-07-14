@@ -2,7 +2,7 @@
 <div id="add-new-account-modal" hidden class="QUERY-modal fixed inset-0 flex items-center justify-center z-90 p-4">
   <div class="QUERY-modal-overlay absolute z-10 inset-0 bg-black/50"></div>
 
-  <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto relative z-20 CSS-styled-vt-scrollbar">
+  <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto relative z-20 CSS-styled-scrollbar">
     <div class="p-6 border-b border-gray-200">
       <h2 class="text-xl font-bold text-gray-900">Thêm tài khoản sale mới</h2>
     </div>

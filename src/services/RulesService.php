@@ -27,4 +27,10 @@ class RulesService
     $stmt = $this->db->prepare("UPDATE rules SET rent_acc_rules = :rulesData");
     $stmt->execute(['rulesData' => $rulesData]);
   }
+
+  public function updateCommitment(string $commitmentData): void
+  {
+    $stmt = $this->db->prepare("UPDATE rules SET commitment = :commitmentData");
+    $stmt->execute(['commitmentData' => $commitmentData]);
+  }
 }

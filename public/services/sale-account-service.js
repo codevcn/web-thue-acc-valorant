@@ -1,8 +1,12 @@
 import { axiosClient } from "../utils/scripts/api-client.js"
 
 export class SaleAccountService {
+  static FETCH_ACCOUNTS_LIMIT = 10
+
   static async fetchAccounts(last_id, status, search_term, letter) {
-    const params = {}
+    const params = {
+      limit: SaleAccountService.FETCH_ACCOUNTS_LIMIT,
+    }
     if (last_id) params.last_id = last_id
     if (status) params.status = status
     if (search_term) params.search_term = search_term

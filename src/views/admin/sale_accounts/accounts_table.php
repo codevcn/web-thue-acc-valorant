@@ -5,7 +5,7 @@
         <th class="px-3 py-3 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
           STT
         </th>
-        <th class="px-3 py-3 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
+        <th class="px-3 py-3 text-center text-xs font-medium text-gray-600 uppercase tracking-wider min-[768px]:table-cell hidden">
           Avatar
         </th>
         <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">

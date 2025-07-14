@@ -1,4 +1,4 @@
-<div class="relative w-full mx-auto py-12 px-[100px]">
+<div class="relative w-full mx-auto py-12 min-[1200px]:px-[100px] min-[1028px]:px-10 px-3">
   <div class="text-center mb-10">
     <h2 class="text-4xl md:text-5xl font-black text-gray-800 mb-4">
       DANH SÁCH
@@ -15,23 +15,23 @@
   <!-- Main Slider Container -->
   <div
     id="slider"
-    class="relative overflow-hidden cursor-grab active:cursor-grabbing">
+    class="relative overflow-hidden cursor-grab active:cursor-grabbing w-full">
     <div
       id="slides-container"
-      class="flex transition-transform duration-500 ease-out">
+      class="flex transition-transform duration-500 ease-out w-full">
       <?php foreach ($sale_accounts as $sale_account) : ?>
         <div data-account-id="<?= $sale_account['id'] ?>" class="QUERY-account-container w-full flex-shrink-0">
           <div class="text-sm font-medium bg-blue-100 rounded-md px-4 py-1 border-l-4 border-solid border-blue-300 border">
             Sale | <span class="font-bold">00:00:00</span>
           </div>
 
-          <div class="mt-2 rounded-lg">
-            <div class="flex items-stretch gap-4">
-              <div class="h-[408px] min-w-[700px] w-[700px]">
+          <div class="mt-2 rounded-lg w-full">
+            <div class="flex min-[860px]:flex-row flex-col items-stretch gap-2 min-[860px]:gap-4 w-full">
+              <div class="min-[860px]:min-w-[70%] min-[860px]:max-w-[70%] min-[860px]:aspect-[747/397] min-w-[100%] max-w-[100%] aspect-auto">
                 <!-- <img class="w-full h-full object-cover" src="/images/sale-accounts/<?= $sale_account['avatar'] ?? 'default-sale-account-avatar.png' ?>" alt="Account Avatar"> -->
-                <img class="w-full h-full object-cover" src="/dev/sale-account.png" alt="Account Avatar">
+                <img class="w-full h-full object-contain" src="/dev/sale-account.png" alt="Account Avatar">
               </div>
-              <div class="flex flex-col grow h-[408px]">
+              <div class="flex flex-col min-[860px]:w-[30%] min-[860px]:min-h-[unset] min-h-[260px] max-h-[397px] w-full">
                 <div class="flex items-center justify-between w-full gap-4 pt-3 pb-2 px-4 text-lg font-bold bg-white/80 backdrop-blur-md border border-solid border-b-0 border-gray-300 rounded-t-md">
                   <div class="flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-text-icon lucide-text" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -52,8 +52,8 @@
                     </svg>
                   </button>
                 </div>
-                <div class="grow w-full pb-4 px-4 bg-white border border-solid border-t-0 border-gray-300 rounded-b-md whitespace-pre-line overflow-y-auto CSS-styled-vt-scrollbar"><?= $sale_account['description'] ?></div>
-                <div class="flex items-center gap-2 mt-4 bg-green-50 border border-solid border-green-300 py-2 px-4 w-full rounded-md">
+                <div class="grow w-full pb-4 px-4 bg-white border border-solid border-t-0 border-gray-300 rounded-b-md whitespace-pre-line overflow-y-auto CSS-styled-scrollbar"><?= $sale_account['description'] ?></div>
+                <div class="flex items-center gap-2 mt-2 min-[860px]:mt-4 bg-green-50 border border-solid border-green-300 py-2 px-4 w-full rounded-md">
                   <div class="rounded-full p-0.5 border-[1.5px] border-solid border-black">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#000" width="20" height="20" viewBox="0 0 32 32">
                       <g>
@@ -64,26 +64,26 @@
                   </div>
                   <span data-vcn-tooltip-content="Giá bán" class="QUERY-tooltip-trigger"><?= $sale_account['price'] ?></span>
                 </div>
-                <button id="by-now-btn" class="QUERY-buy-now-btn CSS-button-blue-line-decoration min-h-[42px] mt-4">
+                <button id="by-now-btn" class="QUERY-buy-now-btn CSS-button-blue-line-decoration min-h-[42px] mt-2 min-[860px]:mt-4">
                   MUA NGAY
                 </button>
               </div>
             </div>
 
-            <div class="flex items-stretch gap-2 mt-4">
-              <div class="flex flex-col items-center justify-center flex-1 bg-blue-100 border border-solid border-blue-300 border-t-4 rounded-md py-1 px-4">
+            <div class="flex items-stretch flex-wrap gap-2 mt-2 min-[860px]:mt-4">
+              <div class="flex flex-col min-w-max items-center justify-center flex-1 bg-blue-100 border border-solid border-blue-300 border-t-4 rounded-md py-1 px-4">
                 <h4 class="text-base font-bold">Gmail</h4>
                 <div><?= $sale_account['gmail'] ?></div>
               </div>
-              <div class="flex flex-col items-center justify-center flex-1 bg-blue-100 border border-solid border-blue-300 border-t-4 rounded-md py-1 px-4">
+              <div class="flex flex-col min-w-max items-center justify-center flex-1 bg-blue-100 border border-solid border-blue-300 border-t-4 rounded-md py-1 px-4">
                 <h4 class="text-base font-bold">Thư</h4>
                 <div><?= $sale_account['letter'] ?></div>
               </div>
-              <div class="flex flex-col items-center justify-center flex-1 bg-blue-100 border border-solid border-blue-300 border-t-4 rounded-md py-1 px-4">
+              <div class="flex flex-col min-w-max items-center justify-center flex-1 bg-blue-100 border border-solid border-blue-300 border-t-4 rounded-md py-1 px-4">
                 <h4 class="text-base font-bold">Tình trạng</h4>
                 <div><?= $sale_account['status'] ?></div>
               </div>
-              <button class="QUERY-commitment-btn CSS-button-blue-line-decoration text-base font-bold py-1 px-4 flex-1">
+              <button class="QUERY-commitment-btn CSS-button-blue-line-decoration text-base font-bold py-2 px-4 min-w-max flex-1">
                 Cam kết
               </button>
             </div>
@@ -110,12 +110,14 @@
   </button>
 
   <!-- Dots Indicator -->
-  <div id="pages" class="flex justify-center mt-8 gap-2 CSS-background-dot-decoration w-full py-2 px-4 relative">
-    <?php foreach ($sale_accounts as $sale_account) : ?>
-      <button data-vcn-tooltip-content="Nhấn để xem chi tiết" class="QUERY-tooltip-trigger h-12 min-w-[90px] border-1 box-content border-solid border-white hover:scale-110 active:scale-90 transition duration-200">
-        <img class="h-full min-w-[90px] object-cover box-content" src="/dev/sale-account.png" alt="Account Avatar">
-      </button>
-    <?php endforeach; ?>
+  <div class="w-full relative">
+    <div id="pages" class="flex !justify-start min-[690px]:!justify-center mt-8 gap-2 CSS-background-dot-decoration w-full py-2 px-4 relative overflow-x-auto CSS-styled-scrollbar">
+      <?php foreach ($sale_accounts as $sale_account) : ?>
+        <button data-vcn-tooltip-content="Nhấn để xem chi tiết" class="QUERY-tooltip-trigger h-12 min-w-[90px] border-1 box-content border-solid border-white hover:scale-110 active:scale-90 transition duration-200">
+          <img class="h-full min-w-[90px] object-cover box-content" src="/dev/sale-account.png" alt="Account Avatar">
+        </button>
+      <?php endforeach; ?>
+    </div>
 
     <div id="counter" class="absolute top-2 right-2 rounded-md bg-white/40 text-center text-white w-fit mx-auto py-0.5 px-2 font-bold">
       <span class="QUERY-current-page">1</span> / <span><?= $slides_count ?></span>
@@ -123,7 +125,6 @@
   </div>
 
   <section id="pagination" class="flex justify-center gap-1 items-center mt-6 w-full">
-
     <!-- Nút Previous -->
     <button
       class="<?= $current_page <= 1 ? 'opacity-60 cursor-not-allowed pointer-events-none' : '' ?> QUERY-prev-btn flex items-center justify-center rounded-md bg-blue-100 border border-solid border-blue-300 h-8 w-8 hover:scale-110 active:scale-90 transition duration-200">

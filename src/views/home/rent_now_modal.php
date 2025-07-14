@@ -3,7 +3,7 @@
   <div class="QUERY-modal-overlay absolute z-10 inset-0 bg-black/80"></div>
 
   <div
-    class="inset-0 z-20 p-6 relative w-fit h-fit bg-white/10 backdrop-blur-md text-gray-700 border border-solid border-gray-600 rounded-lg shadow-md">
+    class="inset-0 z-20 p-6 relative w-fit h-fit max-h-[90vh] overflow-y-auto CSS-styled-scrollbar bg-white/10 backdrop-blur-md text-gray-700 border border-solid border-gray-600 rounded-lg shadow-md">
     <!-- Close button -->
     <button id="close-rent-now-modal-btn" class="absolute top-6 right-6 text-white hover:scale-125 transition duration-200 text-xl font-bold">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x">
@@ -15,9 +15,9 @@
     <h3 class="text-xl font-bold text-sky-300 mb-4">Quy định thuê Acc</h3>
 
     <div class="mb-4">
-      <h3 class="block text-sm font-semibold text-white mb-2">Quy định:</h3>
+      <h3 class="block text-sm font-semibold text-white mb-2">Điều khoản và điều cấm khi thuê Account:</h3>
       <div
-        class="bg-transparent border border-gray-600 border-solid w-full px-3 py-2 rounded-md text-sm text-white focus:outline-none focus:ring-2 focus:ring-regular-light-blue-cl">
+        class="bg-transparent border border-gray-600 border-solid w-full max-h-full px-3 py-2 rounded-md text-sm text-white focus:outline-none focus:ring-2 focus:ring-regular-light-blue-cl">
         <p class="whitespace-pre-line">- Tên Acc: <span id="acc-name--rent-now-modal" class="font-bold text-base text-white"></span>
           <?php echo htmlspecialchars($rules['rent_acc_rules']) ?>
         </p>
