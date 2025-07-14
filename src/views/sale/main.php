@@ -25,9 +25,9 @@
             Sale | <span class="font-bold">00:00:00</span>
           </div>
 
-          <div class="mt-2 rounded-lg w-full">
+          <div class="mt-4 rounded-lg w-full">
             <div class="flex min-[860px]:flex-row flex-col items-stretch gap-2 min-[860px]:gap-4 w-full">
-              <div class="min-[860px]:min-w-[70%] min-[860px]:max-w-[70%] min-[860px]:aspect-[747/397] min-w-[100%] max-w-[100%] aspect-auto">
+              <div class="min-[860px]:min-w-[70%] min-[860px]:max-w-[70%] aspect-[747/397] w-full min-w-[100%] max-w-[100%]">
                 <img class="w-full h-full <?= $sale_account['avatar'] ? 'object-cover' : 'object-contain' ?>" src="/images/account/<?= $sale_account['avatar'] ?? 'default-account-avatar.png' ?>" alt="Account Avatar">
               </div>
               <div class="flex flex-col min-[860px]:w-[30%] min-[860px]:min-h-[unset] min-h-[260px] max-h-[397px] w-full">
@@ -109,8 +109,8 @@
   </button>
 
   <!-- Dots Indicator -->
-  <div class="w-full relative">
-    <div id="pages" class="flex !justify-start min-[690px]:!justify-center mt-8 gap-2 CSS-background-dot-decoration w-full py-2 px-4 relative overflow-x-auto CSS-styled-scrollbar">
+  <div class="w-full relative mt-8">
+    <div id="pages" class="flex !justify-start min-[690px]:!justify-center gap-2 CSS-background-dot-decoration w-full py-2 px-4 relative overflow-x-auto CSS-styled-scrollbar">
       <?php foreach ($sale_accounts as $sale_account) : ?>
         <button data-vcn-tooltip-content="Nhấn để xem chi tiết" class="QUERY-tooltip-trigger h-12 min-w-[90px] border-1 box-content border-solid border-white hover:scale-110 active:scale-90 transition duration-200">
           <img class="h-full min-w-[90px] <?= $sale_account['avatar'] ? 'object-cover' : 'object-contain' ?> box-content" src="/images/account/<?= $sale_account['avatar'] ?? 'default-account-avatar.png' ?>" alt="Account Avatar">
