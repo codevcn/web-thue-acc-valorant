@@ -28,8 +28,7 @@
           <div class="mt-2 rounded-lg w-full">
             <div class="flex min-[860px]:flex-row flex-col items-stretch gap-2 min-[860px]:gap-4 w-full">
               <div class="min-[860px]:min-w-[70%] min-[860px]:max-w-[70%] min-[860px]:aspect-[747/397] min-w-[100%] max-w-[100%] aspect-auto">
-                <!-- <img class="w-full h-full object-cover" src="/images/sale-accounts/<?= $sale_account['avatar'] ?? 'default-sale-account-avatar.png' ?>" alt="Account Avatar"> -->
-                <img class="w-full h-full object-contain" src="/dev/sale-account.png" alt="Account Avatar">
+                <img class="w-full h-full object-cover" src="/images/account/<?= $sale_account['avatar'] ?? 'default-account-avatar.png' ?>" alt="Account Avatar">
               </div>
               <div class="flex flex-col min-[860px]:w-[30%] min-[860px]:min-h-[unset] min-h-[260px] max-h-[397px] w-full">
                 <div class="flex items-center justify-between w-full gap-4 pt-3 pb-2 px-4 text-lg font-bold bg-white/80 backdrop-blur-md border border-solid border-b-0 border-gray-300 rounded-t-md">
@@ -114,7 +113,7 @@
     <div id="pages" class="flex !justify-start min-[690px]:!justify-center mt-8 gap-2 CSS-background-dot-decoration w-full py-2 px-4 relative overflow-x-auto CSS-styled-scrollbar">
       <?php foreach ($sale_accounts as $sale_account) : ?>
         <button data-vcn-tooltip-content="Nhấn để xem chi tiết" class="QUERY-tooltip-trigger h-12 min-w-[90px] border-1 box-content border-solid border-white hover:scale-110 active:scale-90 transition duration-200">
-          <img class="h-full min-w-[90px] object-cover box-content" src="/dev/sale-account.png" alt="Account Avatar">
+          <img class="h-full min-w-[90px] object-cover box-content" src="/images/account/<?= $sale_account['avatar'] ?? 'default-account-avatar.png' ?>" alt="Account Avatar">
         </button>
       <?php endforeach; ?>
     </div>

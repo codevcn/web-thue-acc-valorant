@@ -30,7 +30,7 @@ class SaleAccountService
     int $page = 1,
     int $limit = self::LIMIT_WITH_PAGINATION
   ): array {
-    $sql = "SELECT * FROM sale_accounts";
+    $sql = "SELECT * FROM sale_accounts ORDER BY created_at DESC";
 
     $offset = ($page - 1) * $limit;
     $sql .= " LIMIT $limit OFFSET $offset";
