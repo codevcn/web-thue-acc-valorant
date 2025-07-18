@@ -1,6 +1,6 @@
-<div class="bg-regular-blue-5 rounded-2xl px-4 py-6 mx-auto text-black shadow-2xl relative">
-  <div class="flex justify-between items-center mb-4">
-    <div class="flex items-center gap-2">
+<div class="bg-[#aae3ff] rounded-2xl px-4 py-2 mx-auto text-black shadow-2xl relative">
+  <div class="flex items-center justify-center w-full gap-x-8 gap-y-4 mb-0 pr-1 max-h-[300px]">
+    <div class="flex items-center gap-2 min-w-max">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sliders-horizontal-icon lucide-sliders-horizontal">
         <line x1="21" x2="14" y1="4" y2="4" />
         <line x1="10" x2="3" y1="4" y2="4" />
@@ -12,12 +12,10 @@
         <line x1="8" x2="8" y1="10" y2="14" />
         <line x1="16" x2="16" y1="18" y2="22" />
       </svg>
-      <span class="text-xl font-bold">Lọc acc theo</span>
+      <span class="text-xl font-bold">Lọc acc theo:</span>
     </div>
-  </div>
-  <div class="grid grid-cols-1 min-[610px]:grid-cols-2 min-[860px]:grid-cols-3 gap-x-8 gap-y-4 mb-0 pr-1 CSS-styled-scrollbar max-h-[300px] overflow-y-scroll min-[860px]:overflow-y-auto">
     <!-- Rank -->
-    <div id="account-rank-types-container" class="flex-1 min-w-[220px] mb-4">
+    <div id="account-rank-types-container" class="flex-1 min-w-[220px] mb-2">
       <p class="text-lg font-medium mb-1 flex items-center gap-2 pl-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -32,14 +30,14 @@
           <path d="m22 10-7.5 7.5L13 16" />
         </svg>
       </p>
-      <div id="account-rank-types" class="grid grid-cols-2 gap-2">
-        <button class="QUERY-cancel-filter-btn CSS-hover-flash-button flex items-center gap-2 bg-[#3674B5] text-white rounded-lg px-4 py-1.5 text-base focus:outline-none ${isActive">
-          Tất cả
-        </button>
+      <div id="account-rank-types" class="CSS-hover-flash-button cursor-pointer">
+        <select id="account-rank-types-select" class="w-full bg-regular-blue-cl cursor-pointer text-black rounded-lg px-4 py-1.5 text-base focus:outline-none">
+          <option value="ALL" class="bg-white text-black">Tất cả loại rank</option>
+        </select>
       </div>
     </div>
     <!-- Trạng thái -->
-    <div id="account-statuses-container" class="flex-1 min-w-[180px] mb-4">
+    <div id="account-statuses-container" class="flex-1 min-w-[180px] mb-2">
       <p class="text-lg font-medium mb-1 flex items-center gap-2 pl-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -62,14 +60,16 @@
           <path d="m22 10-7.5 7.5L13 16" />
         </svg>
       </p>
-      <div id="account-statuses" class="grid grid-cols-2 gap-2">
-        <button class="QUERY-cancel-filter-btn CSS-hover-flash-button flex items-center gap-2 bg-[#3674B5] text-white rounded-lg px-4 py-1.5 text-base focus:outline-none ${isActive">
-          Tất cả
-        </button>
+      <div id="account-statuses" class="CSS-hover-flash-button cursor-pointer">
+        <select id="account-statuses-select" class="w-full bg-regular-blue-cl cursor-pointer text-black rounded-lg px-4 py-1.5 text-base focus:outline-none">
+          <option value="ALL" class="bg-white text-black">Tất cả trạng thái</option>
+          <option value="Rảnh" class="bg-white text-black">Rảnh</option>
+          <option value="Bận" class="bg-white text-black">Bận</option>
+        </select>
       </div>
     </div>
     <!-- Loại máy -->
-    <div id="account-device-types-container" class="flex-1 min-w-[180px] mb-4">
+    <div id="account-device-types-container" class="flex-1 min-w-[180px] mb-2">
       <p class="text-lg font-medium mb-1 flex items-center gap-2 pl-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -89,18 +89,26 @@
           <path d="m22 10-7.5 7.5L13 16" />
         </svg>
       </p>
-      <div id="account-device-types" class="grid grid-cols-2 gap-2">
+      <div id="account-device-types" class="CSS-hover-flash-button cursor-pointer">
+        <select id="account-device-types-select" class="w-full bg-regular-blue-cl cursor-pointer text-black rounded-lg px-4 py-1.5 text-base focus:outline-none">
+          <option value="ALL" class="bg-white text-black">Tất cả loại máy</option>
+          <option value="Tất cả" class="bg-white text-black">Tất cả</option>
+          <option value="Máy nhà" class="bg-white text-black">Máy nhà</option>
+        </select>
       </div>
     </div>
-  </div>
-  <!-- Actions -->
-  <div class="w-full flex gap-4 justify-end mt-2">
-    <button id="cancel-all-filters-btn" class="flex items-center gap-2 bg-red-600 hover:scale-110 text-white rounded-lg px-4 py-1.5 w-max text-base font-medium transition duration-200">
-      <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-x-icon lucide-x" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 6 6 18" />
-        <path d="m6 6 12 12" />
-      </svg>
-      <span>Hủy lọc</span>
-    </button>
+    <!-- Actions -->
+    <div class="mb-2">
+      <p class="text-lg font-medium mb-1 flex items-center gap-2 pl-1 opacity-0">
+        <span>Hủy lọc</span>
+      </p>
+      <button id="cancel-all-filters-btn" class="flex items-center gap-2 h-fit bg-red-600 hover:scale-110 text-white rounded-lg px-4 py-1.5 w-max text-base font-medium transition duration-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-x-icon lucide-x" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 6 6 18" />
+          <path d="m6 6 12 12" />
+        </svg>
+        <span>Hủy lọc</span>
+      </button>
+    </div>
   </div>
 </div>

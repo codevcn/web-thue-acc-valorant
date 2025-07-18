@@ -30,6 +30,9 @@ class HomePageManager {
     this.scrollToTopBtn = document.getElementById("scroll-to-top-btn")
     this.cancelAllFiltersBtn = document.getElementById("cancel-all-filters-btn")
     this.acceptRulesCheckbox = document.getElementById("accept-rules-checkbox")
+    this.accountRankTypesSelect = document.getElementById("account-rank-types-select")
+    this.accountStatusesSelect = document.getElementById("account-statuses-select")
+    this.accountDeviceTypesSelect = document.getElementById("account-device-types-select")
 
     this.isFetchingItems = false
     this.isMoreItems = true
@@ -41,7 +44,6 @@ class HomePageManager {
     this.initFilterByRankListener()
     this.initFilterByStatusListener()
     this.initFilterByDeviceTypeListener()
-    this.initCancelFilterListeners()
     this.initAccountsListListener()
     this.initCloseRentNowModalListener()
     this.initScrollToTopBtnListener()
@@ -53,8 +55,7 @@ class HomePageManager {
 
     this.fetchAccounts()
     this.fetchAccountRankTypes()
-    this.fetchAccountStatuses()
-    this.fetchAccountDeviceTypes()
+    this.activateFilterItems()
   }
 
   getLastAccount() {
@@ -63,6 +64,22 @@ class HomePageManager {
       return accounts.at(-1)
     }
     return null
+  }
+
+  activateFilterItems() {
+    const rank = URLHelper.getUrlQueryParam("rank")
+    const status = URLHelper.getUrlQueryParam("status")
+    const device_type = URLHelper.getUrlQueryParam("device_type")
+
+    if (rank) {
+      this.accountRankTypesSelect.value = rank
+    }
+    if (status) {
+      this.accountStatusesSelect.value = status
+    }
+    if (device_type) {
+      this.accountDeviceTypesSelect.value = device_type
+    }
   }
 
   fetchAccounts() {
@@ -127,68 +144,17 @@ class HomePageManager {
           rankTypes,
           (rankType) => rankType.type === rankParam
         )
-        for (const rankType of orderedRankTypes) {
-          const isActive = rankParam === rankType.type
-          const fragment = LitHTMLHelper.getFragment(AccountRankType, {
-            ...rankType,
-            isActive,
-          })
-          this.accountRankTypes.appendChild(fragment)
+        for (const { type } of orderedRankTypes) {
+          const isActive = rankParam === type
+          const option = document.createElement("option")
+          option.classList.add("bg-white", "text-black")
+          option.value = type
+          option.textContent = type
+          option.selected = isActive
+          this.accountRankTypesSelect.appendChild(option)
           if (isActive) {
             document
               .querySelector("#account-rank-types-container .QUERY-active-icon")
-              .classList.remove("hidden")
-          }
-        }
-      }
-    })
-  }
-
-  fetchAccountStatuses() {
-    GameAccountService.fetchAccountStatuses().then((statuses) => {
-      const statusParam = URLHelper.getUrlQueryParam("status")
-      if (statuses && statuses.length > 0) {
-        let isActive = false
-        const orderedStatuses = this.moveActiveItemsToTop(
-          statuses,
-          (status) => status.status === statusParam
-        )
-        for (const status of orderedStatuses) {
-          isActive = statusParam === status.status
-          const fragment = LitHTMLHelper.getFragment(AccountStatus, {
-            ...status,
-            isActive,
-          })
-          this.accountStatuses.appendChild(fragment)
-          if (isActive) {
-            document
-              .querySelector("#account-statuses-container .QUERY-active-icon")
-              .classList.remove("hidden")
-          }
-        }
-      }
-    })
-  }
-
-  fetchAccountDeviceTypes() {
-    GameAccountService.fetchDeviceTypes().then((deviceTypes) => {
-      const deviceTypeParam = URLHelper.getUrlQueryParam("device_type")
-      if (deviceTypes && deviceTypes.length > 0) {
-        let isActive = false
-        const orderedDeviceTypes = this.moveActiveItemsToTop(
-          deviceTypes,
-          (deviceType) => deviceType.device_type === deviceTypeParam
-        )
-        for (const deviceType of orderedDeviceTypes) {
-          isActive = deviceTypeParam === deviceType.device_type
-          const fragment = LitHTMLHelper.getFragment(AccountDeviceType, {
-            ...deviceType,
-            isActive,
-          })
-          this.accountDeviceTypes.appendChild(fragment)
-          if (isActive) {
-            document
-              .querySelector("#account-device-types-container .QUERY-active-icon")
               .classList.remove("hidden")
           }
         }
@@ -202,17 +168,6 @@ class HomePageManager {
     })
   }
 
-  initCancelFilterListeners() {
-    this.accountStatuses.querySelector(".QUERY-cancel-filter-btn").addEventListener("click", () => {
-      this.filterAndNavigate(`status=`)
-    })
-    this.accountRankTypes
-      .querySelector(".QUERY-cancel-filter-btn")
-      .addEventListener("click", () => {
-        this.filterAndNavigate(`rank=`)
-      })
-  }
-
   initCloseModalListener() {
     const closeModalBtns = document.querySelectorAll(".QUERY-close-modal-btn")
     for (const closeModalBtn of closeModalBtns) {
@@ -223,44 +178,35 @@ class HomePageManager {
   }
 
   initFilterByRankListener() {
-    this.accountRankTypes.addEventListener("click", (e) => {
-      let target = e.target
-      while (target && !target.classList.contains("QUERY-filter-by-rank-type-item")) {
-        target = target.parentElement
-        if (target.id === "account-rank-types" || target.tagName === "BODY") {
-          return
-        }
+    this.accountRankTypesSelect.addEventListener("change", (e) => {
+      const rankType = e.target.value
+      if (rankType === "ALL") {
+        this.filterAndNavigate("rank=")
+      } else {
+        this.filterAndNavigate(`rank=${rankType}`)
       }
-      const rankType = target.dataset.rankType
-      this.filterAndNavigate(`rank=${rankType}`)
     })
   }
 
   initFilterByStatusListener() {
-    this.accountStatuses.addEventListener("click", (e) => {
-      let target = e.target
-      while (target && !target.classList.contains("QUERY-filter-by-status-item")) {
-        target = target.parentElement
-        if (target.id === "account-statuses" || target.tagName === "BODY") {
-          return
-        }
+    this.accountStatusesSelect.addEventListener("change", (e) => {
+      const status = e.target.value
+      if (status === "ALL") {
+        this.filterAndNavigate("status=")
+      } else {
+        this.filterAndNavigate(`status=${status}`)
       }
-      const status = target.dataset.status
-      this.filterAndNavigate(`status=${status}`)
     })
   }
 
   initFilterByDeviceTypeListener() {
-    this.accountDeviceTypes.addEventListener("click", (e) => {
-      let target = e.target
-      while (target && !target.classList.contains("QUERY-filter-by-device-type-item")) {
-        target = target.parentElement
-        if (target.id === "account-device-types" || target.tagName === "BODY") {
-          return
-        }
+    this.accountDeviceTypesSelect.addEventListener("change", (e) => {
+      const deviceType = e.target.value
+      if (deviceType === "ALL") {
+        this.filterAndNavigate("device_type=")
+      } else {
+        this.filterAndNavigate(`device_type=${deviceType}`)
       }
-      const deviceType = target.dataset.deviceType
-      this.filterAndNavigate(`device_type=${deviceType}`)
     })
   }
 

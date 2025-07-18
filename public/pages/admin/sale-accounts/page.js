@@ -63,6 +63,7 @@ class SaleAccountsPageManager {
           sharedData.saleAccounts = [...sharedData.saleAccounts, ...accounts]
           this.renderNewAccounts(accounts, startOrderNumber)
           this.initCatchDeleteAndUpdateAccountBtnClick()
+          this.initCatchStatusSelectChange()
           initUtils.initTooltip()
         } else {
           this.isMoreItems = false
@@ -112,6 +113,39 @@ class SaleAccountsPageManager {
       if (!target || target.tagName !== "TD") return
       const accountId = target.closest(".QUERY-account-row-item").dataset.accountId
       updateAccountManager.showModal(accountId * 1)
+    })
+  }
+
+  updateAccountStatus(accountId, status) {
+    AppLoadingHelper.show("Đang cập nhật trạng thái...")
+    SaleAccountService.updateAccount(accountId, { status })
+      .then((data) => {
+        if (data && data.success) {
+          uiEditor.refreshAccountRowOnUI(accountId)
+          Toaster.success("Thông báo", "Cập nhật trạng thái thành công")
+        }
+      })
+      .catch((error) => {
+        Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
+      })
+      .finally(() => {
+        AppLoadingHelper.hide()
+      })
+  }
+
+  initCatchStatusSelectChange() {
+    this.accountsTableBody.addEventListener("change", (e) => {
+      let target = e.target
+      while (target && !target.classList.contains("QUERY-status-select")) {
+        target = target.parentElement
+        if (target && (target.id === "QUERY-account-row-item" || target.tagName === "BODY")) {
+          return
+        }
+      }
+      if (target && target.classList.contains("QUERY-status-select")) {
+        const accountId = target.closest(".QUERY-account-row-item").dataset.accountId * 1
+        this.updateAccountStatus(accountId, target.value)
+      }
     })
   }
 
@@ -426,6 +460,39 @@ class UpdateAccountManager {
     document
       .getElementById("cancel-avatar-btn--update-section")
       .addEventListener("click", this.handleRemoveAvatar.bind(this))
+  }
+
+  switchLetter(accountId) {
+    AppLoadingHelper.show("Đang đổi thư...")
+    SaleAccountService.switchLetterQuickly(accountId)
+      .then((data) => {
+        if (data && data.success) {
+          uiEditor.refreshAccountRowOnUI(accountId)
+          Toaster.success("Thành công", "Đổi thư thành công")
+        }
+      })
+      .catch((error) => {
+        Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
+      })
+      .finally(() => {
+        AppLoadingHelper.hide()
+      })
+  }
+
+  initSwitchLetterQuickly() {
+    this.accountsTableBody.addEventListener("click", (e) => {
+      const target = e.target
+      while (target && !target.classList.contains("QUERY-switch-letter-btn")) {
+        target = target.parentElement
+        if (target && (target.id === "QUERY-account-row-item" || target.tagName === "BODY")) {
+          return
+        }
+      }
+      if (target && target.classList.contains("QUERY-switch-letter-btn")) {
+        const accountId = target.closest(".QUERY-account-row-item").dataset.accountId
+        this.switchLetter(accountId)
+      }
+    })
   }
 
   switchToAvatarPreviewSection() {

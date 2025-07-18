@@ -248,4 +248,17 @@ class SaleAccountService
 
     return $account;
   }
+
+  public function switchLetterQuickly(int $accountId): void
+  {
+    $account = $this->findAccountById($accountId);
+    if (!$account) {
+      throw new \InvalidArgumentException("Tài khoản không tồn tại.");
+    }
+
+    $letter = $account['letter'];
+    $newLetter = $letter === 'A' ? 'B' : 'A';
+
+    $this->updateAccount($accountId, ['letter' => $newLetter]);
+  }
 }

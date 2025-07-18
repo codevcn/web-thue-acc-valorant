@@ -72,4 +72,14 @@ export class GameAccountService {
     const { data } = await axiosClient.get(`/game-accounts/fetch-single-account/${accountId}`)
     return data
   }
+
+  static async cancelRent(accountId) {
+    const { data } = await axiosClient.put(`/game-accounts/cancel-rent/${accountId}`)
+    return data
+  }
+
+  static async switchDeviceType(accountId) {
+    const { data } = await axiosClient.put(`/game-accounts/switch-device-type/${accountId}`)
+    return data
+  }
 }

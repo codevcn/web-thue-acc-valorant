@@ -95,6 +95,7 @@ class ManageGameAccountsPageManager {
           this.renderNewAccounts(accounts, startOrderNumber)
           this.initRentTimeInputListeners()
           this.initCatchDeleteAndUpdateAccountBtnClick()
+          this.initCancelRentBtnListener()
           initUtils.initTooltip()
         } else {
           this.isMoreItems = false
@@ -293,6 +294,38 @@ class ManageGameAccountsPageManager {
         if (!target) return
         this.submitRentTimeFromInput(target)
       }
+    })
+  }
+
+  cancelRent(accountId) {
+    AppLoadingHelper.show()
+    GameAccountService.cancelRent(accountId)
+      .then((data) => {
+        if (data && data.success) {
+          Toaster.success("Thông báo", "Hủy cho thuê thành công")
+          uiEditor.refreshAccountRowOnUI(accountId)
+        }
+      })
+      .catch((error) => {
+        Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
+      })
+      .finally(() => {
+        AppLoadingHelper.hide()
+      })
+  }
+
+  initCancelRentBtnListener() {
+    this.accountsTableBody.addEventListener("click", (e) => {
+      let target = e.target
+      while (target && !target.classList.contains("QUERY-cancel-rent-btn")) {
+        target = target.parentElement
+        if (target && target.classList.contains("accounts-table-body")) {
+          return
+        }
+      }
+      if (!target) return
+      const accountId = target.closest(".QUERY-account-row-item").dataset.accountId
+      this.cancelRent(accountId)
     })
   }
 
@@ -634,6 +667,7 @@ class UpdateAccountManager {
 
     this.initListeners()
     this.initSwitchStatusQuickly()
+    this.initSwitchDeviceTypeQuickly()
   }
 
   setStatusOptions(options) {
@@ -867,16 +901,65 @@ class UpdateAccountManager {
       let target = e.target
       while (target && !target.classList.contains("QUERY-switch-status-btn")) {
         target = target.parentElement
-        if (target.classList.contains("QUERY-account-row-item") || target.tagName === "BODY") {
+        if (
+          (target && target.classList.contains("QUERY-account-row-item")) ||
+          target.tagName === "BODY"
+        ) {
           break
         }
       }
+      if (!target || !target.classList.contains("QUERY-switch-status-btn")) return
       const accountId = target.dataset.vcnAccountId * 1
       if (accountId) {
         const account = sharedData.gameAccounts.find((account) => account.id === accountId)
         if (account) {
           this.accountId = account.id
           this.switchStatus()
+        }
+      }
+    })
+  }
+
+  switchDeviceType() {
+    if (this.isSubmitting) return
+    this.isSubmitting = true
+
+    AppLoadingHelper.show()
+    GameAccountService.switchDeviceType(this.accountId)
+      .then((data) => {
+        if (data && data.success) {
+          uiEditor.refreshAccountRowOnUI(this.accountId)
+          Toaster.success("Thông báo", "Cập nhật loại máy thành công")
+        }
+      })
+      .catch((error) => {
+        Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
+      })
+      .finally(() => {
+        this.isSubmitting = false
+        AppLoadingHelper.hide()
+      })
+  }
+
+  initSwitchDeviceTypeQuickly() {
+    this.accountsTableBody.addEventListener("click", (e) => {
+      let target = e.target
+      while (target && !target.classList.contains("QUERY-switch-device-type-btn")) {
+        target = target.parentElement
+        if (
+          (target && target.classList.contains("QUERY-account-row-item")) ||
+          target.tagName === "BODY"
+        ) {
+          break
+        }
+      }
+      if (!target || !target.classList.contains("QUERY-switch-device-type-btn")) return
+      const accountId = target.closest(".QUERY-account-row-item").dataset.accountId * 1
+      if (accountId) {
+        const account = sharedData.gameAccounts.find((account) => account.id === accountId)
+        if (account) {
+          this.accountId = account.id
+          this.switchDeviceType()
         }
       }
     })

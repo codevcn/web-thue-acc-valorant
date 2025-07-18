@@ -9,7 +9,7 @@ export const AccountCard = (account) => {
         class="CSS-styled-scrollbar flex min-[1242px]:flex-row flex-col gap-4 w-full min-[1242px]:aspect-[1825/612] overflow-y-auto relative aspect-auto"
       >
         <div
-          class="min-[1242px]:w-3/5 w-full rounded-lg overflow-hidden h-fit min-[1242px]:h-auto bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl relative flex flex-col items-center justify-center"
+          class="min-[1242px]:w-3/5 w-full bg-violet-400 rounded-lg overflow-hidden h-fit min-[1242px]:h-auto bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl relative flex flex-col items-center justify-center"
         >
           <img
             src="/images/account/${avatar ?? "default-account-avatar.png"}"
@@ -181,9 +181,77 @@ export const AccountCard = (account) => {
 
           <button
             data-account-id="${id}"
-            class="QUERY-rent-now-btn w-full CSS-button-blue-decoration py-2 px-4 mt-6"
+            class="QUERY-rent-now-btn group flex items-center justify-center gap-3 active:scale-90 transition duration-200 w-full text-black font-bold rounded-lg bg-regular-blue-cl backdrop-blur-md py-2 px-4 mt-6"
           >
-            THUÊ NGAY
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="rotate-[44deg] group-hover:rotate-[98deg] translate-x-[30px] opacity-0 group-hover:opacity-100 transition duration-200 lucide lucide-sword-icon lucide-sword"
+            >
+              <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" />
+              <line x1="13" x2="19" y1="19" y2="13" />
+              <line x1="16" x2="20" y1="16" y2="20" />
+              <line x1="19" x2="21" y1="21" y2="19" />
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="rotate-[44deg] group-hover:rotate-[-10deg] transition duration-200 lucide lucide-sword-icon lucide-sword"
+            >
+              <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" />
+              <line x1="13" x2="19" y1="19" y2="13" />
+              <line x1="16" x2="20" y1="16" y2="20" />
+              <line x1="19" x2="21" y1="21" y2="19" />
+            </svg>
+            <span>THUÊ NGAY</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="rotate-[44deg] group-hover:rotate-[98deg] transition duration-200 lucide lucide-sword-icon lucide-sword"
+            >
+              <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" />
+              <line x1="13" x2="19" y1="19" y2="13" />
+              <line x1="16" x2="20" y1="16" y2="20" />
+              <line x1="19" x2="21" y1="21" y2="19" />
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="rotate-[44deg] group-hover:rotate-[-10deg] translate-x-[-30px] opacity-0 group-hover:opacity-100 transition duration-200 lucide lucide-sword-icon lucide-sword"
+            >
+              <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" />
+              <line x1="13" x2="19" y1="19" y2="13" />
+              <line x1="16" x2="20" y1="16" y2="20" />
+              <line x1="19" x2="21" y1="21" y2="19" />
+            </svg>
           </button>
         </div>
       </div>
@@ -411,7 +479,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
-        <div
+        <button
           data-vcn-account-id="${id}"
           data-vcn-tooltip-content="Nhấn để chuyển trạng thái của tài khoản"
           class="QUERY-switch-status-btn QUERY-tooltip-trigger max-w-[100px] truncate w-fit active:scale-90 hover:scale-125 transition duration-200 cursor-pointer px-2 py-1 text-sm font-semibold rounded-full ${lowerCasedStatus ==
@@ -420,7 +488,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
             : "bg-red-600"} text-white"
         >
           ${status}
-        </div>
+        </button>
       </td>
       <td class="px-3 py-3">
         <div class="text-sm text-gray-900 max-w-[100px] truncate">
@@ -436,10 +504,21 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
       <td class="px-3 py-3">
         <div class="flex flex-col gap-2 w-full text-sm max-w-[150px]">
           ${RentTime(rent_from_time, rent_to_time)}
+          <button
+            class="QUERY-cancel-rent-btn QUERY-tooltip-trigger mt-2 text-white bg-red-600 rounded-md px-2 py-1 text-sm font-semibold hover:scale-105 transition duration-200"
+            data-vcn-tooltip-content="Hủy cho thuê"
+          >
+            Hủy cho thuê
+          </button>
         </div>
       </td>
       <td class="px-3 py-3">
-        <div class="text-sm text-gray-900 max-w-[100px] truncate">${device_type}</div>
+        <button
+          data-vcn-tooltip-content="Nhấn để đổi loại máy"
+          class="QUERY-switch-device-type-btn QUERY-tooltip-trigger max-w-[100px] truncate w-fit active:scale-90 hover:scale-125 transition duration-200 cursor-pointer px-2 py-1 text-sm font-semibold rounded-full"
+        >
+          ${device_type}
+        </button>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
         <div class="flex items-center gap-2">
@@ -497,7 +576,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
 }
 
 export const AccountPreviewRow = (account, orderNumber) => {
-  const { accName, rank, gameCode, status, description, deviceType, avatar } = account
+  const { accName, rank, gameCode, status, description, deviceType, avatar, id } = account
   const lowerCasedStatus = status.toLowerCase()
   return html`
     <tr
@@ -570,8 +649,9 @@ export const SaleAccountRow = (account, orderNumber) => {
   return html`
     <tr
       data-account-id="${id}"
-      class="QUERY-account-row-item QUERY-account-row-item-${id} hover:bg-blue-50 ${lowerCasedStatus ===
-      "bận"
+      data-account-order-number="${orderNumber}"
+      class="QUERY-account-row-item QUERY-account-row-item-${id} hover:bg-blue-50 ${lowerCasedStatus !==
+      "tốt"
         ? "bg-red-100"
         : ""}"
     >
@@ -586,11 +666,12 @@ export const SaleAccountRow = (account, orderNumber) => {
         </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
-        <div
-          class="QUERY-account-UI-item-acc-name text-sm font-medium text-gray-900 max-w-[150px] truncate"
+        <button
+          data-vcn-tooltip-content="Nhấn để đổi thư"
+          class="QUERY-switch-letter-btn QUERY-tooltip-trigger text-sm hover:scale-110 transition duration-200 active:scale-90 font-medium text-gray-900 max-w-[150px] truncate"
         >
           ${letter}
-        </div>
+        </button>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
         <div class="QUERY-account-UI-item-rank text-sm font-medium max-w-[100px] truncate">
@@ -606,12 +687,22 @@ export const SaleAccountRow = (account, orderNumber) => {
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
         <div
-          class="QUERY-account-UI-item-status max-w-[100px] truncate w-fit px-2 py-1 text-sm font-semibold rounded-full ${lowerCasedStatus ==
+          class="QUERY-account-UI-item-status max-w-[100px] truncate w-fit text-sm font-semibold rounded-full ${lowerCasedStatus ==
           "tốt"
             ? "bg-green-600"
             : "bg-red-600"} text-white"
         >
-          ${status}
+          <select
+            name="status-select"
+            class="QUERY-status-select-${id} QUERY-status-select QUERY-tooltip-trigger outline-none bg-transparent text-sm font-medium appearance-none cursor-pointer px-2 py-1"
+            data-vcn-tooltip-content="Nhấn để chọn trạng thái"
+            data-account-id="${id}"
+          >
+            <option class="text-black" value="Tốt" ?selected=${status === "Tốt"}>Tốt</option>
+            <option class="text-black" value="Bảo trì" ?selected=${status === "Bảo trì"}>
+              Bảo trì
+            </option>
+          </select>
         </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">

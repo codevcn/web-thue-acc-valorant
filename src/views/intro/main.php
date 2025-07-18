@@ -60,7 +60,7 @@
         <div class="text-gray-400 text-sm">Hài lòng</div>
       </div>
       <div class="text-center">
-        <div class="text-3xl font-bold text-white">7h - 0h</div>
+        <div class="text-3xl font-bold text-white">7h - 0h hàng ngày</div>
         <div class="text-gray-400 text-sm">Hỗ trợ</div>
       </div>
     </div>

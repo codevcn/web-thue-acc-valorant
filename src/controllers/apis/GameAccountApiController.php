@@ -345,4 +345,52 @@ class GameAccountApiController
       'account' => $refreshedAccount,
     ];
   }
+
+  public function cancelRent(string $accountId): array
+  {
+    try {
+      $this->gameAccountService->cancelRent((int) $accountId);
+    } catch (\Throwable $th) {
+      if ($th instanceof \InvalidArgumentException) {
+        http_response_code(400);
+        return [
+          'success' => false,
+          'message' => $th->getMessage()
+        ];
+      }
+      http_response_code(500);
+      return [
+        'success' => false,
+        'message' => 'Lỗi hệ thống'
+      ];
+    }
+
+    return [
+      'success' => true,
+    ];
+  }
+
+  public function switchDeviceType(string $accountId): array
+  {
+    try {
+      $this->gameAccountService->switchDeviceType((int) $accountId);
+    } catch (\Throwable $th) {
+      if ($th instanceof \InvalidArgumentException) {
+        http_response_code(400);
+        return [
+          'success' => false,
+          'message' => $th->getMessage()
+        ];
+      }
+      http_response_code(500);
+      return [
+        'success' => false,
+        'message' => 'Lỗi hệ thống'
+      ];
+    }
+
+    return [
+      'success' => true,
+    ];
+  }
 }

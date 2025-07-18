@@ -120,8 +120,36 @@ $apiRouter->post('/api/v1/game-accounts/update-rent-time', function () use ($gam
 });
 
 $apiRouter->get('/api/v1/game-accounts/fetch-single-account/{accountId}', function ($accountId) use ($gameAccountApiController, $authMiddleware) {
-  $authMiddleware->handle();
+  if (!$authMiddleware->handleApi()) {
+    http_response_code(401);
+    return [
+      'success' => false,
+      'message' => 'Unauthorized'
+    ];
+  }
   return $gameAccountApiController->fetchSingleAccount($accountId);
+});
+
+$apiRouter->put('/api/v1/game-accounts/switch-device-type/{accountId}', function ($accountId) use ($gameAccountApiController, $authMiddleware) {
+  if (!$authMiddleware->handleApi()) {
+    http_response_code(401);
+    return [
+      'success' => false,
+      'message' => 'Unauthorized'
+    ];
+  }
+  return $gameAccountApiController->switchDeviceType($accountId);
+});
+
+$apiRouter->put('/api/v1/game-accounts/cancel-rent/{accountId}', function ($accountId) use ($gameAccountApiController, $authMiddleware) {
+  if (!$authMiddleware->handleApi()) {
+    http_response_code(401);
+    return [
+      'success' => false,
+      'message' => 'Unauthorized'
+    ];
+  }
+  return $gameAccountApiController->cancelRent($accountId);
 });
 
 $apiRouter->post('/api/v1/auth/login', function () use ($authApiController) {

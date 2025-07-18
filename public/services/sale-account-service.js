@@ -23,9 +23,9 @@ export class SaleAccountService {
     return data
   }
 
-  static async updateAccount(accountId, accountData, avatar) {
+  static async updateAccount(accountId, updatesData, avatar) {
     const dataToSubmit = new FormData()
-    dataToSubmit.set("account", JSON.stringify(accountData))
+    dataToSubmit.set("account", JSON.stringify(updatesData))
     if (avatar) dataToSubmit.set("avatar", avatar)
     const { data } = await axiosClient.post(`/sale-accounts/update/${accountId}`, dataToSubmit)
     return data
@@ -38,6 +38,11 @@ export class SaleAccountService {
 
   static async fetchSingleAccount(accountId) {
     const { data } = await axiosClient.get(`/sale-accounts/fetch-single-account/${accountId}`)
+    return data
+  }
+
+  static async switchLetterQuickly(accountId) {
+    const { data } = await axiosClient.put(`/sale-accounts/switch-letter-quickly/${accountId}`)
     return data
   }
 }

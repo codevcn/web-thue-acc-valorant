@@ -263,4 +263,21 @@ class SaleAccountApiController
       'account' => $refreshedAccount,
     ];
   }
+
+  public function switchLetterQuickly(string $accountId): array
+  {
+    try {
+      $this->saleAccountService->switchLetterQuickly((int) $accountId);
+    } catch (\Throwable $th) {
+      http_response_code(500);
+      return [
+        'success' => false,
+        'message' => 'Lỗi hệ thống'
+      ];
+    }
+
+    return [
+      'success' => true,
+    ];
+  }
 }

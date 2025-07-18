@@ -370,4 +370,42 @@ class GameAccountService
 
     return $account;
   }
+
+  public function cancelRent(int $accountId): void
+  {
+    $account = $this->findAccountById($accountId);
+    if (!$account) {
+      throw new \InvalidArgumentException("Tài khoản không tồn tại.");
+    }
+    $sql = "UPDATE game_accounts SET `status` = 'Rảnh', updated_at = :updated_at, rent_from_time = NULL, rent_to_time = NULL WHERE id = :id";
+    $params = [
+      ':id' => $accountId,
+      ':updated_at' => $this->getNow()
+    ];
+    $stmt = $this->db->prepare($sql);
+    foreach ($params as $param => $value) {
+      $stmt->bindValue($param, $value);
+    }
+    $stmt->execute();
+  }
+
+  public function switchDeviceType(int $accountId): void
+  {
+    $account = $this->findAccountById($accountId);
+    if (!$account) {
+      throw new \InvalidArgumentException("Tài khoản không tồn tại.");
+    }
+
+    $sql = "UPDATE game_accounts SET device_type = :device_type, updated_at = :updated_at WHERE id = :id";
+    $params = [
+      ':id' => $accountId,
+      ':device_type' => $account['device_type'] === 'Tất cả' ? 'Máy nhà' : 'Tất cả',
+      ':updated_at' => $this->getNow()
+    ];
+    $stmt = $this->db->prepare($sql);
+    foreach ($params as $param => $value) {
+      $stmt->bindValue($param, $value);
+    }
+    $stmt->execute();
+  }
 }

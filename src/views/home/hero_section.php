@@ -1,11 +1,13 @@
 <div class="relative min-h-screen overflow-hidden z-80">
   <div class="absolute inset-0 z-0">
-    <img src="/images/UI/hero-section-bg.png" alt="Hero Section Background" class="w-full h-full object-cover">
+    <video autoplay muted loop playsinline class="w-full h-full object-cover">
+      <source src="/videos/UI/hero-section-video.mp4" type="video/mp4" />
+    </video>
     <div class="absolute inset-0 bg-black/40"></div>
   </div>
 
   <div class="relative z-10 min-h-screen flex items-center font-bold">
-    <div class="mx-auto px-6 py-[30px]">
+    <div class="mx-auto px-2 py-[30px]">
       <div class="max-w-7xl mx-auto">
         <div class="text-center mb-4">
           <h1 class="text-4xl font-black text-white mb-2 leading-tight">
@@ -17,16 +19,16 @@
           <div class="w-48 h-1 bg-gradient-to-r from-sky-400 to-cyan-400 mx-auto rounded-full"></div>
         </div>
 
-        <div class="grid lg:grid-cols-3 gap-4 items-start">
-          <div class="space-y-8">
+        <div class="grid lg:grid-cols-4 gap-y-2 gap-x-2 items-start">
+          <div class="space-y-2">
             <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20">
-              <h2 class="text-2xl font-bold text-sky-300 mb-6 flex items-center gap-3">
+              <h2 class="text-2xl font-bold text-sky-300 mb-4 flex items-center gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                   <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                 </svg>
                 BẢNG GIÁ
               </h2>
-              <div class="space-y-4">
+              <div class="space-y-2">
                 <div class="flex items-center justify-between p-2 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
                   <div class="flex items-center gap-3">
                     <span class="text-white font-bold text-lg">20K - 2 GIỜ</span>
@@ -58,7 +60,7 @@
                 </svg>
                 <span class="text-2xl">ƯU ĐÃI ĐẶC BIỆT</span>
               </h3>
-              <div class="space-y-3 text-lg">
+              <div class="space-y-2 text-base">
                 <div class="flex items-center gap-3 text-sky-400">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                     <circle cx="12" cy="12" r="10"></circle>
@@ -83,8 +85,8 @@
 
           <div class="space-y-4">
             <div class="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20">
-              <h3 class="text-2xl font-bold text-yellow-400 mb-6">MÁY NHÀ</h3>
-              <div class="space-y-4 mb-4 text-lg">
+              <h3 class="text-2xl font-bold text-yellow-400 mb-4">MÁY NHÀ</h3>
+              <div class="space-y-2 mb-4 text-lg">
                 <div class="flex items-center gap-3">
                   <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
                   <span class="text-white">20K - 2 giờ</span>
@@ -104,14 +106,6 @@
               </div>
               <div class="text-sm text-sky-300">
                 (Y/c: Bật HVCI + SCB + TPM)
-              </div>
-            </div>
-            <div class="text-center">
-              <div class="CSS-small-text-stroke text-regular-blue-cl text-xl md:text-2xl lg:text-3xl font-bold mb-2 tracking-wide">
-                shopthuevalorantime.com
-              </div>
-              <div class="CSS-small-text-stroke text-white/90 text-base md:text-lg font-bold CSS-outlined-text">
-                Dương Anh Tuấn
               </div>
             </div>
           </div>
@@ -168,12 +162,29 @@
               </div>
             </div>
           </div>
+
+
+          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20">
+            <div class="mb-6 px-2 rounded-lg">
+              <h1 class="text-pink-400 text-2xl font-bold">Giới thiệu</h1>
+            </div>
+
+            <div class="space-y-4 text-base leading-relaxed">
+              <span class="text-white">
+                <span class="text-sky-400 font-bold">Shop thuê valorant</span>
+                <span class="text-white">là một trang web cho thuê tài khoản valorant với giá cả phải chăng và chất lượng cao. Chúng tôi cung cấp các tài khoản valorant với các loại rank khác nhau, từ</span>
+                <span class="text-sky-400 font-bold">Diamond</span>
+                <span class="text-white">đến</span>
+                <span class="text-sky-400 font-bold">Immortal</span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div id="ghost-logo" class="absolute bottom-[-60px] left-1/2 -translate-x-1/2 h-[235px] w-[180px] overflow-hidden">
+  <div id="ghost-logo" class="absolute bottom-0 left-[-70px] rotate-[40deg] h-[180px] w-[180px] overflow-hidden">
     <img src="/images/UI/ghost.webp" alt="Logo" class="absolute top-[-50px] left-[-60px] h-[280px] min-w-[280px]">
   </div>
 </div>
