@@ -314,17 +314,9 @@ class GameAccountService
       throw new \InvalidArgumentException("Tài khoản đang được thuê, không thể chuyển trạng thái.");
     }
 
-    $sql = "UPDATE game_accounts SET `status` = :status, updated_at = :updated_at WHERE id = :id";
-    $params = [
-      ':id' => $accountId,
-      ':status' => $currentStatus === 'Bận' ? 'Rảnh' : 'Bận',
-      ':updated_at' => $this->getNow()
-    ];
-    $stmt = $this->db->prepare($sql);
-    foreach ($params as $param => $value) {
-      $stmt->bindValue($param, $value);
-    }
-    $stmt->execute();
+    $this->updateAccount($accountId, [
+      'status' => $currentStatus === 'Bận' ? 'Rảnh' : 'Bận',
+    ]);
   }
 
   public function deleteAccount(int $accountId): void

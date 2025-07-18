@@ -31,7 +31,7 @@
         </svg>
       </p>
       <div id="account-rank-types" class="CSS-hover-flash-button cursor-pointer">
-        <select id="account-rank-types-select" class="w-full bg-regular-blue-cl cursor-pointer text-black rounded-lg px-4 py-1.5 text-base focus:outline-none">
+        <select id="account-rank-types-select" class="w-full bg-regular-blue-cl cursor-pointer text-white font-bold rounded-lg px-4 py-1.5 text-base focus:outline-none">
           <option value="ALL" class="bg-white text-black">Tất cả loại rank</option>
         </select>
       </div>
@@ -61,7 +61,7 @@
         </svg>
       </p>
       <div id="account-statuses" class="CSS-hover-flash-button cursor-pointer">
-        <select id="account-statuses-select" class="w-full bg-regular-blue-cl cursor-pointer text-black rounded-lg px-4 py-1.5 text-base focus:outline-none">
+        <select id="account-statuses-select" class="w-full bg-regular-blue-cl cursor-pointer text-white font-bold rounded-lg px-4 py-1.5 text-base focus:outline-none">
           <option value="ALL" class="bg-white text-black">Tất cả trạng thái</option>
           <option value="Rảnh" class="bg-white text-black">Rảnh</option>
           <option value="Bận" class="bg-white text-black">Bận</option>
@@ -90,10 +90,10 @@
         </svg>
       </p>
       <div id="account-device-types" class="CSS-hover-flash-button cursor-pointer">
-        <select id="account-device-types-select" class="w-full bg-regular-blue-cl cursor-pointer text-black rounded-lg px-4 py-1.5 text-base focus:outline-none">
+        <select id="account-device-types-select" class="w-full bg-regular-blue-cl cursor-pointer text-white font-bold rounded-lg px-4 py-1.5 text-base focus:outline-none">
           <option value="ALL" class="bg-white text-black">Tất cả loại máy</option>
           <option value="Tất cả" class="bg-white text-black">Tất cả</option>
-          <option value="Máy nhà" class="bg-white text-black">Máy nhà</option>
+          <option value="ALL" class="bg-white text-black">Máy nhà</option>
         </select>
       </div>
     </div>

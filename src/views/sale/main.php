@@ -63,13 +63,13 @@
                   </div>
                   <span data-vcn-tooltip-content="Giá bán" class="QUERY-tooltip-trigger"><?= $sale_account['price'] ?></span>
                 </div>
-                <button id="by-now-btn" class="QUERY-buy-now-btn CSS-button-blue-line-decoration min-h-[42px] mt-2 min-[860px]:mt-4">
+                <button id="by-now-btn" class="QUERY-buy-now-btn CSS-button-shadow-decoration bg-regular-blue-cl rounded-lg text-white font-bold min-h-[42px] mt-2 min-[860px]:mt-4">
                   MUA NGAY
                 </button>
               </div>
             </div>
 
-            <div class="flex items-stretch flex-wrap gap-2 mt-2 min-[860px]:mt-4">
+            <div class="flex flex-wrap gap-2 mt-2 min-[860px]:mt-4">
               <div class="flex flex-col min-w-max items-center justify-center flex-1 bg-blue-100 border border-solid border-blue-300 border-t-4 rounded-md py-1 px-4">
                 <h4 class="text-base font-bold">Gmail</h4>
                 <div><?= $sale_account['gmail'] ?></div>
@@ -82,9 +82,11 @@
                 <h4 class="text-base font-bold">Tình trạng</h4>
                 <div><?= $sale_account['status'] ?></div>
               </div>
-              <button class="QUERY-commitment-btn CSS-button-blue-line-decoration text-base font-bold py-2 px-4 min-w-max flex-1">
-                Cam kết
-              </button>
+              <div class="flex-1">
+                <button class="QUERY-commitment-btn CSS-button-shadow-decoration bg-regular-blue-cl w-full h-[calc(100%-4px)] text-white rounded-lg text-base font-bold py-2 px-4">
+                  CAM KẾT
+                </button>
+              </div>
             </div>
           </div>
         </div>

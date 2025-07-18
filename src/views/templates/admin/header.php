@@ -97,7 +97,7 @@
             </a>
           </li>
           <li>
-            <button id="logout-btn--drawer" class="CSS-button-blue-decoration w-full py-[6px] px-[20px] mt-8">
+            <button id="logout-btn--drawer" class="CSS-button-blue-line-decoration w-full py-[6px] px-[20px] mt-8">
               <span>Đăng xuất</span>
               <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-log-out-icon lucide-log-out" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m16 17 5-5-5-5" />

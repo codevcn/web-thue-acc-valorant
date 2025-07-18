@@ -178,19 +178,22 @@ button {
   }
 }
 
-.CSS-button-blue-decoration {
-  $color: #67c2ff;
-  @include CSS-button-decoration($color);
+@mixin CSS-button-shadow-decoration() {
+  box-shadow: 0px 4px 0px gray;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    box-shadow: 0px 8px 0px gray;
+    transform: translateY(-4px);
+  }
+  &:active {
+    box-shadow: 0px 2px 0px gray;
+    transform: translateY(2px);
+  }
 }
 
-.CSS-button-white-decoration {
-  $color: #ffffff;
-  @include CSS-button-decoration($color);
-}
-
-.CSS-button-red-decoration {
-  $color: #ff0000;
-  @include CSS-button-decoration($color);
+.CSS-button-shadow-decoration {
+  @include CSS-button-shadow-decoration();
 }
 
 .CSS-button-white-line-decoration {

@@ -725,9 +725,8 @@ class UpdateAccountManager {
     GameAccountService.updateAccount(accountId, { rentToTime: toTime })
       .then((data) => {
         if (data && data.success) {
-          Toaster.success("Thông báo", "Cập nhật thời gian cho thuê thành công", () => {
-            uiEditor.refreshAccountRowOnUI(accountId)
-          })
+          uiEditor.refreshAccountRowOnUI(accountId)
+          Toaster.success("Thông báo", "Cập nhật thời gian cho thuê thành công")
         }
       })
       .catch((error) => {

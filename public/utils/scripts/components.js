@@ -181,77 +181,9 @@ export const AccountCard = (account) => {
 
           <button
             data-account-id="${id}"
-            class="QUERY-rent-now-btn group flex items-center justify-center gap-3 active:scale-90 transition duration-200 w-full text-black font-bold rounded-lg bg-regular-blue-cl backdrop-blur-md py-2 px-4 mt-6"
+            class="QUERY-rent-now-btn group CSS-button-shadow-decoration flex items-center justify-center gap-3 active:scale-90 transition duration-200 w-full text-white font-bold rounded-lg bg-regular-blue-cl backdrop-blur-md py-2 px-4 mt-6"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="rotate-[44deg] group-hover:rotate-[98deg] translate-x-[30px] opacity-0 group-hover:opacity-100 transition duration-200 lucide lucide-sword-icon lucide-sword"
-            >
-              <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" />
-              <line x1="13" x2="19" y1="19" y2="13" />
-              <line x1="16" x2="20" y1="16" y2="20" />
-              <line x1="19" x2="21" y1="21" y2="19" />
-            </svg>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="rotate-[44deg] group-hover:rotate-[-10deg] transition duration-200 lucide lucide-sword-icon lucide-sword"
-            >
-              <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" />
-              <line x1="13" x2="19" y1="19" y2="13" />
-              <line x1="16" x2="20" y1="16" y2="20" />
-              <line x1="19" x2="21" y1="21" y2="19" />
-            </svg>
             <span>THUÊ NGAY</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="rotate-[44deg] group-hover:rotate-[98deg] transition duration-200 lucide lucide-sword-icon lucide-sword"
-            >
-              <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" />
-              <line x1="13" x2="19" y1="19" y2="13" />
-              <line x1="16" x2="20" y1="16" y2="20" />
-              <line x1="19" x2="21" y1="21" y2="19" />
-            </svg>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="rotate-[44deg] group-hover:rotate-[-10deg] translate-x-[-30px] opacity-0 group-hover:opacity-100 transition duration-200 lucide lucide-sword-icon lucide-sword"
-            >
-              <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" />
-              <line x1="13" x2="19" y1="19" y2="13" />
-              <line x1="16" x2="20" y1="16" y2="20" />
-              <line x1="19" x2="21" y1="21" y2="19" />
-            </svg>
           </button>
         </div>
       </div>
