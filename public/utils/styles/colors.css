@@ -9,7 +9,8 @@
   --vcn-regular-blue-4: #009fd4;
   --vcn-regular-blue-5: #89cff3;
   --vcn-regular-blue-cl: var(--vcn-regular-blue-1);
-  --vcn-regular-blue-hover-cl: var(--vcn-regular-blue-4);
+  --vcn-regular-for-scroll-blue-hover-cl: var(--vcn-regular-blue-4);
+  --vcn-regular-blue-hover-cl: #01a5f0;
   --vcn-scrollbar-track-bgcl: #32394033;
   --vcn-scrollbar-thumb-bgcl: #455159;
   --vcn-regular-zalo-cl: #0068ff;

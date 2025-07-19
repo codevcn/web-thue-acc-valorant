@@ -44,6 +44,9 @@ class GameAccountService
       $conditions[] = '(updated_at < :last_updated_at OR (updated_at = :last_updated_at AND id < :last_id))';
       $params[':last_updated_at'] = $lastUpdatedAt;
       $params[':last_id'] = $lastId;
+    } else if ($lastId !== null) {
+      $conditions[] = 'id < :last_id';
+      $params[':last_id'] = $lastId;
     }
 
     if ($rank !== null) {

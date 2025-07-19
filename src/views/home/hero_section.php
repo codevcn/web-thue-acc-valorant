@@ -19,7 +19,7 @@
           <div class="w-48 h-1 bg-gradient-to-r from-sky-400 to-cyan-400 mx-auto rounded-full"></div>
         </div>
 
-        <div class="grid lg:grid-cols-4 gap-y-2 gap-x-2 items-start">
+        <div class="grid min-[1170px]:grid-cols-4 min-[600px]:grid-cols-2 grid-cols-1 gap-y-2 gap-x-2 items-start">
           <div class="space-y-2">
             <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20">
               <h2 class="text-2xl font-bold text-sky-300 mb-4 flex items-center gap-3">
@@ -83,8 +83,8 @@
             </div>
           </div>
 
-          <div class="space-y-4">
-            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20">
+          <div class="space-y-4 min-[1170px]:h-fit h-full">
+            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 h-full">
               <h3 class="text-2xl font-bold text-yellow-400 mb-4">MÁY NHÀ</h3>
               <div class="space-y-2 mb-4 text-lg">
                 <div class="flex items-center gap-3">
@@ -184,7 +184,7 @@
     </div>
   </div>
 
-  <div id="ghost-logo" class="absolute bottom-0 left-[-70px] rotate-[40deg] h-[180px] w-[180px] overflow-hidden">
+  <div id="ghost-logo" class="absolute bottom-2 min-[1170px]:left-[-70px] min-[1170px]:rotate-[40deg] right-[-70px] rotate-[-40deg] h-[180px] w-[180px] overflow-hidden">
     <img src="/images/UI/ghost.webp" alt="Logo" class="absolute top-[-50px] left-[-60px] h-[280px] min-w-[280px]">
   </div>
 </div>

@@ -1,17 +1,10 @@
 import { GameAccountService } from "../../services/game-account-services.js"
-import {
-  AccountCard,
-  AccountDeviceType,
-  AccountRankType,
-  AccountStatus,
-} from "../../utils/scripts/components.js"
+import { AccountCard } from "../../utils/scripts/components.js"
 import {
   AppLoadingHelper,
   AxiosErrorHandler,
   LitHTMLHelper,
-  NavigationHelper,
   Toaster,
-  URLHelper,
 } from "../../utils/scripts/helpers.js"
 import { initUtils } from "../../utils/scripts/init-utils.js"
 
@@ -38,6 +31,11 @@ class HomePageManager {
     this.isMoreItems = true
     this.gameAccounts = []
     this.selectedAccount = null
+    this.filterHolder = {
+      rank: "",
+      status: "",
+      device_type: "",
+    }
 
     this.initLoadMoreButtonListener()
     this.initCloseModalListener()
@@ -55,22 +53,10 @@ class HomePageManager {
 
     this.fetchAccounts()
     this.fetchAccountRankTypes()
-    this.activateFilterItems()
-  }
-
-  getLastAccount() {
-    const accounts = this.gameAccounts
-    if (accounts.length > 0) {
-      return accounts.at(-1)
-    }
-    return null
   }
 
   activateFilterItems() {
-    const rank = URLHelper.getUrlQueryParam("rank")
-    const status = URLHelper.getUrlQueryParam("status")
-    const device_type = URLHelper.getUrlQueryParam("device_type")
-
+    const { rank, status, device_type } = this.filterHolder
     if (rank) {
       this.accountRankTypesSelect.value = rank
     }
@@ -82,28 +68,34 @@ class HomePageManager {
     }
   }
 
+  getLastAccountInfoForFetching() {
+    let lastAccount = null
+    const accounts = this.gameAccounts
+    if (accounts.length > 0) {
+      lastAccount = accounts.at(-1)
+    }
+    let last_id = lastAccount ? lastAccount.id : null
+    return { last_id }
+  }
+
   fetchAccounts() {
-    if (this.isFetchingItems || !this.isMoreItems) return
+    const { last_id } = this.getLastAccountInfoForFetching()
+    const { rank, status, device_type } = this.filterHolder
+    if (this.isFetchingItems) return
     this.isFetchingItems = true
+    console.log(">>> params:", { last_id, rank, status, device_type, accounts: this.gameAccounts })
 
     AppLoadingHelper.show()
-    const lastAccount = this.getLastAccount()
-    let last_id = lastAccount ? lastAccount.id : null
-    let last_updated_at = lastAccount ? lastAccount.updated_at : null
-    const rank = URLHelper.getUrlQueryParam("rank")
-    const status = URLHelper.getUrlQueryParam("status")
-    const device_type = URLHelper.getUrlQueryParam("device_type")
-
-    GameAccountService.fetchAccounts(last_id, last_updated_at, rank, status, device_type)
+    GameAccountService.fetchAccounts(last_id, undefined, rank, status, device_type)
       .then((accounts) => {
         if (accounts && accounts.length > 0) {
           this.gameAccounts = [...this.gameAccounts, ...accounts]
           this.renderNewAccounts(accounts)
           initUtils.initTooltip()
+          this.activateFilterItems()
         } else {
           this.isMoreItems = false
-          this.loadMoreContainer.classList.remove("QUERY-is-more")
-          this.loadMoreContainer.classList.add("QUERY-no-more")
+          this.hideShowLoadMoreButton(false)
         }
       })
       .catch((error) => {
@@ -139,13 +131,13 @@ class HomePageManager {
   fetchAccountRankTypes() {
     GameAccountService.fetchAccountRankTypes().then((rankTypes) => {
       if (rankTypes && rankTypes.length > 0) {
-        const rankParam = URLHelper.getUrlQueryParam("rank")
+        const rankFilter = this.filterHolder.rank
         const orderedRankTypes = this.moveActiveItemsToTop(
           rankTypes,
-          (rankType) => rankType.type === rankParam
+          (rankType) => rankType.type === rankFilter
         )
         for (const { type } of orderedRankTypes) {
-          const isActive = rankParam === type
+          const isActive = rankFilter === type
           const option = document.createElement("option")
           option.classList.add("bg-white", "text-black")
           option.value = type
@@ -162,8 +154,19 @@ class HomePageManager {
     })
   }
 
+  hideShowLoadMoreButton(show) {
+    if (show) {
+      this.loadMoreContainer.classList.remove("QUERY-no-more")
+      this.loadMoreContainer.classList.add("QUERY-is-more")
+    } else {
+      this.loadMoreContainer.classList.remove("QUERY-is-more")
+      this.loadMoreContainer.classList.add("QUERY-no-more")
+    }
+  }
+
   initLoadMoreButtonListener() {
     this.loadMoreBtn.addEventListener("click", () => {
+      if (!this.isMoreItems) return
       this.fetchAccounts()
     })
   }
@@ -181,9 +184,9 @@ class HomePageManager {
     this.accountRankTypesSelect.addEventListener("change", (e) => {
       const rankType = e.target.value
       if (rankType === "ALL") {
-        this.filterAndNavigate("rank=")
+        this.submitFilter("rank=")
       } else {
-        this.filterAndNavigate(`rank=${rankType}`)
+        this.submitFilter(`rank=${rankType}`)
       }
     })
   }
@@ -192,9 +195,9 @@ class HomePageManager {
     this.accountStatusesSelect.addEventListener("change", (e) => {
       const status = e.target.value
       if (status === "ALL") {
-        this.filterAndNavigate("status=")
+        this.submitFilter("status=")
       } else {
-        this.filterAndNavigate(`status=${status}`)
+        this.submitFilter(`status=${status}`)
       }
     })
   }
@@ -203,24 +206,29 @@ class HomePageManager {
     this.accountDeviceTypesSelect.addEventListener("change", (e) => {
       const deviceType = e.target.value
       if (deviceType === "ALL") {
-        this.filterAndNavigate("device_type=")
+        this.submitFilter("device_type=")
       } else {
-        this.filterAndNavigate(`device_type=${deviceType}`)
+        this.submitFilter(`device_type=${deviceType}`)
       }
     })
   }
 
-  filterAndNavigate(keyValuePair = "rank=&status=&device_type=") {
-    const currentUrl = new URL(window.location.href)
-    const params = new URLSearchParams(keyValuePair)
-    for (const [key, value] of params.entries()) {
-      if (value) {
-        currentUrl.searchParams.set(key, value)
-      } else {
-        currentUrl.searchParams.delete(key)
-      }
+  resetAccountsList() {
+    this.accountsList.innerHTML = ""
+    this.gameAccounts = []
+    this.hideShowLoadMoreButton(true)
+    this.isMoreItems = true
+  }
+
+  submitFilter(keyValuePair = "rank=&status=&device_type=") {
+    this.resetAccountsList()
+    const conditions = keyValuePair.split("&")
+    for (const condition of conditions) {
+      const [key, value] = condition.split("=")
+      this.filterHolder[key] = value || ""
     }
-    NavigationHelper.pureNavigateTo(currentUrl.toString())
+    this.fetchAccounts()
+    // NavigationHelper.pureNavigateTo(currentUrl.toString())
   }
 
   initAccountsListListener() {
@@ -250,9 +258,17 @@ class HomePageManager {
     })
   }
 
+  resetFilterSection() {
+    this.accountRankTypesSelect.value = "ALL"
+    this.accountStatusesSelect.value = "ALL"
+    this.accountDeviceTypesSelect.value = "ALL"
+  }
+
   initCancelAllFiltersListener() {
     this.cancelAllFiltersBtn.addEventListener("click", () => {
-      this.filterAndNavigate()
+      this.resetAccountsList()
+      this.resetFilterSection()
+      this.submitFilter()
     })
   }
 

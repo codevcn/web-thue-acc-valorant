@@ -7,6 +7,7 @@ class InitUtils {
   constructor() {
     this.initListeners()
     this.initTooltip()
+    this.initChasingDot()
   }
 
   hideShowDrawerMenu(isShow, drawerMenu) {
@@ -127,6 +128,45 @@ class InitUtils {
     document.querySelectorAll(InitUtils.TOOLTIP_SELECTOR).forEach((trigger) => {
       this.linkTooltip(trigger, trigger.dataset.vcnTooltipContent)
     })
+  }
+
+  initChasingDot() {
+    const dot = document.getElementById("chasing-dot")
+
+    let mouseX = 0,
+      mouseY = 0
+    let dotX = 0,
+      dotY = 0
+    const speed = 0.1
+    let visible = true
+
+    document.body.addEventListener("mousemove", (e) => {
+      mouseX = e.pageX
+      mouseY = e.pageY
+    })
+
+    // Khi chuột rời khỏi cửa sổ
+    document.body.addEventListener("mouseleave", () => {
+      visible = false
+      dot.style.opacity = "0"
+    })
+
+    // Khi chuột quay lại cửa sổ
+    document.body.addEventListener("mouseenter", () => {
+      visible = true
+      dot.style.opacity = "1"
+    })
+
+    function animate() {
+      if (visible) {
+        dotX += (mouseX - dotX) * speed
+        dotY += (mouseY - dotY) * speed
+        dot.style.transform = `translate(${dotX}px, ${dotY}px)`
+      }
+      requestAnimationFrame(animate)
+    }
+
+    animate()
   }
 }
 

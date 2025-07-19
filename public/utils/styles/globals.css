@@ -9,7 +9,8 @@
   --vcn-regular-blue-4: #009fd4;
   --vcn-regular-blue-5: #89cff3;
   --vcn-regular-blue-cl: var(--vcn-regular-blue-1);
-  --vcn-regular-blue-hover-cl: var(--vcn-regular-blue-4);
+  --vcn-regular-for-scroll-blue-hover-cl: var(--vcn-regular-blue-4);
+  --vcn-regular-blue-hover-cl: #01a5f0;
   --vcn-scrollbar-track-bgcl: #32394033;
   --vcn-scrollbar-thumb-bgcl: #455159;
   --vcn-regular-zalo-cl: #0068ff;
@@ -199,7 +200,7 @@ button {
 }
 
 .CSS-styled-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: var(--vcn-regular-blue-hover-cl);
+  background-color: var(--vcn-regular-for-scroll-blue-hover-cl);
 }
 
 .CSS-small-text-stroke {
@@ -358,6 +359,21 @@ button {
   border-radius: 50%;
   top: 0;
   right: -5px;
+}
+
+#chasing-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: rgb(0, 140, 255);
+  border-radius: 50%;
+  pointer-events: none;
+  left: -10px;
+  top: -10px;
+  opacity: 1;
+  z-index: 999;
+  transition: opacity 0.5s, transform 0.1s;
+  will-change: transform, opacity;
 }
 
 /*# sourceMappingURL=globals.css.map */

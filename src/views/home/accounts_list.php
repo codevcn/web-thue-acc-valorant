@@ -22,7 +22,7 @@
 
     <!-- View More Button -->
     <div id="load-more-container" class="QUERY-is-more flex justify-center mt-12 w-full">
-      <button id="load-more-btn" class="QUERY-load-more-btn CSS-button-shadow-decoration bg-regular-blue-cl rounded-lg text-white font-bold py-2 px-4">
+      <button id="load-more-btn" class="QUERY-load-more-btn CSS-button-shadow-decoration hover:bg-regular-blue-hover-cl bg-regular-blue-cl rounded-lg text-white font-bold py-2 px-4">
         XEM THÊM TÀI KHOẢN
       </button>
       <p class="QUERY-no-more-text text-gray-600 italic text-base font-bold">Không còn tài khoản nào.</p>

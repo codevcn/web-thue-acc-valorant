@@ -181,7 +181,7 @@ export const AccountCard = (account) => {
 
           <button
             data-account-id="${id}"
-            class="QUERY-rent-now-btn group CSS-button-shadow-decoration flex items-center justify-center gap-3 active:scale-90 transition duration-200 w-full text-white font-bold rounded-lg bg-regular-blue-cl backdrop-blur-md py-2 px-4 mt-6"
+            class="QUERY-rent-now-btn group CSS-button-shadow-decoration flex items-center justify-center gap-3 active:scale-90 transition duration-200 w-full text-white font-bold rounded-lg bg-regular-blue-cl hover:bg-regular-blue-hover-cl backdrop-blur-md py-2 px-4 mt-6"
           >
             <span>THUÊ NGAY</span>
           </button>
