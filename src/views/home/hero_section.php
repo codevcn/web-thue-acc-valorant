@@ -84,7 +84,7 @@
           </div>
 
           <div class="space-y-4 min-[1170px]:h-fit h-full">
-            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 h-full">
+            <div class="bg-yellow-500/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 h-full">
               <h3 class="text-2xl font-bold text-yellow-400 mb-4">MÁY NHÀ</h3>
               <div class="space-y-2 mb-4 text-lg">
                 <div class="flex items-center gap-3">

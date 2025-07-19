@@ -83,7 +83,7 @@
           </a>
         </div>
         <div class="flex items-center gap-2 rounded-lg bg-white px-4 py-2 hover:scale-105 cursor-pointer transition duration-200">
-          <a href="/" class="text-base lg:text-xl font-bold text-black leading-tight">
+          <a href="/sale" class="text-base lg:text-xl font-bold text-black leading-tight">
             SALE
           </a>
         </div>

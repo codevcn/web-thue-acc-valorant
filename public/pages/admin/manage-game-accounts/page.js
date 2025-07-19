@@ -139,14 +139,6 @@ class ManageGameAccountsPageManager {
         updateAccountManager.showModal(target.dataset.accountId * 1)
       }
     })
-
-    // khi click lên row (cho dễ thao tác trên điện thoại)
-    this.accountsTableBody.addEventListener("click", (e) => {
-      let target = e.target
-      if (!target || target.tagName !== "TD") return
-      const accountId = target.closest(".QUERY-account-row-item").dataset.accountId
-      updateAccountManager.showModal(accountId * 1)
-    })
   }
 
   renderNewAccounts(newAccounts, startOrderNumber) {

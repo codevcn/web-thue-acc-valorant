@@ -73,6 +73,8 @@ class InitUtils {
   }
 
   linkTooltip(trigger, tooltipContent) {
+    if (!trigger || !tooltipContent) return
+    
     const tooltip = document.getElementById("app-tooltip")
 
     const spacing = 8

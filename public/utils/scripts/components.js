@@ -460,8 +460,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         <div class="flex items-center gap-2">
           <button
             data-account-id="${id}"
-            class="QUERY-update-account-btn QUERY-tooltip-trigger text-regular-blue-cl hover:scale-110 transition duration-200"
-            data-vcn-tooltip-content="Chỉnh sửa"
+            class="QUERY-update-account-btn text-regular-blue-cl hover:scale-110 transition duration-200"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -483,8 +482,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
           </button>
           <button
             data-account-id="${id}"
-            class="QUERY-delete-account-btn QUERY-tooltip-trigger text-red-600 hover:scale-110 transition duration-200"
-            data-vcn-tooltip-content="Xóa"
+            class="QUERY-delete-account-btn text-red-600 hover:scale-110 transition duration-200"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -656,8 +654,7 @@ export const SaleAccountRow = (account, orderNumber) => {
         <div class="flex items-center gap-2">
           <button
             data-account-id="${id}"
-            class="QUERY-update-account-btn QUERY-tooltip-trigger text-regular-blue-cl hover:scale-110 transition duration-200"
-            data-vcn-tooltip-content="Chỉnh sửa"
+            class="QUERY-update-account-btn text-regular-blue-cl hover:scale-110 transition duration-200"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -679,8 +676,7 @@ export const SaleAccountRow = (account, orderNumber) => {
           </button>
           <button
             data-account-id="${id}"
-            class="QUERY-delete-account-btn QUERY-tooltip-trigger text-red-600 hover:scale-110 transition duration-200"
-            data-vcn-tooltip-content="Xóa"
+            class="QUERY-delete-account-btn text-red-600 hover:scale-110 transition duration-200"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
