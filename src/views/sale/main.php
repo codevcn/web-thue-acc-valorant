@@ -193,5 +193,6 @@
 </script>
 
 <?php require_once __DIR__ . '/commitment_modal.php'; ?>
+<?php require_once __DIR__ . '/buy_now_modal.php'; ?>
 
-<?php require_once __DIR__ . '/../templates/tooltip.php'; ?>
+<?php require_once __DIR__ . '/../templates/layout.php'; ?>

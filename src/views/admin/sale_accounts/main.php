@@ -108,7 +108,6 @@
   </div>
 </main>
 
-<?php require_once __DIR__ . '/../../templates/btn_scroll_to_top.php'; ?>
 <?php require_once __DIR__ . '/../../templates/btn_scroll_to_bottom.php'; ?>
 
 <?php require_once __DIR__ . '/add_new_account.php'; ?>
@@ -116,6 +115,4 @@
 <?php require_once __DIR__ . '/delete_account.php'; ?>
 <?php require_once __DIR__ . '/accounts_preview.php'; ?>
 
-<?php require_once __DIR__ . '/../../templates/tooltip.php'; ?>
-
-<?php require_once __DIR__ . '/../../templates/app_loading.php'; ?>
+<?php require_once __DIR__ . '/../../templates/layout.php'; ?>

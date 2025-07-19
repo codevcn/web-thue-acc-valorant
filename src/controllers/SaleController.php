@@ -6,16 +6,19 @@ namespace Controllers;
 
 use Services\SaleAccountService;
 use Services\RulesService;
+use Services\UserService;
 
 class SaleController
 {
   private $saleAccountService;
   private $rulesService;
+  private $userService;
 
-  public function __construct(SaleAccountService $saleAccountService, RulesService $rulesService)
+  public function __construct(SaleAccountService $saleAccountService, RulesService $rulesService, UserService $userService)
   {
     $this->saleAccountService = $saleAccountService;
     $this->rulesService = $rulesService;
+    $this->userService = $userService;
   }
 
   public function showSalePage(): void
@@ -27,7 +30,7 @@ class SaleController
     $accountsCount = count($saleAccounts);
 
     $rules = $this->rulesService->findRules();
-
+    $admin = $this->userService->findAdmin();
     $totalPages = ceil($this->saleAccountService->countAll() / $limit);
 
     $data = [
@@ -36,6 +39,7 @@ class SaleController
       'current_page' => $page,
       'slides_count' => $accountsCount > $limit ? $limit : $accountsCount,
       'rules' => $rules,
+      'admin' => $admin,
     ];
 
     extract($data);

@@ -222,6 +222,4 @@
   </div>
 </div>
 
-<?php require_once __DIR__ . '/../../templates/btn_scroll_to_top.php'; ?>
-
-<?php require_once __DIR__ . '/../../templates/app_loading.php'; ?>
+<?php require_once __DIR__ . '/../../templates/layout.php'; ?>

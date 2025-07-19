@@ -121,5 +121,3 @@
     </div>
   </div>
 </footer>
-
-<div id="chasing-dot"></div>

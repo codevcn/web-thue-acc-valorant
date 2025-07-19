@@ -29,7 +29,7 @@ $gameAccountService = new GameAccountService($db);
 $homeController = new HomeController($userService, $rulesService);
 $adminController = new AdminController($userService, $authService, $rulesService, $gameAccountService);
 $authController = new AuthController($authService);
-$saleController = new SaleController($saleAccountService, $rulesService);
+$saleController = new SaleController($saleAccountService, $rulesService, $userService);
 
 // Initialize middleware
 $authMiddleware = new AuthMiddleware($authService);
