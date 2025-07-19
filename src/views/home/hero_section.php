@@ -171,6 +171,7 @@
 
             <div class="space-y-4 text-base leading-relaxed">
               <span class="text-white whitespace-pre-line">- Dịch vụ cho thuê Account Valorant giá rẻ nhất thị trường, hỗ trợ tốt, an toàn, nhanh chóng.
+                - Nhận treo bán hộ Account chi phí thấp
                 - Thu bán Account Valorant ( Đãi ngộ tốt, giá thị trường, chế độ quay đầu hợp lí, đảm bảo an toàn)
                 - Dịch vụ cày thuê Rank
                 - Hỗ trợ sửa lỗi, giải đáp thắc mắc liên quan về game Valorant
