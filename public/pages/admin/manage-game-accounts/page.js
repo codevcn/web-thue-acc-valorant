@@ -368,7 +368,7 @@ class UIEditor {
   static convertRankTypesToRenderingRanks(rankTypes) {
     const ranksToRender = []
     for (const { type } of rankTypes) {
-      if (type !== "Tỏa sáng") {
+      if (type !== "Radiant") {
         ranksToRender.push(`${type} 1`, `${type} 2`, `${type} 3`)
       } else {
         ranksToRender.push(type)

@@ -83,7 +83,6 @@ class HomePageManager {
     const { rank, status, device_type } = this.filterHolder
     if (this.isFetchingItems) return
     this.isFetchingItems = true
-    console.log(">>> params:", { last_id, rank, status, device_type, accounts: this.gameAccounts })
 
     AppLoadingHelper.show()
     GameAccountService.fetchAccounts(last_id, undefined, rank, status, device_type)
