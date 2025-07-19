@@ -436,12 +436,16 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
       <td class="px-3 py-3">
         <div class="flex flex-col gap-2 w-full text-sm max-w-[150px]">
           ${RentTime(rent_from_time, rent_to_time)}
-          <button
-            class="QUERY-cancel-rent-btn QUERY-tooltip-trigger mt-2 text-white bg-red-600 rounded-md px-2 py-1 text-sm font-semibold hover:scale-105 transition duration-200"
-            data-vcn-tooltip-content="Hủy cho thuê"
-          >
-            Hủy cho thuê
-          </button>
+          ${rent_to_time
+            ? html`
+                <button
+                  class="QUERY-cancel-rent-btn QUERY-tooltip-trigger mt-2 text-white bg-red-600 rounded-md px-2 py-1 text-sm font-semibold hover:scale-105 transition duration-200"
+                  data-vcn-tooltip-content="Hủy cho thuê"
+                >
+                  Hủy cho thuê
+                </button>
+              `
+            : ""}
         </div>
       </td>
       <td class="px-3 py-3">
