@@ -22,6 +22,27 @@ export class GameAccountService {
     return data.accounts
   }
 
+  static async fetchAccountsForAdmin(
+    last_id,
+    last_updated_at,
+    rank,
+    status,
+    device_type,
+    search_term,
+    order_type
+  ) {
+    const params = {}
+    if (last_updated_at) params.last_updated_at = last_updated_at
+    if (last_id) params.last_id = last_id
+    if (rank) params.rank = rank
+    if (status) params.status = status
+    if (device_type) params.device_type = device_type
+    if (search_term) params.search_term = search_term
+    if (order_type) params.order_type = order_type
+    const { data } = await axiosClient.get("/admin/game-accounts/load-more", { params })
+    return data.accounts
+  }
+
   static async fetchAccountRankTypes() {
     const { data } = await axiosClient.get("/game-accounts/rank-types")
     return data.rank_types
@@ -58,8 +79,13 @@ export class GameAccountService {
     return data
   }
 
-  static async switchAccountStatus(accountId) {
-    const { data } = await axiosClient.post(`/game-accounts/switch-status/${accountId}`)
+  static async switchAccountStatus(accountId, status) {
+    const dataToSubmit = new FormData()
+    dataToSubmit.set("status", status)
+    const { data } = await axiosClient.post(
+      `/game-accounts/switch-status/${accountId}`,
+      dataToSubmit
+    )
     return data
   }
 

@@ -6,6 +6,7 @@ namespace Controllers\Apis;
 
 use Services\GameAccountService;
 use Services\FileService;
+use Utils\DevLogger;
 
 class GameAccountApiController
 {
@@ -29,6 +30,31 @@ class GameAccountApiController
     $order_type = isset($_GET['order_type']) ? trim($_GET['order_type']) : null;
 
     $accounts = $this->gameAccountService->advancedFetchAccounts(
+      $last_id,
+      $last_updated_at,
+      $rank,
+      $status,
+      $device_type,
+      $search_term,
+      $order_type
+    );
+
+    return [
+      'accounts' => $accounts,
+    ];
+  }
+
+  public function loadMoreAccountsForAdmin(): array
+  {
+    $last_id = isset($_GET['last_id']) ? (int) $_GET['last_id'] : null;
+    $last_updated_at = isset($_GET['last_updated_at']) ? trim($_GET['last_updated_at']) : null;
+    $rank = isset($_GET['rank']) ? trim($_GET['rank']) : null;
+    $status = isset($_GET['status']) ? trim($_GET['status']) : null;
+    $device_type = isset($_GET['device_type']) ? trim($_GET['device_type']) : null;
+    $search_term = isset($_GET['search_term']) ? trim($_GET['search_term']) : null;
+    $order_type = isset($_GET['order_type']) ? trim($_GET['order_type']) : null;
+
+    $accounts = $this->gameAccountService->advancedFetchAccountsForAdmin(
       $last_id,
       $last_updated_at,
       $rank,
@@ -274,8 +300,16 @@ class GameAccountApiController
 
   public function switchAccountStatus(string $accountId): array
   {
+    $status = isset($_POST['status']) ? trim($_POST['status']) : null;
+    if (!$status) {
+      http_response_code(400);
+      return [
+        'success' => false,
+        'message' => 'Thiếu trạng thái'
+      ];
+    }
     try {
-      $this->gameAccountService->switchAccountStatus((int) $accountId);
+      $this->gameAccountService->switchAccountStatus((int) $accountId, $status);
     } catch (\Throwable $th) {
       if ($th instanceof \InvalidArgumentException) {
         http_response_code(400);

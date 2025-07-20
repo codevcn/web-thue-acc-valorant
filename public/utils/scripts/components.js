@@ -1,5 +1,5 @@
 import { html } from "https://esm.run/lit-html@1"
-import { TimeHelper } from "./helpers.js"
+import { AccountHelper, TimeHelper } from "./helpers.js"
 
 export const AccountCard = (account) => {
   const { status, rank, avatar, game_code, device_type, description, acc_name, id } = account
@@ -112,7 +112,7 @@ export const AccountCard = (account) => {
                   ? "bg-green-600"
                   : "bg-red-600"} px-4 py-0.5 rounded-lg"
               >
-                ${status}
+                ${status === "Check" || status === "Rảnh" ? "Rảnh" : status}
               </span>
             </div>
 
@@ -278,6 +278,7 @@ export const AccountDeviceType = ({ device_type, isActive }) => {
 export const AccountRow = (account, orderNumber, ranksToRender) => {
   const {
     acc_name,
+    acc_username,
     rank,
     game_code,
     status,
@@ -298,6 +299,10 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         <span>${dayjs(rentFromTime).format("DD/MM/YYYY, HH:mm")}</span>
       </div>
       <div class="text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal">
+        <span class="font-bold">Thời gian thuê đến:</span>
+        <span>${dayjs(rentToTime).format("DD/MM/YYYY, HH:mm")}</span>
+      </div>
+      <div class="text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal">
         <span class="font-bold">Thời gian cho thuê:</span>
         <span>${durationTime}</span>
       </div>
@@ -306,29 +311,51 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         <span>${remainingTime}</span>
       </div>`
     const RentToTimeInput = () => html`<div
-      class="QUERY-rent-time-input-container QUERY-rent-time-input-container-${id} relative w-full"
-    >
-      <span class="font-bold">Cho thuê:</span>
-      <input
-        type="number"
-        class="QUERY-tooltip-trigger max-w-full bg-transparent pb-1 border-b border-solid border-gray-400"
-        data-vcn-tooltip-content="Nhập số giờ cho thuê"
-        data-rent-time-input-id="${id}"
-        min="0"
-        placeholder="Nhập số giờ cho thuê"
-        name="rent-to-time"
-      />
-      <div
-        hidden
-        class="QUERY-rent-time-actions absolute z-20 top-[calc(100%+5px)] right-0 w-full h-full"
+        class="QUERY-input-container QUERY-rent-time-input-container-${id} relative w-full"
       >
-        <button
-          class="QUERY-rent-time-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
+        <span class="font-bold">Số giờ cho thuê:</span>
+        <input
+          type="number"
+          class="QUERY-tooltip-trigger max-w-full bg-transparent pb-1 border-b border-solid border-gray-400"
+          data-vcn-tooltip-content="Nhập số giờ cho thuê"
+          min="0"
+          placeholder="Nhập số giờ cho thuê"
+          name="rent-to-time"
+        />
+        <div
+          hidden
+          class="QUERY-input-actions absolute z-20 top-[calc(100%+5px)] right-0 w-full h-full"
         >
-          Lưu
-        </button>
+          <button
+            class="QUERY-rent-time-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
+          >
+            Lưu
+          </button>
+        </div>
       </div>
-    </div>`
+      <span class="font-bold">Hoặc</span>
+      <div
+        class="QUERY-input-container QUERY-rent-time-input-container-${id}--exact relative w-full"
+      >
+        <span class="font-bold">Thời gian cho thuê:</span>
+        <input
+          type="text"
+          class="QUERY-tooltip-trigger QUERY-exact-rent-time max-w-full bg-transparent pb-1 border-b border-solid border-gray-400"
+          data-vcn-tooltip-content="Nhập thời gian cho thuê (HH:mm DD/MM/YYYY)"
+          placeholder="Nhập thời gian cho thuê (HH:mm DD/MM/YYYY)"
+          name="rent-to-time"
+        />
+        <div
+          hidden
+          class="QUERY-input-actions absolute z-20 top-[calc(100%+5px)] right-0 w-full h-full"
+        >
+          <button
+            class="QUERY-rent-time-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
+          >
+            Lưu
+          </button>
+        </div>
+      </div>`
     if (rentFromTime && rentToTime) {
       const durationTime = TimeHelper.getRentalDuration(rentFromTime, rentToTime)
       const remainingTime = TimeHelper.getRemainingRentalTime(rentFromTime, rentToTime)
@@ -339,7 +366,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         )}${RentToTimeInput()}`
       }
       return html`${RentalTimeDetails(durationTime, remainingTime)}${html`<div
-        class="QUERY-rent-time-input-container QUERY-rent-time-input-container-${id} relative w-full text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal"
+        class="QUERY-input-container QUERY-rent-time-input-container-${id} relative w-full text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal"
       >
         <span class="font-bold">Thời gian thuê thêm:</span>
         <input
@@ -354,7 +381,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         />
         <div
           hidden
-          class="QUERY-rent-time-actions absolute z-20 top-[calc(100%+5px)] right-0 w-full h-full"
+          class="QUERY-input-actions absolute z-20 top-[calc(100%+5px)] right-0 w-full h-full"
         >
           <button
             class="QUERY-rent-time-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
@@ -371,27 +398,50 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
     <tr
       data-account-order-number="${orderNumber}"
       data-account-id="${id}"
-      class="QUERY-account-row-item QUERY-account-row-item-${id} hover:bg-blue-50 ${lowerCasedStatus ==
-      "bận"
-        ? "bg-red-100"
-        : ""}"
+      class="QUERY-account-row-item QUERY-account-row-item-${id} hover:bg-blue-50 ${AccountHelper.getAccRowBgColorByStatus(
+        lowerCasedStatus
+      )}"
     >
-      <td class="px-3 py-3 text-center">${orderNumber}</td>
+      <td class="px-2 py-3 text-center">${orderNumber}</td>
       <td class="px-3 py-2 min-[768px]:table-cell hidden">
-        <div class="rounded-full flex items-center justify-center">
+        <div class="rounded-full w-fit flex items-center justify-center">
           <img
             src="/images/account/${avatar || "default-account-avatar.png"}"
             alt="Account Avatar"
-            class="w-[200px] aspect-[365/204] min-w-[94px] max-h-[100px] object-contain object-center"
+            class="w-[180px] aspect-[362/204] min-w-[94px] max-h-[100px] object-contain object-center"
           />
         </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
         <div class="text-sm font-medium text-gray-900 max-w-[150px] truncate">${acc_name}</div>
       </td>
+      <td class="px-3 py-3 whitespace-nowrap max-w-[120px] relative">
+        <div
+          class="QUERY-input-container QUERY-acc-username-input-container-${id} relative w-full text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal"
+        >
+          <input
+            type="text"
+            class="QUERY-tooltip-trigger QUERY-acc-username-input max-w-full bg-transparent pb-1 border-b border-solid border-gray-400 text-sm font-medium"
+            data-vcn-tooltip-content="Nhập tên đăng nhập"
+            placeholder="Nhập tên đăng nhập"
+            name="acc-username"
+            value="${acc_username || ""}"
+          />
+          <div
+            hidden
+            class="QUERY-input-actions absolute z-20 top-[calc(100%+5px)] right-0 w-full h-full"
+          >
+            <button
+              class="QUERY-acc-username-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
+            >
+              Lưu
+            </button>
+          </div>
+        </div>
+      </td>
       <td class="px-3 py-3 whitespace-nowrap">
         <div
-          class="max-w-[100px] overflow-hidden rounded-3xl truncate hover:shadow-md transition duration-200"
+          class="max-w-[80px] overflow-hidden rounded-3xl truncate hover:shadow-md transition duration-200"
         >
           <select
             name="ranks-select"
@@ -414,12 +464,19 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         <button
           data-vcn-account-id="${id}"
           data-vcn-tooltip-content="Nhấn để chuyển trạng thái của tài khoản"
-          class="QUERY-switch-status-btn QUERY-tooltip-trigger max-w-[100px] truncate w-fit active:scale-90 hover:scale-125 transition duration-200 cursor-pointer px-2 py-1 text-sm font-semibold rounded-full ${lowerCasedStatus ==
-          "rảnh"
-            ? "bg-green-600"
-            : "bg-red-600"} text-white"
+          class="QUERY-tooltip-trigger max-w-[100px] truncate w-fit hover:shadow-md transition duration-200 cursor-pointer text-sm font-semibold rounded-2xl ${AccountHelper.getAccountStatusColor(
+            lowerCasedStatus
+          )} text-white"
         >
-          ${status}
+          <select
+            name="status-select"
+            class="QUERY-status-select-${id} QUERY-status-select QUERY-tooltip-trigger outline-none bg-transparent text-sm font-medium appearance-none px-2 py-1 cursor-pointer"
+            data-vcn-tooltip-content="Chọn trạng thái"
+          >
+            <option class="text-black" value="Rảnh" ?selected=${status === "Rảnh"}>Rảnh</option>
+            <option class="text-black" value="Bận" ?selected=${status === "Bận"}>Bận</option>
+            <option class="text-black" value="Check" ?selected=${status === "Check"}>Check</option>
+          </select>
         </button>
       </td>
       <td class="px-3 py-3">
@@ -451,7 +508,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
       <td class="px-3 py-3">
         <button
           data-vcn-tooltip-content="Nhấn để đổi loại máy"
-          class="QUERY-switch-device-type-btn QUERY-tooltip-trigger max-w-[100px] truncate w-fit active:scale-90 hover:scale-125 transition duration-200 cursor-pointer px-2 py-1 text-sm font-semibold rounded-full"
+          class="QUERY-switch-device-type-btn QUERY-tooltip-trigger max-w-[80px] truncate w-fit active:scale-90 hover:scale-125 transition duration-200 cursor-pointer px-2 py-1 text-sm font-semibold rounded-full"
         >
           ${device_type}
         </button>

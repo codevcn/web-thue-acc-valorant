@@ -1,6 +1,8 @@
 import { AppLoadingHelper, AxiosErrorHandler, NavigationHelper, Toaster } from "./helpers.js"
 import { AuthService } from "../../services/auth-service.js"
 
+dayjs.extend(window.dayjs_plugin_customParseFormat)
+
 class InitUtils {
   static TOOLTIP_SELECTOR = ".QUERY-tooltip-trigger"
 
@@ -74,7 +76,7 @@ class InitUtils {
 
   linkTooltip(trigger, tooltipContent) {
     if (!trigger || !tooltipContent) return
-    
+
     const tooltip = document.getElementById("app-tooltip")
 
     const spacing = 8

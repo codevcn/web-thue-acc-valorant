@@ -30,6 +30,10 @@ $apiRouter->get('/api/v1/game-accounts/load-more', function () use ($gameAccount
   return $gameAccountApiController->loadMoreAccounts();
 });
 
+$apiRouter->get('/api/v1/admin/game-accounts/load-more', function () use ($gameAccountApiController) {
+  return $gameAccountApiController->loadMoreAccountsForAdmin();
+});
+
 $apiRouter->get('/api/v1/game-accounts/rank-types', function () use ($gameAccountApiController) {
   return $gameAccountApiController->getAccountRankTypes();
 });

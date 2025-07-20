@@ -8,7 +8,6 @@ use Controllers\AuthController;
 use Controllers\SaleController;
 
 use Core\AuthMiddleware;
-use Core\UserMiddleware;
 
 use Services\JwtService;
 use Services\AuthService;
@@ -33,26 +32,22 @@ $saleController = new SaleController($saleAccountService, $rulesService, $userSe
 
 // Initialize middleware
 $authMiddleware = new AuthMiddleware($authService);
-$userMiddleware = new UserMiddleware();
 
 // Define routes
-$router->get('/', function () use ($homeController, $userMiddleware) {
-	$userMiddleware->checkIsFirstVisit();
-	$homeController->showHomePage();
-});
-
-$router->get('/intro', function () use ($homeController) {
+$router->get('/', function () use ($homeController) {
 	$homeController->showIntroPage();
 });
 
-$router->get('/sale', function () use ($saleController, $userMiddleware) {
-	$userMiddleware->checkIsFirstVisit();
+$router->get('/thueacc', function () use ($homeController) {
+	$homeController->showHomePage();
+});
+
+$router->get('/sale', function () use ($saleController) {
 	$saleController->showSalePage();
 });
 
 // Auth routes
-$router->get('/admin/login', function () use ($authController, $userMiddleware) {
-	$userMiddleware->checkIsFirstVisit();
+$router->get('/admin/login', function () use ($authController) {
 	$authController->showLoginPage();
 });
 

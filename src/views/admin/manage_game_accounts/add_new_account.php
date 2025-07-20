@@ -49,6 +49,11 @@
         </div>
 
         <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Tên đăng nhập</label>
+          <input type="text" name="accUsername" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: PRO1234">
+        </div>
+
+        <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Rank</label>
           <select id="ranks-select--add-section" type="text" name="rank" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1">
           </select>

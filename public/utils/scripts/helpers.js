@@ -196,10 +196,43 @@ export class ValidationHelper {
   static isPureInteger(text) {
     return /^\d+$/.test(text)
   }
+
+  /**
+   * Chỉ chứa chữ cái, số, gạch dưới; độ dài 3-20 ký tự.
+   * @param {string} username
+   * @returns {boolean}
+   */
+  static isValidUsername(username) {
+    if (!username || typeof username !== "string") return false
+    const regex = /^[a-zA-Z0-9_]{3,20}$/
+    return regex.test(username)
+  }
 }
 
 export class StringHelper {
   static capitalizeFirstLetter(text) {
     return text.charAt(0).toUpperCase() + text.slice(1)
+  }
+}
+
+export class AccountHelper {
+  static getAccountStatusColor(lowerCasedStatus, defaultColor = "bg-white") {
+    if (lowerCasedStatus === "rảnh") {
+      return "bg-green-600"
+    } else if (lowerCasedStatus === "bận") {
+      return "bg-red-600"
+    } else if (lowerCasedStatus === "check") {
+      return "bg-yellow-400"
+    }
+    return defaultColor
+  }
+
+  static getAccRowBgColorByStatus(lowerCasedStatus, defaultColor = "bg-white") {
+    if (lowerCasedStatus === "bận") {
+      return "bg-red-100"
+    } else if (lowerCasedStatus === "check") {
+      return "bg-yellow-100"
+    }
+    return defaultColor
   }
 }

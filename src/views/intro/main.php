@@ -14,7 +14,7 @@
     <div class="flex flex-col items-start space-y-4">
       <div class="flex items-center gap-2">
         <span class="bg-red-600 h-2 w-2 rounded-full"></span>
-        <a href="/" class="text-xl lg:text-3xl font-bold text-red-600 text-left leading-tight hover:scale-105 cursor-pointer transition duration-200">
+        <a href="/thueacc" class="text-xl lg:text-3xl font-bold text-red-600 text-left leading-tight hover:scale-105 cursor-pointer transition duration-200">
           THUÊ NGAY
         </a>
       </div>

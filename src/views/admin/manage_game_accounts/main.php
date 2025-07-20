@@ -1,5 +1,5 @@
 <!-- Main Content -->
-<main class="mx-auto min-[550px]:px-4 px-2 py-8 bg-gradient-to-br from-regular-from-blue-cl via-regular-via-blue-cl to-regular-to-blue-cl min-h-[calc(100vh-64px)]">
+<main class="mx-auto px-2 py-8 bg-gradient-to-br from-regular-from-blue-cl via-regular-via-blue-cl to-regular-to-blue-cl min-h-[calc(100vh-64px)]">
   <!-- Controls -->
   <div class="bg-white rounded-lg shadow mb-6">
     <div class="min-[550px]:p-6 py-6 px-2 border-b border-gray-200">

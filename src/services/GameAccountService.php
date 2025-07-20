@@ -86,6 +86,66 @@ class GameAccountService
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  public function advancedFetchAccountsForAdmin(
+    ?int $lastId = null,
+    ?string $lastUpdatedAt = null,
+    ?string $rank = null,
+    ?string $status = null,
+    ?string $device_type = null,
+    ?string $search_term = null,
+    ?string $order_type = null
+  ): array {
+    $sql = "SELECT * FROM game_accounts";
+    $conditions = [];
+    $params = [];
+
+    // Load more logic kết hợp updated_at + id
+    if ($lastUpdatedAt !== null && $lastId !== null) {
+      $conditions[] = '(updated_at < :last_updated_at OR (updated_at = :last_updated_at AND id < :last_id))';
+      $params[':last_updated_at'] = $lastUpdatedAt;
+      $params[':last_id'] = $lastId;
+    } else if ($lastId !== null) {
+      $conditions[] = 'id < :last_id';
+      $params[':last_id'] = $lastId;
+    }
+
+    if ($rank !== null) {
+      $conditions[] = 'rank LIKE :rank';
+      $params[':rank'] = $rank . '%';
+    }
+    if ($status !== null) {
+      $conditions[] = 'status = :status';
+      $params[':status'] = $status;
+    }
+    if ($device_type !== null) {
+      $conditions[] = 'device_type = :device_type';
+      $params[':device_type'] = $device_type;
+    }
+    if ($search_term !== null) {
+      $conditions[] = '(acc_name LIKE :search_term OR game_code LIKE :search_term OR `description` LIKE :search_term)';
+      $params[':search_term'] = '%' . $search_term . '%';
+    }
+
+    if (!empty($conditions)) {
+      $sql .= " WHERE " . implode(' AND ', $conditions);
+    }
+    $order_condition = " ORDER BY (status = 'Bận') DESC, created_at DESC, id DESC LIMIT " . self::LIMIT;
+    if ($order_type !== null) {
+      if ($order_type === 'updated_at') {
+        $order_condition = " ORDER BY (status = 'Bận') DESC, updated_at DESC, id DESC LIMIT " . self::LIMIT;
+      }
+    }
+    $sql .= $order_condition;
+
+    $stmt = $this->db->prepare($sql);
+    foreach ($params as $key => $value) {
+      $stmt->bindValue($key, $value);
+    }
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+
   public function fetchAccountRankTypes(): array
   {
     $stmt = $this->db->prepare("SELECT * FROM `ranks`");
@@ -114,8 +174,8 @@ class GameAccountService
 
   public function addNewAccounts(array $data): ?int
   {
-    $sql = "INSERT INTO game_accounts (acc_name, rank, game_code, `status`, `description`, device_type, created_at, updated_at)
-            VALUES (:acc_name, :rank, :game_code, :status, :description, :device_type, :created_at, :updated_at)";
+    $sql = "INSERT INTO game_accounts (acc_name, acc_username, rank, game_code, `status`, `description`, device_type, created_at, updated_at)
+            VALUES (:acc_name, :acc_username, :rank, :game_code, :status, :description, :device_type, :created_at, :updated_at)";
     try {
 
       $this->db->beginTransaction();
@@ -131,6 +191,7 @@ class GameAccountService
         $status      = $row['status'] ?? null;
         $description = $row['description'] ?? '';
         $deviceType  = $row['deviceType'] ?? null;
+        $accUsername = $row['accUsername'] ?? null;
 
         if (!$accName) {
           throw new \InvalidArgumentException("Trường tên tài khoản không được để trống.");
@@ -147,8 +208,12 @@ class GameAccountService
         if (!$status) {
           throw new \InvalidArgumentException("Trường trạng thái không được để trống.");
         }
+        if (!$accUsername) {
+          throw new \InvalidArgumentException("Trường tên đăng nhập không được để trống.");
+        }
 
         $stmt->bindValue(':acc_name', $accName);
+        $stmt->bindValue(':acc_username', $accUsername);
         $stmt->bindValue(':rank', $rank);
         $stmt->bindValue(':game_code', $gameCode);
         $stmt->bindValue(':status', $status);
@@ -192,6 +257,7 @@ class GameAccountService
     $deviceType  = $data['deviceType'] ?? null;
     $avatar      = $data['avatar'] ?? null;
     $rentToTime  = $data['rentToTime'] ?? null;
+    $accUsername = $data['accUsername'] ?? null;
 
     $updateFields = [];
     $params = [];
@@ -239,6 +305,10 @@ class GameAccountService
       $updateFields[] = "rent_to_time = :rent_to_time";
       $params[':rent_to_time'] = $rentToTime;
     }
+    if ($accUsername !== null) {
+      $updateFields[] = "acc_username = :acc_username";
+      $params[':acc_username'] = $accUsername;
+    }
     if (empty($updateFields)) {
       throw new \InvalidArgumentException("Không có trường nào để cập nhật.");
     }
@@ -270,7 +340,7 @@ class GameAccountService
 
     $sql = "
         UPDATE game_accounts
-        SET `status` = 'Rảnh',
+        SET `status` = 'Check',
             updated_at = :now,
             rent_from_time = NULL,
             rent_to_time = NULL
@@ -305,8 +375,7 @@ class GameAccountService
     return false;
   }
 
-
-  public function switchAccountStatus(int $accountId): void
+  public function switchAccountStatus(int $accountId, string $status): void
   {
     $account = $this->findAccountById($accountId);
     if (!$account) {
@@ -318,7 +387,7 @@ class GameAccountService
     }
 
     $this->updateAccount($accountId, [
-      'status' => $currentStatus === 'Bận' ? 'Rảnh' : 'Bận',
+      'status' => $status,
     ]);
   }
 
@@ -372,7 +441,7 @@ class GameAccountService
     if (!$account) {
       throw new \InvalidArgumentException("Tài khoản không tồn tại.");
     }
-    $sql = "UPDATE game_accounts SET `status` = 'Rảnh', updated_at = :updated_at, rent_from_time = NULL, rent_to_time = NULL WHERE id = :id";
+    $sql = "UPDATE game_accounts SET `status` = 'Check', updated_at = :updated_at, rent_from_time = NULL, rent_to_time = NULL WHERE id = :id";
     $params = [
       ':id' => $accountId,
       ':updated_at' => $this->getNow()

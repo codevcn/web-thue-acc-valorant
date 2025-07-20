@@ -2,7 +2,7 @@
   <table class="w-full">
     <thead class="bg-gray-50">
       <tr>
-        <th class="px-3 py-3 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
+        <th class="px-2 py-3 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
           STT
         </th>
         <th class="px-3 py-3 text-center text-xs font-medium text-gray-600 uppercase tracking-wider min-[768px]:table-cell hidden">
@@ -10,6 +10,9 @@
         </th>
         <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
           Tên tài khoản
+        </th>
+        <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+          Tên đăng nhập
         </th>
         <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
           Rank
