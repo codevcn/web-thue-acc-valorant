@@ -5,4 +5,34 @@
   display: none;
 }
 
+#arrows-animation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  overflow: visible;
+}
+#arrows-animation .arrow {
+  width: 50px;
+  height: 50px;
+  border: 25px solid;
+  border-color: var(--vcn-regular-blue-cl) transparent transparent var(--vcn-regular-blue-cl);
+  transform: rotate(-135deg);
+}
+#arrows-animation .arrow-sliding {
+  position: absolute;
+  -webkit-animation: arrows-animation 2s linear infinite;
+  animation: arrows-animation 2s linear infinite;
+  opacity: 0;
+}
+#arrows-animation .delay1 {
+  -webkit-animation-delay: 0.5s;
+  animation-delay: 0.5s;
+}
+#arrows-animation .delay2 {
+  -webkit-animation-delay: 1s;
+  animation-delay: 1s;
+}
+
 /*# sourceMappingURL=page.css.map */

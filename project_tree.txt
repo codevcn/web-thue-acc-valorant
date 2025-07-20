@@ -31,27 +31,30 @@ Tree view of: D:\Programs-v-Later\laragon\www\web-thue-acc-valorant
 │   │   │   ├── button-decoration.png
 │   │   │   ├── ghost.webp
 │   │   │   └── hero-section-bg.png
-│   │   ├── account
-│   │   │   ├── ValorantWallpaper_Oni.jpg
-│   │   │   ├── account_114_1751429942_35151a1a2daa5427.jpg
-│   │   │   ├── account_115_1751429924_1396321a84da27f1.jpg
-│   │   │   ├── account_116_1751429909_3b2b19e5f216af30.jpg
-│   │   │   ├── account_118_1752383733_0474f86e3154016b.png
-│   │   │   ├── account_46_1751255138_5d215caae8399b15.jpg
-│   │   │   ├── account_49_1751342396_c9f7eabaa1b199ad.jpg
-│   │   │   ├── account_60_1751255124_d9ea72b0bf0e5e7c.jpg
-│   │   │   ├── account_64_1751209521_0222160e4374671b.jpg
-│   │   │   ├── account_65_1751209489_5a400ec22acc31bc.jpg
-│   │   │   ├── account_66_1751351228_89cdf9e4106847ef.jpg
-│   │   │   ├── account_67_1751351953_2ad45fdec192fe25.jpg
-│   │   │   ├── account_68_1751361894_2746b8811b2b1e66.webp
-│   │   │   ├── account_69_1751362107_a4b5af5eafa9e273.jpg
-│   │   │   ├── account_70_1751364769_3f423f7b8a7552a4.webp
-│   │   │   ├── account_71_1751368635_e40d665472e4b136.jpg
-│   │   │   ├── account_76_1751391209_003daaca539fa811.jpg
-│   │   │   └── default-game-account-avatar.png
-│   │   └── sale-accounts
-│   │       └── default-sale-account-avatar.png
+│   │   └── account
+│   │       ├── ValorantWallpaper_Oni.jpg
+│   │       ├── account_114_1751429942_35151a1a2daa5427.jpg
+│   │       ├── account_115_1751429924_1396321a84da27f1.jpg
+│   │       ├── account_116_1751429909_3b2b19e5f216af30.jpg
+│   │       ├── account_118_1752383733_0474f86e3154016b.png
+│   │       ├── account_119_1752400727_2332d56cff3ed326.png
+│   │       ├── account_45_1752429434_3c982a22def2c5b1.png
+│   │       ├── account_46_1751255138_5d215caae8399b15.jpg
+│   │       ├── account_46_1752468452_9b1b6876c5a7056b.png
+│   │       ├── account_47_1753005173_b729cc961c0a7209.png
+│   │       ├── account_49_1751342396_c9f7eabaa1b199ad.jpg
+│   │       ├── account_51_1753004880_091544548fd1a219.png
+│   │       ├── account_60_1751255124_d9ea72b0bf0e5e7c.jpg
+│   │       ├── account_64_1751209521_0222160e4374671b.jpg
+│   │       ├── account_65_1751209489_5a400ec22acc31bc.jpg
+│   │       ├── account_66_1751351228_89cdf9e4106847ef.jpg
+│   │       ├── account_67_1751351953_2ad45fdec192fe25.jpg
+│   │       ├── account_68_1751361894_2746b8811b2b1e66.webp
+│   │       ├── account_69_1751362107_a4b5af5eafa9e273.jpg
+│   │       ├── account_70_1751364769_3f423f7b8a7552a4.webp
+│   │       ├── account_71_1751368635_e40d665472e4b136.jpg
+│   │       ├── account_76_1751391209_003daaca539fa811.jpg
+│   │       └── default-account-avatar.png
 │   ├── index.php
 │   ├── pages
 │   │   ├── admin
@@ -65,7 +68,12 @@ Tree view of: D:\Programs-v-Later\laragon\www\web-thue-acc-valorant
 │   │   │   │   ├── page.css.map
 │   │   │   │   ├── page.js
 │   │   │   │   └── page.scss
-│   │   │   └── profile
+│   │   │   ├── profile
+│   │   │   │   ├── page.css
+│   │   │   │   ├── page.css.map
+│   │   │   │   ├── page.js
+│   │   │   │   └── page.scss
+│   │   │   └── sale-accounts
 │   │   │       ├── page.css
 │   │   │       ├── page.css.map
 │   │   │       ├── page.js
@@ -89,7 +97,8 @@ Tree view of: D:\Programs-v-Later\laragon\www\web-thue-acc-valorant
 │   ├── services
 │   │   ├── admin-service.js
 │   │   ├── auth-service.js
-│   │   └── game-account-services.js
+│   │   ├── game-account-services.js
+│   │   └── sale-account-service.js
 │   ├── utils
 │   │   ├── scripts
 │   │   │   ├── api-client.js
@@ -122,14 +131,14 @@ Tree view of: D:\Programs-v-Later\laragon\www\web-thue-acc-valorant
 │   │   └── apis
 │   │       ├── AdminApiController.php
 │   │       ├── AuthApiController.php
-│   │       └── GameAccountApiController.php
+│   │       ├── GameAccountApiController.php
+│   │       └── SaleAccountApiController.php
 │   ├── core
 │   │   ├── ApiRouter.php
 │   │   ├── AuthMiddleware.php
 │   │   ├── Request.php
-│   │   ├── Router.php
-│   │   └── UserMiddleware.php
-│   ├── cronjobs
+│   │   └── Router.php
+│   ├── crons
 │   │   └── auto_update_account_status.php
 │   ├── routes
 │   │   ├── api.php
@@ -143,7 +152,8 @@ Tree view of: D:\Programs-v-Later\laragon\www\web-thue-acc-valorant
 │   │   ├── SaleAccountService.php
 │   │   └── UserService.php
 │   ├── utils
-│   │   └── DevLogger.php
+│   │   ├── DevLogger.php
+│   │   └── Helper.php
 │   └── views
 │       ├── admin
 │       │   ├── login
@@ -158,9 +168,18 @@ Tree view of: D:\Programs-v-Later\laragon\www\web-thue-acc-valorant
 │       │   │   ├── main.php
 │       │   │   ├── page.php
 │       │   │   └── update_account.php
-│       │   └── profile
+│       │   ├── profile
+│       │   │   ├── main.php
+│       │   │   └── page.php
+│       │   └── sale_accounts
+│       │       ├── accounts_preview.php
+│       │       ├── accounts_table.php
+│       │       ├── add_new_account.php
+│       │       ├── delete_account.php
+│       │       ├── filter_accounts.php
 │       │       ├── main.php
-│       │       └── page.php
+│       │       ├── page.php
+│       │       └── update_account.php
 │       ├── errors
 │       │   └── 404.php
 │       ├── home
@@ -174,19 +193,18 @@ Tree view of: D:\Programs-v-Later\laragon\www\web-thue-acc-valorant
 │       │   ├── main.php
 │       │   └── page.php
 │       ├── sale
+│       │   ├── buy_now_modal.php
 │       │   ├── commitment_modal.php
 │       │   ├── main.php
 │       │   └── page.php
 │       └── templates
 │           ├── admin
 │           │   └── header.php
-│           ├── app_loading.php
 │           ├── bottom_scripts.php
 │           ├── btn_scroll_to_bottom.php
-│           ├── btn_scroll_to_top.php
 │           ├── head.php
-│           ├── page_footer.php
-│           └── tooltip.php
+│           ├── layout.php
+│           └── page_footer.php
 ├── tailwind.config.js
 ├── update_password.php
 └── vendor

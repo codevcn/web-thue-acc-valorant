@@ -65,6 +65,13 @@ class HomePageManager {
 
     this.fetchAccounts()
     this.fetchAccountRankTypes()
+    this.initRentAccountNowBtnListener()
+  }
+
+  initRentAccountNowBtnListener() {
+    document.getElementById("rent-account-now-btn").addEventListener("click", () => {
+      document.getElementById("accounts-list-container").scrollIntoView({ behavior: "smooth" })
+    })
   }
 
   applyRankColors() {

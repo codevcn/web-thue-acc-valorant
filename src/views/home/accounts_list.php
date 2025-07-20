@@ -1,4 +1,4 @@
-<div class="bg-gradient-to-br from-sky-50 to-cyan-50 pb-20 pt-16">
+<div id="accounts-list-container" class="bg-gradient-to-br from-sky-50 to-cyan-50 pb-20 pt-16">
   <div class="mx-auto min-[550px]:px-6 px-2">
     <!-- Section Header -->
     <div class="text-center mb-6">

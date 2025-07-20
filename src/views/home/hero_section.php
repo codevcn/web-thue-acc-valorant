@@ -108,6 +108,21 @@
                 (Y/c: Bật HVCI + SCB + TPM)
               </div>
             </div>
+
+            <div class="flex flex-col items-center gap-3">
+              <span id="rent-account-now-btn" class="cursor-pointer hover:scale-110 transition duration-200 text-transparent font-bold bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400 text-xl">THUÊ ACC NGAY</span>
+              <div id="arrows-animation">
+                <div class="arrow-sliding">
+                  <div class="arrow"></div>
+                </div>
+                <div class="arrow-sliding delay1">
+                  <div class="arrow"></div>
+                </div>
+                <div class="arrow-sliding delay2">
+                  <div class="arrow"></div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="bg-red-500/10 backdrop-blur-md rounded-2xl p-3 border border-white/20">
@@ -162,7 +177,6 @@
               </div>
             </div>
           </div>
-
 
           <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20">
             <div class="mb-6 px-2 rounded-lg">
