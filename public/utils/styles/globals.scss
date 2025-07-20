@@ -371,25 +371,6 @@ button {
   }
 }
 
-.QUERY-copy-btn {
-  &.QUERY-not-copied {
-    .QUERY-copy-icon {
-      display: block;
-    }
-    .QUERY-copied-icon {
-      display: none;
-    }
-  }
-  &.QUERY-is-copied {
-    .QUERY-copy-icon {
-      display: none;
-    }
-    .QUERY-copied-icon {
-      display: block;
-    }
-  }
-}
-
 .CSS-background-dot-decoration {
   @include CSS-background-dot-decoration();
 }
@@ -403,13 +384,13 @@ button {
     position: absolute;
     top: 0;
     right: 0;
-    width: 13px;
-    height: 13px;
+    width: 0.6em;
+    height: 0.6em;
     background-color: transparent;
     outline: 2px solid $color;
     border-radius: 50%;
-    top: -3px;
-    right: -7px;
+    top: -2px;
+    right: -6px;
     animation: notification-red-dot 1s infinite ease-in-out;
   }
   &::after {
@@ -417,8 +398,8 @@ button {
     position: absolute;
     top: 0;
     right: 0;
-    width: 10px;
-    height: 10px;
+    width: 0.5em;
+    height: 0.5em;
     background-color: $color;
     border-radius: 50%;
     top: 0;
@@ -428,8 +409,8 @@ button {
 
 #chasing-dot {
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 0.71em;
+  height: 0.71em;
   background-color: rgb(0, 140, 255);
   border-radius: 50%;
   pointer-events: none;

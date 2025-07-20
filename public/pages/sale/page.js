@@ -220,10 +220,8 @@ class BuyNowModalManager {
   }
 
   initEvents() {
-    console.log(">>> run this 223")
     this.closeButton.addEventListener("click", () => this.closeModal())
     this.byNowBtns.forEach((btn) => {
-      console.log(">>> run this 225")
       btn.addEventListener("click", () => this.openModal())
     })
     this.modal

@@ -4,7 +4,7 @@ import { AccountHelper, TimeHelper } from "./helpers.js"
 export const AccountCard = (account) => {
   const { status, rank, avatar, game_code, device_type, description, acc_name, id } = account
   return html`
-    <div class="rounded-lg overflow-hidden w-full">
+    <div class="rounded-lg overflow-hidden w-full text-[14px] min-[1441px]:text-[20px]">
       <div
         class="CSS-styled-scrollbar flex min-[1242px]:flex-row flex-col gap-4 w-full min-[1242px]:aspect-[1825/612] overflow-y-auto relative aspect-auto"
       >
@@ -19,44 +19,39 @@ export const AccountCard = (account) => {
               : "object-contain py-6 min-[1242px]:py-0"}"
           />
         </div>
-
         <div
           class="min-[1242px]:w-2/5 w-full bg-white p-6 flex flex-col justify-between rounded-lg"
         >
           <div class="flex items-center gap-2 mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="lucide lucide-info-icon lucide-info text-regular-blue-cl"
+              class="lucide lucide-info-icon lucide-info text-regular-blue-cl w-[1.71em] h-[1.71em]"
             >
               <circle cx="12" cy="12" r="10" />
               <path d="M12 16v-4" />
               <path d="M12 8h.01" />
             </svg>
-            <h2 class="text-xl font-bold text-gray-800">THÔNG TIN TÀI KHOẢN</h2>
+            <h2 class="text-[1.43em] font-bold text-gray-800">THÔNG TIN TÀI KHOẢN</h2>
           </div>
 
-          <div class="space-y-3 flex-1">
+          <div class="space-y-3 min-[1441px]:space-y-4 flex-1">
             <div class="flex justify-between items-center gap-6">
               <span class="text-gray-600 font-medium flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  class="lucide lucide-letter-text-icon lucide-letter-text text-regular-blue-cl"
+                  class="lucide lucide-letter-text-icon lucide-letter-text text-regular-blue-cl w-[1.71em] h-[1.71em]"
                 >
                   <path d="M15 12h6" />
                   <path d="M15 6h6" />
@@ -73,7 +68,7 @@ export const AccountCard = (account) => {
               <div class="flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="w-6 h-6 text-regular-blue-cl fill-current"
+                  class="w-[1.71em] h-[1.71em] text-regular-blue-cl fill-current"
                   viewBox="0 0 24 24"
                 >
                   <path
@@ -91,15 +86,13 @@ export const AccountCard = (account) => {
               <span class="text-gray-600 font-medium flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  class="lucide lucide-chart-no-axes-column-icon lucide-chart-no-axes-column text-regular-blue-cl"
+                  class="lucide lucide-chart-no-axes-column-icon lucide-chart-no-axes-column text-regular-blue-cl w-[1.71em] h-[1.71em]"
                 >
                   <line x1="18" x2="18" y1="20" y2="10" />
                   <line x1="12" x2="12" y1="20" y2="4" />
@@ -120,7 +113,7 @@ export const AccountCard = (account) => {
               <div class="flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="w-6 h-6 text-regular-blue-cl"
+                  class="w-[1.71em] h-[1.71em] text-regular-blue-cl"
                   fill="none"
                   stroke="currentColor"
                   stroke-width="2"
@@ -143,7 +136,7 @@ export const AccountCard = (account) => {
               <div class="flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="w-6 h-6 text-regular-blue-cl"
+                  class="w-[1.71em] h-[1.71em] text-regular-blue-cl"
                   fill="none"
                   stroke="currentColor"
                   stroke-width="2"
@@ -165,7 +158,7 @@ export const AccountCard = (account) => {
             ${description
               ? html`
                   <div class="bg-gray-100 rounded-lg p-3 mt-4">
-                    <p class="text-sm truncate">
+                    <p class="text-[1em] truncate">
                       <span class="font-semibold text-black">Mô tả:</span>
                       <span
                         data-vcn-tooltip-content="${description}"
@@ -176,12 +169,12 @@ export const AccountCard = (account) => {
                     </p>
                   </div>
                 `
-              : html` <div class="text-gray-400 italic font-bold text-base">Chưa có mô tả</div> `}
+              : html` <div class="text-gray-400 italic font-bold text-[1.14em]">Chưa có mô tả</div> `}
           </div>
 
           <button
             data-account-id="${id}"
-            class="QUERY-rent-now-btn group CSS-button-shadow-decoration flex items-center justify-center gap-3 active:scale-90 transition duration-200 w-full text-white font-bold rounded-lg bg-regular-blue-cl hover:bg-regular-blue-hover-cl backdrop-blur-md py-2 px-4 mt-6"
+            class="QUERY-rent-now-btn group CSS-button-shadow-decoration text-[1.14em] flex items-center justify-center gap-3 active:scale-90 transition duration-200 w-full text-white font-bold rounded-lg bg-regular-blue-cl hover:bg-regular-blue-hover-cl backdrop-blur-md py-2 px-4 mt-6"
           >
             <span>THUÊ NGAY</span>
           </button>

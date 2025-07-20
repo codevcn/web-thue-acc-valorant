@@ -7,10 +7,10 @@
   </div>
 
   <div class="relative z-10 min-h-screen flex items-center font-bold">
-    <div class="mx-auto px-2 py-[30px]">
-      <div class="max-w-7xl mx-auto">
+    <div class="w-full px-2 py-[30px]">
+      <div class="w-full text-[14px] min-[1441px]:text-[19.46px]">
         <div class="text-center mb-4">
-          <h1 class="text-4xl font-black text-white mb-2 leading-tight">
+          <h1 class="text-[2.57em] font-black text-white mb-2 leading-tight">
             CHUYỂN TIỀN CHƠI
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400">
               + CỌC THÊM <span class="text-red-400">20K</span>
@@ -21,35 +21,35 @@
 
         <div class="grid min-[1170px]:grid-cols-4 min-[600px]:grid-cols-2 grid-cols-1 gap-y-2 gap-x-2 items-start">
           <div class="space-y-2">
-            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20">
-              <h2 class="text-2xl font-bold text-sky-300 mb-4 flex items-center gap-3">
+            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 min-[1441px]:p-5 border border-white/20">
+              <h2 class="text-[1.71em] font-bold text-sky-300 mb-4 flex items-center gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                   <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                 </svg>
                 BẢNG GIÁ
               </h2>
-              <div class="space-y-2">
-                <div class="flex items-center justify-between p-2 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
+              <div class="space-y-2 text-[1.29em]">
+                <div class="flex items-center justify-between p-2 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
                   <div class="flex items-center gap-3">
-                    <span class="text-white font-bold text-lg">20K - 2 GIỜ</span>
+                    <span class="text-white font-bold">20K - 2 GIỜ</span>
                   </div>
                 </div>
-                <div class="flex items-center justify-between p-2 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div class="flex items-center justify-between p-2 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
                   <div class="flex items-center gap-3">
-                    <span class="text-white font-bold text-lg">30K - 3 GIỜ</span>
+                    <span class="text-white font-bold">30K - 3 GIỜ</span>
                     <span class="text-yellow-400 font-bold">+ 1 GIỜ</span>
                   </div>
                 </div>
-                <div class="flex items-center justify-between p-2 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div class="flex items-center justify-between p-2 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
                   <div class="flex items-center gap-3">
-                    <span class="text-white font-bold text-lg">40K - 4 GIỜ</span>
+                    <span class="text-white font-bold">40K - 4 GIỜ</span>
                     <span class="text-yellow-400 font-bold">+ 2 GIỜ</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="bg-gradient-to-r from-sky-500/20 to-cyan-500/20 backdrop-blur-md rounded-2xl p-3 border border-sky-300/30">
+            <div class="bg-gradient-to-r from-sky-500/20 to-cyan-500/20 backdrop-blur-md rounded-2xl p-3 min-[1441px]:p-5 border border-sky-300/30">
               <h3 class="font-bold text-sky-300 mb-4 flex items-center gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                   <polyline points="20 12 20 22 4 22 4 12"></polyline>
@@ -58,9 +58,9 @@
                   <path d="M12 7a3 3 0 1 1 3-3"></path>
                   <path d="M12 7a3 3 0 1 0-3-3"></path>
                 </svg>
-                <span class="text-2xl">ƯU ĐÃI ĐẶC BIỆT</span>
+                <span class="text-[1.71em]">ƯU ĐÃI ĐẶC BIỆT</span>
               </h3>
-              <div class="space-y-2 text-base">
+              <div class="space-y-2 text-[1.29em] min-[1441px]:leading-[42px]">
                 <div class="flex items-center gap-3 text-sky-400">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                     <circle cx="12" cy="12" r="10"></circle>
@@ -85,8 +85,8 @@
 
           <div class="space-y-4 min-[1170px]:h-fit h-full">
             <div class="bg-yellow-500/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 h-full">
-              <h3 class="text-2xl font-bold text-yellow-400 mb-4">MÁY NHÀ</h3>
-              <div class="space-y-2 mb-4 text-lg">
+              <h3 class="text-[1.71em] font-bold text-yellow-400 mb-4">MÁY NHÀ</h3>
+              <div class="space-y-2 mb-4 text-[1.29em] min-[1441px]:leading-[42px]">
                 <div class="flex items-center gap-3">
                   <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
                   <span class="text-white">20K - 2 giờ</span>
@@ -104,7 +104,7 @@
                   <span class="text-white">Combo đêm 50k</span>
                 </div>
               </div>
-              <div class="text-sm text-sky-300">
+              <div class="text-sm min-[1441px]:text-[20px] text-sky-300">
                 (Y/c: Bật HVCI + SCB + TPM)
               </div>
             </div>
@@ -125,12 +125,12 @@
             </div>
           </div>
 
-          <div class="bg-red-500/10 backdrop-blur-md rounded-2xl p-3 border border-white/20">
+          <div class="bg-red-500/10 backdrop-blur-md rounded-2xl p-3 min-[1441px]:p-5 border border-white/20">
             <div class="mb-6 px-2 rounded-lg">
-              <h1 class="text-pink-400 text-2xl font-bold">Lưu ý trừ cọc</h1>
+              <h1 class="text-pink-400 text-[1.71em] font-bold">Lưu ý trừ cọc</h1>
             </div>
 
-            <div class="space-y-4 text-base leading-relaxed">
+            <div class="space-y-4 text-[1.14em] leading-relaxed min-[1441px]:leading-[36px]">
               <div class="break-normal">
                 <span class="text-white">-</span>
                 <span class="text-sky-400 font-semibold">Cọc sẽ được hoàn lại: </span>
@@ -178,12 +178,12 @@
             </div>
           </div>
 
-          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20">
+          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 min-[1441px]:p-5 border border-white/20">
             <div class="mb-6 px-2 rounded-lg">
-              <h1 class="text-pink-400 text-2xl font-bold">Giới thiệu</h1>
+              <h1 class="text-pink-400 text-[1.71em] font-bold">Giới thiệu</h1>
             </div>
 
-            <div class="space-y-4 text-base leading-relaxed">
+            <div class="space-y-4 text-[1.14em] leading-relaxed min-[1441px]:leading-[36px]">
               <span class="text-white whitespace-pre-line">- Dịch vụ cho thuê Account Valorant giá rẻ nhất thị trường, hỗ trợ tốt, an toàn, nhanh chóng.
                 - Nhận treo bán hộ Account chi phí thấp
                 - Thu bán Account Valorant ( Đãi ngộ tốt, giá thị trường, chế độ quay đầu hợp lí, đảm bảo an toàn)

@@ -1,12 +1,12 @@
-<footer class="bg-gradient-to-l from-regular-from-blue-cl to-regular-to-blue-cl text-black/80">
+<footer class="bg-gradient-to-l from-regular-from-blue-cl to-regular-to-blue-cl text-black/80 text-[14px] min-[1441px]:text-[24px]">
   <div class="mx-auto px-10 pt-8 pb-4">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-8">
       <div href="/" class="pt-4 min-[600px]:block flex flex-col items-center">
         <a href="/" class="block h-[110px] w-[150px] overflow-hidden relative">
           <img src="/images/UI/ghost.webp" alt="Logo" class="absolute top-[-22px] left-0 h-[150px] min-w-[150px]">
         </a>
-        <h3 class="CSS-small-text-stroke text-2xl font-bold text-white w-fit mt-4">thueaccvaloranttime.com</h3>
-        <p class="text-black/80 leading-relaxed w-fit min-[600px]:text-left text-center mt-4">
+        <h3 class="CSS-small-text-stroke text-[1.71em] font-bold text-white w-fit mt-4">thueaccvaloranttime.com</h3>
+        <p class="text-black/80 leading-relaxed w-fit min-[600px]:text-left text-center mt-4 text-[1em]">
           Chuyên cung cấp dịch vụ cho thuê tài khoản Valorant chất lượng cao với giá cả hợp lý.
           Đảm bảo tài khoản an toàn, không bị ban, không bị hack.
         </p>
@@ -14,7 +14,7 @@
 
       <div class="grid min-[550px]:grid-cols-2 grid-cols-1 gap-12">
         <div class="space-y-4 min-[550px]:block flex flex-col items-center">
-          <h4 class="text-xl font-bold text-black/80 min-[550px]:w-auto w-fit">Menu</h4>
+          <h4 class="text-[1.43em] font-bold text-black/80 min-[550px]:w-auto w-fit">Menu</h4>
           <div class="space-y-3 min-[550px]:block flex flex-col items-center">
             <div class="CSS-shadow-hover-container">
               <a href="/thueacc" class="CSS-shadow-hover-content z-20 relative flex items-center gap-2 w-fit text-black/80 transition-colors duration-300">
@@ -64,9 +64,9 @@
         </div>
 
         <div class="space-y-4 min-[550px]:block flex flex-col items-center">
-          <h4 class="text-xl font-bold text-black/80 min-[550px]:w-auto w-fit">Liên hệ</h4>
+          <h4 class="text-[1.43em] font-bold text-black/80 min-[550px]:w-auto w-fit">Liên hệ</h4>
           <div class="space-y-4 min-[550px]:block flex flex-col items-center">
-            <p class="text-black/80 text-base min-[550px]:text-left text-center">Liên hệ với chúng tôi qua các kênh mạng xã hội</p>
+            <p class="text-black/80 text-[1em] min-[550px]:text-left text-center">Liên hệ với chúng tôi qua các kênh mạng xã hội</p>
             <div class="flex flex-col space-y-3">
               <a href="<?= $admin['facebook_link'] ?>" class="flex items-center gap-3 w-fit text-white transition-all duration-300">
                 <span class="w-10 h-10 bg-regular-facebook-cl rounded-full flex items-center justify-center transition-colors duration-300">
@@ -115,7 +115,7 @@
       </div>
     </div>
     <div class="flex flex-col md:flex-row justify-center items-center gap-4 border-t border-black/40">
-      <div class="text-black/80 text-sm mt-4 min-[550px]:text-left text-center">
+      <div class="text-black/80 text-[1em] mt-4 min-[550px]:text-left text-center">
         © 2024 shopthuevalorantime.com. Tất cả quyền được bảo lưu.
       </div>
     </div>
