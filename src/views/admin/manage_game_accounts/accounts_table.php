@@ -9,25 +9,25 @@
           Avatar
         </th>
         <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-          Tên tài khoản
-        </th>
-        <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
           Tên đăng nhập
         </th>
         <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-          Rank
+          Mã game
         </th>
         <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-          Mã game
+          Thời gian thuê
+        </th>
+        <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+          Tên tài khoản
+        </th>
+        <th class="px-3 py-3 pl-5 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+          Rank
         </th>
         <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
           Trạng thái
         </th>
         <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
           Mô tả
-        </th>
-        <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-          Thời gian thuê
         </th>
         <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
           Loại máy

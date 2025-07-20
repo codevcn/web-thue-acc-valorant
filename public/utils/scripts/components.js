@@ -412,9 +412,6 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
           />
         </div>
       </td>
-      <td class="px-3 py-3 whitespace-nowrap">
-        <div class="text-sm font-medium text-gray-900 max-w-[150px] truncate">${acc_name}</div>
-      </td>
       <td class="px-3 py-3 whitespace-nowrap max-w-[120px] relative">
         <div
           class="QUERY-input-container QUERY-acc-username-input-container-${id} relative w-full text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal"
@@ -440,6 +437,29 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
+        <div class="text-sm text-regular-blue-4 font-medium max-w-[100px] truncate">
+          ${game_code}
+        </div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div class="text-sm font-medium text-gray-900 max-w-[150px] truncate">${acc_name}</div>
+      </td>
+      <td class="px-3 py-3">
+        <div class="flex flex-col gap-2 w-full text-sm max-w-[150px]">
+          ${RentTime(rent_from_time, rent_to_time)}
+          ${rent_to_time
+            ? html`
+                <button
+                  class="QUERY-cancel-rent-btn QUERY-tooltip-trigger mt-2 text-white bg-red-600 rounded-md px-2 py-1 text-sm font-semibold hover:scale-105 transition duration-200"
+                  data-vcn-tooltip-content="Hủy cho thuê"
+                >
+                  Hủy cho thuê
+                </button>
+              `
+            : ""}
+        </div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
         <div
           class="max-w-[80px] overflow-hidden rounded-3xl truncate hover:shadow-md transition duration-200"
         >
@@ -453,11 +473,6 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
               (rnk) => html`<option value="${rnk}" ?selected=${rnk === rank}>${rnk}</option>`
             )}
           </select>
-        </div>
-      </td>
-      <td class="px-3 py-3 whitespace-nowrap">
-        <div class="text-sm text-regular-blue-4 font-medium max-w-[100px] truncate">
-          ${game_code}
         </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
@@ -488,21 +503,6 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
             : html`<span class="QUERY-no-description text-gray-400 italic text-sm"
                 >Chưa có mô tả</span
               >`}
-        </div>
-      </td>
-      <td class="px-3 py-3">
-        <div class="flex flex-col gap-2 w-full text-sm max-w-[150px]">
-          ${RentTime(rent_from_time, rent_to_time)}
-          ${rent_to_time
-            ? html`
-                <button
-                  class="QUERY-cancel-rent-btn QUERY-tooltip-trigger mt-2 text-white bg-red-600 rounded-md px-2 py-1 text-sm font-semibold hover:scale-105 transition duration-200"
-                  data-vcn-tooltip-content="Hủy cho thuê"
-                >
-                  Hủy cho thuê
-                </button>
-              `
-            : ""}
         </div>
       </td>
       <td class="px-3 py-3">
