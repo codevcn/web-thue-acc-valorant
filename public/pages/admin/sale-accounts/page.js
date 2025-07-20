@@ -903,7 +903,7 @@ class FilterManager {
 
   resetAllFilters() {
     this.saveQueryStringForFilters()
-    this.applyFilters()
+    NavigationHelper.pureNavigateTo(this.urlForFilters)
   }
 
   updateActiveFiltersDisplay() {

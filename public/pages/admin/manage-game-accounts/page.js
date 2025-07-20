@@ -423,15 +423,14 @@ class AddNewAccountManager {
     this.statusOptions = []
     this.deviceTypeOptions = []
 
+    this.initUIData()
+
     this.initListeners()
   }
 
-  setStatusOptions(options) {
-    this.statusOptions = options
-  }
-
-  setDeviceTypeOptions(options) {
-    this.deviceTypeOptions = options
+  initUIData() {
+    this.statusOptions = ["Rảnh", "Bận"]
+    this.deviceTypeOptions = ["Tất cả", "Máy nhà"]
   }
 
   renderRanksSelect() {
@@ -657,21 +656,20 @@ class UpdateAccountManager {
     this.statusOptions = []
     this.deviceTypeOptions = []
 
+    this.initUIData()
+
     this.initListeners()
     this.initSwitchStatusQuickly()
     this.initSwitchDeviceTypeQuickly()
   }
 
-  setStatusOptions(options) {
-    this.statusOptions = options
-  }
-
-  setDeviceTypeOptions(options) {
-    this.deviceTypeOptions = options
+  initUIData() {
+    this.statusOptions = ["Rảnh", "Bận"]
+    this.deviceTypeOptions = ["Tất cả", "Máy nhà"]
   }
 
   renderRanksSelect(account) {
-    const rankTypes = UIEditor.convertRankTypesToRenderingRanks(sharedData.rankTypes)
+    const rankTypes = UIEditor.convertRankTypesToRenderingRanks()
     this.ranksSelect.innerHTML = ""
     for (const rank of rankTypes) {
       const option = document.createElement("option")
@@ -1248,47 +1246,71 @@ class FilterManager {
   }
 
   fetchStatuses() {
-    GameAccountService.fetchAccountStatuses().then((statuses) => {
-      const allOption = document.createElement("option")
-      allOption.value = "ALL"
-      allOption.textContent = "Tất cả trạng thái"
-      this.statusesSelect.appendChild(allOption)
+    // GameAccountService.fetchAccountStatuses().then((statuses) => {
+    //   const allOption = document.createElement("option")
+    //   allOption.value = "ALL"
+    //   allOption.textContent = "Tất cả trạng thái"
+    //   this.statusesSelect.appendChild(allOption)
 
-      for (const status of statuses) {
-        const option = document.createElement("option")
-        option.value = status.status
-        option.textContent = status.status
-        this.statusesSelect.appendChild(option)
-      }
+    //   for (const status of statuses) {
+    //     const option = document.createElement("option")
+    //     option.value = status.status
+    //     option.textContent = status.status
+    //     this.statusesSelect.appendChild(option)
+    //   }
 
-      this.fieldsRenderedCount++
-      this.updateActiveFiltersDisplay()
+    //   this.fieldsRenderedCount++
+    //   this.updateActiveFiltersDisplay()
+    // })
+    const allOption = document.createElement("option")
+    allOption.value = "ALL"
+    allOption.textContent = "Tất cả trạng thái"
+    this.statusesSelect.appendChild(allOption)
 
-      addNewAccountManager.setStatusOptions(statuses.map(({ status }) => status))
-      updateAccountManager.setStatusOptions(statuses.map(({ status }) => status))
-    })
+    const statuses = ["Rảnh", "Bận"]
+    for (const status of statuses) {
+      const option = document.createElement("option")
+      option.value = status
+      option.textContent = status
+      this.statusesSelect.appendChild(option)
+    }
+
+    this.fieldsRenderedCount++
+    this.updateActiveFiltersDisplay()
   }
 
   fetchDeviceTypes() {
-    GameAccountService.fetchDeviceTypes().then((deviceTypes) => {
-      const allOption = document.createElement("option")
-      allOption.value = "ALL"
-      allOption.textContent = "Tất cả loại máy"
-      this.deviceTypeSelect.appendChild(allOption)
+    // GameAccountService.fetchDeviceTypes().then((deviceTypes) => {
+    //   const allOption = document.createElement("option")
+    //   allOption.value = "ALL"
+    //   allOption.textContent = "Tất cả loại máy"
+    //   this.deviceTypeSelect.appendChild(allOption)
 
-      for (const deviceType of deviceTypes) {
-        const option = document.createElement("option")
-        option.value = deviceType.device_type
-        option.textContent = deviceType.device_type
-        this.deviceTypeSelect.appendChild(option)
-      }
+    //   for (const deviceType of deviceTypes) {
+    //     const option = document.createElement("option")
+    //     option.value = deviceType.device_type
+    //     option.textContent = deviceType.device_type
+    //     this.deviceTypeSelect.appendChild(option)
+    //   }
 
-      this.fieldsRenderedCount++
-      this.updateActiveFiltersDisplay()
+    //   this.fieldsRenderedCount++
+    //   this.updateActiveFiltersDisplay()
+    // })
+    const allOption = document.createElement("option")
+    allOption.value = "ALL"
+    allOption.textContent = "Tất cả loại máy"
+    this.deviceTypeSelect.appendChild(allOption)
 
-      addNewAccountManager.setDeviceTypeOptions(deviceTypes.map(({ device_type }) => device_type))
-      updateAccountManager.setDeviceTypeOptions(deviceTypes.map(({ device_type }) => device_type))
-    })
+    const deviceTypes = ["Tất cả", "Máy nhà"]
+    for (const deviceType of deviceTypes) {
+      const option = document.createElement("option")
+      option.value = deviceType
+      option.textContent = deviceType
+      this.deviceTypeSelect.appendChild(option)
+    }
+
+    this.fieldsRenderedCount++
+    this.updateActiveFiltersDisplay()
   }
 
   saveQueryStringForFilters(keyValuePair = "rank=&status=&device_type=") {

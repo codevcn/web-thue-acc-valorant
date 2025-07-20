@@ -51,7 +51,7 @@
                   <line x1="9" x2="9" y1="9" y2="21" />
                   <line x1="15" x2="15" y1="9" y2="21" />
                 </svg>
-                Thêm bằng excel
+                Thêm bằng Excel
               </button>
               <button id="add-new-account-btn" class="flex items-center gap-2 outline outline-2 outline-white w-max text-left font-bold text-white px-4 py-2 bg-regular-blue-cl hover:scale-110 transition duration-200 rounded-md">
                 <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-hand-icon lucide-hand" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

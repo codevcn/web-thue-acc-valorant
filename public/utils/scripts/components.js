@@ -602,7 +602,7 @@ export const SaleAccountRow = (account, orderNumber) => {
       <td class="px-3 py-3 whitespace-nowrap">
         <button
           data-vcn-tooltip-content="Nhấn để đổi thư"
-          class="QUERY-switch-letter-btn QUERY-tooltip-trigger text-sm hover:scale-110 transition duration-200 active:scale-90 font-medium text-gray-900 max-w-[150px] truncate"
+          class="QUERY-switch-letter-btn QUERY-tooltip-trigger text-sm hover:scale-125 transition duration-200 active:scale-90 font-medium text-gray-900 max-w-[150px] truncate"
         >
           ${letter}
         </button>
