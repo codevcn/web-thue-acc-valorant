@@ -275,7 +275,7 @@ class GameAccountService
       $params[':game_code'] = $gameCode;
     }
     if ($status !== null) {
-      if ($status === 'Rảnh' && $this->checkAccountIsRenting($account)) {
+      if ($status !== 'Bận' && $this->checkAccountIsRenting($account)) {
         throw new \InvalidArgumentException("Tài khoản đang được thuê, không thể cập nhật trạng thái.");
       }
       $updateFields[] = "`status` = :status";

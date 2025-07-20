@@ -108,11 +108,11 @@ export const AccountCard = (account) => {
                 <span>Trạng Thái</span>
               </span>
               <span
-                class="font-bold text-white ${status.toLowerCase() == "rảnh"
-                  ? "bg-green-600"
-                  : "bg-red-600"} px-4 py-0.5 rounded-lg"
+                class="font-bold text-white ${AccountHelper.getAccountStatusColor(
+                  status.toLowerCase()
+                )} px-4 py-0.5 rounded-lg"
               >
-                ${status === "Check" || status === "Rảnh" ? "Rảnh" : status}
+                ${status}
               </span>
             </div>
 
@@ -316,7 +316,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         <span class="font-bold">Số giờ cho thuê:</span>
         <input
           type="number"
-          class="QUERY-tooltip-trigger max-w-full bg-transparent pb-1 border-b border-solid border-gray-400"
+          class="QUERY-tooltip-trigger QUERY-rent-to-time-input max-w-full bg-transparent pb-1 border-b border-solid border-gray-400"
           data-vcn-tooltip-content="Nhập số giờ cho thuê"
           min="0"
           placeholder="Nhập số giờ cho thuê"
@@ -340,7 +340,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         <span class="font-bold">Thời gian cho thuê:</span>
         <input
           type="text"
-          class="QUERY-tooltip-trigger QUERY-exact-rent-time max-w-full bg-transparent pb-1 border-b border-solid border-gray-400"
+          class="QUERY-tooltip-trigger QUERY-rent-to-time-input--exact max-w-full bg-transparent pb-1 border-b border-solid border-gray-400"
           data-vcn-tooltip-content="Nhập thời gian cho thuê (HH:mm DD/MM/YYYY)"
           placeholder="Nhập thời gian cho thuê (HH:mm DD/MM/YYYY)"
           name="rent-to-time"
@@ -371,7 +371,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         <span class="font-bold">Thời gian thuê thêm:</span>
         <input
           type="number"
-          class="QUERY-tooltip-trigger mt-0.5 max-w-full bg-transparent pb-1 border-b border-solid border-gray-400"
+          class="QUERY-tooltip-trigger QUERY-rent-to-time-input--add mt-0.5 max-w-full bg-transparent pb-1 border-b border-solid border-gray-400"
           data-vcn-tooltip-content="Nhập số giờ thuê thêm"
           data-rent-time-input-id="${id}"
           data-rent-to-time-value="${rent_to_time}"

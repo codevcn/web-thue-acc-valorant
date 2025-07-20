@@ -41,7 +41,7 @@ class HomePageManager {
       Iron: "bg-[#4B4B4B] text-white", // Xám đậm – giống màu kim loại thô trong ảnh
       Bronze: "bg-[#B67B4B] text-white", // Nâu đồng – gần đúng với màu đồng trong hình
       Silver: "bg-[#C0C0C0]", // Bạc sáng
-      Gold: "bg-[#F0B343]", // Vàng đậm hơi cam – đúng với icon GOLD
+      Gold: "bg-yellow-400", // Vàng đậm hơi cam – đúng với icon GOLD
       Platinum: "bg-[#32BDB2]", // Xanh ngọc – đặc trưng Platinum
       Diamond: "bg-[#AE78D6]", // Tím ngọc – nổi bật trong Diamond
       Immortal: "bg-[#BD2B63] text-white", // Đỏ tím – Immortal mang tone rực, đậm ánh đỏ tím
@@ -164,7 +164,7 @@ class HomePageManager {
         for (const { type } of orderedRankTypes) {
           const isActive = rankFilter === type
           const option = document.createElement("option")
-          option.classList.add("bg-white", "text-black")
+          option.classList.add("text-black")
           option.value = type
           option.textContent = type
           option.selected = isActive

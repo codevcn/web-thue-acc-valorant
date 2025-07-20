@@ -68,6 +68,7 @@
             <option value="ALL" class="bg-white text-black">Tất cả trạng thái</option>
             <option value="Rảnh" class="bg-white text-black">Rảnh</option>
             <option value="Bận" class="bg-white text-black">Bận</option>
+            <option value="Check" class="bg-white text-black">Check</option>
           </select>
         </div>
       </div>

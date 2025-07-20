@@ -70,7 +70,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Trạng thái</label>
-          <input type="text" name="status" value="Tốt" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="Rảnh, Bận">
+          <input type="text" name="status" value="Tốt" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="Rảnh, Bận, Check">
         </div>
       </div>
     </form>

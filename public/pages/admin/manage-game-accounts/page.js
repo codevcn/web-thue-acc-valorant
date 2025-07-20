@@ -212,19 +212,24 @@ class ManageGameAccountsPageManager {
     const value = input.value || ""
     if (value) {
       if (!this.rentTimeInputId) return
-      if (input.classList.contains("QUERY-exact-rent-time")) {
+      if (input.classList.contains("QUERY-rent-to-time-input--exact")) {
         // Kiểm tra định dạng "HH:mm DD/MM/YYYY" bằng dayjs
-        if (dayjs(value, "HH:mm DD/MM/YYYY", true).isValid()) {
-          const rentToTimeValue = dayjs(value, "HH:mm DD/MM/YYYY").format(
-            this.RENT_TIME_INPUT_FORMAT
-          )
-          updateAccountManager.updateRentTime(this.rentTimeInputId, rentToTimeValue)
-        } else {
+        const rentToTime = dayjs(value, "HH:mm DD/MM/YYYY", true)
+        if (!rentToTime.isValid()) {
           Toaster.error(
             "Định dạng không phù hợp",
             "Thời gian cho thuê phải theo định dạng HH:mm DD/MM/YYYY (ví dụ: 13:00 21/07/2025)"
           )
+          return
+        } else if (rentToTime.isBefore(dayjs())) {
+          Toaster.error(
+            "Thời gian không hợp lệ",
+            "Thời gian cho thuê phải lớn hơn thời gian hiện tại"
+          )
+          return
         }
+        const rentToTimeValue = rentToTime.format(this.RENT_TIME_INPUT_FORMAT)
+        updateAccountManager.updateRentTime(this.rentTimeInputId, rentToTimeValue)
         return
       }
       if (!ValidationHelper.isPureInteger(value)) {
@@ -284,7 +289,7 @@ class ManageGameAccountsPageManager {
         actionsSection.hidden = false
       }
     })
-    // bắt sự kiện lưu thời gian cho thuê & tên đăng nhập
+    // bắt sự kiện lưu thời gian cho thuê
     this.accountsTableBody.addEventListener("click", (e) => {
       let target = e.target
       while (target && !target.classList.contains("QUERY-rent-time-save-action")) {
@@ -295,8 +300,15 @@ class ManageGameAccountsPageManager {
       }
       if (!target || !target.classList.contains("QUERY-rent-time-save-action")) return
       const input = target.closest(".QUERY-input-container").querySelector("input")
-      if (input) {
+      if (
+        input.classList.contains("QUERY-rent-time-input") ||
+        input.classList.contains("QUERY-rent-to-time-input--exact") ||
+        input.classList.contains("QUERY-rent-to-time-input--add")
+      ) {
         this.submitRentTimeFromInput(input)
+      }
+      if (input.classList.contains("QUERY-acc-username-input")) {
+        this.submitAccUsernameFromInput(input)
       }
     })
     // bắt sự kiện nhấn enter trong input
@@ -311,7 +323,11 @@ class ManageGameAccountsPageManager {
           }
         }
         if (!target) return
-        if (target.classList.contains("QUERY-rent-time-input")) {
+        if (
+          target.classList.contains("QUERY-rent-to-time-input") ||
+          target.classList.contains("QUERY-rent-to-time-input--exact") ||
+          target.classList.contains("QUERY-rent-to-time-input--add")
+        ) {
           this.submitRentTimeFromInput(target)
         }
         if (target.classList.contains("QUERY-acc-username-input")) {
@@ -461,7 +477,7 @@ class AddNewAccountManager {
   }
 
   initUIData() {
-    this.statusOptions = ["Rảnh", "Bận"]
+    this.statusOptions = ["Rảnh", "Bận", "Check"]
     this.deviceTypeOptions = ["Tất cả", "Máy nhà"]
   }
 
@@ -701,7 +717,7 @@ class UpdateAccountManager {
   }
 
   initUIData() {
-    this.statusOptions = ["Rảnh", "Bận"]
+    this.statusOptions = ["Rảnh", "Bận", "Check"]
     this.deviceTypeOptions = ["Tất cả", "Máy nhà"]
   }
 
@@ -1331,7 +1347,7 @@ class FilterManager {
     allOption.textContent = "Tất cả trạng thái"
     this.statusesSelect.appendChild(allOption)
 
-    const statuses = ["Rảnh", "Bận"]
+    const statuses = ["Rảnh", "Bận", "Check"]
     for (const status of statuses) {
       const option = document.createElement("option")
       option.value = status
