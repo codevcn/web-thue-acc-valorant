@@ -6,7 +6,7 @@
           <img src="/images/UI/ghost.webp" alt="Logo" class="absolute top-[-22px] left-0 h-[11.7vw] min-w-[11.7vw]">
         </a>
         <h3 class="CSS-small-text-stroke text-[1.71em] font-bold text-white w-fit mt-4">thueaccvaloranttime.com</h3>
-        <p class="text-black/80 leading-relaxed w-fit min-[600px]:text-left text-center mt-4 text-[1em]">
+        <p class="text-black/80 leading-relaxed w-fit min-[600px]:text-left text-center mt-4 text-[1.14em]">
           Chuyên cung cấp dịch vụ cho thuê tài khoản Valorant chất lượng cao với giá cả hợp lý.
           Đảm bảo tài khoản an toàn, không bị ban, không bị hack.
         </p>
@@ -15,7 +15,7 @@
       <div class="grid min-[550px]:grid-cols-2 grid-cols-1 gap-12">
         <div class="space-y-4 min-[550px]:block flex flex-col items-center">
           <h4 class="text-[1.43em] font-bold text-black/80 min-[550px]:w-auto w-fit">Menu</h4>
-          <div class="space-y-3 min-[550px]:block flex flex-col items-center">
+          <div class="space-y-3 min-[550px]:block flex flex-col items-center text-[1.14em]">
             <div class="CSS-shadow-hover-container">
               <a href="/thueacc" class="CSS-shadow-hover-content z-20 relative flex items-center gap-2 w-fit text-black/80 transition-colors duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-house-icon lucide-house w-[1.43em] h-[1.43em]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -65,8 +65,8 @@
 
         <div class="space-y-4 min-[550px]:block flex flex-col items-center">
           <h4 class="text-[1.43em] font-bold text-black/80 min-[550px]:w-auto w-fit">Liên hệ</h4>
-          <div class="space-y-4 min-[550px]:block flex flex-col items-center">
-            <p class="text-black/80 text-[1em] min-[550px]:text-left text-center">Liên hệ với chúng tôi qua các kênh mạng xã hội</p>
+          <div class="space-y-4 min-[550px]:block flex flex-col items-center text-[1.14em]">
+            <p class="text-black/80 text-[1.14em] min-[550px]:text-left text-center">Liên hệ với chúng tôi qua các kênh mạng xã hội</p>
             <div class="flex flex-col space-y-3">
               <a href="<?= $admin['facebook_link'] ?>" class="flex items-center gap-3 w-fit text-white transition-all duration-300">
                 <span class="w-[2.86em] h-[2.86em] bg-regular-facebook-cl rounded-full flex items-center justify-center transition-colors duration-300">
@@ -127,7 +127,7 @@
       </div>
     </div>
     <div class="flex flex-col md:flex-row justify-center items-center gap-4 border-t border-black/40">
-      <div class="text-black/80 text-[1em] mt-4 min-[550px]:text-left text-center">
+      <div class="text-black/80 text-[1.14em] mt-4 min-[550px]:text-left text-center">
         © 2024 shopthuevalorantime.com. Tất cả quyền được bảo lưu.
       </div>
     </div>
