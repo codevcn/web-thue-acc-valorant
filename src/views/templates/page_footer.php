@@ -127,8 +127,9 @@
       </div>
     </div>
     <div class="flex flex-col md:flex-row justify-center items-center gap-4 border-t border-black/40">
-      <div class="text-black/80 text-[1.14em] mt-4 min-[550px]:text-left text-center">
-        © 2024 shopthuevalorantime.com. Tất cả quyền được bảo lưu.
+      <div class="text-black/80 text-[1.14em] mt-4 text-center">
+        © 2025 shopthuevalorantime.com. Tất cả quyền được bảo lưu.<br />
+        Thiết kế bởi <a href="https://github.com/tuan03" class="text-white underline">Tuan03</a>
       </div>
     </div>
   </div>

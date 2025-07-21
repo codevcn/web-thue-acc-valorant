@@ -104,7 +104,8 @@
     <!-- Footer -->
     <div class="text-center mt-8">
       <p class="text-black/60 text-sm">
-        © 2024 thueaccvaloranttime.com - Bảo mật và an toàn
+        © 2025 shopthuevalorantime.com. Tất cả quyền được bảo lưu.<br />
+        Thiết kế bởi <a href="https://github.com/tuan03" class="text-white underline">Tuan03</a>
       </p>
     </div>
   </div>

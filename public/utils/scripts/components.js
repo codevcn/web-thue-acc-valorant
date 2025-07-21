@@ -322,7 +322,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
           class="QUERY-input-actions absolute z-20 top-[calc(100%+5px)] right-0 w-full h-full"
         >
           <button
-            class="QUERY-rent-time-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
+            class="QUERY-rent-time-save-action QUERY-input-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
           >
             Lưu
           </button>
@@ -345,7 +345,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
           class="QUERY-input-actions absolute z-20 top-[calc(100%+5px)] right-0 w-full h-full"
         >
           <button
-            class="QUERY-rent-time-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
+            class="QUERY-rent-time-save-action QUERY-input-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
           >
             Lưu
           </button>
@@ -379,7 +379,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
           class="QUERY-input-actions absolute z-20 top-[calc(100%+5px)] right-0 w-full h-full"
         >
           <button
-            class="QUERY-rent-time-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
+            class="QUERY-rent-time-save-action QUERY-input-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
           >
             Lưu
           </button>
@@ -424,7 +424,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
             class="QUERY-input-actions absolute z-20 top-[calc(100%+5px)] right-0 w-full h-full"
           >
             <button
-              class="QUERY-acc-username-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
+              class="QUERY-acc-username-save-action QUERY-input-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
             >
               Lưu
             </button>

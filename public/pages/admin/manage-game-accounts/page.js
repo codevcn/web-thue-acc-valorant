@@ -293,16 +293,16 @@ class ManageGameAccountsPageManager {
     // bắt sự kiện lưu thời gian cho thuê
     this.accountsTableBody.addEventListener("click", (e) => {
       let target = e.target
-      while (target && !target.classList.contains("QUERY-rent-time-save-action")) {
+      while (target && !target.classList.contains("QUERY-input-save-action")) {
         target = target.parentElement
         if (target && target.classList.contains("accounts-table-body")) {
           return
         }
       }
-      if (!target || !target.classList.contains("QUERY-rent-time-save-action")) return
+      if (!target || !target.classList.contains("QUERY-input-save-action")) return
       const input = target.closest(".QUERY-input-container").querySelector("input")
       if (
-        input.classList.contains("QUERY-rent-time-input") ||
+        input.classList.contains("QUERY-rent-to-time-input") ||
         input.classList.contains("QUERY-rent-to-time-input--exact") ||
         input.classList.contains("QUERY-rent-to-time-input--add")
       ) {
