@@ -25,7 +25,7 @@
       <button id="load-more-btn" class="QUERY-load-more-btn CSS-button-shadow-decoration text-[1em] hover:bg-regular-blue-hover-cl bg-regular-blue-cl rounded-lg text-white font-bold py-2 px-4">
         XEM THÊM TÀI KHOẢN
       </button>
-      <p class="QUERY-no-more-text text-gray-600 italic text-[1em] font-bold">Không còn tài khoản nào.</p>
+      <p class="QUERY-no-more-text text-gray-600 italic text-[1em] font-bold"></p>
     </div>
   </div>
 </div>
