@@ -5,7 +5,7 @@
         <a href="/" class="block h-[8.5vw] w-[11.7vw] overflow-hidden relative">
           <img src="/images/UI/ghost.webp" alt="Logo" class="absolute top-[-22px] left-0 h-[11.7vw] min-w-[11.7vw]">
         </a>
-        <h3 class="CSS-small-text-stroke text-[1.71em] font-bold text-white w-fit mt-4">thueaccvaloranttime.com</h3>
+        <h3 class="CSS-small-text-stroke text-[1.71em] font-bold text-white w-fit mt-4">shopthuevalorantime.com</h3>
         <p class="text-black/80 leading-relaxed w-fit min-[600px]:text-left text-center mt-4 text-[1.14em]">
           Chuyên cung cấp dịch vụ cho thuê tài khoản Valorant chất lượng cao với giá cả hợp lý.
           Đảm bảo tài khoản an toàn, không bị ban, không bị hack.
