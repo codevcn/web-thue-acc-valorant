@@ -102,7 +102,7 @@ export const AccountCard = (account) => {
               </span>
               <span
                 class="font-bold text-white ${AccountHelper.getAccountStatusColor(
-                  status.toLowerCase()
+                  (status === "Check" || status === "Rảnh" ? "Rảnh" : status).toLowerCase()
                 )} px-4 py-0.5 rounded-lg"
               >
                 ${status === "Check" || status === "Rảnh" ? "Rảnh" : status}
