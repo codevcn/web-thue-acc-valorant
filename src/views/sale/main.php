@@ -12,6 +12,32 @@
     </p>
   </div>
 
+  <?php
+  function displayRemainingTime(string $futureTime): string
+  {
+    try {
+      $now = new DateTime();
+      $future = DateTime::createFromFormat('Y-m-d H:i:s', $futureTime);
+
+      if (!$future || $future < $now) {
+        return "00:00:00";
+      }
+
+      $interval = $now->diff($future);
+
+      return sprintf(
+        "Còn %d ngày, %d giờ, %d phút, %d giây",
+        $interval->days,
+        $interval->h,
+        $interval->i,
+        $interval->s
+      );
+    } catch (\Throwable $th) {
+      return "Không xác định";
+    }
+  }
+  ?>
+
   <!-- Main Slider Container -->
   <div
     id="slider"
@@ -21,8 +47,8 @@
       class="flex transition-transform duration-500 ease-out w-full">
       <?php foreach ($sale_accounts as $sale_account) : ?>
         <div data-account-id="<?= $sale_account['id'] ?>" class="QUERY-account-container w-full flex-shrink-0">
-          <div class="text-[1em] font-medium bg-blue-100 rounded-md px-4 py-1 border-l-4 border-solid border-blue-300 border">
-            Sale | <span class="font-bold">00:00:00</span>
+          <div class="text-[1em] font-medium bg-sky-100 rounded-md px-4 py-1 border-l-4 border-solid border-sky-300 border">
+            Sale | <span class="font-bold"><?= displayRemainingTime($sale_account['sell_to_time']) ?></span>
           </div>
 
           <div class="mt-4 rounded-lg w-full">
@@ -33,7 +59,7 @@
               <div class="flex flex-col min-[860px]:w-[30%] min-[860px]:min-h-[unset] min-h-[260px] max-h-full w-full">
                 <div class="flex items-center justify-between w-full gap-4 pt-3 pb-2 px-4 text-[1.43em] font-bold bg-white/80 backdrop-blur-md border border-solid border-b-0 border-gray-300 rounded-t-md">
                   <div class="flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-text-icon lucide-text w-[1.43em] h-[1.43em]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-text-icon lucide-text w-[1.2em] h-[1.2em]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M15 18H3" />
                       <path d="M17 6H3" />
                       <path d="M21 12H3" />
@@ -41,7 +67,7 @@
                     <span class="w-max">Mô tả</span>
                   </div>
                   <button data-vcn-tooltip-content="Copy mô tả" class="QUERY-tooltip-trigger QUERY-copy-btn QUERY-not-copied p-0.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="QUERY-copy-icon lucide lucide-copy-icon lucide-copy w-[1.14em] h-[1.14em]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="QUERY-copy-icon lucide lucide-copy-icon lucide-copy w-[1em] h-[1em]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
                       <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
                     </svg>
@@ -71,15 +97,15 @@
 
             <!-- Account Details -->
             <div class="flex flex-wrap gap-2 mt-2 min-[860px]:mt-4 text-[1.14em]">
-              <div class="flex flex-col min-w-max items-center justify-center flex-1 bg-blue-100 border border-solid border-blue-300 border-t-4 rounded-md py-1 px-4">
+              <div class="flex flex-col min-w-max items-center justify-center flex-1 bg-sky-100 border border-solid border-sky-300 border-t-4 rounded-md py-1 px-4">
                 <h4 class="font-bold">Gmail</h4>
                 <div><?= $sale_account['gmail'] ?></div>
               </div>
-              <div class="flex flex-col min-w-max items-center justify-center flex-1 bg-blue-100 border border-solid border-blue-300 border-t-4 rounded-md py-1 px-4">
+              <div class="flex flex-col min-w-max items-center justify-center flex-1 bg-sky-100 border border-solid border-sky-300 border-t-4 rounded-md py-1 px-4">
                 <h4 class="font-bold">Thư</h4>
                 <div><?= $sale_account['letter'] ?></div>
               </div>
-              <div class="flex flex-col min-w-max items-center justify-center flex-1 bg-blue-100 border border-solid border-blue-300 border-t-4 rounded-md py-1 px-4">
+              <div class="flex flex-col min-w-max items-center justify-center flex-1 bg-sky-100 border border-solid border-sky-300 border-t-4 rounded-md py-1 px-4">
                 <h4 class="font-bold">Tình trạng</h4>
                 <div><?= $sale_account['status'] ?></div>
               </div>
@@ -112,9 +138,9 @@
   </button>
 
   <div class="w-full relative mt-8">
-    <div id="pages" class="flex !justify-start min-[690px]:!justify-center gap-2 CSS-background-dot-decoration w-full py-2 px-4 relative overflow-x-auto CSS-styled-scrollbar">
+    <div id="pages" class="flex !justify-start min-[690px]:!justify-center gap-2 bg-white rounded-md outline-1 outline outline-gray-300 w-full py-2 px-4 relative overflow-x-auto CSS-styled-scrollbar">
       <?php foreach ($sale_accounts as $sale_account) : ?>
-        <button data-vcn-tooltip-content="Nhấn để xem chi tiết" class="QUERY-tooltip-trigger h-[4.1vw] min-w-[7.1vw] border-1 box-content border-solid border-white hover:scale-110 active:scale-90 transition duration-200">
+        <button data-vcn-tooltip-content="Nhấn để xem chi tiết" class="QUERY-tooltip-trigger outline-1 outline outline-gray-200 h-[4.1vw] min-w-[7.1vw] border-1 box-content border-solid border-white hover:scale-110 active:scale-90 transition duration-200">
           <img class="h-full min-w-[7.1vw] <?= $sale_account['avatar'] ? 'object-cover' : 'object-contain' ?> box-content" src="/images/account/<?= $sale_account['avatar'] ?? 'default-account-avatar.png' ?>" alt="Account Avatar">
         </button>
       <?php endforeach; ?>
@@ -139,8 +165,8 @@
     {
       $isActive = $pageNum == $currentPage;
       $class = $isActive
-        ? 'rounded-md bg-blue-300 text-black font-bold border border-solid border-blue-600 h-[2.26em] w-[2.26em] hover:scale-110 active:scale-90 transition duration-200'
-        : 'rounded-md bg-blue-100 border border-solid border-blue-300 h-[2.26em] w-[2.26em] hover:scale-110 active:scale-90 transition duration-200';
+        ? 'rounded-md bg-sky-300 text-black font-bold border border-solid border-sky-300 h-[2.26em] w-[2.26em] hover:scale-110 active:scale-90 transition duration-200'
+        : 'rounded-md bg-sky-100 border border-solid border-sky-300 h-[2.26em] w-[2.26em] hover:scale-110 active:scale-90 transition duration-200';
       echo "<button data-page-num=\"$pageNum\" class=\"$class\">$pageNum</button>";
     }
 

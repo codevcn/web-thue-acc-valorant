@@ -67,7 +67,7 @@
 }
 @keyframes hero-section-text-animation {
   0% {
-    transform: translate(-100px) scale(0.3);
+    transform: translate(-80px) scale(0.3);
     opacity: 0;
   }
   25% {

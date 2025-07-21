@@ -23,8 +23,9 @@ export class GameAccountService {
   }
 
   static async fetchAccountsForAdmin(
-    last_id,
-    last_updated_at,
+    free_last_game_code,
+    check_last_game_code,
+    busy_last_game_code,
     rank,
     status,
     device_type,
@@ -32,13 +33,15 @@ export class GameAccountService {
     order_type
   ) {
     const params = {}
-    if (last_updated_at) params.last_updated_at = last_updated_at
-    if (last_id) params.last_id = last_id
+    if (free_last_game_code) params.free_last_game_code = free_last_game_code
+    if (check_last_game_code) params.check_last_game_code = check_last_game_code
+    if (busy_last_game_code) params.busy_last_game_code = busy_last_game_code
     if (rank) params.rank = rank
     if (status) params.status = status
     if (device_type) params.device_type = device_type
     if (search_term) params.search_term = search_term
     if (order_type) params.order_type = order_type
+    console.log(">>> params 44:", params)
     const { data } = await axiosClient.get("/admin/game-accounts/load-more", { params })
     return data.accounts
   }

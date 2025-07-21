@@ -1,5 +1,5 @@
 <div id="accounts-list-container" class="bg-gradient-to-br from-sky-50 to-cyan-50 pb-20 pt-16">
-  <div class="mx-auto min-[550px]:px-6 px-2">
+  <div class="mx-auto min-[550px]:px-6 px-2 max-w-[1475px]">
     <!-- Section Header -->
     <div class="text-center mb-6">
       <h2 class="text-[1.71em] md:text-[2.29em] font-black text-gray-800 mb-4">

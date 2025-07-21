@@ -7,6 +7,7 @@ namespace Controllers;
 use Services\SaleAccountService;
 use Services\RulesService;
 use Services\UserService;
+use Utils\DevLogger;
 
 class SaleController
 {
@@ -28,6 +29,10 @@ class SaleController
 
     $saleAccounts = $this->saleAccountService->fetchAccountsWithPagination($page, $limit);
     $accountsCount = count($saleAccounts);
+
+    foreach ($saleAccounts as $saleAccount) {
+      DevLogger::log('saleAccount:', $saleAccount['sell_to_time']);
+    }
 
     $rules = $this->rulesService->findRules();
     $admin = $this->userService->findAdmin();

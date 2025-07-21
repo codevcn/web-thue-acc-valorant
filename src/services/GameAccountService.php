@@ -12,7 +12,7 @@ use Utils\Helper;
 class GameAccountService
 {
   private $db;
-  private const LIMIT = 10;
+  private const LOAD_MORE_ACCOUNTS_PAGE_SIZE = 10;
 
   public function __construct(PDO $db)
   {
@@ -69,10 +69,10 @@ class GameAccountService
     if (!empty($conditions)) {
       $sql .= " WHERE " . implode(' AND ', $conditions);
     }
-    $order_condition = " ORDER BY created_at DESC, id DESC LIMIT " . self::LIMIT;
+    $order_condition = " ORDER BY created_at DESC, id DESC LIMIT " . self::LOAD_MORE_ACCOUNTS_PAGE_SIZE;
     if ($order_type !== null) {
       if ($order_type === 'updated_at') {
-        $order_condition = " ORDER BY updated_at DESC, id DESC LIMIT " . self::LIMIT;
+        $order_condition = " ORDER BY updated_at DESC, id DESC LIMIT " . self::LOAD_MORE_ACCOUNTS_PAGE_SIZE;
       }
     }
     $sql .= $order_condition;
@@ -87,58 +87,105 @@ class GameAccountService
   }
 
   public function advancedFetchAccountsForAdmin(
-    ?int $lastId = null,
-    ?string $lastUpdatedAt = null,
+    ?string $freeAccGameCode = null,
+    ?string $checkAccGameCode = null,
+    ?string $busyAccGameCode = null,
     ?string $rank = null,
     ?string $status = null,
     ?string $device_type = null,
     ?string $search_term = null,
-    ?string $order_type = null
   ): array {
-    $sql = "SELECT * FROM game_accounts";
-    $conditions = [];
-    $params = [];
+    $sql_status_free = "SELECT * FROM game_accounts";
+    $sql_status_check = "SELECT * FROM game_accounts";
+    $sql_status_busy = "SELECT * FROM game_accounts";
+    $free_conditions = [];
+    $free_params = [];
+    $check_conditions = [];
+    $check_params = [];
+    $busy_conditions = [];
+    $busy_params = [];
+    $common_params = [];
+    $common_conditions = [];
 
-    // Load more logic kết hợp updated_at + id
-    if ($lastUpdatedAt !== null && $lastId !== null) {
-      $conditions[] = '(updated_at < :last_updated_at OR (updated_at = :last_updated_at AND id < :last_id))';
-      $params[':last_updated_at'] = $lastUpdatedAt;
-      $params[':last_id'] = $lastId;
-    } else if ($lastId !== null) {
-      $conditions[] = 'id < :last_id';
-      $params[':last_id'] = $lastId;
+    // Load more with id
+    if ($checkAccGameCode !== null) {
+      $check_conditions[] = 'game_code > :check_acc_game_code';
+      $check_params[':check_acc_game_code'] = $checkAccGameCode;
+    }
+    if ($freeAccGameCode !== null) {
+      $free_conditions[] = 'game_code > :free_acc_game_code';
+      $free_params[':free_acc_game_code'] = $freeAccGameCode;
+    }
+    if ($busyAccGameCode !== null) {
+      $busy_conditions[] = 'game_code > :busy_acc_game_code';
+      $busy_params[':busy_acc_game_code'] = $busyAccGameCode;
     }
 
+    // setup common conditions
     if ($rank !== null) {
-      $conditions[] = 'rank LIKE :rank';
-      $params[':rank'] = $rank . '%';
+      $common_conditions[] = 'rank LIKE :rank';
+      $common_params[':rank'] = $rank . '%';
     }
     if ($status !== null) {
-      $conditions[] = 'status = :status';
-      $params[':status'] = $status;
+      $common_conditions[] = 'status = :status';
+      $common_params[':status'] = $status;
     }
     if ($device_type !== null) {
-      $conditions[] = 'device_type = :device_type';
-      $params[':device_type'] = $device_type;
+      $common_conditions[] = 'device_type = :device_type';
+      $common_params[':device_type'] = $device_type;
     }
     if ($search_term !== null) {
-      $conditions[] = '(acc_name LIKE :search_term OR game_code LIKE :search_term OR `description` LIKE :search_term)';
-      $params[':search_term'] = '%' . $search_term . '%';
+      $common_conditions[] = '(acc_name LIKE :search_term OR game_code LIKE :search_term OR `description` LIKE :search_term)';
+      $common_params[':search_term'] = '%' . $search_term . '%';
     }
 
-    if (!empty($conditions)) {
-      $sql .= " WHERE " . implode(' AND ', $conditions);
+    $common_conditions_are_not_empty = !empty($common_conditions);
+
+    // put conditions into where clause
+    if ($common_conditions_are_not_empty) {
+      $sql_status_free .= " WHERE " . implode(' AND ', $common_conditions) . " AND `status` = 'Rảnh'";
+      $sql_status_check .= " WHERE " . implode(' AND ', $common_conditions) . " AND `status` = 'Check'";
+      $sql_status_busy .= " WHERE " . implode(' AND ', $common_conditions) . " AND `status` = 'Bận'";
+    } else {
+      $sql_status_free .= " WHERE `status` = 'Rảnh'";
+      $sql_status_check .= " WHERE `status` = 'Check'";
+      $sql_status_busy .= " WHERE `status` = 'Bận'";
     }
-    $order_condition = " ORDER BY (status = 'Bận') DESC, created_at DESC, id DESC LIMIT " . self::LIMIT;
-    if ($order_type !== null) {
-      if ($order_type === 'updated_at') {
-        $order_condition = " ORDER BY (status = 'Bận') DESC, updated_at DESC, id DESC LIMIT " . self::LIMIT;
-      }
+
+    // add conditions for free, check, busy
+    if (!empty($free_conditions)) {
+      $sql_status_free .= " AND " . implode(' AND ', $free_conditions);
     }
-    $sql .= $order_condition;
+    if (!empty($check_conditions)) {
+      $sql_status_check .= " AND " . implode(' AND ', $check_conditions);
+    }
+    if (!empty($busy_conditions)) {
+      $sql_status_busy .= " AND " . implode(' AND ', $busy_conditions);
+    }
+
+    // setup order
+    $order_condition = " ORDER BY game_code ASC LIMIT " . self::LOAD_MORE_ACCOUNTS_PAGE_SIZE;
+    $sql_status_busy .= $order_condition;
+    $sql_status_check .= $order_condition;
+    $sql_status_free .= $order_condition;
+
+    // complete sql
+    $sql = "SELECT * FROM (
+      SELECT * FROM (" . $sql_status_check . ") 
+      UNION ALL 
+      SELECT * FROM (" . $sql_status_free . ") 
+      UNION ALL 
+      SELECT * FROM (" . $sql_status_busy . ")
+    ) LIMIT " . self::LOAD_MORE_ACCOUNTS_PAGE_SIZE;
 
     $stmt = $this->db->prepare($sql);
-    foreach ($params as $key => $value) {
+    foreach ($common_params as $key => $value) {
+      $stmt->bindValue($key, $value);
+    }
+    foreach ($free_params as $key => $value) {
+      $stmt->bindValue($key, $value);
+    }
+    foreach ($check_params as $key => $value) {
       $stmt->bindValue($key, $value);
     }
     $stmt->execute();
@@ -294,7 +341,7 @@ class GameAccountService
       $params[':avatar'] = $avatar;
     }
     if ($rentToTime !== null) {
-      if ($account['status'] === 'Rảnh') {
+      if ($account['status'] !== 'Bận') {
         $updateFields[] = "`status` = :status";
         $params[':status'] = "Bận";
       }

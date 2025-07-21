@@ -311,7 +311,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         <span class="font-bold">Số giờ cho thuê:</span>
         <input
           type="number"
-          class="QUERY-tooltip-trigger QUERY-rent-to-time-input max-w-full bg-transparent pb-1 border-b border-solid border-gray-400"
+          class="QUERY-tooltip-trigger QUERY-rent-to-time-input w-full bg-transparent pb-1 border-b border-solid border-gray-400"
           data-vcn-tooltip-content="Nhập số giờ cho thuê"
           min="0"
           placeholder="Nhập số giờ cho thuê"
@@ -335,7 +335,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         <span class="font-bold">Thời gian cho thuê:</span>
         <input
           type="text"
-          class="QUERY-tooltip-trigger QUERY-rent-to-time-input--exact max-w-full bg-transparent pb-1 border-b border-solid border-gray-400"
+          class="QUERY-tooltip-trigger QUERY-rent-to-time-input--exact w-full bg-transparent pb-1 border-b border-solid border-gray-400"
           data-vcn-tooltip-content="Nhập thời gian cho thuê (HH:mm DD/MM/YYYY)"
           placeholder="Nhập thời gian cho thuê (HH:mm DD/MM/YYYY)"
           name="rent-to-time"
@@ -366,7 +366,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         <span class="font-bold">Thời gian thuê thêm:</span>
         <input
           type="number"
-          class="QUERY-tooltip-trigger QUERY-rent-to-time-input--add mt-0.5 max-w-full bg-transparent pb-1 border-b border-solid border-gray-400"
+          class="QUERY-tooltip-trigger QUERY-rent-to-time-input--add mt-0.5 w-full bg-transparent pb-1 border-b border-solid border-gray-400"
           data-vcn-tooltip-content="Nhập số giờ thuê thêm"
           data-rent-time-input-id="${id}"
           data-rent-to-time-value="${rent_to_time}"
@@ -397,7 +397,6 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         lowerCasedStatus
       )}"
     >
-      <td class="px-2 py-3 text-center">${orderNumber}</td>
       <td class="px-3 py-2 min-[768px]:table-cell hidden">
         <div class="rounded-full w-fit flex items-center justify-center">
           <img
@@ -436,11 +435,8 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
           ${game_code}
         </div>
       </td>
-      <td class="px-3 py-3 whitespace-nowrap">
-        <div class="text-sm font-medium text-gray-900 max-w-[150px] truncate">${acc_name}</div>
-      </td>
       <td class="px-3 py-3">
-        <div class="flex flex-col gap-2 w-full text-sm max-w-[150px]">
+        <div class="flex flex-col gap-2 w-full text-sm max-w-[300px]">
           ${RentTime(rent_from_time, rent_to_time)}
           ${rent_to_time
             ? html`
@@ -456,7 +452,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
         <div
-          class="max-w-[80px] overflow-hidden rounded-3xl truncate hover:shadow-md transition duration-200"
+          class="max-w-[100px] overflow-hidden rounded-3xl truncate hover:shadow-md transition duration-200"
         >
           <select
             name="ranks-select"
@@ -488,17 +484,6 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
             <option class="text-black" value="Check" ?selected=${status === "Check"}>Check</option>
           </select>
         </button>
-      </td>
-      <td class="px-3 py-3">
-        <div class="text-sm text-gray-900 max-w-[100px] truncate">
-          ${description
-            ? html`<span class="QUERY-tooltip-trigger" data-vcn-tooltip-content="${description}"
-                >${description}</span
-              >`
-            : html`<span class="QUERY-no-description text-gray-400 italic text-sm"
-                >Chưa có mô tả</span
-              >`}
-        </div>
       </td>
       <td class="px-3 py-3">
         <button
@@ -641,7 +626,6 @@ export const SaleAccountRow = (account, orderNumber) => {
         ? "bg-red-100"
         : ""}"
     >
-      <td class="px-3 py-3 text-center">${orderNumber}</td>
       <td class="px-3 py-1 min-[768px]:table-cell hidden">
         <div class="rounded-full flex items-center justify-center">
           <img
@@ -652,12 +636,11 @@ export const SaleAccountRow = (account, orderNumber) => {
         </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
-        <button
-          data-vcn-tooltip-content="Nhấn để đổi thư"
-          class="QUERY-switch-letter-btn QUERY-tooltip-trigger text-sm hover:scale-125 transition duration-200 active:scale-90 font-medium text-gray-900 max-w-[150px] truncate"
+        <div
+          class="QUERY-switch-letter-btn text-sm font-medium text-gray-900 max-w-[150px] truncate"
         >
           ${letter}
-        </button>
+        </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
         <div class="QUERY-account-UI-item-rank text-sm font-medium max-w-[100px] truncate">

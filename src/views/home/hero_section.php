@@ -7,7 +7,7 @@
   </div>
 
   <div class="relative z-10 min-h-screen flex items-center font-bold">
-    <div class="w-full px-2 py-[30px]">
+    <div class="w-full px-2 py-[30px] min-[1600px]:px-[150px]">
       <div class="w-full">
         <div class="text-center mb-4">
           <h1 class="text-[2.57em] font-black text-white mb-2 leading-tight">
@@ -21,14 +21,14 @@
 
         <div class="grid min-[1170px]:grid-cols-4 min-[600px]:grid-cols-2 grid-cols-1 gap-y-2 gap-x-2 items-start">
           <div class="space-y-2">
-            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 min-[1441px]:p-5 border border-white/20">
+            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 min-[1441px]:p-5 border border-white/20 h-[239px] max-h-full">
               <h2 class="text-[1.71em] font-bold text-sky-300 mb-4 flex items-center gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                   <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                 </svg>
                 BẢNG GIÁ
               </h2>
-              <div class="space-y-2 text-[1.29em]">
+              <div class="space-y-3 text-[1.29em]">
                 <div class="flex items-center justify-between p-2 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
                   <div class="flex items-center gap-3">
                     <span class="text-white font-bold">20K - 2 GIỜ</span>
@@ -81,11 +81,26 @@
                 </div>
               </div>
             </div>
+
+            <div class="flex-col items-center gap-3 min-[600px]:flex hidden pt-2">
+              <span id="rent-account-now-btn" class="CSS-hero-section-text-animation cursor-pointer hover:scale-110 transition duration-200 text-transparent font-bold bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400 text-[1.43em]">THUÊ ACC NGAY</span>
+              <div id="arrows-animation">
+                <div class="arrow-sliding">
+                  <div class="arrow"></div>
+                </div>
+                <div class="arrow-sliding delay1">
+                  <div class="arrow"></div>
+                </div>
+                <div class="arrow-sliding delay2">
+                  <div class="arrow"></div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="space-y-4 h-fit">
-            <div class="bg-yellow-500/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 h-full">
-              <h3 class="text-[1.71em] font-bold text-yellow-400 mb-4">MÁY NHÀ</h3>
+            <div class="bg-yellow-500/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 h-[239px] max-h-full">
+              <h3 class="text-[1.71em] font-bold text-yellow-400 mb-2">MÁY NHÀ</h3>
               <div class="space-y-2 mb-4 text-[1.29em]">
                 <div class="flex items-center gap-3">
                   <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
@@ -106,21 +121,6 @@
               </div>
               <div class="text-[1em] text-sky-300">
                 (Y/c: Bật HVCI + SCB + TPM)
-              </div>
-            </div>
-
-            <div class="flex-col items-center gap-3 min-[600px]:flex hidden">
-              <span id="rent-account-now-btn" class="CSS-hero-section-text-animation cursor-pointer hover:scale-110 transition duration-200 text-transparent font-bold bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400 text-[1.43em]">THUÊ ACC NGAY</span>
-              <div id="arrows-animation">
-                <div class="arrow-sliding">
-                  <div class="arrow"></div>
-                </div>
-                <div class="arrow-sliding delay1">
-                  <div class="arrow"></div>
-                </div>
-                <div class="arrow-sliding delay2">
-                  <div class="arrow"></div>
-                </div>
               </div>
             </div>
           </div>

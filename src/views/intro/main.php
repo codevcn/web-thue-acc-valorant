@@ -14,13 +14,13 @@
     <div class="flex flex-col items-start space-y-4">
       <div class="flex items-center gap-2">
         <span class="bg-red-600 h-[0.57em] w-[0.57em] rounded-full"></span>
-        <a href="/thueacc" class="text-[1.71em] lg:text-[2.29em] font-bold text-red-600 text-left leading-tight hover:scale-105 cursor-pointer transition duration-200">
+        <a href="/thueacc" class="text-[1.5em] lg:text-[1.8em] font-bold text-red-600 text-left leading-tight hover:scale-105 cursor-pointer transition duration-200">
           THUÊ NGAY
         </a>
       </div>
       <div class="flex items-center gap-2">
         <span class="bg-white h-[0.57em] w-[0.57em] rounded-full"></span>
-        <a href="/sale" class="CSS-notification-red-dot text-[1.14em] lg:text-[1.71em] font-bold text-white text-left leading-tight hover:scale-110 cursor-pointer transition duration-200">
+        <a href="/sale" class="CSS-notification-red-dot text-[1.14em] lg:text-[1.3em] font-bold text-white text-left leading-tight hover:scale-110 cursor-pointer transition duration-200">
           SALE
         </a>
       </div>
@@ -42,12 +42,12 @@
         <span class="block text-transparent bg-clip-text bg-gradient-to-r from-regular-from-blue-cl via-regular-via-blue-cl to-regular-to-blue-cl">
           VALORANT
         </span>
-        <span class="block text-[1.71em] lg:text-[2.29em] text-gray-300 font-normal">
+        <span class="block text-[1em] lg:text-[1.2em] text-gray-300 font-normal">
           CHẤT LƯỢNG CAO
         </span>
       </h1>
 
-      <p class="text-[1.71em] text-gray-300 min-[500px]:max-w-xl w-max leading-relaxed min-[700px]:text-right text-center max-w-[300px]">
+      <p class="text-[1.3em] text-gray-300 min-[500px]:max-w-xl w-max leading-relaxed min-[700px]:text-right text-center max-w-[300px]">
         Trải nghiệm Valorant với những tài khoản premium, các loại rank, skin đẹp. Dịch vụ uy
         tín, giá cả hợp lý.
       </p>

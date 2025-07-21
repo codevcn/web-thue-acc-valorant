@@ -8,7 +8,7 @@
   <title>Thuê Acc Valorant - Dương Anh Tuấn</title>
 </head>
 
-<body class="text-[14px] min-[1300px]:text-[18px] min-[1500px]:text-[22px]">
+<body class="text-[14px] min-[1300px]:text-[18px] min-[1500px]:text-[20px]">
   <?php require_once __DIR__ . '/main.php'; ?>
   <?php require_once __DIR__ . '/../templates/bottom_scripts.php'; ?>
   <script src="/pages/intro/page.js" type="module" defer></script>

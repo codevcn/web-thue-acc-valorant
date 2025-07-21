@@ -29,7 +29,6 @@ class ManageGameAccountsPageManager {
     this.rentTimeInputId = null
     this.RENT_TIME_INPUT_FORMAT = "YYYY-MM-DD HH:mm:ss"
 
-    // this.updateAccountRentTime()
     this.fetchAccounts()
     this.initRankSelectListeners()
 
@@ -42,48 +41,62 @@ class ManageGameAccountsPageManager {
     return this.accountsTableBody
   }
 
-  getLastAccount() {
+  getLastAccounts() {
     const accounts = sharedData.gameAccounts
-    if (accounts.length > 0) {
-      return accounts.at(-1)
+    console.log(">>> accounts 46:", accounts)
+    if (!accounts || accounts.length === 0) return []
+    let busyAcc = null
+    let freeAcc = null
+    let checkAcc = null
+    for (const acc of accounts) {
+      if (acc.status === "Bận") {
+        if (busyAcc) {
+          if (acc.game_code > busyAcc.game_code) {
+            busyAcc = acc
+          }
+        } else {
+          busyAcc = acc
+        }
+      } else if (acc.status === "Check") {
+        if (checkAcc) {
+          if (acc.game_code > checkAcc.game_code) {
+            checkAcc = acc
+          }
+        } else {
+          checkAcc = acc
+        }
+      } else {
+        if (freeAcc) {
+          if (acc.game_code > freeAcc.game_code) {
+            freeAcc = acc
+          }
+        } else {
+          freeAcc = acc
+        }
+      }
     }
-    return null
+    return [freeAcc, checkAcc, busyAcc]
   }
-
-  // updateAccountRentTime() {
-  //   AppLoadingHelper.show("Đang cập nhật thời gian cho thuê...")
-  //   GameAccountService.updateAccountRentTime()
-  //     .then((data) => {
-  //       if (data && data.success) {
-  //         AppLoadingHelper.hide()
-  //         this.fetchAccounts()
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       AppLoadingHelper.hide()
-  //       Toaster.error(
-  //         "Lỗi cập nhật thời gian cho thuê",
-  //         AxiosErrorHandler.handleHTTPError(error).message
-  //       )
-  //     })
-  // }
 
   fetchAccounts() {
     if (this.isFetchingItems || !this.isMoreItems) return
     this.isFetchingItems = true
 
     AppLoadingHelper.show("Đang tải dữ liệu...")
-    const lastAccount = this.getLastAccount()
-    let last_id = lastAccount ? lastAccount.id : null
-    let last_updated_at = lastAccount ? lastAccount.updated_at : null
+    const lastAccounts = this.getLastAccounts()
+    console.log(">>> lastAccounts 87:", lastAccounts)
+    const free_last_game_code = lastAccounts[0]?.game_code || null
+    const check_last_game_code = lastAccounts[1]?.game_code || null
+    const busy_last_game_code = lastAccounts[2]?.game_code || null
     const rank = URLHelper.getUrlQueryParam("rank")
     const status = URLHelper.getUrlQueryParam("status")
     const device_type = URLHelper.getUrlQueryParam("device_type")
     const search_term = URLHelper.getUrlQueryParam("search_term")
 
     GameAccountService.fetchAccountsForAdmin(
-      last_id,
-      last_updated_at,
+      free_last_game_code,
+      check_last_game_code,
+      busy_last_game_code,
       rank,
       status,
       device_type,
@@ -91,6 +104,7 @@ class ManageGameAccountsPageManager {
       "updated_at"
     )
       .then((accounts) => {
+        console.log(">>> accounts:", accounts)
         if (accounts && accounts.length > 0) {
           const startOrderNumber = sharedData.gameAccounts.length + 1
           sharedData.gameAccounts = [...sharedData.gameAccounts, ...accounts]

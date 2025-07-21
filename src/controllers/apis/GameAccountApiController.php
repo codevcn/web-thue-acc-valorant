@@ -6,6 +6,7 @@ namespace Controllers\Apis;
 
 use Services\GameAccountService;
 use Services\FileService;
+use Utils\DevLogger;
 
 class GameAccountApiController
 {
@@ -45,17 +46,19 @@ class GameAccountApiController
 
   public function loadMoreAccountsForAdmin(): array
   {
-    $last_id = isset($_GET['last_id']) ? (int) $_GET['last_id'] : null;
-    $last_updated_at = isset($_GET['last_updated_at']) ? trim($_GET['last_updated_at']) : null;
     $rank = isset($_GET['rank']) ? trim($_GET['rank']) : null;
     $status = isset($_GET['status']) ? trim($_GET['status']) : null;
     $device_type = isset($_GET['device_type']) ? trim($_GET['device_type']) : null;
     $search_term = isset($_GET['search_term']) ? trim($_GET['search_term']) : null;
     $order_type = isset($_GET['order_type']) ? trim($_GET['order_type']) : null;
+    $busy_last_game_code = isset($_GET['busy_last_game_code']) ? trim($_GET['busy_last_game_code']) : null;
+    $free_last_game_code = isset($_GET['free_last_game_code']) ? trim($_GET['free_last_game_code']) : null;
+    $check_last_game_code = isset($_GET['check_last_game_code']) ? trim($_GET['check_last_game_code']) : null;
 
     $accounts = $this->gameAccountService->advancedFetchAccountsForAdmin(
-      $last_id,
-      $last_updated_at,
+      $free_last_game_code,
+      $check_last_game_code,
+      $busy_last_game_code,
       $rank,
       $status,
       $device_type,
@@ -241,6 +244,14 @@ class GameAccountApiController
     } catch (\Throwable $th) {
       if ($imgName) {
         $this->fileService->deleteAvatarImage($imgName);
+      }
+
+      if ($th->getCode() === '23000' && str_contains($th->getMessage(), 'game_code')) {
+        http_response_code(400);
+        return [
+          'success' => false,
+          'message' => "Mã game đã tồn tại."
+        ];
       }
 
       // Bắt lỗi vi phạm CHECK constraint trong SQLite
