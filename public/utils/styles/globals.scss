@@ -421,3 +421,7 @@ button {
   transition: opacity 0.5s, transform 0.1s;
   will-change: transform, opacity;
 }
+
+.CSS-hero-section-text-animation {
+  animation: hero-section-text-animation 1s ease infinite normal forwards;
+}

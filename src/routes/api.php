@@ -113,13 +113,6 @@ $apiRouter->post('/api/v1/admin/update-web-ui', function () use ($adminApiContro
 });
 
 $apiRouter->post('/api/v1/game-accounts/update-rent-time', function () use ($gameAccountApiController, $authMiddleware) {
-  if (!$authMiddleware->handleApi()) {
-    http_response_code(401);
-    return [
-      'success' => false,
-      'message' => 'Unauthorized'
-    ];
-  }
   return $gameAccountApiController->updateAccountRentTime();
 });
 

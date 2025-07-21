@@ -1,5 +1,6 @@
 import { AppLoadingHelper, AxiosErrorHandler, NavigationHelper, Toaster } from "./helpers.js"
 import { AuthService } from "../../services/auth-service.js"
+import { GameAccountService } from "../../services/game-account-services.js"
 
 dayjs.extend(window.dayjs_plugin_customParseFormat)
 
@@ -10,6 +11,7 @@ class InitUtils {
     this.initListeners()
     this.initTooltip()
     this.initChasingDot()
+    this.updateAccountRentTime()
   }
 
   hideShowDrawerMenu(isShow, drawerMenu) {
@@ -171,6 +173,23 @@ class InitUtils {
     }
 
     animate()
+  }
+
+  updateAccountRentTime() {
+    AppLoadingHelper.show()
+    GameAccountService.updateAccountRentTime()
+      .then((data) => {
+        if (data && data.success) {
+          AppLoadingHelper.hide()
+        }
+      })
+      .catch((error) => {
+        AppLoadingHelper.hide()
+        Toaster.error(
+          "Lỗi cập nhật thời gian cho thuê",
+          AxiosErrorHandler.handleHTTPError(error).message
+        )
+      })
   }
 }
 

@@ -110,7 +110,7 @@
             </div>
 
             <div class="flex-col items-center gap-3 min-[600px]:flex hidden">
-              <span id="rent-account-now-btn" class="cursor-pointer hover:scale-110 transition duration-200 text-transparent font-bold bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400 text-[1.43em]">THUÊ ACC NGAY</span>
+              <span id="rent-account-now-btn" class="CSS-hero-section-text-animation cursor-pointer hover:scale-110 transition duration-200 text-transparent font-bold bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400 text-[1.43em]">THUÊ ACC NGAY</span>
               <div id="arrows-animation">
                 <div class="arrow-sliding">
                   <div class="arrow"></div>
@@ -130,7 +130,7 @@
               <h1 class="text-pink-400 text-[1.71em] font-bold">Lưu ý trừ cọc</h1>
             </div>
 
-            <div class="space-y-4 text-[1.14em]">
+            <div class="text-[1.14em]">
               <div class="break-normal">
                 <span class="text-white">-</span>
                 <span class="text-sky-400 font-semibold">Cọc sẽ được hoàn lại: </span>
