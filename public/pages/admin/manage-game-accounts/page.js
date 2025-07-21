@@ -29,7 +29,8 @@ class ManageGameAccountsPageManager {
     this.rentTimeInputId = null
     this.RENT_TIME_INPUT_FORMAT = "YYYY-MM-DD HH:mm:ss"
 
-    this.updateAccountRentTime()
+    // this.updateAccountRentTime()
+    this.fetchAccounts()
     this.initRankSelectListeners()
 
     this.watchScrolling()
@@ -49,23 +50,23 @@ class ManageGameAccountsPageManager {
     return null
   }
 
-  updateAccountRentTime() {
-    AppLoadingHelper.show("Đang cập nhật thời gian cho thuê...")
-    GameAccountService.updateAccountRentTime()
-      .then((data) => {
-        if (data && data.success) {
-          AppLoadingHelper.hide()
-          this.fetchAccounts()
-        }
-      })
-      .catch((error) => {
-        AppLoadingHelper.hide()
-        Toaster.error(
-          "Lỗi cập nhật thời gian cho thuê",
-          AxiosErrorHandler.handleHTTPError(error).message
-        )
-      })
-  }
+  // updateAccountRentTime() {
+  //   AppLoadingHelper.show("Đang cập nhật thời gian cho thuê...")
+  //   GameAccountService.updateAccountRentTime()
+  //     .then((data) => {
+  //       if (data && data.success) {
+  //         AppLoadingHelper.hide()
+  //         this.fetchAccounts()
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       AppLoadingHelper.hide()
+  //       Toaster.error(
+  //         "Lỗi cập nhật thời gian cho thuê",
+  //         AxiosErrorHandler.handleHTTPError(error).message
+  //       )
+  //     })
+  // }
 
   fetchAccounts() {
     if (this.isFetchingItems || !this.isMoreItems) return
