@@ -8,7 +8,7 @@
   <title>Sale - Thuê Acc Valorant</title>
 </head>
 
-<body class="bg-[#ecfbff] text-[14px] min-[1300px]:text-[18px] min-[1600px]:text-[22px]">
+<body class="bg-[#ecfbff] text-[14px] min-[1300px]:text-[18px] min-[1600px]:text-[22px] min-[1900px]:text-[28px] min-[2200px]:text-[32px]">
   <?php require_once __DIR__ . '/main.php'; ?>
   <?php require_once __DIR__ . '/../templates/page_footer.php'; ?>
   <?php require_once __DIR__ . '/../templates/bottom_scripts.php'; ?>

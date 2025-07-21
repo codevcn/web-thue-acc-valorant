@@ -6,7 +6,7 @@
         SALE
       </span>
     </h2>
-    <div class="w-24 h-1 bg-gradient-to-r from-sky-400 to-cyan-400 mx-auto rounded-full mb-6"></div>
+    <div class="w-24 h-1 min-[1440px]:h-3 bg-gradient-to-r from-sky-400 to-cyan-400 mx-auto rounded-full mb-6"></div>
     <p class="text-gray-600 text-[1.14em] mx-auto">
       Cam kết cung cấp tài khoản Valorant uy tín, chất lượng cao.
     </p>
