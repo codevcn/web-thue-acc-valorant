@@ -1,4 +1,4 @@
-<div id="accounts-list-container" class="bg-gradient-to-br from-sky-50 to-cyan-50 pb-20 pt-16 text-[14px] min-[1441px]:text-[22px]">
+<div id="accounts-list-container" class="bg-gradient-to-br from-sky-50 to-cyan-50 pb-20 pt-16">
   <div class="mx-auto min-[550px]:px-6 px-2">
     <!-- Section Header -->
     <div class="text-center mb-6">
@@ -9,7 +9,7 @@
         </span>
       </h2>
       <div class="w-24 h-1 bg-gradient-to-r from-sky-400 to-cyan-400 mx-auto rounded-full mb-6"></div>
-      <p class="text-gray-600 text-[1.14em] max-w-2xl mx-auto">
+      <p class="text-gray-600 text-[1.14em] mx-auto">
         Tuyển chọn những tài khoản chất lượng cao.
       </p>
     </div>

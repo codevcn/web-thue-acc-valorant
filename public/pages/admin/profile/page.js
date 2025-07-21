@@ -156,11 +156,11 @@ class ProfilePageManager {
     window.addEventListener("scroll", (e) => {
       const THRESHOLD = 300
       if (window.scrollY > THRESHOLD) {
-        this.scrollToTopBtn.classList.remove("bottom-[-60px]")
-        this.scrollToTopBtn.classList.add("bottom-6")
+        this.scrollToTopBtn.classList.remove("bottom-[-4.26em]")
+        this.scrollToTopBtn.classList.add("bottom-[1.71em]")
       } else {
-        this.scrollToTopBtn.classList.remove("bottom-6")
-        this.scrollToTopBtn.classList.add("bottom-[-60px]")
+        this.scrollToTopBtn.classList.remove("bottom-[1.71em]")
+        this.scrollToTopBtn.classList.add("bottom-[-4.26em]")
       }
     })
   }

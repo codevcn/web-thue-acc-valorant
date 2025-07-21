@@ -4,7 +4,7 @@ import { AccountHelper, TimeHelper } from "./helpers.js"
 export const AccountCard = (account) => {
   const { status, rank, avatar, game_code, device_type, description, acc_name, id } = account
   return html`
-    <div class="rounded-lg overflow-hidden w-full text-[14px] min-[1441px]:text-[20px]">
+    <div class="rounded-lg overflow-hidden w-full">
       <div
         class="CSS-styled-scrollbar flex min-[1242px]:flex-row flex-col gap-4 w-full min-[1242px]:aspect-[1825/612] overflow-y-auto relative aspect-auto"
       >
@@ -105,7 +105,7 @@ export const AccountCard = (account) => {
                   status.toLowerCase()
                 )} px-4 py-0.5 rounded-lg"
               >
-                ${status}
+                ${status === "Check" || status === "Rảnh" ? "Rảnh" : status}
               </span>
             </div>
 
@@ -169,7 +169,9 @@ export const AccountCard = (account) => {
                     </p>
                   </div>
                 `
-              : html` <div class="text-gray-400 italic font-bold text-[1.14em]">Chưa có mô tả</div> `}
+              : html`
+                  <div class="text-gray-400 italic font-bold text-[1.14em]">Chưa có mô tả</div>
+                `}
           </div>
 
           <button

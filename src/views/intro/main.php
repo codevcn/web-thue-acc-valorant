@@ -68,7 +68,7 @@
     <div class="block min-[700px]:hidden mt-6">
       <div class="flex items-center gap-4">
         <div class="flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 hover:scale-105 cursor-pointer transition duration-200">
-          <a href="/" class="flex items-center gap-2 w-max text-[1.71em] lg:text-[2.29em] font-bold text-white leading-tight">
+          <a href="/thueacc" class="flex items-center gap-2 w-max text-[1.43em] lg:text-[2.29em] font-bold text-white leading-tight">
             <span>THUÊ NGAY</span>
             <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-swords-icon lucide-swords text-white w-[1.71em] h-[1.71em]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" />
@@ -83,7 +83,7 @@
           </a>
         </div>
         <div class="flex items-center gap-2 rounded-lg bg-white px-4 py-2 hover:scale-105 cursor-pointer transition duration-200">
-          <a href="/sale" class="text-[1.14em] lg:text-[1.71em] font-bold text-black leading-tight">
+          <a href="/sale" class="text-[1.43em] lg:text-[1.71em] font-bold text-black leading-tight">
             SALE
           </a>
         </div>

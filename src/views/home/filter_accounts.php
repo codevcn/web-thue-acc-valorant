@@ -1,7 +1,7 @@
-<div class="bg-[#aae3ff] rounded-2xl px-4 py-2 mx-auto text-black shadow-2xl relative text-[14px] min-[1441px]:text-[20px]">
+<div class="bg-[#aae3ff] rounded-2xl px-4 py-2 min-[1441px]:px-6 min-[1441px]:py-4 mx-auto text-black shadow-2xl relative">
   <div class="flex items-center justify-center min-[1072px]:flex-nowrap flex-wrap w-full gap-x-8 gap-y-4 max-h-[300px]">
     <div class="flex items-center gap-2 min-w-max">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sliders-horizontal-icon lucide-sliders-horizontal">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-[1.43em] h-[1.43em]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="21" x2="14" y1="4" y2="4" />
         <line x1="10" x2="3" y1="4" y2="4" />
         <line x1="21" x2="12" y1="12" y2="12" />
@@ -22,7 +22,7 @@
         <p class="text-[1.14em] font-medium mb-1 flex items-center gap-2 pl-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="w-5 h-5 text-current fill-current"
+            class="w-[1.43em] h-[1.43em] text-current fill-current"
             viewBox="0 0 24 24">
             <path
               d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
@@ -34,7 +34,7 @@
           </svg>
         </p>
         <div id="account-rank-types" class="CSS-hover-flash-button cursor-pointer">
-          <select id="account-rank-types-select" class="text-[1em] w-full bg-regular-blue-cl cursor-pointer text-white font-bold rounded-lg px-4 py-1.5 text-base focus:outline-none">
+          <select id="account-rank-types-select" class="text-[1.1em] leading-tight w-full bg-regular-blue-cl cursor-pointer text-white font-bold rounded-lg px-4 py-1.5 text-base focus:outline-none">
             <option value="ALL" class="bg-white text-black">Tất cả loại rank</option>
           </select>
         </div>
@@ -44,8 +44,7 @@
         <p class="text-[1.14em] font-medium mb-1 flex items-center gap-2 pl-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
+            class="w-[1.43em] h-[1.43em]"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -64,11 +63,10 @@
           </svg>
         </p>
         <div id="account-statuses" class="CSS-hover-flash-button cursor-pointer">
-          <select id="account-statuses-select" class="text-[1em] w-full bg-regular-blue-cl cursor-pointer text-white font-bold rounded-lg px-4 py-1.5 text-base focus:outline-none">
+          <select id="account-statuses-select" class="text-[1.1em] leading-tight w-full bg-regular-blue-cl cursor-pointer text-white font-bold rounded-lg px-4 py-1.5 text-base focus:outline-none">
             <option value="ALL" class="bg-white text-black">Tất cả trạng thái</option>
             <option value="Rảnh" class="bg-white text-black">Rảnh</option>
             <option value="Bận" class="bg-white text-black">Bận</option>
-            <option value="Check" class="bg-white text-black">Check</option>
           </select>
         </div>
       </div>
@@ -77,7 +75,7 @@
         <p class="text-[1.14em] font-medium mb-1 flex items-center gap-2 pl-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="w-5 h-5 text-current"
+            class="w-[1.43em] h-[1.43em] text-current"
             fill="none"
             stroke="currentColor"
             stroke-width="2"
@@ -94,7 +92,7 @@
           </svg>
         </p>
         <div id="account-device-types" class="CSS-hover-flash-button cursor-pointer">
-          <select id="account-device-types-select" class="text-[1em] w-full bg-regular-blue-cl cursor-pointer text-white font-bold rounded-lg px-4 py-1.5 text-base focus:outline-none">
+          <select id="account-device-types-select" class="text-[1.1em] leading-tight w-full bg-regular-blue-cl cursor-pointer text-white font-bold rounded-lg px-4 py-1.5 text-base focus:outline-none">
             <option value="ALL" class="bg-white text-black">Tất cả loại máy</option>
             <option value="Tất cả" class="bg-white text-black">Tất cả</option>
             <option value="ALL" class="bg-white text-black">Máy nhà</option>
@@ -106,8 +104,8 @@
         <p class="text-[1.14em] font-medium mb-1 items-center gap-2 pl-1 opacity-0 flex">
           <span>Hủy lọc</span>
         </p>
-        <button id="cancel-all-filters-btn" class="flex items-center gap-2 text-[1em] w-full h-[35px] bg-red-600 hover:scale-105 text-white rounded-lg px-4 py-1.5 text-base font-medium transition duration-200">
-          <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-x-icon lucide-x" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <button id="cancel-all-filters-btn" class="flex items-center gap-2 text-[1.1em] w-full leading-tight bg-red-600 hover:scale-105 text-white rounded-lg px-4 py-1.5 text-base font-medium transition duration-200">
+          <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-x-icon lucide-x w-[1.29em] h-[1.29em]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 6 6 18" />
             <path d="m6 6 12 12" />
           </svg>
