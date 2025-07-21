@@ -31,7 +31,7 @@ class AdminController
   public function showManageGameAccountsPage(): void
   {
     $auth = $this->authService->verifyAuth();
-    $admin = $this->userService->findAdminById($auth['user']['id']);
+    $admin = $this->userService->findAdminById((int)$auth['user']['id']);
 
     $ranks = $this->gameAccountService->fetchAccountRankTypes();
 
