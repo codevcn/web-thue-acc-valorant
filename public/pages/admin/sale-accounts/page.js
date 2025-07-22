@@ -700,174 +700,174 @@ class UpdateAccountManager {
   }
 }
 
-class ImportExportManager {
-  constructor() {
-    this.accountsPreviewModal = document.getElementById("accounts-preview-modal")
+// class ImportExportManager {
+//   constructor() {
+//     this.accountsPreviewModal = document.getElementById("accounts-preview-modal")
 
-    this.accountsImporting = []
+//     this.accountsImporting = []
 
-    this.initListeners()
-  }
+//     this.initListeners()
+//   }
 
-  initListeners() {
-    document.getElementById("export-accounts-table-to-excel-btn").addEventListener("click", (e) => {
-      this.exportAccountsTableToExcel()
-    })
+//   initListeners() {
+//     document.getElementById("export-accounts-table-to-excel-btn").addEventListener("click", (e) => {
+//       this.exportAccountsTableToExcel()
+//     })
 
-    document.getElementById("import-accounts-from-excel-btn").addEventListener("click", (e) => {
-      this.importAccountsFromExcel()
-    })
+//     document.getElementById("import-accounts-from-excel-btn").addEventListener("click", (e) => {
+//       this.importAccountsFromExcel()
+//     })
 
-    this.accountsPreviewModal
-      .querySelector(".QUERY-accounts-preview-overlay")
-      .addEventListener("click", (e) => {
-        this.accountsImporting = []
-        this.hideAccountsPreviewModal()
-      })
+//     this.accountsPreviewModal
+//       .querySelector(".QUERY-accounts-preview-overlay")
+//       .addEventListener("click", (e) => {
+//         this.accountsImporting = []
+//         this.hideAccountsPreviewModal()
+//       })
 
-    document.getElementById("start-importing-accounts-btn").addEventListener("click", (e) => {
-      this.processImportAccounts()
-    })
+//     document.getElementById("start-importing-accounts-btn").addEventListener("click", (e) => {
+//       this.processImportAccounts()
+//     })
 
-    document.getElementById("cancel-importing-accounts-btn").addEventListener("click", (e) => {
-      this.accountsImporting = []
-      this.hideAccountsPreviewModal()
-    })
-  }
+//     document.getElementById("cancel-importing-accounts-btn").addEventListener("click", (e) => {
+//       this.accountsImporting = []
+//       this.hideAccountsPreviewModal()
+//     })
+//   }
 
-  showAccountsPreviewModal() {
-    this.accountsPreviewModal.hidden = false
-    const accountsPreviewTableBody = document.getElementById("accounts-preview-table-body")
-    accountsPreviewTableBody.innerHTML = ""
+//   showAccountsPreviewModal() {
+//     this.accountsPreviewModal.hidden = false
+//     const accountsPreviewTableBody = document.getElementById("accounts-preview-table-body")
+//     accountsPreviewTableBody.innerHTML = ""
 
-    let order_number = 1
-    const accounts = this.accountsImporting
-    for (const account of accounts) {
-      const accountRow = LitHTMLHelper.getFragment(AccountPreviewRow, account, order_number)
-      accountsPreviewTableBody.appendChild(accountRow)
-      order_number++
-    }
+//     let order_number = 1
+//     const accounts = this.accountsImporting
+//     for (const account of accounts) {
+//       const accountRow = LitHTMLHelper.getFragment(AccountPreviewRow, account, order_number)
+//       accountsPreviewTableBody.appendChild(accountRow)
+//       order_number++
+//     }
 
-    initUtils.initTooltip()
-  }
+//     initUtils.initTooltip()
+//   }
 
-  hideAccountsPreviewModal() {
-    this.accountsPreviewModal.hidden = true
-  }
+//   hideAccountsPreviewModal() {
+//     this.accountsPreviewModal.hidden = true
+//   }
 
-  exportAccountsTableToExcel() {
-    const rows = []
-    const headerRow = ["Avatar", "Thư", "Giá", "Gmail", "Trạng thái", "Mô tả"]
-    rows.push(headerRow)
+//   exportAccountsTableToExcel() {
+//     const rows = []
+//     const headerRow = ["Avatar", "Thư", "Giá", "Gmail", "Trạng thái", "Mô tả"]
+//     rows.push(headerRow)
 
-    // Lấy tất cả các hàng từ tbody
-    const tbody = document.getElementById("accounts-table-body")
-    const trList = tbody.querySelectorAll("tr")
+//     // Lấy tất cả các hàng từ tbody
+//     const tbody = document.getElementById("accounts-table-body")
+//     const trList = tbody.querySelectorAll("tr")
 
-    trList.forEach((tr) => {
-      const tds = tr.querySelectorAll("td")
+//     trList.forEach((tr) => {
+//       const tds = tr.querySelectorAll("td")
 
-      // Cấu trúc cột (dựa trên thứ tự column bạn định nghĩa):
-      const avatar = tds[1]?.querySelector("img")?.src.split("images/account/")[1]
-      const descRow = tds[6]
-      const description = descRow?.querySelector(".QUERY-no-description")
-        ? undefined
-        : descRow.innerText.trim()
-      const row = [
-        avatar, // avatar
-        tds[2]?.innerText.trim(), // letter
-        tds[3]?.innerText.trim(), // price
-        tds[4]?.innerText.trim(), // gmail
-        tds[5]?.innerText.trim(), // status
-        description, // description
-      ]
+//       // Cấu trúc cột (dựa trên thứ tự column bạn định nghĩa):
+//       const avatar = tds[1]?.querySelector("img")?.src.split("images/account/")[1]
+//       const descRow = tds[6]
+//       const description = descRow?.querySelector(".QUERY-no-description")
+//         ? undefined
+//         : descRow.innerText.trim()
+//       const row = [
+//         avatar, // avatar
+//         tds[2]?.innerText.trim(), // letter
+//         tds[3]?.innerText.trim(), // price
+//         tds[4]?.innerText.trim(), // gmail
+//         tds[5]?.innerText.trim(), // status
+//         description, // description
+//       ]
 
-      rows.push(row)
-    })
+//       rows.push(row)
+//     })
 
-    const worksheet = XLSX.utils.aoa_to_sheet(rows)
-    const workbook = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(workbook, worksheet, "SaleAccounts")
+//     const worksheet = XLSX.utils.aoa_to_sheet(rows)
+//     const workbook = XLSX.utils.book_new()
+//     XLSX.utils.book_append_sheet(workbook, worksheet, "SaleAccounts")
 
-    const today = dayjs().format("YYYY-MM-DD_HH-mm-ss")
-    XLSX.writeFile(workbook, `DanhSachTaiKhoanSale_${today}.xlsx`)
-  }
+//     const today = dayjs().format("YYYY-MM-DD_HH-mm-ss")
+//     XLSX.writeFile(workbook, `DanhSachTaiKhoanSale_${today}.xlsx`)
+//   }
 
-  importAccountsFromExcel() {
-    const input = document.createElement("input")
-    input.type = "file"
-    input.accept = ".xlsx,.xls"
-    input.style.display = "none"
+//   importAccountsFromExcel() {
+//     const input = document.createElement("input")
+//     input.type = "file"
+//     input.accept = ".xlsx,.xls"
+//     input.style.display = "none"
 
-    input.addEventListener("change", (event) => {
-      const file = event.target.files[0]
-      if (!file) return
+//     input.addEventListener("change", (event) => {
+//       const file = event.target.files[0]
+//       if (!file) return
 
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        try {
-          const data = new Uint8Array(e.target.result)
-          const workbook = XLSX.read(data, { type: "array" })
-          const worksheet = workbook.Sheets[workbook.SheetNames[0]]
-          const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 })
+//       const reader = new FileReader()
+//       reader.onload = (e) => {
+//         try {
+//           const data = new Uint8Array(e.target.result)
+//           const workbook = XLSX.read(data, { type: "array" })
+//           const worksheet = workbook.Sheets[workbook.SheetNames[0]]
+//           const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 })
 
-          // Bỏ qua header row
-          const rows = jsonData.slice(1)
+//           // Bỏ qua header row
+//           const rows = jsonData.slice(1)
 
-          if (rows.length === 0) {
-            Toaster.error("Lỗi", "File Excel không có dữ liệu")
-            return
-          }
+//           if (rows.length === 0) {
+//             Toaster.error("Lỗi", "File Excel không có dữ liệu")
+//             return
+//           }
 
-          const accounts = rows
-            .map((row) => ({
-              letter: row[1] || "",
-              price: row[2] || "",
-              gmail: row[3] || "",
-              status: row[4] || "",
-              description: row[5] || "",
-            }))
-            .filter((account) => account.letter && account.price && account.gmail && account.status)
+//           const accounts = rows
+//             .map((row) => ({
+//               letter: row[1] || "",
+//               price: row[2] || "",
+//               gmail: row[3] || "",
+//               status: row[4] || "",
+//               description: row[5] || "",
+//             }))
+//             .filter((account) => account.letter && account.price && account.gmail && account.status)
 
-          if (accounts.length === 0) {
-            Toaster.error("Lỗi", "Không có dữ liệu hợp lệ trong file Excel")
-            return
-          }
+//           if (accounts.length === 0) {
+//             Toaster.error("Lỗi", "Không có dữ liệu hợp lệ trong file Excel")
+//             return
+//           }
 
-          this.accountsImporting = accounts
-          this.showAccountsPreviewModal()
-        } catch (error) {
-          Toaster.error("Lỗi", "Lỗi khi đọc file Excel")
-        }
-      }
+//           this.accountsImporting = accounts
+//           this.showAccountsPreviewModal()
+//         } catch (error) {
+//           Toaster.error("Lỗi", "Lỗi khi đọc file Excel")
+//         }
+//       }
 
-      reader.readAsArrayBuffer(file)
-    })
+//       reader.readAsArrayBuffer(file)
+//     })
 
-    document.body.appendChild(input)
-    input.click()
-    document.body.removeChild(input)
-  }
+//     document.body.appendChild(input)
+//     input.click()
+//     document.body.removeChild(input)
+//   }
 
-  processImportAccounts() {
-    const accounts = this.accountsImporting
-    AppLoadingHelper.show()
-    SaleAccountService.addNewAccounts(accounts)
-      .then((data) => {
-        if (data && data.success) {
-          Toaster.success("Thông báo", `Đã tải lên thành công ${accounts.length} tài khoản`, () => {
-            NavigationHelper.reloadPage()
-          })
-        }
-      })
-      .catch((error) => {
-        Toaster.error("Lỗi thêm tài khoản", AxiosErrorHandler.handleHTTPError(error).message)
-      })
-      .finally(() => {
-        AppLoadingHelper.hide()
-      })
-  }
-}
+//   processImportAccounts() {
+//     const accounts = this.accountsImporting
+//     AppLoadingHelper.show()
+//     SaleAccountService.addNewAccounts(accounts)
+//       .then((data) => {
+//         if (data && data.success) {
+//           Toaster.success("Thông báo", `Đã tải lên thành công ${accounts.length} tài khoản`, () => {
+//             NavigationHelper.reloadPage()
+//           })
+//         }
+//       })
+//       .catch((error) => {
+//         Toaster.error("Lỗi thêm tài khoản", AxiosErrorHandler.handleHTTPError(error).message)
+//       })
+//       .finally(() => {
+//         AppLoadingHelper.hide()
+//       })
+//   }
+// }
 
 class FilterManager {
   constructor() {
@@ -1034,7 +1034,7 @@ class FilterManager {
 }
 
 const uiEditor = new UIEditor()
-new ImportExportManager()
+// new ImportExportManager()
 new AddNewAccountManager()
 const updateAccountManager = new UpdateAccountManager()
 const deleteAccountManager = new DeleteAccountManager()
