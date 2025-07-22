@@ -649,7 +649,7 @@ export const SaleAccountRow = (account, orderNumber) => {
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
         <div
-          class="QUERY-account-UI-item-sell-to-time QUERY-input-container text-sm text-regular-blue-4 font-medium max-w-[120px] truncate"
+          class="QUERY-account-UI-item-sell-to-time QUERY-input-container text-sm font-medium max-w-[120px] relative w-full"
         >
           <input
             type="text"
@@ -657,7 +657,7 @@ export const SaleAccountRow = (account, orderNumber) => {
             data-vcn-tooltip-content="Nhập thời gian sale (HH:mm DD/MM/YYYY)"
             placeholder="Nhập thời gian sale (HH:mm DD/MM/YYYY)"
             name="sell-to-time"
-            value="${dayjs(sell_to_time).format("HH:mm DD/MM/YYYY")}"
+            value="${sell_to_time ? dayjs(sell_to_time).format("HH:mm DD/MM/YYYY") : ""}"
           />
           <div
             hidden

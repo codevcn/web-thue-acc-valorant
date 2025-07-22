@@ -26,6 +26,7 @@ class SaleAccountsPageManager {
     this.isFetchingItems = false
     this.isMoreItems = true
     this.SELL_TO_TIME_INPUT_FORMAT = "YYYY-MM-DD HH:mm:ss"
+    this.clickedAccountRowId = null
 
     this.fetchAccounts()
 
@@ -114,7 +115,54 @@ class SaleAccountsPageManager {
   }
 
   initInputListeners() {
-    this.accountsTableBody.addEventListener("change", (e) => {
+    // hide actions section when click outside
+    document.body.addEventListener("click", (e) => {
+      const target = e.target
+      if (target && !target.closest(".QUERY-input-container")) {
+        const actions = this.accountsTableBody.querySelectorAll(
+          `.QUERY-account-row-item-${this.clickedAccountRowId} .QUERY-input-actions`
+        )
+        for (const action of actions) {
+          action.hidden = true
+        }
+        this.clickedAccountRowId = null
+      }
+    })
+    // show actions section when focus in input
+    this.accountsTableBody.addEventListener("focusin", (e) => {
+      let target = e.target
+      while (target && target.tagName !== "INPUT") {
+        target = target.parentElement
+        if (target && target.classList.contains("accounts-table-body")) {
+          return
+        }
+      }
+      if (!target) return
+      this.clickedAccountRowId = target.closest(".QUERY-account-row-item").dataset.accountId * 1
+      const actionsSection = target.nextElementSibling
+      if (actionsSection) {
+        actionsSection.hidden = false
+      }
+    })
+    // bắt sự kiện lưu thời gian cho thuê
+    this.accountsTableBody.addEventListener("click", (e) => {
+      let target = e.target
+      while (target && !target.classList.contains("QUERY-input-save-action")) {
+        target = target.parentElement
+        if (target && target.classList.contains("accounts-table-body")) {
+          return
+        }
+      }
+      if (!target || !target.classList.contains("QUERY-input-save-action")) return
+      const input = target.closest(".QUERY-input-container").querySelector("input")
+      if (input.classList.contains("QUERY-sell-to-time-input")) {
+        const accountId = target.closest(".QUERY-account-row-item").dataset.accountId * 1
+        this.updateAccountSellToTime(accountId, input.value)
+      }
+    })
+    this.accountsTableBody.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter") return
+      e.preventDefault()
       let target = e.target
       while (target && !target.classList.contains("QUERY-sell-to-time-input")) {
         target = target.parentElement
@@ -296,6 +344,7 @@ class AddNewAccountManager {
     this.avatarInput = document.getElementById("avatar-input--add-section")
 
     this.isSubmitting = false
+    this.SELL_TO_TIME_INPUT_FORMAT = "YYYY-MM-DD HH:mm:ss"
 
     this.initListeners()
   }
@@ -387,6 +436,7 @@ class AddNewAccountManager {
       letter: formData.get("letter"),
       gmail: formData.get("gmail"),
       price: formData.get("price"),
+      sell_to_time: dayjs().add(1, "month").format(this.SELL_TO_TIME_INPUT_FORMAT),
     }
     if (!this.validateFormData({ ...data })) {
       this.isSubmitting = false

@@ -40,7 +40,7 @@ class SalePageManager {
   initCountdown() {
     document.querySelectorAll("#slides-container .QUERY-count-down-text").forEach((el) => {
       const futureTimeStr = el.dataset.sellToTime
-      if (!futureTimeStr) return
+      if (!futureTimeStr || futureTimeStr.length === 0) return
 
       const future = new Date(futureTimeStr.replace(" ", "T"))
 

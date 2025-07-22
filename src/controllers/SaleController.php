@@ -30,10 +30,6 @@ class SaleController
     $saleAccounts = $this->saleAccountService->fetchAccountsWithPagination($page, $limit);
     $accountsCount = count($saleAccounts);
 
-    foreach ($saleAccounts as $saleAccount) {
-      DevLogger::log('saleAccount:', $saleAccount['sell_to_time']);
-    }
-
     $rules = $this->rulesService->findRules();
     $admin = $this->userService->findAdmin();
     $totalPages = ceil($this->saleAccountService->countAll() / $limit);

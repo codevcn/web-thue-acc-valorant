@@ -26,7 +26,7 @@ class ManageGameAccountsPageManager {
 
     this.isFetchingItems = false
     this.isMoreItems = true
-    this.rentTimeInputId = null
+    this.clickedAccountRowId = null
     this.RENT_TIME_INPUT_FORMAT = "YYYY-MM-DD HH:mm:ss"
 
     this.fetchAccounts()
@@ -223,7 +223,7 @@ class ManageGameAccountsPageManager {
   submitRentTimeFromInput(input) {
     const value = input.value || ""
     if (value) {
-      if (!this.rentTimeInputId) return
+      if (!this.clickedAccountRowId) return
       if (input.classList.contains("QUERY-rent-to-time-input--exact")) {
         // Kiểm tra định dạng "HH:mm DD/MM/YYYY" bằng dayjs
         const rentToTime = dayjs(value, "HH:mm DD/MM/YYYY", true)
@@ -241,7 +241,7 @@ class ManageGameAccountsPageManager {
           return
         }
         const rentToTimeValue = rentToTime.format(this.RENT_TIME_INPUT_FORMAT)
-        updateAccountManager.updateRentTime(this.rentTimeInputId, rentToTimeValue)
+        updateAccountManager.updateRentTime(this.clickedAccountRowId, rentToTimeValue)
         return
       }
       if (!ValidationHelper.isPureInteger(value)) {
@@ -255,7 +255,7 @@ class ManageGameAccountsPageManager {
       let rentToTimeValue = input.dataset.rentToTimeValue
       rentToTimeValue = rentToTimeValue ? dayjs(rentToTimeValue) : dayjs() // nếu ko có thời gian cho thuê thì lấy thời gian hiện tại
       rentToTimeValue = rentToTimeValue.add(value, "hours").format(this.RENT_TIME_INPUT_FORMAT)
-      updateAccountManager.updateRentTime(this.rentTimeInputId, rentToTimeValue)
+      updateAccountManager.updateRentTime(this.clickedAccountRowId, rentToTimeValue)
     } else {
       Toaster.error("Thời gian thuê không được để trống")
     }
@@ -276,13 +276,13 @@ class ManageGameAccountsPageManager {
     document.body.addEventListener("click", (e) => {
       const target = e.target
       if (target && !target.closest(".QUERY-input-container")) {
-        const rentTimeActions = this.accountsTableBody.querySelectorAll(
-          `.QUERY-account-row-item-${this.rentTimeInputId} .QUERY-input-actions`
+        const actions = this.accountsTableBody.querySelectorAll(
+          `.QUERY-account-row-item-${this.clickedAccountRowId} .QUERY-input-actions`
         )
-        for (const rentTimeAction of rentTimeActions) {
-          rentTimeAction.hidden = true
+        for (const action of actions) {
+          action.hidden = true
         }
-        this.rentTimeInputId = null
+        this.clickedAccountRowId = null
       }
     })
     // show actions section when focus in input
@@ -295,7 +295,7 @@ class ManageGameAccountsPageManager {
         }
       }
       if (!target) return
-      this.rentTimeInputId = target.closest(".QUERY-account-row-item").dataset.accountId * 1
+      this.clickedAccountRowId = target.closest(".QUERY-account-row-item").dataset.accountId * 1
       const actionsSection = target.nextElementSibling
       if (actionsSection) {
         actionsSection.hidden = false

@@ -87,8 +87,8 @@ class SaleAccountService
 
   public function addNewAccounts(array $data): ?int
   {
-    $sql = "INSERT INTO sale_accounts (`status`, price, gmail, letter, `description`, avatar, created_at)
-            VALUES (:status, :price, :gmail, :letter, :description, :avatar, :created_at)";
+    $sql = "INSERT INTO sale_accounts (`status`, price, gmail, letter, `description`, avatar, created_at, sell_to_time)
+            VALUES (:status, :price, :gmail, :letter, :description, :avatar, :created_at, :sell_to_time)";
     try {
       $this->db->beginTransaction();
       $stmt = $this->db->prepare($sql);
@@ -103,6 +103,7 @@ class SaleAccountService
         $letter      = $row['letter'] ?? null;
         $description = $row['description'] ?? '';
         $avatar      = $row['avatar'] ?? null;
+        $sell_to_time = $row['sell_to_time'] ?? null;
 
         if (!$status) {
           throw new \InvalidArgumentException("Trường trạng thái không được để trống.");
@@ -127,6 +128,7 @@ class SaleAccountService
         $stmt->bindValue(':description', $description);
         $stmt->bindValue(':avatar', $avatar);
         $stmt->bindValue(':created_at', $now);
+        $stmt->bindValue(':sell_to_time', $sell_to_time);
 
         $stmt->execute();
 

@@ -1,8 +1,0 @@
-| Thành phần         | Cách đặt tên       | Ví dụ              |
-| ------------------ | ------------------ | ------------------ |
-| Class              | PascalCase         | `UserController`   |
-| Method             | camelCase          | `getUserById()`    |
-| Variable           | camelCase          | `$userId`          |
-| Constant           | UPPER\_SNAKE\_CASE | `MAX_RETRIES`      |
-| File PHP (class)   | PascalCase         | `LoginService.php` |
-| File view/template | snake\_case        | `login_form.php`   |
