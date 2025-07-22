@@ -161,6 +161,7 @@ class SaleAccountService
     $letter      = $data['letter'] ?? null;
     $description = $data['description'] ?? null;
     $avatar      = $data['avatar'] ?? null;
+    $sell_to_time = $data['sell_to_time'] ?? null;
 
     $updateFields = [];
     $params = [];
@@ -189,7 +190,10 @@ class SaleAccountService
       $updateFields[] = "avatar = :avatar";
       $params[':avatar'] = $avatar;
     }
-
+    if ($sell_to_time !== null) {
+      $updateFields[] = "sell_to_time = :sell_to_time";
+      $params[':sell_to_time'] = $sell_to_time;
+    }
     if (empty($updateFields)) {
       throw new \InvalidArgumentException("Không có trường nào để cập nhật.");
     }

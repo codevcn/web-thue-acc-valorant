@@ -41,7 +41,6 @@ export class GameAccountService {
     if (device_type) params.device_type = device_type
     if (search_term) params.search_term = search_term
     if (order_type) params.order_type = order_type
-    console.log(">>> params 44:", params)
     const { data } = await axiosClient.get("/admin/game-accounts/load-more", { params })
     return data.accounts
   }

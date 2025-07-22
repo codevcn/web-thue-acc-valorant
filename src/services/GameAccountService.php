@@ -288,6 +288,18 @@ class GameAccountService
     }
   }
 
+  public function validateRentToTime(string $rentToTime): void
+  {
+    $now = new \DateTime($this->getNow(), new \DateTimeZone('Asia/Ho_Chi_Minh'));
+    $rentToTimeObj = \DateTime::createFromFormat('Y-m-d H:i:s', $rentToTime, new \DateTimeZone('Asia/Ho_Chi_Minh'));
+    if (!$rentToTimeObj) {
+      throw new \InvalidArgumentException("Thời gian thuê không hợp lệ.");
+    }
+    if ($rentToTimeObj < $now) {
+      throw new \InvalidArgumentException("Thời gian kết thúc thuê phải lớn hơn thời gian hiện tại.");
+    }
+  }
+
   public function updateAccount(int $accountId, array $data): void
   {
     // Kiểm tra tài khoản có tồn tại không
@@ -341,10 +353,14 @@ class GameAccountService
       $params[':avatar'] = $avatar;
     }
     if ($rentToTime !== null) {
-      if ($account['status'] !== 'Bận') {
-        $updateFields[] = "`status` = :status";
-        $params[':status'] = "Bận";
+      $this->validateRentToTime($rentToTime);
+      if (!$account['rent_from_time']) {
+        if ($account['status'] !== 'Rảnh') {
+          throw new \InvalidArgumentException("Tài khoản phải ở trạng thái rảnh.");
+        }
       }
+      $updateFields[] = "`status` = :status";
+      $params[':status'] = "Bận";
       if ($account['rent_from_time'] === null) {
         $updateFields[] = "rent_from_time = :rent_from_time";
         $params[':rent_from_time'] = $this->getNow();
@@ -424,15 +440,6 @@ class GameAccountService
 
   public function switchAccountStatus(int $accountId, string $status): void
   {
-    $account = $this->findAccountById($accountId);
-    if (!$account) {
-      throw new \InvalidArgumentException("Tài khoản không tồn tại.");
-    }
-    $currentStatus = $account['status'];
-    if ($currentStatus === 'Bận' && $this->checkAccountIsRenting($account)) {
-      throw new \InvalidArgumentException("Tài khoản đang được thuê, không thể chuyển trạng thái.");
-    }
-
     $this->updateAccount($accountId, [
       'status' => $status,
     ]);

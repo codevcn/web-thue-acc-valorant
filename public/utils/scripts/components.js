@@ -40,7 +40,7 @@ export const AccountCard = (account) => {
             <h2 class="text-[1.43em] font-bold text-gray-800">THÔNG TIN TÀI KHOẢN</h2>
           </div>
 
-          <div class="space-y-3 min-[1441px]:space-y-4 flex-1">
+          <div class="space-y-3 flex-1">
             <div class="flex justify-between items-center gap-6">
               <span class="text-gray-600 font-medium flex items-center gap-2">
                 <svg
@@ -615,7 +615,7 @@ export const AccountPreviewRow = (account, orderNumber) => {
 }
 
 export const SaleAccountRow = (account, orderNumber) => {
-  const { letter, price, gmail, status, description, avatar, id } = account
+  const { letter, price, gmail, status, description, avatar, id, sell_to_time } = account
   const lowerCasedStatus = status.toLowerCase()
   return html`
     <tr
@@ -645,6 +645,30 @@ export const SaleAccountRow = (account, orderNumber) => {
       <td class="px-3 py-3 whitespace-nowrap">
         <div class="QUERY-account-UI-item-rank text-sm font-medium max-w-[100px] truncate">
           ${price}
+        </div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div
+          class="QUERY-account-UI-item-sell-to-time QUERY-input-container text-sm text-regular-blue-4 font-medium max-w-[120px] truncate"
+        >
+          <input
+            type="text"
+            class="QUERY-tooltip-trigger QUERY-sell-to-time-input w-full bg-transparent pb-1 border-b border-solid border-gray-400"
+            data-vcn-tooltip-content="Nhập thời gian sale (HH:mm DD/MM/YYYY)"
+            placeholder="Nhập thời gian sale (HH:mm DD/MM/YYYY)"
+            name="sell-to-time"
+            value="${dayjs(sell_to_time).format("HH:mm DD/MM/YYYY")}"
+          />
+          <div
+            hidden
+            class="QUERY-input-actions absolute z-20 top-[calc(100%+5px)] right-0 w-full h-full"
+          >
+            <button
+              class="QUERY-acc-username-save-action QUERY-input-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
+            >
+              Lưu
+            </button>
+          </div>
         </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">

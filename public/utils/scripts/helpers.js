@@ -150,12 +150,10 @@ export class TimeHelper {
     const fromTime = new Date(rentFrom)
     const toTime = new Date(rentTo)
 
-    // Nếu chưa đến thời gian bắt đầu thuê
     if (now < fromTime) {
       return NOT_STARTED_TEXT || this.NOT_STARTED
     }
 
-    // Nếu đã hết thời gian thuê
     if (now >= toTime) {
       return OUT_OF_TIME_TEXT || this.OUT_OF_TIME
     }
@@ -168,6 +166,24 @@ export class TimeHelper {
     const seconds = totalSeconds % 60
 
     return `${hours} giờ ${minutes} phút ${seconds} giây`
+  }
+
+  static getRemainingSellToTime(futureTimeStr, INVALID_TIME_TEXT) {
+    const now = new Date()
+    const future = new Date(futureTimeStr)
+
+    if (isNaN(future.getTime()) || future <= now) {
+      return INVALID_TIME_TEXT || this.INVALID_TIME
+    }
+
+    const diffInSeconds = Math.floor((future - now) / 1000)
+
+    const days = Math.floor(diffInSeconds / (60 * 60 * 24))
+    const hours = Math.floor((diffInSeconds % (60 * 60 * 24)) / (60 * 60))
+    const minutes = Math.floor((diffInSeconds % (60 * 60)) / 60)
+    const seconds = diffInSeconds % 60
+
+    return `Còn ${days} ngày, ${hours} giờ, ${minutes} phút, ${seconds} giây`
   }
 
   static getRentalDuration(rentFrom, rentTo, INVALID_TIME_TEXT) {

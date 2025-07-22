@@ -25,11 +25,13 @@ class SaleAccountsPageManager {
 
     this.isFetchingItems = false
     this.isMoreItems = true
+    this.SELL_TO_TIME_INPUT_FORMAT = "YYYY-MM-DD HH:mm:ss"
 
     this.fetchAccounts()
 
     this.watchScrolling()
 
+    this.initInputListeners()
     this.initListeners()
   }
 
@@ -80,6 +82,53 @@ class SaleAccountsPageManager {
       })
   }
 
+  updateAccountSellToTime(accountId, sellToTime) {
+    // Kiểm tra định dạng "HH:mm DD/MM/YYYY" bằng dayjs
+    const formattedSellToTime = dayjs(sellToTime, "HH:mm DD/MM/YYYY", true)
+    if (!formattedSellToTime.isValid()) {
+      Toaster.error(
+        "Định dạng không phù hợp",
+        "Thời gian sale phải theo định dạng HH:mm DD/MM/YYYY (ví dụ: 13:00 05/08/2025)"
+      )
+      return
+    } else if (formattedSellToTime.isBefore(dayjs())) {
+      Toaster.error("Thời gian không hợp lệ", "Thời gian sale phải lớn hơn thời gian hiện tại")
+      return
+    }
+    const timeToUpdate = formattedSellToTime.format(this.SELL_TO_TIME_INPUT_FORMAT)
+    // cập nhật thời gian sale
+    AppLoadingHelper.show("Đang cập nhật thời gian sale...")
+    SaleAccountService.updateAccount(accountId, { sell_to_time: timeToUpdate })
+      .then((data) => {
+        if (data && data.success) {
+          uiEditor.refreshAccountRowOnUI(accountId)
+          Toaster.success("Thông báo", "Cập nhật thời gian sale thành công")
+        }
+      })
+      .catch((error) => {
+        Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
+      })
+      .finally(() => {
+        AppLoadingHelper.hide()
+      })
+  }
+
+  initInputListeners() {
+    this.accountsTableBody.addEventListener("change", (e) => {
+      let target = e.target
+      while (target && !target.classList.contains("QUERY-sell-to-time-input")) {
+        target = target.parentElement
+        if (target && (target.id === "QUERY-account-row-item" || target.tagName === "BODY")) {
+          return
+        }
+      }
+      if (target && target.classList.contains("QUERY-sell-to-time-input")) {
+        const accountId = target.closest(".QUERY-account-row-item").dataset.accountId * 1
+        this.updateAccountSellToTime(accountId, target.value)
+      }
+    })
+  }
+
   initCatchDeleteAndUpdateAccountBtnClick() {
     this.accountsTableBody.addEventListener("click", (e) => {
       let target = e.target
@@ -105,14 +154,6 @@ class SaleAccountsPageManager {
       if (isUpdateBtn) {
         updateAccountManager.showModal(target.dataset.accountId * 1)
       }
-    })
-
-    // khi click lên row (cho dễ thao tác trên điện thoại)
-    this.accountsTableBody.addEventListener("click", (e) => {
-      let target = e.target
-      if (!target || target.tagName !== "TD") return
-      const accountId = target.closest(".QUERY-account-row-item").dataset.accountId
-      updateAccountManager.showModal(accountId * 1)
     })
   }
 

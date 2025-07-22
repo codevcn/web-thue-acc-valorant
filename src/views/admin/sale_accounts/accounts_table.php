@@ -12,6 +12,9 @@
           Giá
         </th>
         <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+          Thời gian sale
+        </th>
+        <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
           Gmail
         </th>
         <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">

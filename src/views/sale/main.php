@@ -48,7 +48,7 @@
       <?php foreach ($sale_accounts as $sale_account) : ?>
         <div data-account-id="<?= $sale_account['id'] ?>" class="QUERY-account-container w-full flex-shrink-0">
           <div class="text-[1em] font-medium bg-sky-100 rounded-md px-4 py-1 border-l-4 border-solid border-sky-300 border">
-            Sale | <span class="font-bold"><?= displayRemainingTime($sale_account['sell_to_time']) ?></span>
+            Sale | <span data-sell-to-time="<?= $sale_account['sell_to_time'] ?? '' ?>" class="QUERY-count-down-text font-bold"><?= displayRemainingTime($sale_account['sell_to_time']) ?></span>
           </div>
 
           <div class="mt-4 rounded-lg w-full">

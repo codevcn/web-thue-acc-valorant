@@ -24,6 +24,49 @@ class SalePageManager {
     this.initPagination()
 
     initUtils.initTooltip()
+
+    this.initCountdown()
+  }
+
+  formatTimeFromSeconds(totalSeconds) {
+    const days = Math.floor(totalSeconds / (60 * 60 * 24))
+    const hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60))
+    const minutes = Math.floor((totalSeconds % (60 * 60)) / 60)
+    const seconds = totalSeconds % 60
+
+    return `${days} ngày ${hours} giờ ${minutes} phút ${seconds} giây`
+  }
+
+  initCountdown() {
+    document.querySelectorAll("#slides-container .QUERY-count-down-text").forEach((el) => {
+      const futureTimeStr = el.dataset.sellToTime
+      if (!futureTimeStr) return
+
+      const future = new Date(futureTimeStr.replace(" ", "T"))
+
+      if (isNaN(future.getTime())) {
+        el.textContent = "Thời gian không hợp lệ"
+        return
+      }
+
+      let interval = null
+
+      const updateCountdown = () => {
+        const now = new Date()
+        let diffInSeconds = Math.floor((future - now) / 1000)
+
+        if (diffInSeconds <= 0) {
+          el.textContent = "0 ngày 0 giờ 0 phút 0 giây"
+          clearInterval(interval)
+          return
+        }
+
+        el.textContent = this.formatTimeFromSeconds(diffInSeconds)
+      }
+
+      updateCountdown() // Cập nhật ngay lập tức lần đầu
+      interval = setInterval(updateCountdown, 1000)
+    })
   }
 
   updateSlider() {

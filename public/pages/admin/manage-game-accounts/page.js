@@ -43,7 +43,6 @@ class ManageGameAccountsPageManager {
 
   getLastAccounts() {
     const accounts = sharedData.gameAccounts
-    console.log(">>> accounts 46:", accounts)
     if (!accounts || accounts.length === 0) return []
     let busyAcc = null
     let freeAcc = null
@@ -84,7 +83,6 @@ class ManageGameAccountsPageManager {
 
     AppLoadingHelper.show("Đang tải dữ liệu...")
     const lastAccounts = this.getLastAccounts()
-    console.log(">>> lastAccounts 87:", lastAccounts)
     const free_last_game_code = lastAccounts[0]?.game_code || null
     const check_last_game_code = lastAccounts[1]?.game_code || null
     const busy_last_game_code = lastAccounts[2]?.game_code || null
@@ -104,7 +102,6 @@ class ManageGameAccountsPageManager {
       "updated_at"
     )
       .then((accounts) => {
-        console.log(">>> accounts:", accounts)
         if (accounts && accounts.length > 0) {
           const startOrderNumber = sharedData.gameAccounts.length + 1
           sharedData.gameAccounts = [...sharedData.gameAccounts, ...accounts]
