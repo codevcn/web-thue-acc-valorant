@@ -417,7 +417,7 @@ button {
   left: -10px;
   top: -10px;
   opacity: 1;
-  z-index: 999;
+  z-index: 9999;
   transition: opacity 0.5s, transform 0.1s;
   will-change: transform, opacity;
 }

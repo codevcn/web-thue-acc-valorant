@@ -2,141 +2,89 @@ import { html } from "https://esm.run/lit-html@1"
 import { AccountHelper, TimeHelper } from "./helpers.js"
 
 export const AccountCard = (account) => {
-  const { status, rank, avatar, game_code, device_type, description, acc_name, id } = account
+  const { status, rank, avatar, game_code, device_type, id, avatar_2, acc_type } = account
   return html`
     <div class="rounded-lg overflow-hidden w-full">
-      <div
-        class="CSS-styled-scrollbar flex min-[1242px]:flex-row flex-col gap-4 w-full min-[1242px]:aspect-[1825/612] overflow-y-auto relative aspect-auto"
-      >
-        <div
-          class="min-[1242px]:w-3/5 w-full bg-violet-400 rounded-lg overflow-hidden h-fit min-[1242px]:h-auto bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl relative flex flex-col items-center justify-center"
-        >
-          <img
-            src="/images/account/${avatar ?? "default-account-avatar.png"}"
-            alt="Account Avatar"
-            class="aspect-[16/9] ${avatar
-              ? "object-cover"
-              : "object-contain py-6 min-[1242px]:py-0"}"
-          />
-        </div>
-        <div
-          class="min-[1242px]:w-2/5 w-full bg-white p-6 flex flex-col justify-between rounded-lg"
-        >
-          <div class="flex items-center gap-2 mb-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-info-icon lucide-info text-regular-blue-cl w-[1.71em] h-[1.71em]"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 16v-4" />
-              <path d="M12 8h.01" />
-            </svg>
-            <h2 class="text-[1.43em] font-bold text-gray-800">THÔNG TIN TÀI KHOẢN</h2>
+      <div class="CSS-styled-scrollbar">
+        <div class="flex items-stretch gap-2 w-full">
+          <div
+            class="flex flex-1 rounded-lg overflow-hidden h-fit min-[1242px]:h-auto bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl relative"
+          >
+            <div class="w-fit h-fit m-auto">
+              <img
+                src="/images/account/${avatar ?? "default-account-avatar.png"}"
+                alt="Mã game: ${game_code}"
+                class="QUERY-account-avatar-1 aspect-[16/9] m-auto cursor-pointer rounded-lg transition-transform ease-in-out [transition-property:transform,transform-origin] [transition-duration:400ms,200ms] ${avatar
+                  ? "object-cover"
+                  : "object-contain py-6 min-[1242px]:py-0"}"
+              />
+            </div>
           </div>
-
-          <div class="space-y-3 flex-1">
-            <div class="flex justify-between items-center gap-6">
-              <span class="text-gray-600 font-medium flex items-center gap-2">
+          <div
+            class="flex flex-1 rounded-lg overflow-hidden h-fit min-[1242px]:h-auto bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl relative"
+          >
+            <div class="w-fit h-fit m-auto">
+              <img
+                src="/images/account/${avatar_2 ?? "default-account-avatar.png"}"
+                alt="Mã game: ${game_code}"
+                class="QUERY-account-avatar-2 aspect-[16/9] m-auto cursor-pointer rounded-lg transition-transform ease-in-out [transition-property:transform,transform-origin] [transition-duration:400ms,200ms] ${avatar_2
+                  ? "object-cover"
+                  : "object-contain py-6 min-[1242px]:py-0"}"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="w-full py-2 flex flex-col justify-between items-stretch rounded-lg">
+          <div class="flex items-center gap-1 w-full">
+            <div class="font-bold flex-1 border border-sky-400 rounded">
+              <div
+                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-sky-400"
+              >
                 <svg
+                  class="w-[1.2em] h-[1.2em] text-white"
+                  viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
+                  version="1.1"
+                  fill="currentColor"
                   stroke="currentColor"
-                  stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  class="lucide lucide-letter-text-icon lucide-letter-text text-regular-blue-cl w-[1.71em] h-[1.71em]"
+                  stroke-width="1.5"
                 >
-                  <path d="M15 12h6" />
-                  <path d="M15 6h6" />
-                  <path d="m3 13 3.553-7.724a.5.5 0 0 1 .894 0L11 13" />
-                  <path d="M3 18h18" />
-                  <path d="M3.92 11h6.16" />
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="m2.75 10.25h9.5m-8.5-4.5h9.5m-2.5-4-1.5 12.5m-2.5-12.5-1.5 12.5"
+                    ></path>
+                  </g>
                 </svg>
-                <span>Tên tài khoản</span>
-              </span>
-              <span class="font-bold text-gray-900"> ${acc_name ?? "N/A"} </span>
+                <span>Mã Game</span>
+              </div>
+              <p class="text-center text-base py-2 px-2">${game_code}</p>
             </div>
-
-            <div class="flex justify-between items-center gap-6">
-              <div class="flex items-center gap-2">
+            <div class="font-bold flex-1 border border-sky-400 rounded">
+              <div
+                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-sky-400"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="w-[1.71em] h-[1.71em] text-regular-blue-cl fill-current"
+                  class="w-[1.2em] h-[1.2em] text-white fill-current"
                   viewBox="0 0 24 24"
                 >
                   <path
                     d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
                   />
                 </svg>
-                <span class="text-gray-600 font-medium">Rank</span>
+                <span>Rank</span>
               </div>
-              <div class="flex items-center gap-1">
-                <span class="font-bold text-black"> ${rank ?? "N/A"} </span>
-              </div>
+              <p class="text-center text-base py-2 px-2">${rank}</p>
             </div>
-
-            <div class="flex justify-between items-center gap-6">
-              <span class="text-gray-600 font-medium flex items-center gap-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="lucide lucide-chart-no-axes-column-icon lucide-chart-no-axes-column text-regular-blue-cl w-[1.71em] h-[1.71em]"
-                >
-                  <line x1="18" x2="18" y1="20" y2="10" />
-                  <line x1="12" x2="12" y1="20" y2="4" />
-                  <line x1="6" x2="6" y1="20" y2="14" />
-                </svg>
-                <span>Trạng Thái</span>
-              </span>
-              <span
-                class="font-bold text-white ${AccountHelper.getAccountStatusColor(
-                  (status === "Check" || status === "Rảnh" ? "Rảnh" : status).toLowerCase()
-                )} px-4 py-0.5 rounded-lg"
+            <div class="font-bold flex-1 border border-sky-400 rounded">
+              <div
+                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-sky-400"
               >
-                ${status === "Check" || status === "Rảnh" ? "Rảnh" : status}
-              </span>
-            </div>
-
-            <div class="flex justify-between items-center gap-6">
-              <div class="flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="w-[1.71em] h-[1.71em] text-regular-blue-cl"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M16 18l6-6-6-6M8 6l-6 6 6 6"
-                  />
-                </svg>
-                <span class="text-gray-600 font-medium">Mã Game</span>
-              </div>
-              <div class="flex items-center gap-1">
-                <span class="font-bold text-black"> ${game_code ?? "N/A"} </span>
-              </div>
-            </div>
-
-            <div class="flex justify-between items-center gap-6">
-              <div class="flex items-center gap-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="w-[1.71em] h-[1.71em] text-regular-blue-cl"
+                  class="w-[1.2em] h-[1.2em] text-white"
                   fill="none"
                   stroke="currentColor"
                   stroke-width="2"
@@ -148,38 +96,73 @@ export const AccountCard = (account) => {
                     d="M9.75 17L6 21h12l-3.75-4M3 4h18v10H3z"
                   />
                 </svg>
-                <span class="text-gray-600 font-medium">Loại Máy</span>
+                <span>Loại Máy</span>
               </div>
-              <div class="flex items-center gap-1">
-                <span class="font-bold text-black"> ${device_type} </span>
+              <p class="text-center text-base py-2 px-2">${device_type}</p>
+            </div>
+            <div class="font-bold flex-1 border border-sky-400 rounded">
+              <div
+                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-sky-400"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-chart-no-axes-column-icon lucide-chart-no-axes-column text-white w-[1.2em] h-[1.2em]"
+                >
+                  <line x1="18" x2="18" y1="20" y2="10" />
+                  <line x1="12" x2="12" y1="20" y2="4" />
+                  <line x1="6" x2="6" y1="20" y2="14" />
+                </svg>
+                <span>Trạng Thái</span>
               </div>
+              <p class="text-center text-base py-2 px-2">${status}</p>
+            </div>
+            <div class="font-bold flex-1 border border-sky-400 rounded">
+              <div
+                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-sky-400"
+              >
+                <svg
+                  class="w-[1.2em] h-[1.2em] text-white"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g>
+                    <path
+                      d="M7.24 2H5.34C3.15 2 2 3.15 2 5.33V7.23C2 9.41 3.15 10.56 5.33 10.56H7.23C9.41 10.56 10.56 9.41 10.56 7.23V5.33C10.57 3.15 9.42 2 7.24 2Z"
+                      fill="#fff"
+                    ></path>
+                    <path
+                      d="M18.6695 2H16.7695C14.5895 2 13.4395 3.15 13.4395 5.33V7.23C13.4395 9.41 14.5895 10.56 16.7695 10.56H18.6695C20.8495 10.56 21.9995 9.41 21.9995 7.23V5.33C21.9995 3.15 20.8495 2 18.6695 2Z"
+                      fill="#fff"
+                    ></path>
+                    <path
+                      d="M18.6695 13.4297H16.7695C14.5895 13.4297 13.4395 14.5797 13.4395 16.7597V18.6597C13.4395 20.8397 14.5895 21.9897 16.7695 21.9897H18.6695C20.8495 21.9897 21.9995 20.8397 21.9995 18.6597V16.7597C21.9995 14.5797 20.8495 13.4297 18.6695 13.4297Z"
+                      fill="#fff"
+                    ></path>
+                    <path
+                      d="M7.24 13.4297H5.34C3.15 13.4297 2 14.5797 2 16.7597V18.6597C2 20.8497 3.15 21.9997 5.33 21.9997H7.23C9.41 21.9997 10.56 20.8497 10.56 18.6697V16.7697C10.57 14.5797 9.42 13.4297 7.24 13.4297Z"
+                      fill="#fff"
+                    ></path>
+                  </g>
+                </svg>
+                <span>Loại Acc</span>
+              </div>
+              <p class="text-center text-base py-2 px-2">${acc_type}</p>
             </div>
 
-            ${description
-              ? html`
-                  <div class="bg-gray-100 rounded-lg p-3 mt-4">
-                    <p class="text-[1em] truncate">
-                      <span class="font-semibold text-black">Mô tả:</span>
-                      <span
-                        data-vcn-tooltip-content="${description}"
-                        class="QUERY-tooltip-trigger text-gray-700 ml-1"
-                      >
-                        ${description}
-                      </span>
-                    </p>
-                  </div>
-                `
-              : html`
-                  <div class="text-gray-400 italic font-bold text-[1.14em]">Chưa có mô tả</div>
-                `}
+            <button
+              data-account-id="${id}"
+              class="QUERY-rent-now-btn CSS-button-shadow-decoration py-2 px-6 text-[1.14em] flex items-center justify-center gap-3 active:scale-90 transition duration-200 text-white font-bold rounded-lg bg-regular-blue-cl hover:bg-regular-blue-hover-cl backdrop-blur-md"
+            >
+              <span>THUÊ NGAY</span>
+            </button>
           </div>
-
-          <button
-            data-account-id="${id}"
-            class="QUERY-rent-now-btn group CSS-button-shadow-decoration text-[1.14em] flex items-center justify-center gap-3 active:scale-90 transition duration-200 w-full text-white font-bold rounded-lg bg-regular-blue-cl hover:bg-regular-blue-hover-cl backdrop-blur-md py-2 px-4 mt-6"
-          >
-            <span>THUÊ NGAY</span>
-          </button>
         </div>
       </div>
     </div>

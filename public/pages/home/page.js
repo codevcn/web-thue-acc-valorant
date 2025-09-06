@@ -9,6 +9,10 @@ import {
 import { initUtils } from "../../utils/scripts/init-utils.js"
 
 class HomePageManager {
+  #SCROLLING_THRESHOLD = 300
+  #zoomHolder = {}
+  #currentAvatar = null
+
   constructor() {
     this.loadMoreBtn = document.getElementById("load-more-btn")
     this.loadMoreContainer = document.getElementById("load-more-container")
@@ -26,6 +30,7 @@ class HomePageManager {
     this.accountRankTypesSelect = document.getElementById("account-rank-types-select")
     this.accountStatusesSelect = document.getElementById("account-statuses-select")
     this.accountDeviceTypesSelect = document.getElementById("account-device-types-select")
+    this.accountAvatarModal = document.getElementById("account-avatar-modal")
 
     this.isFetchingItems = false
     this.isMoreItems = true
@@ -60,6 +65,7 @@ class HomePageManager {
     this.initCancelAllFiltersListener()
     this.initModalOverlayListener()
     this.initAcceptRulesCheckboxListener()
+    this.initModals()
 
     this.watchScrolling()
 
@@ -260,20 +266,36 @@ class HomePageManager {
   initAccountsListListener() {
     this.accountsList.addEventListener("click", (e) => {
       let target = e.target
-      while (target && !target.classList.contains("QUERY-rent-now-btn")) {
+      while (
+        target &&
+        !target.classList.contains("QUERY-rent-now-btn") &&
+        !target.classList.contains("QUERY-account-avatar-1") &&
+        !target.classList.contains("QUERY-account-avatar-2")
+      ) {
         target = target.parentElement
-        if (target.id === "accounts-list" || target.tagName === "BODY" || !target) {
-          return
+        if (target.id === "accounts-list" || target.tagName === "BODY") {
+          break
         }
       }
-      let accountId = target.dataset.accountId
-      if (accountId) {
-        accountId = accountId * 1
-        const account = this.gameAccounts.find((account) => account.id === accountId)
-        if (account) {
-          this.selectedAccount = account
-          this.showRentNowModal()
+      // Rent Now Modal
+      if (target && target.classList.contains("QUERY-rent-now-btn")) {
+        let accountId = target.dataset.accountId
+        if (accountId) {
+          accountId = accountId * 1
+          const account = this.gameAccounts.find((account) => account.id === accountId)
+          if (account) {
+            this.selectedAccount = account
+            this.showRentNowModal()
+          }
         }
+      }
+      // Image Modal
+      if (
+        !this.#zoomHolder.isOnModal &&
+        ((target && target.classList.contains("QUERY-account-avatar-1")) ||
+          target.classList.contains("QUERY-account-avatar-2"))
+      ) {
+        this.showAccountAvatarModal(target)
       }
     })
   }
@@ -316,13 +338,12 @@ class HomePageManager {
 
   watchScrolling() {
     window.addEventListener("scroll", (e) => {
-      const THRESHOLD = 300
-      if (window.scrollY > THRESHOLD) {
-        this.scrollToTopBtn.classList.remove("bottom-[-60px]")
+      if (window.scrollY > this.#SCROLLING_THRESHOLD) {
+        this.scrollToTopBtn.classList.remove("bottom-[-4.26em]")
         this.scrollToTopBtn.classList.add("bottom-6")
       } else {
         this.scrollToTopBtn.classList.remove("bottom-6")
-        this.scrollToTopBtn.classList.add("bottom-[-60px]")
+        this.scrollToTopBtn.classList.add("bottom-[-4.26em]")
       }
     })
   }
@@ -343,6 +364,182 @@ class HomePageManager {
         rentNowModalContactLinks.classList.add("opacity-50", "pointer-events-none")
       }
     })
+  }
+
+  closeAccountAvatarModal(imgWrapper, imgElement, modalOverlay, closeModalBtn) {
+    imgWrapper.style.cssText = ""
+    imgElement.style.cssText = ""
+    modalOverlay.remove()
+    closeModalBtn.remove()
+    imgElement.removeEventListener("wheel", this.#zoomHolder.wheelHandler)
+    imgElement.removeEventListener("mousedown", this.#zoomHolder.mouseDownHandler)
+    this.#zoomHolder = {}
+    this.#currentAvatar = null
+  }
+
+  showAccountAvatarModal(imgElement) {
+    this.#zoomHolder = {
+      isOnModal: true,
+    }
+    this.#currentAvatar = imgElement
+    const imgWrapper = imgElement.parentElement
+    const wrapperRect = imgWrapper.getBoundingClientRect()
+    const transitionDuration = 300
+    imgWrapper.style.cssText = `
+      z-index: 1001;
+      transition: height ${transitionDuration}ms ease, width ${transitionDuration}ms ease, left ${transitionDuration}ms ease, top ${transitionDuration}ms ease;
+      position: fixed;
+      top: ${wrapperRect.top}px; 
+      left: ${wrapperRect.left}px; 
+      height: ${imgWrapper.clientHeight}px; 
+      width: ${imgWrapper.clientWidth}px;
+    `
+    requestAnimationFrame(() => {
+      // đặt width và height
+      imgWrapper.style.cssText += `
+        width: 100vw;
+        height: 100vh;
+        padding: 40px 100px;
+        left: 0;
+        top: 0;
+      `
+      imgElement.style.cssText = `
+        width: max-content;
+        max-height: 100%;
+        position: relative;
+        z-index: 20;
+      `
+    })
+    setTimeout(() => {
+      const modalOverlay = document.createElement("div")
+      modalOverlay.classList.add(
+        "QUERY-modal-overlay",
+        "absolute",
+        "inset-0",
+        "bg-black/80",
+        "z-10"
+      )
+      imgWrapper.prepend(modalOverlay)
+      const closeModalBtn = document.createElement("button")
+      closeModalBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" height="28" width="28" xmlns="http://www.w3.org/2000/svg">
+          <g>
+            <path
+              d="M8.00386 9.41816C7.61333 9.02763 7.61334 8.39447 8.00386 8.00395C8.39438 7.61342 9.02755 7.61342 9.41807 8.00395L12.0057 10.5916L14.5907 8.00657C14.9813 7.61605 15.6144 7.61605 16.0049 8.00657C16.3955 8.3971 16.3955 9.03026 16.0049 9.42079L13.4199 12.0058L16.0039 14.5897C16.3944 14.9803 16.3944 15.6134 16.0039 16.0039C15.6133 16.3945 14.9802 16.3945 14.5896 16.0039L12.0057 13.42L9.42097 16.0048C9.03045 16.3953 8.39728 16.3953 8.00676 16.0048C7.61624 15.6142 7.61624 14.9811 8.00676 14.5905L10.5915 12.0058L8.00386 9.41816Z"
+              fill="#fff"
+            ></path>
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.00683 12C3.00683 16.9668 7.03321 20.9932 12 20.9932C16.9668 20.9932 20.9932 16.9668 20.9932 12C20.9932 7.03321 16.9668 3.00683 12 3.00683C7.03321 3.00683 3.00683 7.03321 3.00683 12Z"
+              fill="#fff"
+            ></path>
+          </g>
+        </svg>
+      `
+      closeModalBtn.classList.add(
+        "QUERY-close-modal-btn",
+        "absolute",
+        "top-4",
+        "right-8",
+        "hover:scale-110",
+        "transition",
+        "duration-200",
+        "z-20"
+      )
+      imgWrapper.prepend(closeModalBtn)
+
+      closeModalBtn.addEventListener("click", () => {
+        this.closeAccountAvatarModal(imgWrapper, imgElement, modalOverlay, closeModalBtn)
+      })
+      modalOverlay.addEventListener("click", () => {
+        this.closeAccountAvatarModal(imgWrapper, imgElement, modalOverlay, closeModalBtn)
+      })
+    }, transitionDuration)
+
+    this.bindZoomAvatarListener(imgElement)
+  }
+
+  zoomAvatarHandler(e) {
+    e.preventDefault() // ngăn cuộn màn hình
+
+    if (e.deltaY < 0) {
+      // cuộn lên -> zoom in
+      this.#zoomHolder.scale += 0.1
+    } else {
+      // cuộn xuống -> zoom out
+      this.#zoomHolder.scale -= 0.1
+    }
+
+    // không cho scale quá nhỏ
+    this.#zoomHolder.scale = Math.max(0.1, this.#zoomHolder.scale)
+
+    this.#currentAvatar.style.transform = `scale(${this.#zoomHolder.scale})`
+  }
+
+  bindZoomAvatarListener(imgElement) {
+    // cleanup listener cũ
+    if (this.#zoomHolder?.wheelHandler) {
+      imgElement.removeEventListener("wheel", this.#zoomHolder.wheelHandler)
+      imgElement.removeEventListener("mousedown", this.#zoomHolder.mouseDownHandler)
+    }
+
+    this.#zoomHolder = {
+      ...this.#zoomHolder,
+      scale: 1,
+      translateX: 0,
+      translateY: 0,
+      isDragging: false,
+      startX: 0,
+      startY: 0,
+    }
+
+    // zoom
+    this.#zoomHolder.wheelHandler = this.zoomAvatarHandler.bind(this)
+    imgElement.addEventListener("wheel", this.#zoomHolder.wheelHandler)
+
+    // drag
+    this.#zoomHolder.mouseDownHandler = (e) => this.startDrag(e, imgElement)
+    imgElement.addEventListener("mousedown", this.#zoomHolder.mouseDownHandler)
+  }
+
+  startDrag(e) {
+    e.preventDefault()
+    this.#zoomHolder.isDragging = true
+    this.#zoomHolder.startX = e.clientX - this.#zoomHolder.translateX
+    this.#zoomHolder.startY = e.clientY - this.#zoomHolder.translateY
+
+    const onMouseMove = (ev) => {
+      if (!this.#zoomHolder.isDragging) return
+      this.#zoomHolder.translateX = ev.clientX - this.#zoomHolder.startX
+      this.#zoomHolder.translateY = ev.clientY - this.#zoomHolder.startY
+      this.applyTransform()
+    }
+
+    const onMouseUp = () => {
+      this.#zoomHolder.isDragging = false
+      window.removeEventListener("mousemove", onMouseMove)
+      window.removeEventListener("mouseup", onMouseUp)
+    }
+
+    window.addEventListener("mousemove", onMouseMove)
+    window.addEventListener("mouseup", onMouseUp)
+  }
+
+  applyTransform() {
+    this.#currentAvatar.style.transform = `
+      translate(${this.#zoomHolder.translateX}px, ${this.#zoomHolder.translateY}px)
+      scale(${this.#zoomHolder.scale})
+    `
+  }
+
+  initModals() {
+    const modals = document.querySelectorAll(".QUERY-modal")
+    for (const modal of modals) {
+      modal.querySelector(".QUERY-modal-overlay").addEventListener("click", () => {
+        modal.hidden = true
+      })
+    }
   }
 }
 

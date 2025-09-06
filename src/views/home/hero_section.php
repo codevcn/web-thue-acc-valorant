@@ -11,54 +11,51 @@
       <div class="w-full relative z-[90]">
         <div class="text-center mb-4">
           <h1 class="text-[2.57em] font-black text-white mb-2 leading-tight min-[603px]:block flex flex-col">
-            Dương Anh Tuấn <span class="text-red-400">X</span>
+            Duong Anh Tuan <span class="text-red-400">X</span>
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400 leading-none">
-              Valorantime
+              <span>Valoran</span><span class="text-pink-400">time</span>
             </span>
           </h1>
           <div class="w-48 h-1 min-[1441px]:h-2 bg-gradient-to-r from-sky-400 to-cyan-400 mx-auto rounded-full"></div>
         </div>
 
-        <div class="grid min-[1170px]:grid-cols-3 grid-cols-1 gap-y-2 gap-x-2 items-start">
-          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 min-[1441px]:p-5 border border-white/20 flex-1 h-full">
-            <h2 class="text-[1.51em] font-bold text-sky-300 mb-4 flex items-center gap-3">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-              </svg>
+        <div class="grid min-[1170px]:grid-cols-3 min-[1000px]:grid-cols-2 grid-cols-1 gap-y-2 gap-x-2 items-start text-[1.29em]">
+          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-2 min-[1441px]:p-5 border border-white/20 flex-1 h-full">
+            <h3 class="text-[1.21em] font-bold text-sky-300 mb-2 flex items-center gap-3">
               Giá Máy Nét (Tất cả)
-            </h2>
-            <div class="space-y-2 text-[1.29em]">
-              <div class="flex items-center justify-between p-2 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
+            </h3>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between px-2 py-0 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
                 <div class="flex items-center gap-3">
                   <span class="text-white font-bold">20K - 2 GIỜ</span>
                 </div>
               </div>
-              <div class="flex items-center justify-between p-2 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
+              <div class="flex items-center justify-between px-2 py-0 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
                 <div class="flex items-center gap-3">
                   <span class="text-white font-bold">30K - 3 GIỜ</span>
                   <span class="text-yellow-400 font-bold">+ 1 GIỜ</span>
                 </div>
               </div>
-              <div class="flex items-center justify-between p-2 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
+              <div class="flex items-center justify-between px-2 py-0 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
                 <div class="flex items-center gap-3">
                   <span class="text-white font-bold">40K - 4 GIỜ</span>
                   <span class="text-yellow-400 font-bold">+ 2 GIỜ</span>
                 </div>
               </div>
             </div>
-            <div class="space-y-2 text-[1.29em] mt-4">
-              <div class="flex items-center gap-3 text-sky-400">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+            <div class="space-y-2 mt-4">
+              <div class="flex items-center gap-2 text-sky-400 w-fit">
+                <svg class="w-6 h-6 flex-grow-[1]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10"></circle>
                   <polyline points="12 6 12 12 16 14"></polyline>
                 </svg>
-                <span class="text-white">
-                  <span class="font-bold text-sky-400">Combo đêm : 40k</span>
-                  <span class="ml-2">(22PM - 7AM)</span>
+                <span class="text-white flex items-center gap-2 w-max flex-grow-[3]">
+                  <span class="font-bold text-sky-400 min-w-max h-fit">Combo đêm : 40k</span>
+                  <span class="text-[0.9em]">(22PM - 7AM)</span>
                 </span>
               </div>
-              <div class="flex items-center gap-3 text-cyan-400">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+              <div class="flex items-center gap-1 text-cyan-400 w-fit">
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polygon points="5 3 19 12 5 21 5 3"></polygon>
                 </svg>
                 <span class="text-white">
@@ -68,65 +65,94 @@
             </div>
           </div>
 
-          <div class="bg-yellow-500/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 flex-1 h-full">
-            <h3 class="text-[1.51em] font-bold text-yellow-400 mb-2">Giá Máy Nhà (Tất cả + Only Máy nhà)</h3>
-            <div class="space-y-2 mb-4 text-[1.29em]">
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                <span class="text-white">20K - 2 giờ</span>
+          <div class="bg-yellow-500/10 backdrop-blur-md rounded-2xl p-2 border border-white/20 flex-1 h-full">
+            <h3 class="text-[1.21em] font-bold text-yellow-400 mb-2">Giá Máy Nhà (Tất cả + Only Máy nhà)</h3>
+            <div class="space-y-2 mb-4">
+              <div class="flex items-center justify-between px-2 py-0 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div class="flex items-center gap-3">
+                  <span class="text-white font-bold">20K - 2 GIỜ</span>
+                </div>
               </div>
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                <span class="text-white">30K - 3 giờ</span>
+              <div class="flex items-center justify-between px-2 py-0 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div class="flex items-center gap-3">
+                  <span class="text-white font-bold">30K - 3 giờ</span>
+                </div>
               </div>
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                <span class="text-white">40k - 4 Giờ <span class="text-yellow-400 font-bold">+ 1 Giờ</span></span>
+              <div class="flex items-center justify-between px-2 py-0 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div class="flex items-center gap-3">
+                  <span class="text-white">40k - 4 Giờ <span class="text-yellow-400 font-bold">+ 1 Giờ</span></span>
+                </div>
               </div>
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                <span class="text-white">Combo đêm : 50k ( 22 PM - 7 AM )</span>
+              <div class="flex items-center justify-between px-2 py-0 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div class="flex items-center gap-3">
+                  <span class="text-white">40k - 4 Giờ <span class="text-yellow-400 font-bold">+ 1 Giờ</span></span>
+                </div>
               </div>
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                <span class="text-white">Combo ngày : 120k</span>
+              <div class="space-y-2 mt-4">
+                <div class="flex items-center gap-2 text-sky-400 w-fit">
+                  <svg class="w-6 h-6 flex-grow-[1]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                  <span class="text-white flex items-center gap-2 w-max flex-grow-[3]">
+                    <span class="font-bold text-sky-400 min-w-max h-fit">Combo đêm : 50k</span>
+                    <span class="text-[0.9em]">(22PM - 7AM)</span>
+                  </span>
+                </div>
+                <div class="flex items-center gap-1 text-cyan-400 w-fit">
+                  <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  <span class="text-white">
+                    <span class="font-bold text-cyan-400">Combo ngày : 120k</span>
+                  </span>
+                </div>
               </div>
             </div>
-            <div class="text-[1em] text-red-300">
+            <div class="text-[0.9em] text-red-300">
               Lưu ý : Nếu chơi Account Only máy nhà sẽ có cơ hội + thêm 1 giờ nữa !
             </div>
           </div>
 
-          <div class="bg-yellow-500/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 flex-1 h-full">
-            <h3 class="text-[1.51em] font-bold text-red-400 mb-2">Giá Account Đặc Biệt </h3>
-            <div class="space-y-2 mb-4 text-[1.29em]">
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                <span class="text-white">10k - 1 Giờ</span>
+          <div class="bg-yellow-500/10 backdrop-blur-md rounded-2xl p-2 border border-white/20 flex-1 h-full w-full">
+            <h3 class="text-[1.21em] font-bold text-red-400 mb-2">Giá Account Đặc Biệt </h3>
+            <div class="space-y-2 mb-4">
+              <div class="flex items-center justify-between px-2 py-0 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div class="flex items-center gap-3">
+                  <span class="text-white font-bold">10k - 1 Giờ</span>
+                </div>
               </div>
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                <span class="text-white">50k - 5 Giờ <span class="text-yellow-400 font-bold">+ 1 Giờ</span></span>
+              <div class="flex items-center justify-between px-2 py-0 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div class="flex items-center gap-3">
+                  <span class="text-white font-bold">50k - 5 Giờ <span class="text-yellow-400 font-bold">+ 1 Giờ</span></span></span>
+                </div>
               </div>
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                <span class="text-white">Combo đêm : Nét - 50k / Nhà : 60k</span>
+              <div class="flex items-center justify-between px-2 py-0 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div class="flex items-center gap-3 text-white">
+                  <span class="font-bold min-w-max inline-block">Combo đêm :</span>
+                  <span class="flex items-center gap-2">
+                    <span class="inline-block">Nét - 50k</span>
+                    <span class="inline-block">/</span>
+                    <span class="inline-block">Nhà : 60k</span>
+                  </span>
+                </div>
               </div>
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                <span class="text-white">Combo ngày : 140k</span>
+              <div class="flex items-center justify-between px-2 py-0 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div class="flex items-center gap-3">
+                  <span class="text-white font-bold">Combo ngày : 140k</span>
+                </div>
               </div>
             </div>
-            <div class="text-[1em] text-red-300">
+            <div class="text-[0.9em] text-red-300">
               Lưu ý : Áp dụng cho Account có bundle mới trong vòng 3 ngày đầu ra mắt
             </div>
           </div>
         </div>
 
         <div class="flex flex-col gap-2 mt-4">
-          <div class="bg-red-500/10 backdrop-blur-md rounded-2xl p-3 min-[1441px]:p-5 border border-white/20 flex-1">
+          <div class="bg-red-500/10 backdrop-blur-md rounded-2xl px-3 py-2 min-[1441px]:p-3 border border-white/20 flex-1">
             <div class="mb-2 px-2 rounded-lg">
-              <h1 class="text-pink-400 text-[1.71em] font-bold">Lưu ý trừ cọc</h1>
+              <h1 class="text-pink-400 text-[1.51em] font-bold leading-none">Lưu ý trừ cọc</h1>
             </div>
 
             <div class="text-[1.14em]">
@@ -175,9 +201,9 @@
         </div>
 
         <div class="flex flex-col gap-2 mt-4">
-          <div class="bg-red-500/10 backdrop-blur-md rounded-2xl p-3 min-[1441px]:p-5 border border-white/20 flex-1">
+          <div class="bg-red-500/10 backdrop-blur-md rounded-2xl px-3 py-2 min-[1441px]:p-3 border border-white/20 flex-1">
             <div class="mb-2 px-2 rounded-lg">
-              <h1 class="text-pink-400 text-[1.71em] font-bold">Lưu ý khi thuê Account :</h1>
+              <h1 class="text-pink-400 text-[1.51em] font-bold leading-none">Lưu ý khi thuê Account :</h1>
             </div>
 
             <div class="text-[1.14em]">
@@ -197,7 +223,9 @@
 
               <div class="break-normal text-white">
                 <span>-</span>
-                <span>Sau khi thuê trong vòng 10 phút đầu nếu lỗi do Account bên mình bạn sẽ hỗ trợ được đổi Account và không tính giờ / Nếu đang chơi bình thường đổi Account</span>
+                <span>Sau khi thuê trong vòng</span>
+                <span class="text-sky-400 font-bold">10 phút</span>
+                <span>đầu nếu lỗi do Account bên mình bạn sẽ hỗ trợ được đổi Account và không tính giờ / Nếu đang chơi bình thường đổi Account</span>
                 <span class="text-red-400 font-bold">20k</span>
                 <span>cho 1 lượt</span>
               </div>

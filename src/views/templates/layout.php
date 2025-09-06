@@ -14,3 +14,11 @@
     <path d="M9 18v-6H5l7-7 7 7h-4v6H9z" />
   </svg>
 </button>
+
+<div id="account-avatar-modal" hidden class="QUERY-modal fixed inset-0 z-[999] flex justify-center items-center">
+  <div class="QUERY-modal-overlay absolute z-10 inset-0 bg-transparent"></div>
+
+  <div class="aspect-video w-[80%] z-20 relative">
+    <img src="" alt="" class="w-full h-full object-contain transition duration-200">
+  </div>
+</div>
