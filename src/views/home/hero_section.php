@@ -7,25 +7,25 @@
   </div>
 
   <div class="relative z-10 min-h-screen flex items-center font-bold">
-    <div class="w-full px-2 py-[30px] min-[1600px]:px-[150px] relative z-[90]">
-      <div class="w-full">
+    <div class="w-full px-2 pb-[60px] pt-[30px] min-[1900px]:px-[350px] min-[1400px]:px-[240px] min-[1200px]:px-[200px]">
+      <div class="w-full relative z-[90]">
         <div class="text-center mb-4">
-          <h1 class="text-[2.57em] font-black text-white mb-2 leading-tight">
+          <h1 class="text-[2.57em] font-black text-white mb-2 leading-tight min-[603px]:block flex flex-col">
             Dương Anh Tuấn <span class="text-red-400">X</span>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400">
-              VALORANTIME
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400 leading-none">
+              Valorantime
             </span>
           </h1>
-          <div class="w-48 h-1 min-[1441px]:h-3 bg-gradient-to-r from-sky-400 to-cyan-400 mx-auto rounded-full"></div>
+          <div class="w-48 h-1 min-[1441px]:h-2 bg-gradient-to-r from-sky-400 to-cyan-400 mx-auto rounded-full"></div>
         </div>
 
         <div class="grid min-[1170px]:grid-cols-3 grid-cols-1 gap-y-2 gap-x-2 items-start">
           <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 min-[1441px]:p-5 border border-white/20 flex-1 h-full">
-            <h2 class="text-[1.71em] font-bold text-sky-300 mb-4 flex items-center gap-3">
+            <h2 class="text-[1.51em] font-bold text-sky-300 mb-4 flex items-center gap-3">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                 <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
               </svg>
-              Giá Máy Nét ( Tất cả )
+              Giá Máy Nét (Tất cả)
             </h2>
             <div class="space-y-2 text-[1.29em]">
               <div class="flex items-center justify-between p-2 min-[1441px]:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
@@ -69,7 +69,7 @@
           </div>
 
           <div class="bg-yellow-500/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 flex-1 h-full">
-            <h3 class="text-[1.71em] font-bold text-yellow-400 mb-2">Giá Máy Nhà ( Tất cả + Only Máy nhà )</h3>
+            <h3 class="text-[1.51em] font-bold text-yellow-400 mb-2">Giá Máy Nhà (Tất cả + Only Máy nhà)</h3>
             <div class="space-y-2 mb-4 text-[1.29em]">
               <div class="flex items-center gap-3">
                 <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
@@ -79,7 +79,7 @@
                 <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
                 <span class="text-white">30K - 3 giờ</span>
               </div>
-              <div class="flex items-center gap-3 z-[1892999]">
+              <div class="flex items-center gap-3">
                 <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
                 <span class="text-white">40k - 4 Giờ <span class="text-yellow-400 font-bold">+ 1 Giờ</span></span>
               </div>
@@ -98,7 +98,7 @@
           </div>
 
           <div class="bg-yellow-500/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 flex-1 h-full">
-            <h3 class="text-[1.71em] font-bold text-red-400 mb-2">Giá Account Đặc Biệt </h3>
+            <h3 class="text-[1.51em] font-bold text-red-400 mb-2">Giá Account Đặc Biệt </h3>
             <div class="space-y-2 mb-4 text-[1.29em]">
               <div class="flex items-center gap-3">
                 <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
@@ -217,19 +217,19 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="flex-col items-center gap-3 min-[1170px]:flex hidden pt-2 absolute bottom-[150px] left-[50px] z-[80]">
-      <span id="rent-account-now-btn" class="CSS-hero-section-text-animation cursor-pointer hover:scale-110 transition duration-200 text-transparent font-bold bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400 text-[1.43em]">THUÊ ACC NGAY</span>
-      <div id="arrows-animation">
-        <div class="arrow-sliding">
-          <div class="arrow"></div>
-        </div>
-        <div class="arrow-sliding delay1">
-          <div class="arrow"></div>
-        </div>
-        <div class="arrow-sliding delay2">
-          <div class="arrow"></div>
+      <div class="flex-col items-center gap-3 min-[1170px]:flex hidden pt-2 absolute bottom-[500px] left-[40px] z-[80]">
+        <span id="rent-account-now-btn" class="CSS-hero-section-text-animation cursor-pointer hover:scale-110 transition duration-200 text-transparent font-bold bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400 text-[1.43em]">THUÊ ACC NGAY</span>
+        <div id="arrows-animation">
+          <div class="arrow-sliding">
+            <div class="arrow"></div>
+          </div>
+          <div class="arrow-sliding delay1">
+            <div class="arrow"></div>
+          </div>
+          <div class="arrow-sliding delay2">
+            <div class="arrow"></div>
+          </div>
         </div>
       </div>
     </div>
