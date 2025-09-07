@@ -59,7 +59,7 @@ export const AccountCard = (account) => {
                 </svg>
                 <span class="w-max">Mã Account</span>
               </div>
-              <p class="text-center text-base py-2 px-2 w-max">${game_code}</p>
+              <p class="text-center text-base py-2 px-2 w-max mx-auto">${game_code}</p>
             </div>
             <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
               <div
@@ -76,9 +76,9 @@ export const AccountCard = (account) => {
                 </svg>
                 <span class="w-max">Rank</span>
               </div>
-              <p class="text-center text-base py-2 px-2 w-max">${rank}</p>
+              <p class="text-center text-base py-2 px-2 w-max mx-auto">${rank}</p>
             </div>
-            <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
+            <div class="text-center font-bold flex-1 border border-regular-acc-state-cl rounded">
               <div
                 class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-regular-acc-state-cl"
               >
@@ -98,7 +98,7 @@ export const AccountCard = (account) => {
                 </svg>
                 <span class="w-max">Loại Máy</span>
               </div>
-              <p class="text-center text-base py-2 px-2 w-max">${device_type}</p>
+              <p class="text-center text-base py-2 px-2 w-max mx-auto">${device_type}</p>
             </div>
             <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
               <div
@@ -120,7 +120,7 @@ export const AccountCard = (account) => {
                 </svg>
                 <span class="w-max">Trạng Thái</span>
               </div>
-              <p class="text-center text-base py-2 px-2 w-max">${status}</p>
+              <p class="text-center text-base py-2 px-2 w-max mx-auto">${status}</p>
             </div>
             <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
               <div
@@ -153,7 +153,7 @@ export const AccountCard = (account) => {
                 </svg>
                 <span class="w-max">Loại Acc</span>
               </div>
-              <p class="text-center text-base py-2 px-2 w-max">${acc_type}</p>
+              <p class="text-center text-base py-2 px-2 w-max mx-auto">${acc_type}</p>
             </div>
 
             <button

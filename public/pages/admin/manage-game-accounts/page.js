@@ -1,5 +1,5 @@
 import { GameAccountService } from "../../../services/game-account-services.js"
-import { AccountPreviewRow, AccountRow } from "../../../utils/scripts/components.js"
+import { AccountRow } from "../../../utils/scripts/components.js"
 import {
   LitHTMLHelper,
   AppLoadingHelper,
@@ -18,6 +18,8 @@ const sharedData = {
 }
 
 class ManageGameAccountsPageManager {
+  #SCROLLING_THRESHOLD = 300
+
   constructor() {
     this.accountsTableBody = document.getElementById("accounts-table-body")
     this.loadMoreContainer = document.getElementById("load-more-container")
@@ -193,19 +195,21 @@ class ManageGameAccountsPageManager {
 
   watchScrolling() {
     window.addEventListener("scroll", (e) => {
-      const THRESHOLD = 300
-      if (window.scrollY > THRESHOLD) {
+      if (window.scrollY > this.#SCROLLING_THRESHOLD) {
         this.scrollToTopBtn.classList.remove("bottom-[-4.26em]")
         this.scrollToTopBtn.classList.add("bottom-[1.71em]")
       } else {
         this.scrollToTopBtn.classList.remove("bottom-[1.7em]")
         this.scrollToTopBtn.classList.add("bottom-[-4.26em]")
       }
-      if (window.scrollY < document.body.scrollHeight - window.innerHeight - THRESHOLD) {
+      if (
+        window.scrollY <
+        document.body.scrollHeight - window.innerHeight - this.#SCROLLING_THRESHOLD
+      ) {
         this.scrollToBottomBtn.classList.remove("bottom-[-4.26em]")
-        this.scrollToBottomBtn.classList.add("bottom-[7.14em]")
+        this.scrollToBottomBtn.classList.add("bottom-[6.14em]")
       } else {
-        this.scrollToBottomBtn.classList.remove("bottom-[7.14em]")
+        this.scrollToBottomBtn.classList.remove("bottom-[6.14em]")
         this.scrollToBottomBtn.classList.add("bottom-[-4.26em]")
       }
     })
@@ -1047,192 +1051,6 @@ class UpdateAccountManager {
   }
 }
 
-// class ImportExportManager {
-//   constructor() {
-//     this.accountsPreviewModal = document.getElementById("accounts-preview-modal")
-
-//     this.accountsImporting = []
-
-//     this.initListeners()
-//   }
-
-//   initListeners() {
-//     document.getElementById("export-accounts-table-to-excel-btn").addEventListener("click", (e) => {
-//       this.exportAccountsTableToExcel()
-//     })
-
-//     document.getElementById("import-accounts-from-excel-btn").addEventListener("click", (e) => {
-//       this.importAccountsFromExcel()
-//     })
-
-//     this.accountsPreviewModal
-//       .querySelector(".QUERY-accounts-preview-overlay")
-//       .addEventListener("click", (e) => {
-//         this.accountsImporting = []
-//         this.hideAccountsPreviewModal()
-//       })
-
-//     document.getElementById("start-importing-accounts-btn").addEventListener("click", (e) => {
-//       this.processImportAccounts()
-//     })
-
-//     document.getElementById("cancel-importing-accounts-btn").addEventListener("click", (e) => {
-//       this.accountsImporting = []
-//       this.hideAccountsPreviewModal()
-//     })
-//   }
-
-//   showAccountsPreviewModal() {
-//     this.accountsPreviewModal.hidden = false
-//     const accountsPreviewTableBody = document.getElementById("accounts-preview-table-body")
-//     accountsPreviewTableBody.innerHTML = ""
-
-//     let order_number = 1
-//     const accounts = this.accountsImporting
-//     for (const account of accounts) {
-//       const accountRow = LitHTMLHelper.getFragment(AccountPreviewRow, account, order_number)
-//       accountsPreviewTableBody.appendChild(accountRow)
-//       order_number++
-//     }
-
-//     initUtils.initTooltip()
-//   }
-
-//   hideAccountsPreviewModal() {
-//     this.accountsPreviewModal.hidden = true
-//   }
-
-//   exportAccountsTableToExcel() {
-//     const rows = []
-//     const headerRow = [
-//       "Avatar",
-//       "Tên tài khoản",
-//       "Rank",
-//       "Mã game",
-//       "Trạng thái",
-//       "Mô tả",
-//       "Loại máy",
-//     ]
-//     rows.push(headerRow)
-
-//     // Lấy tất cả các hàng từ tbody
-//     const tbody = document.getElementById("accounts-table-body")
-//     const trList = tbody.querySelectorAll("tr")
-
-//     trList.forEach((tr) => {
-//       const tds = tr.querySelectorAll("td")
-
-//       // Cấu trúc cột (dựa trên thứ tự column bạn định nghĩa):
-//       const avatar = tds[1]?.querySelector("img")?.src.split("images/account/")[1]
-//       const descRow = tds[6]
-//       const description = descRow?.querySelector(".QUERY-no-description")
-//         ? undefined
-//         : descRow.innerText.trim()
-//       const row = [
-//         avatar, // avatar
-//         tds[2]?.innerText.trim(), // acc_name
-//         tds[3]?.innerText.trim(), // rank
-//         tds[4]?.innerText.trim(), // game_code
-//         tds[5]?.innerText.trim(), // status
-//         description, // description
-//         tds[8]?.innerText.trim(), // device_type
-//       ]
-
-//       rows.push(row)
-//     })
-
-//     const worksheet = XLSX.utils.aoa_to_sheet(rows)
-//     const workbook = XLSX.utils.book_new()
-//     XLSX.utils.book_append_sheet(workbook, worksheet, "GameAccounts")
-
-//     const today = dayjs().format("YYYY-MM-DD_HH-mm-ss")
-//     XLSX.writeFile(workbook, `DanhSachTaiKhoan_${today}.xlsx`)
-//   }
-
-//   importAccountsFromExcel() {
-//     const input = document.createElement("input")
-//     input.type = "file"
-//     input.accept = ".xlsx,.xls"
-//     input.style.display = "none"
-
-//     input.addEventListener("change", (event) => {
-//       const file = event.target.files[0]
-//       if (!file) return
-
-//       const reader = new FileReader()
-//       reader.onload = (e) => {
-//         try {
-//           const data = new Uint8Array(e.target.result)
-//           const workbook = XLSX.read(data, { type: "array" })
-//           const worksheet = workbook.Sheets[workbook.SheetNames[0]]
-//           const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 })
-
-//           // Bỏ qua header row
-//           const rows = jsonData.slice(1)
-
-//           if (rows.length === 0) {
-//             Toaster.error("Lỗi", "File Excel không có dữ liệu")
-//             return
-//           }
-
-//           const accounts = rows
-//             .map((row) => ({
-//               accName: row[1] || "",
-//               rank: row[2] || "",
-//               gameCode: row[3] || "",
-//               status: row[4] || "",
-//               description: row[5] || "",
-//               deviceType: row[6] || "",
-//             }))
-//             .filter(
-//               (account) =>
-//                 account.accName &&
-//                 account.rank &&
-//                 account.gameCode &&
-//                 account.deviceType &&
-//                 account.status
-//             )
-
-//           if (accounts.length === 0) {
-//             Toaster.error("Lỗi", "Không có dữ liệu hợp lệ trong file Excel")
-//             return
-//           }
-
-//           this.accountsImporting = accounts
-//           this.showAccountsPreviewModal()
-//         } catch (error) {
-//           Toaster.error("Lỗi", "Lỗi khi đọc file Excel")
-//         }
-//       }
-
-//       reader.readAsArrayBuffer(file)
-//     })
-
-//     document.body.appendChild(input)
-//     input.click()
-//     document.body.removeChild(input)
-//   }
-
-//   processImportAccounts() {
-//     const accounts = this.accountsImporting
-//     AppLoadingHelper.show()
-//     GameAccountService.addNewAccounts(accounts)
-//       .then((data) => {
-//         if (data && data.success) {
-//           Toaster.success("Thông báo", `Đã tải lên thành công ${accounts.length} tài khoản`, () => {
-//             NavigationHelper.reloadPage()
-//           })
-//         }
-//       })
-//       .catch((error) => {
-//         Toaster.error("Lỗi thêm tài khoản", AxiosErrorHandler.handleHTTPError(error).message)
-//       })
-//       .finally(() => {
-//         AppLoadingHelper.hide()
-//       })
-//   }
-// }
-
 // class này có load data dùng chung cho các class khác trong cùng file này
 class FilterManager {
   constructor() {
@@ -1338,22 +1156,6 @@ class FilterManager {
   }
 
   fetchStatuses() {
-    // GameAccountService.fetchAccountStatuses().then((statuses) => {
-    //   const allOption = document.createElement("option")
-    //   allOption.value = "ALL"
-    //   allOption.textContent = "Tất cả trạng thái"
-    //   this.statusesSelect.appendChild(allOption)
-
-    //   for (const status of statuses) {
-    //     const option = document.createElement("option")
-    //     option.value = status.status
-    //     option.textContent = status.status
-    //     this.statusesSelect.appendChild(option)
-    //   }
-
-    //   this.fieldsRenderedCount++
-    //   this.updateActiveFiltersDisplay()
-    // })
     const allOption = document.createElement("option")
     allOption.value = "ALL"
     allOption.textContent = "Tất cả trạng thái"
@@ -1372,22 +1174,6 @@ class FilterManager {
   }
 
   fetchDeviceTypes() {
-    // GameAccountService.fetchDeviceTypes().then((deviceTypes) => {
-    //   const allOption = document.createElement("option")
-    //   allOption.value = "ALL"
-    //   allOption.textContent = "Tất cả loại máy"
-    //   this.deviceTypeSelect.appendChild(allOption)
-
-    //   for (const deviceType of deviceTypes) {
-    //     const option = document.createElement("option")
-    //     option.value = deviceType.device_type
-    //     option.textContent = deviceType.device_type
-    //     this.deviceTypeSelect.appendChild(option)
-    //   }
-
-    //   this.fieldsRenderedCount++
-    //   this.updateActiveFiltersDisplay()
-    // })
     const allOption = document.createElement("option")
     allOption.value = "ALL"
     allOption.textContent = "Tất cả loại máy"
@@ -1500,7 +1286,6 @@ class FilterManager {
 }
 
 const uiEditor = new UIEditor()
-// new ImportExportManager()
 new AddNewAccountManager()
 const updateAccountManager = new UpdateAccountManager()
 const deleteAccountManager = new DeleteAccountManager()
