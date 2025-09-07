@@ -43,16 +43,6 @@
               Thêm tài khoản
             </button>
             <div class="flex flex-col items-center gap-2 bg-transparent absolute left-0 mt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-[opacity,visibility] duration-200 z-10">
-              <!-- <button id="import-accounts-from-excel-btn" class="flex items-center gap-2 outline outline-2 outline-white w-max text-left font-bold text-white px-4 py-2 bg-regular-blue-cl hover:scale-110 transition duration-200 rounded-md">
-                <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-sheet-icon lucide-sheet" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-                  <line x1="3" x2="21" y1="9" y2="9" />
-                  <line x1="3" x2="21" y1="15" y2="15" />
-                  <line x1="9" x2="9" y1="9" y2="21" />
-                  <line x1="15" x2="15" y1="9" y2="21" />
-                </svg>
-                Thêm bằng Excel
-              </button> -->
               <button id="add-new-account-btn" class="flex items-center gap-2 outline outline-2 outline-white w-max text-left font-bold text-white px-4 py-2 bg-regular-blue-cl hover:scale-110 transition duration-200 rounded-md">
                 <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-hand-icon lucide-hand" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2" />
@@ -64,32 +54,6 @@
               </button>
             </div>
           </div>
-
-          <!-- <div class="relative group">
-            <button class="bg-gray-600 hover:scale-105 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
-              <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-download-icon lucide-download" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 15V3" />
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <path d="m7 10 5 5 5-5" />
-              </svg>
-              Xuất dữ liệu
-              <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-chevron-down-icon lucide-chevron-down" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m6 9 6 6 6-6" />
-              </svg>
-            </button>
-            <div class="flex flex-col items-center gap-2 bg-transparent absolute right-0 mt-2 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-[opacity,visibility] duration-200 z-10">
-              <button id="export-accounts-table-to-excel-btn" class="flex items-center gap-2 outline outline-2 outline-white w-max text-left font-bold text-white px-4 py-2 bg-gray-600 hover:scale-110 transition duration-200 rounded-md">
-                <svg xmlns=" http://www.w3.org/2000/svg" class="lucide lucide-sheet-icon lucide-sheet text-white" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-                  <line x1="3" x2="21" y1="9" y2="9" />
-                  <line x1="3" x2="21" y1="15" y2="15" />
-                  <line x1="9" x2="9" y1="9" y2="21" />
-                  <line x1="15" x2="15" y1="9" y2="21" />
-                </svg>
-                Xuất Excel
-              </button>
-            </div>
-          </div> -->
         </div>
       </div>
 
@@ -101,10 +65,10 @@
 
   <!-- View More Button -->
   <div id="load-more-container" class="QUERY-is-more flex justify-center mt-12 mb-6 w-full">
-    <button id="load-more-btn" class="QUERY-load-more-btn CSS-button-blue-line-decoration py-2 px-4">
+    <button id="load-more-btn" class="QUERY-load-more-btn CSS-button-shadow-decoration border border-solid border-gray-200 rounded-lg py-2 px-4 font-bold">
       XEM THÊM TÀI KHOẢN
     </button>
-    <p class="QUERY-no-more-text text-gray-600 italic text-base font-bold">Không còn tài khoản nào.</p>
+    <p class="QUERY-no-more-text text-gray-600 text-base font-bold">Không còn tài khoản nào.</p>
   </div>
 </main>
 

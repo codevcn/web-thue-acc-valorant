@@ -12,15 +12,15 @@
         <div class="QUERY-avatar-input-section w-full">
           <label for="avatar-input--add-section" class="block text-sm font-medium text-gray-700 mb-2">Ảnh đại diện (tùy chọn)</label>
           <div class="flex items-center gap-4 relative w-full">
-            <input type="file" name="avatar" id="avatar-input--add-section" accept="image/*" class="hidden" />
+            <input multiple type="file" name="avatar" id="avatar-input--add-section" accept="image/*" class="hidden" />
             <label for="avatar-input--add-section" class="cursor-pointer w-full">
               <div class="flex items-center justify-center flex-col w-full gap-2 p-4 text-center border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-gray-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
-                <span class="text-sm text-gray-500">Chọn ảnh</span>
+                <span class="text-sm text-gray-500">Chọn 2 ảnh</span>
                 <div class="flex-1">
-                  <p class="text-sm text-gray-600">Hỗ trợ: JPG, PNG, WEBP.</p>
+                  <p class="text-sm text-gray-600">Hỗ trợ: JPG, PNG, WEBP. Tối đa 2 ảnh.</p>
                   <button type="button" id="remove-avatar-btn" class="text-sm text-red-600 hover:text-red-800 hidden">Xóa ảnh</button>
                 </div>
               </div>
@@ -29,6 +29,7 @@
         </div>
         <div class="QUERY-avatar-preview-section">
           <img src="" alt="Ảnh đại diện" id="avatar-preview-img--add-section" class="w-full object-contain rounded-lg">
+          <img src="" alt="Ảnh đại diện" id="avatar-preview-img-2--add-section" class="w-full object-contain rounded-lg mt-2">
           <button type="button" id="cancel-avatar-btn--add-section" class="flex items-center justify-center gap-2 mt-2 px-4 w-full py-1 text-sm text-white bg-red-600 border-2 border-red-600 border-solid hover:bg-transparent hover:text-red-600 rounded transition">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2">
               <path d="M3 6h18" />
@@ -44,30 +45,21 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Tên tài khoản</label>
-          <input type="text" name="accName" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: PRO#1234">
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Tên đăng nhập</label>
-          <input type="text" name="accUsername" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: PRO1234">
-        </div>
-
-        <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Rank</label>
           <select id="ranks-select--add-section" type="text" name="rank" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1">
           </select>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Mã game</label>
-          <input type="text" name="gameCode" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: Mã 001">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Loại acc</label>
+          <select id="acc-types-select--add-section" type="text" name="accType" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1">
+          </select>
         </div>
-      </div>
 
-      <div class="mt-4">
-        <label class="block text-sm font-medium text-gray-700 mb-2">Mô tả</label>
-        <textarea name="description" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" rows="3" placeholder="Mô tả chi tiết về tài khoản..."></textarea>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Mã account</label>
+          <input type="text" name="accCode" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: Mã 001">
+        </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">

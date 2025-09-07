@@ -32,7 +32,6 @@ class ManageGameAccountsPageManager {
     this.RENT_TIME_INPUT_FORMAT = "YYYY-MM-DD HH:mm:ss"
 
     this.fetchAccounts()
-    this.initRankSelectListeners()
 
     this.watchScrolling()
 
@@ -52,7 +51,7 @@ class ManageGameAccountsPageManager {
     for (const acc of accounts) {
       if (acc.status === "Bận") {
         if (busyAcc) {
-          if (acc.game_code > busyAcc.game_code) {
+          if (acc.acc_code > busyAcc.acc_code) {
             busyAcc = acc
           }
         } else {
@@ -60,7 +59,7 @@ class ManageGameAccountsPageManager {
         }
       } else if (acc.status === "Check") {
         if (checkAcc) {
-          if (acc.game_code > checkAcc.game_code) {
+          if (acc.acc_code > checkAcc.acc_code) {
             checkAcc = acc
           }
         } else {
@@ -68,7 +67,7 @@ class ManageGameAccountsPageManager {
         }
       } else {
         if (freeAcc) {
-          if (acc.game_code > freeAcc.game_code) {
+          if (acc.acc_code > freeAcc.acc_code) {
             freeAcc = acc
           }
         } else {
@@ -85,18 +84,18 @@ class ManageGameAccountsPageManager {
 
     AppLoadingHelper.show("Đang tải dữ liệu...")
     const lastAccounts = this.getLastAccounts()
-    const free_last_game_code = lastAccounts[0]?.game_code || null
-    const check_last_game_code = lastAccounts[1]?.game_code || null
-    const busy_last_game_code = lastAccounts[2]?.game_code || null
+    const free_last_acc_code = lastAccounts[0]?.acc_code || null
+    const check_last_acc_code = lastAccounts[1]?.acc_code || null
+    const busy_last_acc_code = lastAccounts[2]?.acc_code || null
     const rank = URLHelper.getUrlQueryParam("rank")
     const status = URLHelper.getUrlQueryParam("status")
     const device_type = URLHelper.getUrlQueryParam("device_type")
     const search_term = URLHelper.getUrlQueryParam("search_term")
 
     GameAccountService.fetchAccountsForAdmin(
-      free_last_game_code,
-      check_last_game_code,
-      busy_last_game_code,
+      free_last_acc_code,
+      check_last_acc_code,
+      busy_last_acc_code,
       rank,
       status,
       device_type,
@@ -384,34 +383,6 @@ class ManageGameAccountsPageManager {
       this.cancelRent(accountId)
     })
   }
-
-  initRankSelectListeners() {
-    this.accountsTableBody.addEventListener("change", (e) => {
-      let target = e.target
-      while (target && !target.classList.contains("QUERY-ranks-select")) {
-        target = target.parentElement
-        if (target && target.classList.contains("accounts-table-body")) {
-          return
-        }
-      }
-      if (!target) return
-      const accountId = target.dataset.accountId
-      const rank = target.value
-      AppLoadingHelper.show()
-      GameAccountService.updateAccount(accountId, { rank })
-        .then((data) => {
-          if (data && data.success) {
-            uiEditor.refreshAccountRowOnUI(accountId)
-          }
-        })
-        .catch((error) => {
-          Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
-        })
-        .finally(() => {
-          AppLoadingHelper.hide()
-        })
-    })
-  }
 }
 
 class UIEditor {
@@ -472,15 +443,19 @@ class UIEditor {
 }
 
 class AddNewAccountManager {
+  #MAX_AVATAR_COUNT = 2
+
   constructor() {
     this.addNewAccountModal = document.getElementById("add-new-account-modal")
     this.addNewAccountForm = document.getElementById("add-new-account-form")
     this.pickAvatarSection = document.getElementById("pick-avatar--add-section")
     this.avatarPreview = document.getElementById("avatar-preview-img--add-section")
+    this.avatarPreview2 = document.getElementById("avatar-preview-img-2--add-section")
     this.avatarInput = document.getElementById("avatar-input--add-section")
     this.ranksSelect = document.getElementById("ranks-select--add-section")
     this.statusSelect = document.getElementById("status-select--add-section")
     this.deviceTypesSelect = document.getElementById("device-types-select--add-section")
+    this.accTypeSelect = document.getElementById("acc-types-select--add-section")
 
     this.isSubmitting = false
 
@@ -494,7 +469,8 @@ class AddNewAccountManager {
 
   initUIData() {
     this.statusOptions = ["Rảnh", "Bận", "Check"]
-    this.deviceTypeOptions = ["Tất cả", "Máy nhà"]
+    this.deviceTypeOptions = ["Tất cả", "Only máy nhà"]
+    this.accTypeOptions = ["Thường", "Đặc biệt"]
   }
 
   renderRanksSelect() {
@@ -505,6 +481,16 @@ class AddNewAccountManager {
       option.value = rank
       option.textContent = rank
       this.ranksSelect.appendChild(option)
+    }
+  }
+
+  renderAccTypeSelect() {
+    const accTypes = this.accTypeOptions
+    for (const accType of accTypes) {
+      const option = document.createElement("option")
+      option.value = accType
+      option.textContent = accType
+      this.accTypeSelect.appendChild(option)
     }
   }
 
@@ -553,30 +539,52 @@ class AddNewAccountManager {
       .addEventListener("click", this.handleRemoveAvatar.bind(this))
   }
 
+  switchToAvatarPreviewSection() {
+    this.pickAvatarSection.classList.remove("QUERY-at-avatar-input-section")
+    this.pickAvatarSection.classList.add("QUERY-at-avatar-preview-section")
+  }
+
+  switchToAvatarInputSection() {
+    this.pickAvatarSection.classList.remove("QUERY-at-avatar-preview-section")
+    this.pickAvatarSection.classList.add("QUERY-at-avatar-input-section")
+  }
+
   handleAvatarInputChange(e) {
-    const file = e.target.files[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        this.avatarPreview.src = e.target.result
-        this.pickAvatarSection.classList.remove("QUERY-at-avatar-input-section")
-        this.pickAvatarSection.classList.add("QUERY-at-avatar-preview-section")
+    const files = e.target.files
+    if (files && files.length > 0) {
+      let index = 0
+      for (const file of files) {
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          if (index === 0) {
+            this.avatarPreview.src = e.target.result
+          } else {
+            this.avatarPreview2.src = e.target.result
+          }
+          index++
+          if (index === files.length) {
+            this.switchToAvatarPreviewSection()
+          }
+        }
+        reader.readAsDataURL(file)
       }
-      reader.readAsDataURL(file)
     }
   }
 
   handleRemoveAvatar() {
     this.avatarPreview.src = ""
+    this.avatarPreview2.src = ""
+    this.avatarPreview.style.maxHeight = "fit-content"
+    this.avatarPreview2.style.maxHeight = "fit-content"
     this.avatarInput.value = null
-    this.pickAvatarSection.classList.remove("QUERY-at-avatar-preview-section")
-    this.pickAvatarSection.classList.add("QUERY-at-avatar-input-section")
+    this.switchToAvatarInputSection()
   }
 
   showModal() {
     this.renderRanksSelect()
     this.renderStatusSelect()
     this.renderDeviceTypesSelect()
+    this.renderAccTypeSelect()
     this.addNewAccountModal.hidden = false
   }
 
@@ -585,21 +593,13 @@ class AddNewAccountManager {
     this.addNewAccountForm.reset()
   }
 
-  validateFormData({ accName, accUsername, rank, gameCode, status, deviceType }) {
-    if (!accName) {
-      Toaster.error("Tên tài khoản không được để trống")
-      return false
-    }
-    if (!ValidationHelper.isValidUsername(accUsername)) {
-      Toaster.error("Tên đăng nhập không hợp lệ")
-      return false
-    }
+  validateFormData({ rank, accCode, status, deviceType, accType, avatars }) {
     if (!rank) {
       Toaster.error("Rank không được để trống")
       return false
     }
-    if (!gameCode) {
-      Toaster.error("Mã game không được để trống")
+    if (!accCode) {
+      Toaster.error("Mã account không được để trống")
       return false
     }
     if (!status) {
@@ -608,6 +608,14 @@ class AddNewAccountManager {
     }
     if (!deviceType) {
       Toaster.error("Loại thiết bị không được để trống")
+      return false
+    }
+    if (!accType) {
+      Toaster.error("Loại acc không được để trống")
+      return false
+    }
+    if (avatars && avatars.length > this.#MAX_AVATAR_COUNT) {
+      Toaster.error("Chỉ được chọn tối đa 2 ảnh cho 1 tài khoản")
       return false
     }
     return true
@@ -619,13 +627,12 @@ class AddNewAccountManager {
 
     const formData = new FormData(this.addNewAccountForm)
     const data = {
-      accName: formData.get("accName"),
-      accUsername: formData.get("accUsername"),
       rank: formData.get("rank"),
-      gameCode: formData.get("gameCode"),
-      description: formData.get("description"),
+      accCode: formData.get("accCode"),
       status: formData.get("status"),
       deviceType: formData.get("deviceType"),
+      accType: formData.get("accType"),
+      avatars: this.avatarInput.files,
     }
     if (!this.validateFormData({ ...data })) {
       this.isSubmitting = false
@@ -633,7 +640,7 @@ class AddNewAccountManager {
     }
 
     AppLoadingHelper.show()
-    GameAccountService.addNewAccounts([data], this.avatarInput.files?.[0])
+    GameAccountService.addNewAccounts([data], data.avatars)
       .then((data) => {
         if (data && data.success) {
           Toaster.success("Thông báo", "Thêm tài khoản thành công", () => {
@@ -710,31 +717,39 @@ class DeleteAccountManager {
 }
 
 class UpdateAccountManager {
+  #MAX_AVATAR_COUNT = 2
+
   constructor() {
     this.updateAccountModal = document.getElementById("update-account-modal")
     this.updateAccountForm = document.getElementById("update-account-form")
     this.pickAvatarSection = document.getElementById("pick-avatar--update-section")
     this.avatarPreview = document.getElementById("avatar-preview-img--update-section")
+    this.avatarPreview2 = document.getElementById("avatar-preview-img-2--update-section")
     this.avatarInput = document.getElementById("avatar-input--update-section")
     this.accountsTableBody = document.getElementById("accounts-table-body")
     this.ranksSelect = document.getElementById("ranks-select--update-section")
     this.statusSelect = document.getElementById("status-select--update-section")
     this.deviceTypesSelect = document.getElementById("device-types-select--update-section")
+    this.accTypeSelect = document.getElementById("acc-types-select--update-section")
 
     this.isSubmitting = false
     this.statusOptions = []
     this.deviceTypeOptions = []
+    this.accTypeOptions = []
 
     this.initUIData()
 
     this.initListeners()
     this.initSwitchStatusQuickly()
     this.initSwitchDeviceTypeQuickly()
+    this.initSwitchRankQuickly()
+    this.initSwitchAccTypeQuickly()
   }
 
   initUIData() {
     this.statusOptions = ["Rảnh", "Bận", "Check"]
-    this.deviceTypeOptions = ["Tất cả", "Máy nhà"]
+    this.deviceTypeOptions = ["Tất cả", "Only máy nhà"]
+    this.accTypeOptions = ["Thường", "Đặc biệt"]
   }
 
   renderRanksSelect(account) {
@@ -776,6 +791,20 @@ class UpdateAccountManager {
         option.selected = true
       }
       this.deviceTypesSelect.appendChild(option)
+    }
+  }
+
+  renderAccTypeSelect(account) {
+    this.accTypeSelect.innerHTML = ""
+    const accTypes = this.accTypeOptions
+    for (const accType of accTypes) {
+      const option = document.createElement("option")
+      option.value = accType
+      option.textContent = accType
+      if (accType === account.acc_type) {
+        option.selected = true
+      }
+      this.accTypeSelect.appendChild(option)
     }
   }
 
@@ -849,20 +878,32 @@ class UpdateAccountManager {
   }
 
   handleAvatarInputChange(e) {
-    const file = e.target.files[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        this.avatarPreview.src = e.target.result
-        this.switchToAvatarPreviewSection()
+    const files = e.target.files
+    if (files && files.length > 0) {
+      let index = 0
+      for (const file of files) {
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          if (index === 0) {
+            this.avatarPreview.src = e.target.result
+          } else {
+            this.avatarPreview2.src = e.target.result
+          }
+          index++
+          if (index === files.length) {
+            this.switchToAvatarPreviewSection()
+          }
+        }
+        reader.readAsDataURL(file)
       }
-      reader.readAsDataURL(file)
     }
   }
 
   handleRemoveAvatar() {
     this.avatarPreview.src = ""
+    this.avatarPreview2.src = ""
     this.avatarPreview.style.maxHeight = "fit-content"
+    this.avatarPreview2.style.maxHeight = "fit-content"
     this.avatarInput.value = null
     this.switchToAvatarInputSection()
   }
@@ -870,19 +911,21 @@ class UpdateAccountManager {
   showModal(accountId) {
     this.accountId = accountId
     const account = sharedData.gameAccounts.find((account) => account.id === accountId)
-    const { avatar, acc_name, acc_username, game_code, description } = account
+    const { avatar, acc_name, acc_code, avatar_2 } = account
     document.getElementById("update-account-name").textContent = acc_name
-    this.updateAccountForm.querySelector("input[name='accName']").value = acc_name
-    this.updateAccountForm.querySelector("input[name='accUsername']").value = acc_username
-    this.updateAccountForm.querySelector("input[name='gameCode']").value = game_code
-    this.updateAccountForm.querySelector("textarea[name='description']").value = description || ""
+    this.updateAccountForm.querySelector("input[name='accCode']").value = acc_code
     this.renderRanksSelect(account)
     this.renderStatusSelect(account)
     this.renderDeviceTypesSelect(account)
+    this.renderAccTypeSelect(account)
     this.updateAccountModal.hidden = false
     this.avatarPreview.src = `/images/account/${avatar || "default-account-avatar.png"}`
+    this.avatarPreview2.src = `/images/account/${avatar_2 || "default-account-avatar.png"}`
     if (!avatar) {
       this.avatarPreview.style.maxHeight = "200px"
+    }
+    if (!avatar_2) {
+      this.avatarPreview2.style.maxHeight = "200px"
     }
     this.switchToAvatarPreviewSection()
   }
@@ -892,21 +935,13 @@ class UpdateAccountManager {
     this.updateAccountForm.reset()
   }
 
-  validateFormData({ accName, accUsername, rank, gameCode, status, deviceType }) {
-    if (!accName) {
-      Toaster.error("Tên tài khoản không được để trống")
-      return false
-    }
-    if (!ValidationHelper.isValidUsername(accUsername)) {
-      Toaster.error("Tên đăng nhập không hợp lệ")
-      return false
-    }
+  validateFormData({ rank, accCode, status, deviceType, accType, avatars }) {
     if (!rank) {
       Toaster.error("Rank không được để trống")
       return false
     }
-    if (!gameCode) {
-      Toaster.error("Mã game không được để trống")
+    if (!accCode) {
+      Toaster.error("Mã account không được để trống")
       return false
     }
     if (!status) {
@@ -915,6 +950,14 @@ class UpdateAccountManager {
     }
     if (!deviceType) {
       Toaster.error("Loại thiết bị không được để trống")
+      return false
+    }
+    if (!accType) {
+      Toaster.error("Loại acc không được để trống")
+      return false
+    }
+    if (avatars && avatars.length > this.#MAX_AVATAR_COUNT) {
+      Toaster.error("Chỉ được chọn tối đa 2 ảnh cho 1 tài khoản")
       return false
     }
     return true
@@ -926,13 +969,12 @@ class UpdateAccountManager {
 
     const formData = new FormData(this.updateAccountForm)
     const data = {
-      accName: formData.get("accName"),
-      accUsername: formData.get("accUsername"),
       rank: formData.get("rank"),
-      gameCode: formData.get("gameCode"),
-      description: formData.get("description"),
+      accCode: formData.get("accCode"),
       status: formData.get("status"),
       deviceType: formData.get("deviceType"),
+      accType: formData.get("accType"),
+      avatars: this.avatarInput.files,
     }
     if (!this.validateFormData({ ...data })) {
       this.isSubmitting = false
@@ -940,7 +982,7 @@ class UpdateAccountManager {
     }
 
     AppLoadingHelper.show()
-    GameAccountService.updateAccount(this.accountId, data, this.avatarInput.files?.[0])
+    GameAccountService.updateAccount(this.accountId, data, data.avatars)
       .then((data) => {
         if (data && data.success) {
           uiEditor.refreshAccountRowOnUI(this.accountId)
@@ -1045,6 +1087,84 @@ class UpdateAccountManager {
         if (account) {
           this.accountId = account.id
           this.switchDeviceType()
+        }
+      }
+    })
+  }
+
+  switchRank(rank) {
+    const accountId = this.accountId
+    AppLoadingHelper.show()
+    GameAccountService.updateAccount(accountId, { rank })
+      .then((data) => {
+        if (data && data.success) {
+          uiEditor.refreshAccountRowOnUI(accountId)
+        }
+      })
+      .catch((error) => {
+        Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
+      })
+      .finally(() => {
+        AppLoadingHelper.hide()
+      })
+  }
+
+  initSwitchRankQuickly() {
+    this.accountsTableBody.addEventListener("change", (e) => {
+      let target = e.target
+      while (target && !target.classList.contains("QUERY-ranks-select")) {
+        target = target.parentElement
+        if (target && target.classList.contains("QUERY-account-row-item")) {
+          break
+        }
+      }
+      if (!target || !target.classList.contains("QUERY-ranks-select")) return
+      const accountId = target.closest(".QUERY-account-row-item").dataset.accountId * 1
+      const rank = target.value
+      if (accountId && rank) {
+        const account = sharedData.gameAccounts.find((account) => account.id === accountId)
+        if (account) {
+          this.accountId = account.id
+          this.switchRank(rank)
+        }
+      }
+    })
+  }
+
+  switchAccType(accType) {
+    const accountId = this.accountId
+    AppLoadingHelper.show()
+    GameAccountService.updateAccount(accountId, { accType })
+      .then((data) => {
+        if (data && data.success) {
+          uiEditor.refreshAccountRowOnUI(accountId)
+        }
+      })
+      .catch((error) => {
+        Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
+      })
+      .finally(() => {
+        AppLoadingHelper.hide()
+      })
+  }
+
+  initSwitchAccTypeQuickly() {
+    this.accountsTableBody.addEventListener("change", (e) => {
+      let target = e.target
+      while (target && !target.classList.contains("QUERY-acc-types-select")) {
+        target = target.parentElement
+        if (target && target.classList.contains("QUERY-account-row-item")) {
+          break
+        }
+      }
+      if (!target || !target.classList.contains("QUERY-acc-types-select")) return
+      const accountId = target.closest(".QUERY-account-row-item").dataset.accountId * 1
+      const accType = target.value
+      if (accountId && accType) {
+        const account = sharedData.gameAccounts.find((account) => account.id === accountId)
+        if (account) {
+          this.accountId = account.id
+          this.switchAccType(accType)
         }
       }
     })
@@ -1179,7 +1299,7 @@ class FilterManager {
     allOption.textContent = "Tất cả loại máy"
     this.deviceTypeSelect.appendChild(allOption)
 
-    const deviceTypes = ["Tất cả", "Máy nhà"]
+    const deviceTypes = ["Tất cả", "Only máy nhà"]
     for (const deviceType of deviceTypes) {
       const option = document.createElement("option")
       option.value = deviceType

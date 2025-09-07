@@ -2,7 +2,7 @@ import { html } from "https://esm.run/lit-html@1"
 import { AccountHelper, TimeHelper } from "./helpers.js"
 
 export const AccountCard = (account) => {
-  const { status, rank, avatar, game_code, device_type, id, avatar_2, acc_type } = account
+  const { status, rank, avatar, acc_code, device_type, id, avatar_2, acc_type } = account
   return html`
     <div class="rounded-lg overflow-hidden w-full">
       <div class="CSS-styled-scrollbar">
@@ -13,7 +13,7 @@ export const AccountCard = (account) => {
             <div class="w-fit h-fit m-auto">
               <img
                 src="/images/account/${avatar ?? "default-account-avatar.png"}"
-                alt="Mã account: ${game_code}"
+                alt="Mã account: ${acc_code}"
                 class="QUERY-account-avatar-1 aspect-[16/9] m-auto cursor-pointer rounded-lg transition-transform ease-in-out [transition-property:transform,transform-origin] [transition-duration:400ms,200ms] ${avatar
                   ? "object-cover"
                   : "object-contain py-6 min-[1242px]:py-0"}"
@@ -26,7 +26,7 @@ export const AccountCard = (account) => {
             <div class="w-fit h-fit m-auto">
               <img
                 src="/images/account/${avatar_2 ?? "default-account-avatar.png"}"
-                alt="Mã account: ${game_code}"
+                alt="Mã account: ${acc_code}"
                 class="QUERY-account-avatar-2 aspect-[16/9] m-auto cursor-pointer rounded-lg transition-transform ease-in-out [transition-property:transform,transform-origin] [transition-duration:400ms,200ms] ${avatar_2
                   ? "object-cover"
                   : "object-contain py-6 min-[1242px]:py-0"}"
@@ -59,7 +59,7 @@ export const AccountCard = (account) => {
                 </svg>
                 <span class="w-max">Mã Account</span>
               </div>
-              <p class="text-center text-base py-2 px-2 w-max mx-auto">${game_code}</p>
+              <p class="text-center text-base py-2 px-2 w-max mx-auto">${acc_code}</p>
             </div>
             <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
               <div
@@ -254,19 +254,7 @@ export const AccountDeviceType = ({ device_type, isActive }) => {
 }
 
 export const AccountRow = (account, orderNumber, ranksToRender) => {
-  const {
-    acc_name,
-    acc_username,
-    rank,
-    game_code,
-    status,
-    description,
-    device_type,
-    id,
-    avatar,
-    rent_from_time,
-    rent_to_time,
-  } = account
+  const { rank, status, device_type, acc_type, id, rent_from_time, rent_to_time } = account
   const lowerCasedStatus = status.toLowerCase()
 
   const RentTime = (rentFromTime, rentToTime) => {
@@ -286,7 +274,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
       </div>
       <div class="text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal">
         <span class="font-bold">Thời gian thuê còn lại:</span>
-        <span>${remainingTime}</span>
+        <span>${remainingTime === TimeHelper.NOT_STARTED ? "" : remainingTime}</span>
       </div>`
     const RentToTimeInput = () => html`<div
         class="QUERY-input-container QUERY-rent-time-input-container-${id} relative w-full"
@@ -380,46 +368,8 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         lowerCasedStatus
       )}"
     >
-      <td class="px-3 py-2 min-[768px]:table-cell hidden">
-        <div class="rounded-full w-fit flex items-center justify-center">
-          <img
-            src="/images/account/${avatar || "default-account-avatar.png"}"
-            alt="Account Avatar"
-            class="w-[180px] aspect-[362/204] min-w-[94px] max-h-[100px] object-contain object-center"
-          />
-        </div>
-      </td>
-      <td class="px-3 py-3 whitespace-nowrap max-w-[120px] relative">
-        <div
-          class="QUERY-input-container QUERY-acc-username-input-container-${id} relative w-full text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal"
-        >
-          <input
-            type="text"
-            class="QUERY-tooltip-trigger QUERY-acc-username-input max-w-full bg-transparent pb-1 border-b border-solid border-gray-400 text-sm font-medium"
-            data-vcn-tooltip-content="Nhập tên đăng nhập"
-            placeholder="Nhập tên đăng nhập"
-            name="acc-username"
-            value="${acc_username || ""}"
-          />
-          <div
-            hidden
-            class="QUERY-input-actions absolute z-20 top-[calc(100%+5px)] right-0 w-full h-full"
-          >
-            <button
-              class="QUERY-acc-username-save-action QUERY-input-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
-            >
-              Lưu
-            </button>
-          </div>
-        </div>
-      </td>
-      <td class="px-3 py-3 whitespace-nowrap">
-        <div class="text-sm text-regular-blue-4 font-medium max-w-[100px] truncate">
-          ${game_code}
-        </div>
-      </td>
-      <td class="px-3 py-3">
-        <div class="flex flex-col gap-2 w-full text-sm max-w-[300px]">
+      <td class="px-3 py-3 min-w-[320px]">
+        <div class="flex flex-col gap-2 w-full text-sm">
           ${RentTime(rent_from_time, rent_to_time)}
           ${rent_to_time
             ? html`
@@ -435,7 +385,21 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
       </td>
       <td class="px-3 py-3 whitespace-nowrap">
         <div
-          class="max-w-[100px] overflow-hidden rounded-3xl truncate hover:shadow-md transition duration-200"
+          class="max-w-[150px] overflow-hidden rounded-3xl truncate hover:shadow-md transition duration-200"
+        >
+          <select
+            name="acc-types-select"
+            class="QUERY-acc-types-select-${id} QUERY-acc-types-select QUERY-tooltip-trigger outline-none bg-transparent text-sm font-medium appearance-none cursor-pointer px-2 py-1"
+            data-vcn-tooltip-content="Chọn loại acc"
+          >
+            <option value="Thường" ?selected=${acc_type === "Thường"}>Thường</option>
+            <option value="Đặc biệt" ?selected=${acc_type === "Đặc biệt"}>Đặc biệt</option>
+          </select>
+        </div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div
+          class="max-w-[150px] overflow-hidden rounded-3xl truncate hover:shadow-md transition duration-200"
         >
           <select
             name="ranks-select"
@@ -453,7 +417,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         <button
           data-vcn-account-id="${id}"
           data-vcn-tooltip-content="Nhấn để chuyển trạng thái của tài khoản"
-          class="QUERY-tooltip-trigger max-w-[100px] truncate w-fit hover:shadow-md transition duration-200 cursor-pointer text-sm font-semibold rounded-2xl ${AccountHelper.getAccountStatusColor(
+          class="QUERY-tooltip-trigger max-w-[150px] truncate w-fit hover:shadow-md transition duration-200 cursor-pointer text-sm font-semibold rounded-2xl ${AccountHelper.getAccountStatusColor(
             lowerCasedStatus
           )} text-white"
         >
@@ -471,7 +435,7 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
       <td class="px-3 py-3">
         <button
           data-vcn-tooltip-content="Nhấn để đổi loại máy"
-          class="QUERY-switch-device-type-btn QUERY-tooltip-trigger max-w-[80px] truncate w-fit active:scale-90 hover:scale-125 transition duration-200 cursor-pointer px-2 py-1 text-sm font-semibold rounded-full"
+          class="QUERY-switch-device-type-btn QUERY-tooltip-trigger max-w-[150px] truncate w-fit active:scale-90 hover:scale-125 transition duration-200 cursor-pointer px-2 py-1 text-sm font-semibold rounded-full"
         >
           ${device_type}
         </button>

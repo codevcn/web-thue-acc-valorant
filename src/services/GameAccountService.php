@@ -7,6 +7,7 @@ namespace Services;
 use PDO;
 use DateTime;
 use DateTimeZone;
+use Utils\DevLogger;
 use Utils\Helper;
 
 class GameAccountService
@@ -40,7 +41,7 @@ class GameAccountService
     $conditions = [];
     $params = [];
 
-    // Load more logic kết hợp updated_at + id
+    // Load more logic kết hợp updated_at + acc_code
     if ($lastUpdatedAt !== null && $lastId !== null) {
       $conditions[] = '(updated_at < :last_updated_at OR (updated_at = :last_updated_at AND id < :last_id))';
       $params[':last_updated_at'] = $lastUpdatedAt;
@@ -92,9 +93,9 @@ class GameAccountService
   }
 
   public function advancedFetchAccountsForAdmin(
-    ?string $freeAccGameCode = null,
-    ?string $checkAccGameCode = null,
-    ?string $busyAccGameCode = null,
+    ?string $freeAccAccCode = null,
+    ?string $checkAccAccCode = null,
+    ?string $busyAccAccCode = null,
     ?string $rank = null,
     ?string $status = null,
     ?string $device_type = null,
@@ -112,18 +113,18 @@ class GameAccountService
     $common_params = [];
     $common_conditions = [];
 
-    // Load more with id
-    if ($checkAccGameCode !== null) {
-      $check_conditions[] = 'game_code > :check_acc_game_code';
-      $check_params[':check_acc_game_code'] = $checkAccGameCode;
+    // Load more with acc_code
+    if ($checkAccAccCode !== null) {
+      $check_conditions[] = 'acc_code > :check_acc_acc_code';
+      $check_params[':check_acc_acc_code'] = $checkAccAccCode;
     }
-    if ($freeAccGameCode !== null) {
-      $free_conditions[] = 'game_code > :free_acc_game_code';
-      $free_params[':free_acc_game_code'] = $freeAccGameCode;
+    if ($freeAccAccCode !== null) {
+      $free_conditions[] = 'acc_code > :free_acc_acc_code';
+      $free_params[':free_acc_acc_code'] = $freeAccAccCode;
     }
-    if ($busyAccGameCode !== null) {
-      $busy_conditions[] = 'game_code > :busy_acc_game_code';
-      $busy_params[':busy_acc_game_code'] = $busyAccGameCode;
+    if ($busyAccAccCode !== null) {
+      $busy_conditions[] = 'acc_code > :busy_acc_acc_code';
+      $busy_params[':busy_acc_acc_code'] = $busyAccAccCode;
     }
 
     // setup common conditions
@@ -140,7 +141,7 @@ class GameAccountService
       $common_params[':device_type'] = $device_type;
     }
     if ($search_term !== null) {
-      $common_conditions[] = '(acc_name LIKE :search_term OR game_code LIKE :search_term OR `description` LIKE :search_term)';
+      $common_conditions[] = '(acc_name LIKE :search_term OR acc_code LIKE :search_term OR `description` LIKE :search_term)';
       $common_params[':search_term'] = '%' . $search_term . '%';
     }
 
@@ -169,7 +170,7 @@ class GameAccountService
     }
 
     // setup order
-    $order_condition = " ORDER BY game_code ASC LIMIT " . self::LOAD_MORE_ACCOUNTS_PAGE_SIZE;
+    $order_condition = " ORDER BY acc_code ASC LIMIT " . self::LOAD_MORE_ACCOUNTS_PAGE_SIZE;
     $sql_status_busy .= $order_condition;
     $sql_status_check .= $order_condition;
     $sql_status_free .= $order_condition;
@@ -191,6 +192,9 @@ class GameAccountService
       $stmt->bindValue($key, $value);
     }
     foreach ($check_params as $key => $value) {
+      $stmt->bindValue($key, $value);
+    }
+    foreach ($busy_params as $key => $value) {
       $stmt->bindValue($key, $value);
     }
     $stmt->execute();
@@ -226,10 +230,9 @@ class GameAccountService
 
   public function addNewAccounts(array $data): ?int
   {
-    $sql = "INSERT INTO game_accounts (acc_name, acc_username, rank, game_code, `status`, `description`, device_type, created_at, updated_at)
-            VALUES (:acc_name, :acc_username, :rank, :game_code, :status, :description, :device_type, :created_at, :updated_at)";
+    $sql = "INSERT INTO game_accounts (rank, acc_code, `status`, device_type, acc_type, created_at, updated_at)
+            VALUES (:rank, :acc_code, :status, :device_type, :acc_type, :created_at, :updated_at)";
     try {
-
       $this->db->beginTransaction();
       $stmt = $this->db->prepare($sql);
 
@@ -237,22 +240,17 @@ class GameAccountService
       $insertedAccountId = null;
 
       foreach ($data as $row) {
-        $accName     = $row['accName'] ?? null;
         $rank        = $row['rank'] ?? null;
-        $gameCode    = $row['gameCode'] ?? null;
+        $accCode    = $row['accCode'] ?? null;
         $status      = $row['status'] ?? null;
-        $description = $row['description'] ?? '';
         $deviceType  = $row['deviceType'] ?? null;
-        $accUsername = $row['accUsername'] ?? null;
+        $accType     = $row['accType'] ?? null;
 
-        if (!$accName) {
-          throw new \InvalidArgumentException("Trường tên tài khoản không được để trống.");
-        }
         if (!$rank) {
           throw new \InvalidArgumentException("Trường rank không được để trống.");
         }
-        if (!$gameCode) {
-          throw new \InvalidArgumentException("Trường mã game không được để trống.");
+        if (!$accCode) {
+          throw new \InvalidArgumentException("Trường mã account không được để trống.");
         }
         if (!$deviceType) {
           throw new \InvalidArgumentException("Trường loại máy không được để trống.");
@@ -260,17 +258,15 @@ class GameAccountService
         if (!$status) {
           throw new \InvalidArgumentException("Trường trạng thái không được để trống.");
         }
-        if (!$accUsername) {
-          throw new \InvalidArgumentException("Trường tên đăng nhập không được để trống.");
+        if (!$accType) {
+          throw new \InvalidArgumentException("Trường loại acc không được để trống.");
         }
 
-        $stmt->bindValue(':acc_name', $accName);
-        $stmt->bindValue(':acc_username', $accUsername);
         $stmt->bindValue(':rank', $rank);
-        $stmt->bindValue(':game_code', $gameCode);
+        $stmt->bindValue(':acc_code', $accCode);
         $stmt->bindValue(':status', $status);
-        $stmt->bindValue(':description', $description);
         $stmt->bindValue(':device_type', $deviceType);
+        $stmt->bindValue(':acc_type', $accType);
         $stmt->bindValue(':created_at', $now);
         $stmt->bindValue(':updated_at', $now);
 
@@ -313,30 +309,25 @@ class GameAccountService
       throw new \InvalidArgumentException("Tài khoản không tồn tại.");
     }
 
-    $accName     = $data['accName'] ?? null;
     $rank        = $data['rank'] ?? null;
-    $gameCode    = $data['gameCode'] ?? null;
+    $accCode     = $data['accCode'] ?? null;
     $status      = $data['status'] ?? null;
-    $description = $data['description'] ?? null;
     $deviceType  = $data['deviceType'] ?? null;
     $avatar      = $data['avatar'] ?? null;
+    $avatar_2    = $data['avatar_2'] ?? null;
     $rentToTime  = $data['rentToTime'] ?? null;
-    $accUsername = $data['accUsername'] ?? null;
+    $accType     = $data['accType'] ?? null;
 
     $updateFields = [];
     $params = [];
 
-    if ($accName !== null) {
-      $updateFields[] = "acc_name = :acc_name";
-      $params[':acc_name'] = $accName;
-    }
     if ($rank !== null) {
       $updateFields[] = "rank = :rank";
       $params[':rank'] = $rank;
     }
-    if ($gameCode !== null) {
-      $updateFields[] = "game_code = :game_code";
-      $params[':game_code'] = $gameCode;
+    if ($accCode !== null) {
+      $updateFields[] = "acc_code = :acc_code";
+      $params[':acc_code'] = $accCode;
     }
     if ($status !== null) {
       if ($status !== 'Bận' && $this->checkAccountIsRenting($account)) {
@@ -345,10 +336,6 @@ class GameAccountService
       $updateFields[] = "`status` = :status";
       $params[':status'] = $status;
     }
-    if ($description !== null) {
-      $updateFields[] = "`description` = :description";
-      $params[':description'] = $description;
-    }
     if ($deviceType !== null) {
       $updateFields[] = "device_type = :device_type";
       $params[':device_type'] = $deviceType;
@@ -356,6 +343,10 @@ class GameAccountService
     if ($avatar !== null) {
       $updateFields[] = "avatar = :avatar";
       $params[':avatar'] = $avatar;
+    }
+    if ($avatar_2 !== null) {
+      $updateFields[] = "avatar_2 = :avatar_2";
+      $params[':avatar_2'] = $avatar_2;
     }
     if ($rentToTime !== null) {
       $this->validateRentToTime($rentToTime);
@@ -373,9 +364,9 @@ class GameAccountService
       $updateFields[] = "rent_to_time = :rent_to_time";
       $params[':rent_to_time'] = $rentToTime;
     }
-    if ($accUsername !== null) {
-      $updateFields[] = "acc_username = :acc_username";
-      $params[':acc_username'] = $accUsername;
+    if ($accType !== null) {
+      $updateFields[] = "acc_type = :acc_type";
+      $params[':acc_type'] = $accType;
     }
     if (empty($updateFields)) {
       throw new \InvalidArgumentException("Không có trường nào để cập nhật.");
@@ -522,7 +513,7 @@ class GameAccountService
     $sql = "UPDATE game_accounts SET device_type = :device_type, updated_at = :updated_at WHERE id = :id";
     $params = [
       ':id' => $accountId,
-      ':device_type' => $account['device_type'] === 'Tất cả' ? 'Máy nhà' : 'Tất cả',
+      ':device_type' => $account['device_type'] === 'Tất cả' ? 'Only máy nhà' : 'Tất cả',
       ':updated_at' => $this->getNow()
     ];
     $stmt = $this->db->prepare($sql);

@@ -12,6 +12,7 @@ class GameAccountApiController
 {
   private $gameAccountService;
   private $fileService;
+  private $maxAvatarCount = 2;
 
   public function __construct(GameAccountService $gameAccountService, FileService $fileService)
   {
@@ -53,14 +54,14 @@ class GameAccountApiController
     $device_type = isset($_GET['device_type']) ? trim($_GET['device_type']) : null;
     $search_term = isset($_GET['search_term']) ? trim($_GET['search_term']) : null;
     $order_type = isset($_GET['order_type']) ? trim($_GET['order_type']) : null;
-    $busy_last_game_code = isset($_GET['busy_last_game_code']) ? trim($_GET['busy_last_game_code']) : null;
-    $free_last_game_code = isset($_GET['free_last_game_code']) ? trim($_GET['free_last_game_code']) : null;
-    $check_last_game_code = isset($_GET['check_last_game_code']) ? trim($_GET['check_last_game_code']) : null;
+    $busy_last_acc_code = isset($_GET['busy_last_acc_code']) ? trim($_GET['busy_last_acc_code']) : null;
+    $free_last_acc_code = isset($_GET['free_last_acc_code']) ? trim($_GET['free_last_acc_code']) : null;
+    $check_last_acc_code = isset($_GET['check_last_acc_code']) ? trim($_GET['check_last_acc_code']) : null;
 
     $accounts = $this->gameAccountService->advancedFetchAccountsForAdmin(
-      $free_last_game_code,
-      $check_last_game_code,
-      $busy_last_game_code,
+      $free_last_acc_code,
+      $check_last_acc_code,
+      $busy_last_acc_code,
       $rank,
       $status,
       $device_type,
@@ -135,7 +136,7 @@ class GameAccountApiController
       }
 
       // Bắt lỗi vi phạm CHECK constraint trong SQLite
-      if ($th instanceof \PDOException && str_contains($th->getMessage(), 'CHECK constraint failed')) {
+      if ($th instanceof \PDOException && str_contains($th->getMessage(), 'constraint failed')) {
         http_response_code(400);
         return [
           'success' => false,
@@ -158,9 +159,17 @@ class GameAccountApiController
       ];
     }
 
-    // Xử lý file avatar
-    $avatarFile = $_FILES['avatar'] ?? null;
-    if (count($accounts) == 1 && $avatarFile) {
+    // Xử lý các file avatar
+    $avatarFiles = $_FILES['avatars'] ?? null;
+    if (count($accounts) == 1 && $avatarFiles !== null) {
+      if (is_array($avatarFiles['name']) && count($avatarFiles['name']) > $this->maxAvatarCount) {
+        http_response_code(400);
+        return [
+          'success' => false,
+          'message' => 'Số lượng ảnh đại diện không được vượt quá ' . $this->maxAvatarCount
+        ];
+      }
+
       // Lấy account record vừa insert
       $latestAccount = $this->gameAccountService->getLatestAccount();
 
@@ -173,15 +182,17 @@ class GameAccountApiController
       }
 
       $latestAccountId = $latestAccount['id'];
-      $imgName = null;
+      $imgNames = null;
       try {
-        $avatarInfo = $this->fileService->saveAvatarImage($avatarFile, $latestAccountId);
-        $imgName = $avatarInfo['fileName'];
+        $normalizedFiles = $this->fileService->normalizeFiles($avatarFiles);
+        $avatarInfo = $this->fileService->saveAvatarImages($normalizedFiles, $latestAccountId);
+        $imgNames = $avatarInfo['fileNames'];
         $this->gameAccountService->updateAccount($latestAccountId, [
-          'avatar' => $imgName,
+          'avatar' => $imgNames[0],
+          'avatar_2' => $imgNames[1],
         ]);
       } catch (\Throwable $th) {
-        $this->fileService->deleteAvatarImage($imgName);
+        $this->fileService->deleteAvatarImages($imgNames);
         http_response_code(400);
         return [
           'success' => false,
@@ -220,16 +231,21 @@ class GameAccountApiController
     $account = json_decode($accountJson, true);
 
     // Xử lý file avatar (nếu có)
-    $avatarFile = $_FILES['avatar'] ?? null;
-    $imgName = null;
-    if ($avatarFile) {
+    $avatarFiles = $_FILES['avatars'] ?? null;
+    $imgNames = null;
+    if ($avatarFiles) {
       $oldAvatar = $oldAccount['avatar'];
+      $oldAvatar2 = $oldAccount['avatar_2'];
       if ($oldAvatar) {
         $this->fileService->deleteAvatarImage($oldAvatar);
       }
+      if ($oldAvatar2) {
+        $this->fileService->deleteAvatarImage($oldAvatar2);
+      }
       try {
-        $avatarInfo = $this->fileService->saveAvatarImage($avatarFile, $accountIdInt);
-        $imgName = $avatarInfo['fileName'];
+        $normalizedFiles = $this->fileService->normalizeFiles($avatarFiles);
+        $avatarInfo = $this->fileService->saveAvatarImages($normalizedFiles, $accountIdInt);
+        $imgNames = $avatarInfo['fileNames'];
       } catch (\Throwable $th) {
         http_response_code(400);
         return [
@@ -238,14 +254,15 @@ class GameAccountApiController
         ];
       }
 
-      $account['avatar'] = $imgName;
+      $account['avatar'] = $imgNames[0];
+      $account['avatar_2'] = $imgNames[1];
     }
 
     try {
       $this->gameAccountService->updateAccount($accountIdInt, $account);
     } catch (\Throwable $th) {
-      if ($imgName) {
-        $this->fileService->deleteAvatarImage($imgName);
+      if ($imgNames) {
+        $this->fileService->deleteAvatarImages($imgNames);
       }
 
       if ($th->getCode() === '23000' && str_contains($th->getMessage(), 'game_code')) {
@@ -257,7 +274,7 @@ class GameAccountApiController
       }
 
       // Bắt lỗi vi phạm CHECK constraint trong SQLite
-      if ($th instanceof \PDOException && str_contains($th->getMessage(), 'CHECK constraint failed')) {
+      if ($th instanceof \PDOException && str_contains($th->getMessage(), 'constraint failed')) {
         http_response_code(400);
         return [
           'success' => false,

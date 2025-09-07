@@ -104,7 +104,7 @@
     <button id="load-more-btn" class="QUERY-load-more-btn CSS-button-blue-line-decoration rounded-lg text-white font-bold py-2 px-4">
       XEM THÊM TÀI KHOẢN
     </button>
-    <p class="QUERY-no-more-text text-gray-600 italic text-base font-bold">Không còn tài khoản nào.</p>
+    <p class="QUERY-no-more-text text-gray-600 text-base font-bold">Không còn tài khoản nào.</p>
   </div>
 </main>
 

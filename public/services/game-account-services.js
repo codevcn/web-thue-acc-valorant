@@ -25,9 +25,9 @@ export class GameAccountService {
   }
 
   static async fetchAccountsForAdmin(
-    free_last_game_code,
-    check_last_game_code,
-    busy_last_game_code,
+    free_last_acc_code,
+    check_last_acc_code,
+    busy_last_acc_code,
     rank,
     status,
     device_type,
@@ -35,9 +35,9 @@ export class GameAccountService {
     order_type
   ) {
     const params = {}
-    if (free_last_game_code) params.free_last_game_code = free_last_game_code
-    if (check_last_game_code) params.check_last_game_code = check_last_game_code
-    if (busy_last_game_code) params.busy_last_game_code = busy_last_game_code
+    if (free_last_acc_code) params.free_last_acc_code = free_last_acc_code
+    if (check_last_acc_code) params.check_last_acc_code = check_last_acc_code
+    if (busy_last_acc_code) params.busy_last_acc_code = busy_last_acc_code
     if (rank) params.rank = rank
     if (status) params.status = status
     if (device_type) params.device_type = device_type
@@ -62,18 +62,26 @@ export class GameAccountService {
     return data.device_types
   }
 
-  static async addNewAccounts(accountsFormData, imgFile) {
+  static async addNewAccounts(accountsFormData, avatars) {
     const dataToSubmit = new FormData()
     dataToSubmit.set("accounts", JSON.stringify(accountsFormData))
-    if (imgFile) dataToSubmit.set("avatar", imgFile)
+    if (avatars && avatars.length > 0) {
+      for (const avatar of avatars) {
+        dataToSubmit.append("avatars[]", avatar)
+      }
+    }
     const { data } = await axiosClient.post("/game-accounts/add-new", dataToSubmit)
     return data
   }
 
-  static async updateAccount(accountId, accountData, avatar) {
+  static async updateAccount(accountId, accountData, avatars) {
     const dataToSubmit = new FormData()
     dataToSubmit.set("account", JSON.stringify(accountData))
-    if (avatar) dataToSubmit.set("avatar", avatar)
+    if (avatars && avatars.length > 0) {
+      for (const avatar of avatars) {
+        dataToSubmit.append("avatars[]", avatar)
+      }
+    }
     const { data } = await axiosClient.post(`/game-accounts/update/${accountId}`, dataToSubmit)
     return data
   }

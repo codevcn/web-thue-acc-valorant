@@ -12,6 +12,7 @@ class HomePageManager {
   #SCROLLING_THRESHOLD = 300
   #zoomHolder = {}
   #currentAvatar = null
+  #defaultAccountStateColors = ["#38bdf8", "#00bfff", "#3dc2ef", "#87ceeb"]
 
   constructor() {
     this.loadMoreContainer = document.getElementById("load-more-container")
@@ -239,7 +240,7 @@ class HomePageManager {
         if (deviceType === "Only máy nhà") {
           ThemeHelper.updateAccountStateColor("#facc15", "#facc15", "#fed73a", "#fee580") // màu vàng
         } else {
-          ThemeHelper.updateAccountStateColor("#38bdf8", "#00bfff", "#3dc2ef", "#87ceeb") // màu xanh lam
+          ThemeHelper.updateAccountStateColor(...this.#defaultAccountStateColors) // màu xanh lam
         }
       }
     })
@@ -261,6 +262,7 @@ class HomePageManager {
     this.gameAccounts = []
     this.hideShowLoadMore(true)
     this.isMoreItems = true
+    ThemeHelper.updateAccountStateColor(...this.#defaultAccountStateColors) // màu xanh lam
   }
 
   submitFilter(keyValuePair = "rank=&status=&device_type=&account_type=") {

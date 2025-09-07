@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Services;
 
+use Utils\DevLogger;
+
 class FileService
 {
   private $supportedImageExtensions = ['jpg', 'jpeg', 'png', 'webp'];
   private $supportedVideoExtensions = ['mp4', 'webm', 'ogg'];
+  private $maxSize = 5 * 1024 * 1024; // 5MB
 
   public function __construct() {}
 
@@ -15,6 +18,32 @@ class FileService
   {
     return $this->supportedVideoExtensions;
   }
+
+  public function normalizeFiles(array $files): array
+  {
+    $normalized = [];
+    $fileCount = count($files['name']);
+    for ($i = 0; $i < $fileCount; $i++) {
+      $normalized[] = [
+        'name'     => $files['name'][$i],
+        'type'     => $files['type'][$i],
+        'tmp_name' => $files['tmp_name'][$i],
+        'error'    => $files['error'][$i],
+        'size'     => $files['size'][$i],
+      ];
+    }
+    return $normalized;
+  }
+
+  public function saveAvatarImages(array $files, int $accountId): array
+  {
+    $fileNames = [];
+    foreach ($files as $file) {
+      $fileNames[] = $this->saveAvatarImage($file, $accountId)['fileName'];
+    }
+    return ['fileNames' => $fileNames];
+  }
+
 
   public function saveAvatarImage($file, int $accountId): array
   {
@@ -35,8 +64,7 @@ class FileService
     }
 
     // Kiểm tra kích thước file (tối đa 5MB)
-    $maxSize = 5 * 1024 * 1024; // 5MB
-    if ($file['size'] > $maxSize) {
+    if ($file['size'] > $this->maxSize) {
       throw new \InvalidArgumentException('Kích thước file quá lớn. Tối đa 5MB.');
     }
 
@@ -54,6 +82,13 @@ class FileService
       'fileName' => $fileName,
       'filePath' => $filePath,
     ];
+  }
+
+  public function deleteAvatarImages(array $fileNames): void
+  {
+    foreach ($fileNames as $fileName) {
+      $this->deleteAvatarImage($fileName);
+    }
   }
 
   public function deleteAvatarImage(string $fileName): void
