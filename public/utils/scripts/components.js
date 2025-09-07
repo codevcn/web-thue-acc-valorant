@@ -6,14 +6,14 @@ export const AccountCard = (account) => {
   return html`
     <div class="rounded-lg overflow-hidden w-full">
       <div class="CSS-styled-scrollbar">
-        <div class="flex items-stretch gap-2 w-full">
+        <div class="grid min-[600px]:grid-cols-2 grid-cols-1 gap-2 w-full">
           <div
-            class="flex flex-1 rounded-lg overflow-hidden h-fit min-[1242px]:h-auto bg-gradient-to-r from-regular-acc-state-from-cl to-regular-acc-state-to-cl relative"
+            class="flex flex-1 h-full rounded-lg overflow-hidden bg-gradient-to-r from-regular-acc-state-from-cl to-regular-acc-state-to-cl relative"
           >
             <div class="w-fit h-fit m-auto">
               <img
                 src="/images/account/${avatar ?? "default-account-avatar.png"}"
-                alt="Mã game: ${game_code}"
+                alt="Mã account: ${game_code}"
                 class="QUERY-account-avatar-1 aspect-[16/9] m-auto cursor-pointer rounded-lg transition-transform ease-in-out [transition-property:transform,transform-origin] [transition-duration:400ms,200ms] ${avatar
                   ? "object-cover"
                   : "object-contain py-6 min-[1242px]:py-0"}"
@@ -21,12 +21,12 @@ export const AccountCard = (account) => {
             </div>
           </div>
           <div
-            class="flex flex-1 rounded-lg overflow-hidden h-fit min-[1242px]:h-auto bg-gradient-to-r from-regular-acc-state-from-cl to-regular-acc-state-to-cl relative"
+            class="flex flex-1 h-full rounded-lg overflow-hidden bg-gradient-to-r from-regular-acc-state-from-cl to-regular-acc-state-to-cl relative"
           >
             <div class="w-fit h-fit m-auto">
               <img
                 src="/images/account/${avatar_2 ?? "default-account-avatar.png"}"
-                alt="Mã game: ${game_code}"
+                alt="Mã account: ${game_code}"
                 class="QUERY-account-avatar-2 aspect-[16/9] m-auto cursor-pointer rounded-lg transition-transform ease-in-out [transition-property:transform,transform-origin] [transition-duration:400ms,200ms] ${avatar_2
                   ? "object-cover"
                   : "object-contain py-6 min-[1242px]:py-0"}"
@@ -35,7 +35,7 @@ export const AccountCard = (account) => {
           </div>
         </div>
         <div class="w-full py-2 flex flex-col justify-between items-stretch rounded-lg">
-          <div class="flex items-center gap-1 w-full">
+          <div class="flex items-center flex-wrap gap-1 w-full">
             <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
               <div
                 class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-regular-acc-state-cl"
@@ -57,9 +57,9 @@ export const AccountCard = (account) => {
                     ></path>
                   </g>
                 </svg>
-                <span>Mã Game</span>
+                <span class="w-max">Mã Account</span>
               </div>
-              <p class="text-center text-base py-2 px-2">${game_code}</p>
+              <p class="text-center text-base py-2 px-2 w-max">${game_code}</p>
             </div>
             <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
               <div
@@ -74,9 +74,9 @@ export const AccountCard = (account) => {
                     d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
                   />
                 </svg>
-                <span>Rank</span>
+                <span class="w-max">Rank</span>
               </div>
-              <p class="text-center text-base py-2 px-2">${rank}</p>
+              <p class="text-center text-base py-2 px-2 w-max">${rank}</p>
             </div>
             <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
               <div
@@ -96,9 +96,9 @@ export const AccountCard = (account) => {
                     d="M9.75 17L6 21h12l-3.75-4M3 4h18v10H3z"
                   />
                 </svg>
-                <span>Loại Máy</span>
+                <span class="w-max">Loại Máy</span>
               </div>
-              <p class="text-center text-base py-2 px-2">${device_type}</p>
+              <p class="text-center text-base py-2 px-2 w-max">${device_type}</p>
             </div>
             <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
               <div
@@ -118,9 +118,9 @@ export const AccountCard = (account) => {
                   <line x1="12" x2="12" y1="20" y2="4" />
                   <line x1="6" x2="6" y1="20" y2="14" />
                 </svg>
-                <span>Trạng Thái</span>
+                <span class="w-max">Trạng Thái</span>
               </div>
-              <p class="text-center text-base py-2 px-2">${status}</p>
+              <p class="text-center text-base py-2 px-2 w-max">${status}</p>
             </div>
             <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
               <div
@@ -151,9 +151,9 @@ export const AccountCard = (account) => {
                     ></path>
                   </g>
                 </svg>
-                <span>Loại Acc</span>
+                <span class="w-max">Loại Acc</span>
               </div>
-              <p class="text-center text-base py-2 px-2">${acc_type}</p>
+              <p class="text-center text-base py-2 px-2 w-max">${acc_type}</p>
             </div>
 
             <button

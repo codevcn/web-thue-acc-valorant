@@ -17,7 +17,7 @@
     <?php require_once __DIR__ . '/filter_accounts.php'; ?>
 
     <!-- Account Cards Grid -->
-    <div id="accounts-list" class="grid min-[1242px]:grid-cols-1 gap-8 min-[830px]:grid-cols-2 grid-cols-1 mt-8">
+    <div id="accounts-list" class="grid gap-8 grid-cols-1 mt-8">
     </div>
 
     <div id="load-more-container" class="QUERY-is-more mt-20 mb-[100px] w-full relative">

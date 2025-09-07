@@ -237,9 +237,9 @@ class HomePageManager {
       } else {
         this.submitFilter(`device_type=${deviceType}`)
         if (deviceType === "Only máy nhà") {
-          ThemeHelper.updateAccountStateColor("#facc15") // màu vàng
+          ThemeHelper.updateAccountStateColor("#facc15", "#facc15", "#fed73a", "#fee580") // màu vàng
         } else {
-          ThemeHelper.updateAccountStateColor("#38bdf8") // màu xanh lam
+          ThemeHelper.updateAccountStateColor("#38bdf8", "#00bfff", "#3dc2ef", "#87ceeb") // màu xanh lam
         }
       }
     })
@@ -284,7 +284,7 @@ class HomePageManager {
         !target.classList.contains("QUERY-account-avatar-2")
       ) {
         target = target.parentElement
-        if (target.id === "accounts-list" || target.tagName === "BODY") {
+        if (target && (target.id === "accounts-list" || target.tagName === "BODY")) {
           break
         }
       }
@@ -303,7 +303,8 @@ class HomePageManager {
       // Image Modal
       if (
         !this.#zoomHolder.isOnModal &&
-        ((target && target.classList.contains("QUERY-account-avatar-1")) ||
+        target &&
+        (target.classList.contains("QUERY-account-avatar-1") ||
           target.classList.contains("QUERY-account-avatar-2"))
       ) {
         this.showAccountAvatarModal(target)
@@ -378,15 +379,19 @@ class HomePageManager {
     })
   }
 
-  closeAccountAvatarModal(imgWrapper, imgElement, modalOverlay, closeModalBtn) {
+  closeAccountAvatarModal(imgWrapper, imgElement, modalOverlay, closeModalBtn, imgWrapperParent) {
     imgWrapper.style.cssText = ""
+    imgWrapper.classList.remove("STATE-account-avatar-wrapper-on-responsive")
     imgElement.style.cssText = ""
+    imgElement.classList.remove("STATE-account-avatar-on-responsive")
     modalOverlay.remove()
     closeModalBtn.remove()
     imgElement.removeEventListener("wheel", this.#zoomHolder.wheelHandler)
     imgElement.removeEventListener("mousedown", this.#zoomHolder.mouseDownHandler)
     this.#zoomHolder = {}
     this.#currentAvatar = null
+    document.body.style.overflow = "auto"
+    imgWrapperParent.style.cssText = ""
   }
 
   showAccountAvatarModal(imgElement) {
@@ -395,6 +400,8 @@ class HomePageManager {
     }
     this.#currentAvatar = imgElement
     const imgWrapper = imgElement.parentElement
+    const imgWrapperParent = imgWrapper.parentElement
+    imgWrapperParent.style.cssText = `height: ${imgWrapper.clientHeight}px;`
     const wrapperRect = imgWrapper.getBoundingClientRect()
     const transitionDuration = 300
     imgWrapper.style.cssText = `
@@ -409,20 +416,25 @@ class HomePageManager {
     requestAnimationFrame(() => {
       // đặt width và height
       imgWrapper.style.cssText += `
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 100vw;
         height: 100vh;
-        padding: 40px 100px;
         left: 0;
         top: 0;
       `
+      imgWrapper.classList.add("STATE-account-avatar-wrapper-on-responsive")
       imgElement.style.cssText = `
-        width: max-content;
         max-height: 100%;
         position: relative;
         z-index: 20;
       `
+      imgElement.classList.add("STATE-account-avatar-on-responsive")
     })
     setTimeout(() => {
+      document.body.style.overflow = "hidden"
+
       const modalOverlay = document.createElement("div")
       modalOverlay.classList.add(
         "QUERY-modal-overlay",
@@ -452,8 +464,8 @@ class HomePageManager {
       closeModalBtn.classList.add(
         "QUERY-close-modal-btn",
         "absolute",
-        "top-4",
-        "right-8",
+        "top-6",
+        "right-6",
         "hover:scale-110",
         "transition",
         "duration-200",
@@ -462,10 +474,22 @@ class HomePageManager {
       imgWrapper.prepend(closeModalBtn)
 
       closeModalBtn.addEventListener("click", () => {
-        this.closeAccountAvatarModal(imgWrapper, imgElement, modalOverlay, closeModalBtn)
+        this.closeAccountAvatarModal(
+          imgWrapper,
+          imgElement,
+          modalOverlay,
+          closeModalBtn,
+          imgWrapperParent
+        )
       })
       modalOverlay.addEventListener("click", () => {
-        this.closeAccountAvatarModal(imgWrapper, imgElement, modalOverlay, closeModalBtn)
+        this.closeAccountAvatarModal(
+          imgWrapper,
+          imgElement,
+          modalOverlay,
+          closeModalBtn,
+          imgWrapperParent
+        )
       })
     }, transitionDuration)
 

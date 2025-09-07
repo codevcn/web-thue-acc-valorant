@@ -139,7 +139,7 @@
       </div>
       <!-- Actions -->
       <div class="w-full">
-        <p class="text-[1.14em] font-medium mb-1 opacity-0 items-center gap-2 pl-1 flex">
+        <p class="text-[1.14em] font-medium mb-1 opacity-0 items-center gap-2 pl-1 min-[840px]:flex hidden">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" class="w-[1.2em] h-[1.2em] text-current">
             <g>
               <path
@@ -156,7 +156,7 @@
           </svg>
           <span>Hủy lọc</span>
         </p>
-        <button id="cancel-all-filters-btn" class="flex items-center gap-2 !text-[1em] w-full leading-tight bg-red-600 hover:scale-105 text-white rounded-lg px-4 py-1.5 text-base font-medium transition duration-200">
+        <button id="cancel-all-filters-btn" class="min-[840px]:mt-0 mt-2 flex items-center gap-2 !text-[1em] w-full leading-tight bg-red-600 hover:scale-105 text-white rounded-lg px-4 py-1.5 text-base font-medium transition duration-200">
           <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-x-icon lucide-x w-[1.29em] h-[1.29em]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 6 6 18" />
             <path d="m6 6 12 12" />

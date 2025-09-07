@@ -258,7 +258,10 @@ export class ThemeHelper {
     document.documentElement.style.setProperty(cssVarName, value)
   }
 
-  static updateAccountStateColor(color) {
+  static updateAccountStateColor(color, fromColor, viaColor, toColor) {
     this.updateCssVariable("--vcn-regular-acc-state-cl", color)
+    this.updateCssVariable("--vcn-regular-acc-state-from-cl", fromColor)
+    this.updateCssVariable("--vcn-regular-acc-state-via-cl", viaColor)
+    this.updateCssVariable("--vcn-regular-acc-state-to-cl", toColor)
   }
 }

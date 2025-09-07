@@ -44,3 +44,18 @@
     animation-delay: 1s;
   }
 }
+
+.STATE-account-avatar-on-responsive {
+  width: max-content;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
+}
+.STATE-account-avatar-wrapper-on-responsive {
+  padding: 40px 100px;
+
+  @media screen and (max-width: 600px) {
+    padding: 40px 20px;
+  }
+}
