@@ -7,6 +7,7 @@ export class GameAccountService {
     rank,
     status,
     device_type,
+    account_type,
     search_term,
     order_type
   ) {
@@ -16,6 +17,7 @@ export class GameAccountService {
     if (rank) params.rank = rank
     if (status) params.status = status
     if (device_type) params.device_type = device_type
+    if (account_type) params.account_type = account_type
     if (search_term) params.search_term = search_term
     if (order_type) params.order_type = order_type
     const { data } = await axiosClient.get("/game-accounts/load-more", { params })

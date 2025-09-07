@@ -8,7 +8,7 @@ export const AccountCard = (account) => {
       <div class="CSS-styled-scrollbar">
         <div class="flex items-stretch gap-2 w-full">
           <div
-            class="flex flex-1 rounded-lg overflow-hidden h-fit min-[1242px]:h-auto bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl relative"
+            class="flex flex-1 rounded-lg overflow-hidden h-fit min-[1242px]:h-auto bg-gradient-to-r from-regular-acc-state-from-cl to-regular-acc-state-to-cl relative"
           >
             <div class="w-fit h-fit m-auto">
               <img
@@ -21,7 +21,7 @@ export const AccountCard = (account) => {
             </div>
           </div>
           <div
-            class="flex flex-1 rounded-lg overflow-hidden h-fit min-[1242px]:h-auto bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl relative"
+            class="flex flex-1 rounded-lg overflow-hidden h-fit min-[1242px]:h-auto bg-gradient-to-r from-regular-acc-state-from-cl to-regular-acc-state-to-cl relative"
           >
             <div class="w-fit h-fit m-auto">
               <img
@@ -36,9 +36,9 @@ export const AccountCard = (account) => {
         </div>
         <div class="w-full py-2 flex flex-col justify-between items-stretch rounded-lg">
           <div class="flex items-center gap-1 w-full">
-            <div class="font-bold flex-1 border border-sky-400 rounded">
+            <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
               <div
-                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-sky-400"
+                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-regular-acc-state-cl"
               >
                 <svg
                   class="w-[1.2em] h-[1.2em] text-white"
@@ -61,9 +61,9 @@ export const AccountCard = (account) => {
               </div>
               <p class="text-center text-base py-2 px-2">${game_code}</p>
             </div>
-            <div class="font-bold flex-1 border border-sky-400 rounded">
+            <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
               <div
-                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-sky-400"
+                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-regular-acc-state-cl"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -78,9 +78,9 @@ export const AccountCard = (account) => {
               </div>
               <p class="text-center text-base py-2 px-2">${rank}</p>
             </div>
-            <div class="font-bold flex-1 border border-sky-400 rounded">
+            <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
               <div
-                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-sky-400"
+                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-regular-acc-state-cl"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -100,9 +100,9 @@ export const AccountCard = (account) => {
               </div>
               <p class="text-center text-base py-2 px-2">${device_type}</p>
             </div>
-            <div class="font-bold flex-1 border border-sky-400 rounded">
+            <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
               <div
-                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-sky-400"
+                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-regular-acc-state-cl"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -122,9 +122,9 @@ export const AccountCard = (account) => {
               </div>
               <p class="text-center text-base py-2 px-2">${status}</p>
             </div>
-            <div class="font-bold flex-1 border border-sky-400 rounded">
+            <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
               <div
-                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-sky-400"
+                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-regular-acc-state-cl"
               >
                 <svg
                   class="w-[1.2em] h-[1.2em] text-white"
@@ -158,7 +158,7 @@ export const AccountCard = (account) => {
 
             <button
               data-account-id="${id}"
-              class="QUERY-rent-now-btn CSS-button-shadow-decoration py-2 px-6 text-[1.14em] flex items-center justify-center gap-3 active:scale-90 transition duration-200 text-white font-bold rounded-lg bg-regular-blue-cl hover:bg-regular-blue-hover-cl backdrop-blur-md"
+              class="QUERY-rent-now-btn CSS-button-shadow-decoration py-2 px-6 text-[1.14em] flex items-center justify-center gap-3 active:scale-90 transition duration-200 text-white font-bold rounded-lg bg-regular-acc-state-cl backdrop-blur-md"
             >
               <span>THUÊ NGAY</span>
             </button>

@@ -358,17 +358,19 @@ button {
   }
 }
 
-#app-loading {
-  .STYLE-animation-loading-shapes {
-    width: 40px;
-    height: 40px;
-    color: var(--vcn-regular-blue-cl);
-    background: linear-gradient(currentColor 0 0), linear-gradient(currentColor 0 0),
-      linear-gradient(currentColor 0 0), linear-gradient(currentColor 0 0);
-    background-size: 21px 21px;
-    background-repeat: no-repeat;
-    animation: app-loading-shapes 1.5s infinite cubic-bezier(0.3, 1, 0, 1);
-  }
+.STYLE-animation-loading-shapes {
+  width: 40px;
+  height: 40px;
+  color: var(--vcn-regular-blue-cl);
+  background: linear-gradient(currentColor 0 0), linear-gradient(currentColor 0 0),
+    linear-gradient(currentColor 0 0), linear-gradient(currentColor 0 0);
+  background-size: 21px 21px;
+  background-repeat: no-repeat;
+  animation: app-loading-shapes 1.5s infinite cubic-bezier(0.3, 1, 0, 1);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
 
 .CSS-background-dot-decoration {

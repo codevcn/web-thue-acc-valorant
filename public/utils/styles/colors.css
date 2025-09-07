@@ -16,6 +16,10 @@
   --vcn-regular-zalo-cl: #0068ff;
   --vcn-regular-facebook-cl: #3a5998;
   --vcn-regular-neon-cl: var(--vcn-regular-blue-cl);
+  --vcn-regular-acc-state-cl: #38bdf8;
+  --vcn-regular-acc-state-from-cl: var(--vcn-regular-from-blue-cl);
+  --vcn-regular-acc-state-via-cl: var(--vcn-regular-via-blue-cl);
+  --vcn-regular-acc-state-to-cl: var(--vcn-regular-to-blue-cl);
 }
 
 /*# sourceMappingURL=colors.css.map */

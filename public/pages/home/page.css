@@ -1,7 +1,11 @@
-#load-more-container.QUERY-is-more .QUERY-no-more-text {
-  display: none;
+.CSS-regular-acc-state-cl {
+  background-color: var(--vcn-regular-acc-state-cl);
 }
-#load-more-container.QUERY-no-more .QUERY-load-more-btn {
+
+#load-more-container.QUERY-is-more {
+  display: block;
+}
+#load-more-container.QUERY-no-more {
   display: none;
 }
 

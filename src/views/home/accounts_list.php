@@ -20,12 +20,11 @@
     <div id="accounts-list" class="grid min-[1242px]:grid-cols-1 gap-8 min-[830px]:grid-cols-2 grid-cols-1 mt-8">
     </div>
 
-    <!-- View More Button -->
-    <div id="load-more-container" class="QUERY-is-more flex justify-center mt-12 w-full">
-      <button id="load-more-btn" class="QUERY-load-more-btn CSS-button-shadow-decoration text-[1em] hover:bg-regular-blue-hover-cl bg-regular-blue-cl rounded-lg text-white font-bold py-2 px-4">
-        XEM THÊM TÀI KHOẢN
-      </button>
-      <p class="QUERY-no-more-text text-gray-600 italic text-[1em] font-bold"></p>
+    <div id="load-more-container" class="QUERY-is-more mt-20 mb-[100px] w-full relative">
+      <div class="STYLE-animation-loading-shapes"></div>
+      <p class="QUERY-app-loading-message w-max text-base font-bold text-sky-400 absolute top-[calc(50%+50px)] left-1/2 -translate-x-1/2 -translate-y-1/2">
+        Đang tải tài khoản...
+      </p>
     </div>
   </div>
 </div>

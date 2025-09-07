@@ -16,15 +16,20 @@
   --vcn-regular-zalo-cl: #0068ff;
   --vcn-regular-facebook-cl: #3a5998;
   --vcn-regular-neon-cl: var(--vcn-regular-blue-cl);
+  --vcn-regular-acc-state-cl: #38bdf8;
+  --vcn-regular-acc-state-from-cl: var(--vcn-regular-from-blue-cl);
+  --vcn-regular-acc-state-via-cl: var(--vcn-regular-via-blue-cl);
+  --vcn-regular-acc-state-to-cl: var(--vcn-regular-to-blue-cl);
 }
 
 @keyframes app-loading-shapes {
   0% {
     background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+    transform: translateX(-50%) translateY(-50%);
   }
   33% {
     background-position: 0 0, 100% 0, 100% 100%, 0 100%;
-    transform: scale(1.2);
+    transform: scale(1.2) translateX(-50%) translateY(-50%);
     width: 60px;
     height: 60px;
   }
@@ -32,9 +37,11 @@
     background-position: 100% 0, 100% 100%, 0 100%, 0 0;
     width: 60px;
     height: 60px;
+    transform: scale(1.2) translateX(-50%) translateY(-50%);
   }
   100% {
     background-position: 100% 0, 100% 100%, 0 100%, 0 0;
+    transform: translateX(-50%) translateY(-50%);
   }
 }
 @keyframes notification-red-dot {
@@ -339,7 +346,7 @@ button {
   left: 120%;
 }
 
-#app-loading .STYLE-animation-loading-shapes {
+.STYLE-animation-loading-shapes {
   width: 40px;
   height: 40px;
   color: var(--vcn-regular-blue-cl);
@@ -347,6 +354,10 @@ button {
   background-size: 21px 21px;
   background-repeat: no-repeat;
   animation: app-loading-shapes 1.5s infinite cubic-bezier(0.3, 1, 0, 1);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
 
 .CSS-background-dot-decoration {

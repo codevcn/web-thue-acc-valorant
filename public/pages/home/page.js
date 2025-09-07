@@ -1,9 +1,9 @@
 import { GameAccountService } from "../../services/game-account-services.js"
 import { AccountCard } from "../../utils/scripts/components.js"
 import {
-  AppLoadingHelper,
   AxiosErrorHandler,
   LitHTMLHelper,
+  ThemeHelper,
   Toaster,
 } from "../../utils/scripts/helpers.js"
 import { initUtils } from "../../utils/scripts/init-utils.js"
@@ -14,7 +14,6 @@ class HomePageManager {
   #currentAvatar = null
 
   constructor() {
-    this.loadMoreBtn = document.getElementById("load-more-btn")
     this.loadMoreContainer = document.getElementById("load-more-container")
     this.accountsList = document.getElementById("accounts-list")
     this.accountRankTypes = document.getElementById("account-rank-types")
@@ -31,6 +30,7 @@ class HomePageManager {
     this.accountStatusesSelect = document.getElementById("account-statuses-select")
     this.accountDeviceTypesSelect = document.getElementById("account-device-types-select")
     this.accountAvatarModal = document.getElementById("account-avatar-modal")
+    this.accountTypesSelect = document.getElementById("account-types-select")
 
     this.isFetchingItems = false
     this.isMoreItems = true
@@ -40,6 +40,7 @@ class HomePageManager {
       rank: "",
       status: "",
       device_type: "",
+      account_type: "",
     }
     this.rankColors = {
       ALL: "bg-gray-200",
@@ -54,11 +55,11 @@ class HomePageManager {
       Radiant: "bg-[#F9D65D]", // Vàng kim – icon Radiant nổi bật bằng màu vàng chói
     }
 
-    this.initLoadMoreButtonListener()
     this.initCloseModalListener()
     this.initFilterByRankListener()
     this.initFilterByStatusListener()
     this.initFilterByDeviceTypeListener()
+    this.initFilterByAccountTypeListener()
     this.initAccountsListListener()
     this.initCloseRentNowModalListener()
     this.initScrollToTopBtnListener()
@@ -88,7 +89,7 @@ class HomePageManager {
   }
 
   activateFilterItems() {
-    const { rank, status, device_type } = this.filterHolder
+    const { rank, status, device_type, account_type } = this.filterHolder
     if (rank) {
       this.accountRankTypesSelect.value = rank
     }
@@ -97,6 +98,9 @@ class HomePageManager {
     }
     if (device_type) {
       this.accountDeviceTypesSelect.value = device_type
+    }
+    if (account_type) {
+      this.accountTypesSelect.value = account_type
     }
   }
 
@@ -112,29 +116,27 @@ class HomePageManager {
 
   fetchAccounts() {
     const { last_id } = this.getLastAccountInfoForFetching()
-    const { rank, status, device_type } = this.filterHolder
+    const { rank, status, device_type, account_type } = this.filterHolder
     if (this.isFetchingItems) return
     this.isFetchingItems = true
 
-    AppLoadingHelper.show()
-    GameAccountService.fetchAccounts(last_id, undefined, rank, status, device_type)
+    GameAccountService.fetchAccounts(last_id, undefined, rank, status, device_type, account_type)
       .then((accounts) => {
         if (accounts && accounts.length > 0) {
+          this.isFetchingItems = false
           this.gameAccounts = [...this.gameAccounts, ...accounts]
           this.renderNewAccounts(accounts)
           initUtils.initTooltip()
           this.activateFilterItems()
+          this.fetchAccounts()
         } else {
+          this.isFetchingItems = false
           this.isMoreItems = false
-          this.hideShowLoadMoreButton(false)
+          this.hideShowLoadMore(false)
         }
       })
       .catch((error) => {
         Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
-      })
-      .finally(() => {
-        this.isFetchingItems = false
-        AppLoadingHelper.hide()
       })
   }
 
@@ -186,7 +188,7 @@ class HomePageManager {
     })
   }
 
-  hideShowLoadMoreButton(show) {
+  hideShowLoadMore(show) {
     if (show) {
       this.loadMoreContainer.classList.remove("QUERY-no-more")
       this.loadMoreContainer.classList.add("QUERY-is-more")
@@ -194,13 +196,6 @@ class HomePageManager {
       this.loadMoreContainer.classList.remove("QUERY-is-more")
       this.loadMoreContainer.classList.add("QUERY-no-more")
     }
-  }
-
-  initLoadMoreButtonListener() {
-    this.loadMoreBtn.addEventListener("click", () => {
-      if (!this.isMoreItems) return
-      this.fetchAccounts()
-    })
   }
 
   initCloseModalListener() {
@@ -241,6 +236,22 @@ class HomePageManager {
         this.submitFilter("device_type=")
       } else {
         this.submitFilter(`device_type=${deviceType}`)
+        if (deviceType === "Only máy nhà") {
+          ThemeHelper.updateAccountStateColor("#facc15") // màu vàng
+        } else {
+          ThemeHelper.updateAccountStateColor("#38bdf8") // màu xanh lam
+        }
+      }
+    })
+  }
+
+  initFilterByAccountTypeListener() {
+    this.accountTypesSelect.addEventListener("change", (e) => {
+      const accountType = e.target.value
+      if (accountType === "ALL") {
+        this.submitFilter("account_type=")
+      } else {
+        this.submitFilter(`account_type=${accountType}`)
       }
     })
   }
@@ -248,11 +259,11 @@ class HomePageManager {
   resetAccountsList() {
     this.accountsList.innerHTML = ""
     this.gameAccounts = []
-    this.hideShowLoadMoreButton(true)
+    this.hideShowLoadMore(true)
     this.isMoreItems = true
   }
 
-  submitFilter(keyValuePair = "rank=&status=&device_type=") {
+  submitFilter(keyValuePair = "rank=&status=&device_type=&account_type=") {
     this.resetAccountsList()
     const conditions = keyValuePair.split("&")
     for (const condition of conditions) {
@@ -310,6 +321,7 @@ class HomePageManager {
     this.accountRankTypesSelect.value = "ALL"
     this.accountStatusesSelect.value = "ALL"
     this.accountDeviceTypesSelect.value = "ALL"
+    this.accountTypesSelect.value = "ALL"
   }
 
   initCancelAllFiltersListener() {

@@ -33,7 +33,8 @@ class GameAccountService
     ?string $status = null,
     ?string $device_type = null,
     ?string $search_term = null,
-    ?string $order_type = null
+    ?string $order_type = null,
+    ?string $account_type = null
   ): array {
     $sql = "SELECT * FROM game_accounts";
     $conditions = [];
@@ -64,6 +65,10 @@ class GameAccountService
     if ($search_term !== null) {
       $conditions[] = '(acc_name LIKE :search_term OR game_code LIKE :search_term OR `description` LIKE :search_term)';
       $params[':search_term'] = '%' . $search_term . '%';
+    }
+    if ($account_type !== null) {
+      $conditions[] = 'acc_type = :account_type';
+      $params[':account_type'] = $account_type;
     }
 
     if (!empty($conditions)) {

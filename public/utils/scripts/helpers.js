@@ -252,3 +252,13 @@ export class AccountHelper {
     return defaultColor
   }
 }
+
+export class ThemeHelper {
+  static updateCssVariable(cssVarName, value) {
+    document.documentElement.style.setProperty(cssVarName, value)
+  }
+
+  static updateAccountStateColor(color) {
+    this.updateCssVariable("--vcn-regular-acc-state-cl", color)
+  }
+}
