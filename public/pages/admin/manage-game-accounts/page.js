@@ -1179,6 +1179,7 @@ class FilterManager {
     this.rankTypesSelect = this.filtersSection.querySelector(".QUERY-rank-types-select")
     this.statusesSelect = this.filtersSection.querySelector(".QUERY-statuses-select")
     this.deviceTypeSelect = this.filtersSection.querySelector(".QUERY-device-type-select")
+    this.accTypeSelect = this.filtersSection.querySelector(".QUERY-acc-type-select")
     this.searchBtn = document.getElementById("search-btn")
     this.searchInput = document.getElementById("search-input")
     this.countAppliedFilters = document.getElementById("count-applied-filters")
@@ -1190,6 +1191,7 @@ class FilterManager {
     this.renderRankTypes()
     this.fetchStatuses()
     this.fetchDeviceTypes()
+    this.fetchAccTypes()
 
     this.initShowFilters()
     this.initListeners()
@@ -1217,6 +1219,7 @@ class FilterManager {
     this.rankTypesSelect.addEventListener("change", this.handleFilterChange.bind(this))
     this.statusesSelect.addEventListener("change", this.handleFilterChange.bind(this))
     this.deviceTypeSelect.addEventListener("change", this.handleFilterChange.bind(this))
+    this.accTypeSelect.addEventListener("change", this.handleFilterChange.bind(this))
     this.searchBtn.addEventListener("click", this.searchAccounts.bind(this))
     this.searchInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
@@ -1311,7 +1314,25 @@ class FilterManager {
     this.updateActiveFiltersDisplay()
   }
 
-  saveQueryStringForFilters(keyValuePair = "rank=&status=&device_type=") {
+  fetchAccTypes() {
+    const allOption = document.createElement("option")
+    allOption.value = "ALL"
+    allOption.textContent = "Tất cả loại acc"
+    this.accTypeSelect.appendChild(allOption)
+
+    const accTypes = ["Thường", "Đặc biệt"]
+    for (const accType of accTypes) {
+      const option = document.createElement("option")
+      option.value = accType
+      option.textContent = accType
+      this.accTypeSelect.appendChild(option)
+    }
+
+    this.fieldsRenderedCount++
+    this.updateActiveFiltersDisplay()
+  }
+
+  saveQueryStringForFilters(keyValuePair = "rank=&status=&device_type=&acc_type=") {
     const currentUrlForFilters = new URL(this.urlForFilters || window.location.href)
     const params = new URLSearchParams(keyValuePair)
     for (const [key, value] of params.entries()) {
@@ -1325,9 +1346,9 @@ class FilterManager {
   }
 
   handleFilterChange(e) {
-    const formField = e.currentTarget
-    const value = formField.value
-    switch (formField.id) {
+    const field = e.currentTarget
+    const value = field.value
+    switch (field.id) {
       case "rank-type-filter-field":
         this.saveQueryStringForFilters(
           "rank=" + (value && value !== "ALL" ? encodeURIComponent(value) : "")
@@ -1341,6 +1362,11 @@ class FilterManager {
       case "device-type-filter-field":
         this.saveQueryStringForFilters(
           "device_type=" + (value && value !== "ALL" ? encodeURIComponent(value) : "")
+        )
+        break
+      case "acc-type-filter-field":
+        this.saveQueryStringForFilters(
+          "acc_type=" + (value && value !== "ALL" ? encodeURIComponent(value) : "")
         )
         break
     }
@@ -1380,6 +1406,14 @@ class FilterManager {
       this.appliedFiltersCount++
     } else {
       this.deviceTypeSelect.value = "ALL"
+    }
+
+    const accTypeValue = URLHelper.getUrlQueryParam("acc_type")
+    if (accTypeValue) {
+      this.accTypeSelect.value = accTypeValue
+      this.appliedFiltersCount++
+    } else {
+      this.accTypeSelect.value = "ALL"
     }
 
     const searchTerm = URLHelper.getUrlQueryParam("search_term")

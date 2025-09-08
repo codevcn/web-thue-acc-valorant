@@ -141,7 +141,7 @@ class GameAccountService
       $common_params[':device_type'] = $device_type;
     }
     if ($search_term !== null) {
-      $common_conditions[] = '(acc_name LIKE :search_term OR acc_code LIKE :search_term OR `description` LIKE :search_term)';
+      $common_conditions[] = '(acc_code LIKE :search_term)';
       $common_params[':search_term'] = '%' . $search_term . '%';
     }
 

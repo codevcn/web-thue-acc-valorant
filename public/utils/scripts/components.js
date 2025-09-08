@@ -3,10 +3,21 @@ import { AccountHelper, TimeHelper } from "./helpers.js"
 
 export const AccountCard = (account) => {
   const { status, rank, avatar, acc_code, device_type, id, avatar_2, acc_type } = account
+  const statusToDisplay = status === "Rảnh" || status === "Check" ? "Rảnh" : status
   return html`
-    <div class="rounded-lg overflow-hidden w-full">
+    <div
+      class="${acc_type === "Đặc biệt"
+        ? "CSS-account-card-animate-shine-box"
+        : ""} rounded-lg w-full relative p-1"
+    >
+      ${acc_type === "Đặc biệt"
+        ? html`<span class="CSS-account-card-animate-shine shine-top"></span>
+            <span class="CSS-account-card-animate-shine shine-right"></span>
+            <span class="CSS-account-card-animate-shine shine-bottom"></span>
+            <span class="CSS-account-card-animate-shine shine-left"></span>`
+        : ""}
       <div class="CSS-styled-scrollbar">
-        <div class="grid min-[600px]:grid-cols-2 grid-cols-1 gap-2 w-full">
+        <div class="grid min-[600px]:grid-cols-2 grid-cols-1 gap-2 w-full relative">
           <div
             class="flex flex-1 h-full rounded-lg overflow-hidden bg-gradient-to-r from-regular-acc-state-from-cl to-regular-acc-state-to-cl relative"
           >
@@ -34,7 +45,7 @@ export const AccountCard = (account) => {
             </div>
           </div>
         </div>
-        <div class="w-full py-2 flex flex-col justify-between items-stretch rounded-lg">
+        <div class="w-full mt-2 flex flex-col justify-between items-stretch rounded-lg">
           <div class="flex items-center flex-wrap gap-1 w-full">
             <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
               <div
@@ -100,9 +111,16 @@ export const AccountCard = (account) => {
               </div>
               <p class="text-center text-base py-2 px-2 w-max mx-auto">${device_type}</p>
             </div>
-            <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
+            <div
+              class="font-bold flex-1 border ${statusToDisplay === "Bận"
+                ? "border-red-600"
+                : "border-regular-acc-state-cl"} rounded"
+            >
               <div
-                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-regular-acc-state-cl"
+                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 ${statusToDisplay ===
+                "Bận"
+                  ? "bg-red-600"
+                  : "bg-regular-acc-state-cl"}"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -120,7 +138,13 @@ export const AccountCard = (account) => {
                 </svg>
                 <span class="w-max">Trạng Thái</span>
               </div>
-              <p class="text-center text-base py-2 px-2 w-max mx-auto">${status}</p>
+              <p
+                class="text-center text-base py-2 px-2 w-max mx-auto ${statusToDisplay === "Bận"
+                  ? "text-red-600"
+                  : ""}"
+              >
+                ${statusToDisplay}
+              </p>
             </div>
             <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
               <div
@@ -153,7 +177,13 @@ export const AccountCard = (account) => {
                 </svg>
                 <span class="w-max">Loại Acc</span>
               </div>
-              <p class="text-center text-base py-2 px-2 w-max mx-auto">${acc_type}</p>
+              <p
+                class="text-center text-base py-2 px-2 w-max mx-auto ${acc_type === "Đặc biệt"
+                  ? "CSS-account-card-animate-scaling"
+                  : ""}"
+              >
+                ${acc_type}
+              </p>
             </div>
 
             <button

@@ -47,6 +47,14 @@
           class="QUERY-device-type-select w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-2 outline-regular-blue-cl">
         </select>
       </div>
+
+      <div class="grow">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Loại acc</label>
+        <select
+          id="acc-type-filter-field"
+          class="QUERY-acc-type-select w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-2 outline-regular-blue-cl">
+        </select>
+      </div>
     </div>
 
     <div class="w-full flex justify-end mt-4">

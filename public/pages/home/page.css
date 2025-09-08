@@ -57,4 +57,98 @@
   }
 }
 
+.CSS-account-card-animate-scaling {
+  animation: animate-scaling 0.5s linear infinite backwards;
+}
+@keyframes animate-scaling {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+.CSS-account-card-animate-shine-box .CSS-account-card-animate-shine {
+  position: absolute;
+  background: linear-gradient(to right, transparent, var(--vcn-regular-acc-state-cl), transparent);
+  animation: animate-shine 0.5s linear infinite;
+}
+.CSS-account-card-animate-shine-box .CSS-account-card-animate-shine.shine-top {
+  top: -8px;
+  left: 0;
+  height: 6px;
+  width: 50%;
+  animation-name: animate-shine-left-to-right;
+}
+.CSS-account-card-animate-shine-box .CSS-account-card-animate-shine.shine-right {
+  top: 0;
+  right: -8px;
+  width: 6px;
+  height: 50%;
+  animation-name: animate-shine-top-to-bottom;
+  background: linear-gradient(to bottom, transparent, var(--vcn-regular-acc-state-cl), transparent);
+  animation-delay: 1s;
+  opacity: 0;
+}
+.CSS-account-card-animate-shine-box .CSS-account-card-animate-shine.shine-bottom {
+  bottom: -8px;
+  left: 0;
+  height: 6px;
+  width: 50%;
+  animation-name: animate-shine-right-to-left;
+  animation-delay: 2s;
+  opacity: 0;
+}
+.CSS-account-card-animate-shine-box .CSS-account-card-animate-shine.shine-left {
+  top: 0;
+  left: -8px;
+  width: 6px;
+  height: 50%;
+  animation-name: animate-shine-bottom-to-top;
+  background: linear-gradient(to bottom, transparent, var(--vcn-regular-acc-state-cl), transparent);
+  animation-delay: 3s;
+  opacity: 0;
+}
+@keyframes animate-shine-left-to-right {
+  0% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 1;
+  }
+}
+@keyframes animate-shine-right-to-left {
+  0% {
+    transform: translateX(100%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+@keyframes animate-shine-top-to-bottom {
+  0% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 1;
+  }
+}
+@keyframes animate-shine-bottom-to-top {
+  0% {
+    transform: translateY(100%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
 /*# sourceMappingURL=page.css.map */
