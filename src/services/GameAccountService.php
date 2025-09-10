@@ -64,7 +64,7 @@ class GameAccountService
       $params[':device_type'] = $device_type;
     }
     if ($search_term !== null) {
-      $conditions[] = '(acc_name LIKE :search_term OR game_code LIKE :search_term OR `description` LIKE :search_term)';
+      $conditions[] = '(acc_code LIKE :search_term)';
       $params[':search_term'] = '%' . $search_term . '%';
     }
     if ($account_type !== null) {
@@ -75,16 +75,18 @@ class GameAccountService
     if (!empty($conditions)) {
       $sql .= " WHERE " . implode(' AND ', $conditions);
     }
-    $order_condition = " ORDER BY created_at DESC, id DESC LIMIT " . self::LOAD_MORE_ACCOUNTS_PAGE_SIZE;
+    $order_condition = " ORDER BY id DESC LIMIT " . self::LOAD_MORE_ACCOUNTS_PAGE_SIZE;
     if ($order_type !== null) {
       if ($order_type === 'updated_at') {
-        $order_condition = " ORDER BY updated_at DESC, id DESC LIMIT " . self::LOAD_MORE_ACCOUNTS_PAGE_SIZE;
+        $order_condition = " ORDER BY id DESC LIMIT " . self::LOAD_MORE_ACCOUNTS_PAGE_SIZE;
       }
     }
     $sql .= $order_condition;
+    DevLogger::log('>>> $sql: ' . $sql);
 
     $stmt = $this->db->prepare($sql);
     foreach ($params as $key => $value) {
+      DevLogger::log('>>> $key: ' . $key . ' - $value: ' . $value);
       $stmt->bindValue($key, $value);
     }
     $stmt->execute();

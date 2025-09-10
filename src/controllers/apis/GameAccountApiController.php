@@ -41,6 +41,7 @@ class GameAccountApiController
       $order_type,
       $account_type
     );
+    DevLogger::logReqFilesToConsole('>>> $accounts', $accounts);
 
     return [
       'accounts' => $accounts,

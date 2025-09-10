@@ -108,6 +108,7 @@ class HomePageManager {
   getLastAccountInfoForFetching() {
     let lastAccount = null
     const accounts = this.gameAccounts
+    console.log('>>> accounts:', accounts)
     if (accounts.length > 0) {
       lastAccount = accounts.at(-1)
     }
@@ -117,6 +118,7 @@ class HomePageManager {
 
   fetchAccounts() {
     const { last_id } = this.getLastAccountInfoForFetching()
+    console.log('>>> last_id:', last_id)
     const { rank, status, device_type, account_type } = this.filterHolder
     if (this.isFetchingItems) return
     this.isFetchingItems = true
