@@ -44,14 +44,14 @@
               </div>
             </div>
             <div class="space-y-2 mt-4">
-              <div class="flex items-center gap-2 text-sky-400 max-w-full w-fit">
+              <div class="flex items-center gap-1 text-sky-400 max-w-full w-fit">
                 <svg class="w-6 h-6 flex-grow-[1]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10"></circle>
                   <polyline points="12 6 12 12 16 14"></polyline>
                 </svg>
-                <span class="text-white flex items-center gap-2 w-max flex-grow-[3]">
-                  <span class="font-bold text-sky-400 min-w-max h-fit">Combo đêm : 40k</span>
-                  <span class="text-[0.9em]">(22PM - 7AM)</span>
+                <span class="text-white flex items-start gap-2 w-max flex-grow-[3]">
+                  <span class="font-bold text-sky-400 min-w-max h-fit">Combo đêm: 40k</span>
+                  <span class="text-[0.7em]">(22PM - 7AM)</span>
                 </span>
               </div>
               <div class="flex items-center gap-1 text-cyan-400 max-w-full w-fit">
@@ -59,7 +59,7 @@
                   <polygon points="5 3 19 12 5 21 5 3"></polygon>
                 </svg>
                 <span class="text-white">
-                  <span class="font-bold text-cyan-400">Combo ngày : 120k</span>
+                  <span class="font-bold text-cyan-400">Combo ngày: 120k</span>
                 </span>
               </div>
             </div>
@@ -89,14 +89,14 @@
                 </div>
               </div>
               <div class="space-y-2 mt-4">
-                <div class="flex items-center gap-2 text-sky-400 max-w-full w-fit">
+                <div class="flex items-center gap-1 text-sky-400 max-w-full w-fit">
                   <svg class="w-6 h-6 flex-grow-[1]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
                   </svg>
-                  <span class="text-white flex items-center gap-2 w-max flex-grow-[3]">
-                    <span class="font-bold text-sky-400 min-w-max h-fit">Combo đêm : 50k</span>
-                    <span class="text-[0.9em]">(22PM - 7AM)</span>
+                  <span class="text-white flex items-start gap-2 w-max flex-grow-[3]">
+                    <span class="font-bold text-sky-400 min-w-max h-fit">Combo đêm: 50k</span>
+                    <span class="text-[0.7em]">(22PM - 7AM)</span>
                   </span>
                 </div>
                 <div class="flex items-center gap-1 text-cyan-400 max-w-full w-fit">
@@ -104,7 +104,7 @@
                     <polygon points="5 3 19 12 5 21 5 3"></polygon>
                   </svg>
                   <span class="text-white">
-                    <span class="font-bold text-cyan-400">Combo ngày : 120k</span>
+                    <span class="font-bold text-cyan-400">Combo ngày: 120k</span>
                   </span>
                 </div>
               </div>
@@ -130,10 +130,9 @@
               <div class="flex items-center justify-between px-2 py-0 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
                 <div class="flex items-center gap-3 text-white">
                   <span class="font-bold min-w-max inline-block">Combo đêm :</span>
-                  <span class="flex items-center gap-2">
-                    <span class="inline-block">Nét - 50k</span>
-                    <span class="inline-block">/</span>
-                    <span class="inline-block">Nhà : 60k</span>
+                  <span class="inline-block">
+                    <span class="block">Nét: 50k</span>
+                    <span class="block">Nhà: 60k</span>
                   </span>
                 </div>
               </div>

@@ -16,7 +16,7 @@ export const AccountCard = (account) => {
             <span class="CSS-account-card-animate-shine shine-bottom"></span>
             <span class="CSS-account-card-animate-shine shine-left"></span>`
         : ""}
-      <div class="CSS-styled-scrollbar">
+      <div>
         <div class="grid min-[600px]:grid-cols-2 grid-cols-1 gap-2 w-full relative">
           <div
             class="flex flex-1 h-full rounded-lg overflow-hidden bg-gradient-to-r from-regular-acc-state-from-cl to-regular-acc-state-to-cl relative"
@@ -45,7 +45,57 @@ export const AccountCard = (account) => {
             </div>
           </div>
         </div>
-        <div class="w-full mt-2 flex flex-col justify-between items-stretch rounded-lg">
+        <div>
+          <h2 class="flex items-center gap-2 text-xl font-bold mt-1.5 text-regular-acc-state-cl">
+            <svg
+              class="w-[1.2em] h-[1.2em]"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              version="1.1"
+              fill="currentColor"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+            >
+              <g>
+                <circle
+                  cx="12"
+                  cy="12"
+                  data-name="--Circle"
+                  fill="none"
+                  id="_--Circle"
+                  r="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                ></circle>
+                <line
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  x1="12"
+                  x2="12"
+                  y1="12"
+                  y2="16"
+                ></line>
+                <line
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  x1="12"
+                  x2="12"
+                  y1="8"
+                  y2="8"
+                ></line>
+              </g>
+            </svg>
+            <span>Thông tin tài khoản</span>
+          </h2>
+        </div>
+        <div class="w-full mt-2 flex items-center">
           <div class="flex items-center flex-wrap gap-1 w-full">
             <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
               <div
@@ -112,9 +162,9 @@ export const AccountCard = (account) => {
               <p class="text-center text-base py-2 px-2 w-max mx-auto">${device_type}</p>
             </div>
             <div
-              class="font-bold flex-1 border ${statusToDisplay === "Bận"
+              class="font-bold flex-1 border rounded ${statusToDisplay === "Bận"
                 ? "border-red-600"
-                : "border-regular-acc-state-cl"} rounded"
+                : "border-regular-acc-state-cl"}"
             >
               <div
                 class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 ${statusToDisplay ===
@@ -185,10 +235,11 @@ export const AccountCard = (account) => {
                 ${acc_type}
               </p>
             </div>
-
+          </div>
+          <div class="px-4">
             <button
               data-account-id="${id}"
-              class="QUERY-rent-now-btn CSS-button-shadow-decoration py-2 px-6 text-[1.14em] flex items-center justify-center gap-3 active:scale-90 transition duration-200 text-white font-bold rounded-lg bg-regular-acc-state-cl backdrop-blur-md"
+              class="QUERY-rent-now-btn CSS-button-shadow-decoration w-max py-2 px-6 text-[1.14em] flex items-center justify-center gap-3 active:scale-90 transition duration-200 text-white font-bold rounded-lg bg-regular-acc-state-cl backdrop-blur-md"
             >
               <span>THUÊ NGAY</span>
             </button>
@@ -284,7 +335,8 @@ export const AccountDeviceType = ({ device_type, isActive }) => {
 }
 
 export const AccountRow = (account, orderNumber, ranksToRender) => {
-  const { rank, status, device_type, acc_type, id, rent_from_time, rent_to_time } = account
+  const { rank, status, device_type, acc_type, id, rent_from_time, rent_to_time, acc_code } =
+    account
   const lowerCasedStatus = status.toLowerCase()
 
   const RentTime = (rentFromTime, rentToTime) => {
@@ -398,6 +450,11 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
         lowerCasedStatus
       )}"
     >
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div class="text-sm text-regular-blue-4 font-medium max-w-[100px] truncate">
+          ${acc_code}
+        </div>
+      </td>
       <td class="px-3 py-3 min-w-[320px]">
         <div class="flex flex-col gap-2 w-full text-sm">
           ${RentTime(rent_from_time, rent_to_time)}
