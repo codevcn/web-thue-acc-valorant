@@ -1,10 +1,13 @@
+<?php require_once __DIR__ . '/../../utils/Asset.php'; ?>
+
 <html lang="vi">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php require_once __DIR__ . '/../templates/head.php'; ?>
-  <link rel="stylesheet" href="/pages/home/page.css">
+
+  <link rel="stylesheet" href="<?= queryAssetWithVersion('/pages/home/page.css') ?>">
   <title>Thuê Acc Valorant Rank Cao - An Toàn, Nhanh Chóng | shopthuevalorantime.com</title>
   <meta name="description" content="Thuê acc Valorant rank cao, nhiều skin tại shopthuevalorantime.com. Hỗ trợ thuê theo giờ, ngày, tuần. Đảm bảo bảo mật và chất lượng.">
   <meta name="keywords" content="thuê acc valorant, thuê tài khoản valorant, thuê nick valorant, acc valo cho thuê, acc valorant theo giờ, thuê acc giá rẻ, thuê acc rank cao, thuê valorant">
@@ -23,7 +26,7 @@
   <?php require_once __DIR__ . '/main.php'; ?>
   <?php require_once __DIR__ . '/../templates/page_footer.php'; ?>
   <?php require_once __DIR__ . '/../templates/bottom_scripts.php'; ?>
-  <script src="/pages/home/page.js" type="module" defer></script>
+  <script src="<?= queryAssetWithVersion('/pages/home/page.js') ?>" type="module" defer></script>
 </body>
 
 </html>

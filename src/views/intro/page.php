@@ -1,10 +1,13 @@
+<?php require_once __DIR__ . '/../../utils/Asset.php'; ?>
+
 <html lang="vi">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php require_once __DIR__ . '/../templates/head.php'; ?>
-  <link rel="stylesheet" href="/pages/intro/page.css">
+
+  <link rel="stylesheet" href="<?= queryAssetWithVersion('/pages/intro/page.css') ?>">
   <title>Shop Thuê & Bán Acc Valorant Uy Tín | Giá Rẻ | Nhiều Rank</title>
   <meta name="google-site-verification" content="HIsH25l4zRTm1BlX-df6ABnDDlQrYLsjmwkJDhubPWQ" />
 
@@ -24,7 +27,7 @@
 <body class="text-[14px] min-[1300px]:text-[18px] min-[1500px]:text-[20px]">
   <?php require_once __DIR__ . '/main.php'; ?>
   <?php require_once __DIR__ . '/../templates/bottom_scripts.php'; ?>
-  <script src="/pages/intro/page.js" type="module" defer></script>
+  <script src="<?= queryAssetWithVersion('/pages/intro/page.js') ?>" type="module" defer></script>
 </body>
 
 </html>
