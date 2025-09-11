@@ -232,8 +232,8 @@ class GameAccountService
 
   public function addNewAccounts(array $data): ?int
   {
-    $sql = "INSERT INTO game_accounts (rank, acc_code, `status`, device_type, acc_type, created_at, updated_at)
-            VALUES (:rank, :acc_code, :status, :device_type, :acc_type, :created_at, :updated_at)";
+    $sql = "INSERT INTO game_accounts (rank, acc_code, `status`, device_type, acc_type, acc_username, created_at, updated_at)
+            VALUES (:rank, :acc_code, :status, :device_type, :acc_type, :acc_username, :created_at, :updated_at)";
     try {
       $this->db->beginTransaction();
       $stmt = $this->db->prepare($sql);
@@ -243,10 +243,11 @@ class GameAccountService
 
       foreach ($data as $row) {
         $rank        = $row['rank'] ?? null;
-        $accCode    = $row['accCode'] ?? null;
+        $accCode     = $row['accCode'] ?? null;
         $status      = $row['status'] ?? null;
         $deviceType  = $row['deviceType'] ?? null;
         $accType     = $row['accType'] ?? null;
+        $accUsername = $row['accUsername'] ?? null;
 
         if (!$rank) {
           throw new \InvalidArgumentException("Trường rank không được để trống.");
@@ -263,12 +264,16 @@ class GameAccountService
         if (!$accType) {
           throw new \InvalidArgumentException("Trường loại acc không được để trống.");
         }
+        if (!$accUsername) {
+          throw new \InvalidArgumentException("Trường tên đăng nhập không được để trống.");
+        }
 
         $stmt->bindValue(':rank', $rank);
         $stmt->bindValue(':acc_code', $accCode);
         $stmt->bindValue(':status', $status);
         $stmt->bindValue(':device_type', $deviceType);
         $stmt->bindValue(':acc_type', $accType);
+        $stmt->bindValue(':acc_username', $accUsername);
         $stmt->bindValue(':created_at', $now);
         $stmt->bindValue(':updated_at', $now);
 
@@ -319,6 +324,7 @@ class GameAccountService
     $avatar_2    = $data['avatar_2'] ?? null;
     $rentToTime  = $data['rentToTime'] ?? null;
     $accType     = $data['accType'] ?? null;
+    $accUsername = $data['accUsername'] ?? null;
 
     $updateFields = [];
     $params = [];
@@ -330,6 +336,10 @@ class GameAccountService
     if ($accCode !== null) {
       $updateFields[] = "acc_code = :acc_code";
       $params[':acc_code'] = $accCode;
+    }
+    if ($accUsername !== null) {
+      $updateFields[] = "acc_username = :acc_username";
+      $params[':acc_username'] = $accUsername;
     }
     if ($status !== null) {
       if ($status !== 'Bận' && $this->checkAccountIsRenting($account)) {

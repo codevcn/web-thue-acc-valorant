@@ -24,6 +24,7 @@ export default {
         "regular-acc-state-from-cl": "var(--vcn-regular-acc-state-from-cl)",
         "regular-acc-state-via-cl": "var(--vcn-regular-acc-state-via-cl)",
         "regular-acc-state-to-cl": "var(--vcn-regular-acc-state-to-cl)",
+        "regular-acc-card-bgcl": "var(--vcn-regular-acc-card-bgcl)",
       },
     },
   },

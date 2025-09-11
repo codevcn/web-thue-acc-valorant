@@ -31,7 +31,7 @@ class DevLogger
     return $message;
   }
 
-  public static function logReqFilesToConsole(string $title, array $arr)
+  public static function logArray(string $title, array $arr)
   {
     error_log($title . ': ' . print_r($arr, true));
   }

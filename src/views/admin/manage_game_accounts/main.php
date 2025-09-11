@@ -10,7 +10,7 @@
             <input
               type="text"
               id="search-input"
-              placeholder="Tìm kiếm theo tên acc, mã game, mô tả..."
+              placeholder="Tìm kiếm theo mã account..."
               class="w-full pl-4 pr-10 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-2 outline-regular-blue-cl" />
             <button id="search-btn" class="absolute right-0 top-1/2 -translate-y-1/2 h-full px-4 text-white rounded-br-lg rounded-tr-lg bg-gradient-to-r from-regular-from-blue-cl to-regular-to-blue-cl cursor-pointer transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-search-icon lucide-search hover:scale-125 transition duration-200" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

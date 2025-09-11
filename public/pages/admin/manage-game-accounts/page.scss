@@ -26,3 +26,14 @@
     }
   }
 }
+
+.QUERY-avatar-preview-section-box {
+  &.QUERY-is-loading {
+    .QUERY-avatar-preview-section-label {
+      display: none;
+    }
+    .QUERY-avatar-preview-section-loading {
+      display: flex;
+    }
+  }
+}

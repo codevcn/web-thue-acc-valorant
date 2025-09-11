@@ -6,17 +6,11 @@ export const AccountCard = (account) => {
   const statusToDisplay = status === "Rảnh" || status === "Check" ? "Rảnh" : status
   return html`
     <div
-      class="${acc_type === "Đặc biệt"
-        ? "CSS-account-card-animate-shine-box"
-        : ""} rounded-lg w-full relative p-1"
+      class="${
+        acc_type === "Đặc biệt" ? "CSS-acc-type-special-shine-animation" : ""
+      } rounded-lg w-full relative flex items-center justify-center p-[10px]"
     >
-      ${acc_type === "Đặc biệt"
-        ? html`<span class="CSS-account-card-animate-shine shine-top"></span>
-            <span class="CSS-account-card-animate-shine shine-right"></span>
-            <span class="CSS-account-card-animate-shine shine-bottom"></span>
-            <span class="CSS-account-card-animate-shine shine-left"></span>`
-        : ""}
-      <div>
+      <div class="w-full CSS-acc-type-special-shine-animation-content bg-regular-acc-card-bgcl">
         <div class="grid min-[600px]:grid-cols-2 grid-cols-1 gap-2 w-full relative">
           <div
             class="flex flex-1 h-full rounded-lg overflow-hidden bg-gradient-to-r from-regular-acc-state-from-cl to-regular-acc-state-to-cl relative"
@@ -25,9 +19,9 @@ export const AccountCard = (account) => {
               <img
                 src="/images/account/${avatar ?? "default-account-avatar.png"}"
                 alt="Mã account: ${acc_code}"
-                class="QUERY-account-avatar-1 aspect-[16/9] m-auto cursor-pointer rounded-lg transition-transform ease-in-out [transition-property:transform,transform-origin] [transition-duration:400ms,200ms] ${avatar
-                  ? "object-cover"
-                  : "object-contain py-6 min-[1242px]:py-0"}"
+                class="QUERY-account-avatar-1 aspect-[16/9] m-auto cursor-pointer rounded-lg transition-transform ease-in-out [transition-property:transform,transform-origin] [transition-duration:400ms,200ms] ${
+                  avatar ? "object-cover" : "object-contain py-6 min-[1242px]:py-0"
+                }"
               />
             </div>
           </div>
@@ -38,15 +32,17 @@ export const AccountCard = (account) => {
               <img
                 src="/images/account/${avatar_2 ?? "default-account-avatar.png"}"
                 alt="Mã account: ${acc_code}"
-                class="QUERY-account-avatar-2 aspect-[16/9] m-auto cursor-pointer rounded-lg transition-transform ease-in-out [transition-property:transform,transform-origin] [transition-duration:400ms,200ms] ${avatar_2
-                  ? "object-cover"
-                  : "object-contain py-6 min-[1242px]:py-0"}"
+                class="QUERY-account-avatar-2 aspect-[16/9] m-auto cursor-pointer rounded-lg transition-transform ease-in-out [transition-property:transform,transform-origin] [transition-duration:400ms,200ms] ${
+                  avatar_2 ? "object-cover" : "object-contain py-6 min-[1242px]:py-0"
+                }"
               />
             </div>
           </div>
         </div>
         <div>
-          <h2 class="flex items-center gap-2 text-xl font-bold mt-1.5 text-regular-acc-state-cl">
+          <h2
+            class="flex items-center gap-2 text-[1.4em] font-bold mt-1.5 text-regular-acc-state-cl"
+          >
             <svg
               class="w-[1.2em] h-[1.2em]"
               viewBox="0 0 24 24"
@@ -95,151 +91,156 @@ export const AccountCard = (account) => {
             <span>Thông tin tài khoản</span>
           </h2>
         </div>
-        <div class="w-full mt-2 flex items-center">
-          <div class="flex items-center flex-wrap gap-1 w-full">
-            <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
-              <div
-                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-regular-acc-state-cl"
-              >
-                <svg
-                  class="w-[1.2em] h-[1.2em] text-white"
-                  viewBox="0 0 16 16"
-                  xmlns="http://www.w3.org/2000/svg"
-                  version="1.1"
-                  fill="currentColor"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.5"
-                >
-                  <g id="SVGRepo_iconCarrier">
-                    <path
-                      d="m2.75 10.25h9.5m-8.5-4.5h9.5m-2.5-4-1.5 12.5m-2.5-12.5-1.5 12.5"
-                    ></path>
-                  </g>
-                </svg>
-                <span class="w-max">Mã Account</span>
-              </div>
-              <p class="text-center text-base py-2 px-2 w-max mx-auto">${acc_code}</p>
-            </div>
-            <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
-              <div
-                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-regular-acc-state-cl"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="w-[1.2em] h-[1.2em] text-white fill-current"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                  />
-                </svg>
-                <span class="w-max">Rank</span>
-              </div>
-              <p class="text-center text-base py-2 px-2 w-max mx-auto">${rank}</p>
-            </div>
-            <div class="text-center font-bold flex-1 border border-regular-acc-state-cl rounded">
-              <div
-                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-regular-acc-state-cl"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="w-[1.2em] h-[1.2em] text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M9.75 17L6 21h12l-3.75-4M3 4h18v10H3z"
-                  />
-                </svg>
-                <span class="w-max">Loại Máy</span>
-              </div>
-              <p class="text-center text-base py-2 px-2 w-max mx-auto">${device_type}</p>
-            </div>
+        <div
+          class="text-[1em] w-full mt-2 grid min-[768px]:grid-cols-3 min-[980px]:grid-cols-6 grid-cols-2 gap-1"
+        >
+          <div class="font-bold border border-regular-acc-state-cl rounded col-span-1">
             <div
-              class="font-bold flex-1 border rounded ${statusToDisplay === "Bận"
-                ? "border-red-600"
-                : "border-regular-acc-state-cl"}"
+              class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-regular-acc-state-cl"
             >
-              <div
-                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 ${statusToDisplay ===
-                "Bận"
-                  ? "bg-red-600"
-                  : "bg-regular-acc-state-cl"}"
+              <svg
+                class="w-[1.2em] h-[1.2em] text-white"
+                viewBox="0 0 16 16"
+                xmlns="http://www.w3.org/2000/svg"
+                version="1.1"
+                fill="currentColor"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
+                <g id="SVGRepo_iconCarrier">
+                  <path d="m2.75 10.25h9.5m-8.5-4.5h9.5m-2.5-4-1.5 12.5m-2.5-12.5-1.5 12.5"></path>
+                </g>
+              </svg>
+              <span class="w-max">Mã Account</span>
+            </div>
+            <p class="text-center py-2 px-2 w-max mx-auto">${acc_code}</p>
+          </div>
+          <div class="font-bold border border-regular-acc-state-cl rounded col-span-1">
+            <div
+              class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-regular-acc-state-cl"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-[1.2em] h-[1.2em] text-white fill-current"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+              </svg>
+              <span class="w-max">Rank</span>
+            </div>
+            <p class="text-center py-2 px-2 w-max mx-auto">${rank}</p>
+          </div>
+          <div class="text-center font-bold border ${
+            device_type === "Only máy nhà" ? "border-[#facc15]" : "border-regular-acc-state-cl"
+          }" rounded col-span-1">
+            <div
+              class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 ${
+                device_type === "Only máy nhà" ? "bg-[#facc15]" : "bg-regular-acc-state-cl"
+              }"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-[1.2em] h-[1.2em] text-white"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  class="lucide lucide-chart-no-axes-column-icon lucide-chart-no-axes-column text-white w-[1.2em] h-[1.2em]"
-                >
-                  <line x1="18" x2="18" y1="20" y2="10" />
-                  <line x1="12" x2="12" y1="20" y2="4" />
-                  <line x1="6" x2="6" y1="20" y2="14" />
-                </svg>
-                <span class="w-max">Trạng Thái</span>
-              </div>
-              <p
-                class="text-center text-base py-2 px-2 w-max mx-auto ${statusToDisplay === "Bận"
-                  ? "text-red-600"
-                  : ""}"
-              >
-                ${statusToDisplay}
-              </p>
+                  d="M9.75 17L6 21h12l-3.75-4M3 4h18v10H3z"
+                />
+              </svg>
+              <span class="w-max">Loại Máy</span>
             </div>
-            <div class="font-bold flex-1 border border-regular-acc-state-cl rounded">
-              <div
-                class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 bg-regular-acc-state-cl"
-              >
-                <svg
-                  class="w-[1.2em] h-[1.2em] text-white"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g>
-                    <path
-                      d="M7.24 2H5.34C3.15 2 2 3.15 2 5.33V7.23C2 9.41 3.15 10.56 5.33 10.56H7.23C9.41 10.56 10.56 9.41 10.56 7.23V5.33C10.57 3.15 9.42 2 7.24 2Z"
-                      fill="#fff"
-                    ></path>
-                    <path
-                      d="M18.6695 2H16.7695C14.5895 2 13.4395 3.15 13.4395 5.33V7.23C13.4395 9.41 14.5895 10.56 16.7695 10.56H18.6695C20.8495 10.56 21.9995 9.41 21.9995 7.23V5.33C21.9995 3.15 20.8495 2 18.6695 2Z"
-                      fill="#fff"
-                    ></path>
-                    <path
-                      d="M18.6695 13.4297H16.7695C14.5895 13.4297 13.4395 14.5797 13.4395 16.7597V18.6597C13.4395 20.8397 14.5895 21.9897 16.7695 21.9897H18.6695C20.8495 21.9897 21.9995 20.8397 21.9995 18.6597V16.7597C21.9995 14.5797 20.8495 13.4297 18.6695 13.4297Z"
-                      fill="#fff"
-                    ></path>
-                    <path
-                      d="M7.24 13.4297H5.34C3.15 13.4297 2 14.5797 2 16.7597V18.6597C2 20.8497 3.15 21.9997 5.33 21.9997H7.23C9.41 21.9997 10.56 20.8497 10.56 18.6697V16.7697C10.57 14.5797 9.42 13.4297 7.24 13.4297Z"
-                      fill="#fff"
-                    ></path>
-                  </g>
-                </svg>
-                <span class="w-max">Loại Acc</span>
-              </div>
-              <p
-                class="text-center text-base py-2 px-2 w-max mx-auto ${acc_type === "Đặc biệt"
-                  ? "CSS-account-card-animate-scaling"
-                  : ""}"
-              >
-                ${acc_type}
-              </p>
-            </div>
+            <p class="text-center py-2 px-2 w-max mx-auto">${device_type}</p>
           </div>
-          <div class="px-4">
+          <div
+            class="font-bold border rounded col-span-1 ${
+              statusToDisplay === "Bận" ? "border-red-600" : "border-green-600"
+            }"
+          >
+            <div
+              class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 ${
+                statusToDisplay === "Bận" ? "bg-red-600" : "bg-green-600"
+              }"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-chart-no-axes-column-icon lucide-chart-no-axes-column text-white w-[1.2em] h-[1.2em]"
+              >
+                <line x1="18" x2="18" y1="20" y2="10" />
+                <line x1="12" x2="12" y1="20" y2="4" />
+                <line x1="6" x2="6" y1="20" y2="14" />
+              </svg>
+              <span class="w-max">Trạng Thái</span>
+            </div>
+            <p
+              class="text-center py-2 px-2 w-max mx-auto ${
+                statusToDisplay === "Bận" ? "text-red-600" : ""
+              }"
+            >
+              ${statusToDisplay}
+            </p>
+          </div>
+          <div class="font-bold border ${
+            acc_type === "Đặc biệt" ? "border-pink-600" : "border-regular-acc-state-cl"
+          } rounded col-span-1">
+            <div
+              class="flex gap-2 justify-center items-center font-bold text-white text-center p-1 ${
+                acc_type === "Đặc biệt" ? "bg-pink-400" : "bg-regular-acc-state-cl"
+              }"
+            >
+              <svg
+                class="w-[1.2em] h-[1.2em] text-white"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g>
+                  <path
+                    d="M7.24 2H5.34C3.15 2 2 3.15 2 5.33V7.23C2 9.41 3.15 10.56 5.33 10.56H7.23C9.41 10.56 10.56 9.41 10.56 7.23V5.33C10.57 3.15 9.42 2 7.24 2Z"
+                    fill="#fff"
+                  ></path>
+                  <path
+                    d="M18.6695 2H16.7695C14.5895 2 13.4395 3.15 13.4395 5.33V7.23C13.4395 9.41 14.5895 10.56 16.7695 10.56H18.6695C20.8495 10.56 21.9995 9.41 21.9995 7.23V5.33C21.9995 3.15 20.8495 2 18.6695 2Z"
+                    fill="#fff"
+                  ></path>
+                  <path
+                    d="M18.6695 13.4297H16.7695C14.5895 13.4297 13.4395 14.5797 13.4395 16.7597V18.6597C13.4395 20.8397 14.5895 21.9897 16.7695 21.9897H18.6695C20.8495 21.9897 21.9995 20.8397 21.9995 18.6597V16.7597C21.9995 14.5797 20.8495 13.4297 18.6695 13.4297Z"
+                    fill="#fff"
+                  ></path>
+                  <path
+                    d="M7.24 13.4297H5.34C3.15 13.4297 2 14.5797 2 16.7597V18.6597C2 20.8497 3.15 21.9997 5.33 21.9997H7.23C9.41 21.9997 10.56 20.8497 10.56 18.6697V16.7697C10.57 14.5797 9.42 13.4297 7.24 13.4297Z"
+                    fill="#fff"
+                  ></path>
+                </g>
+              </svg>
+              <span class="w-max">Loại Acc</span>
+            </div>
+            <p
+              class="text-center py-2 px-2 w-max mx-auto ${
+                acc_type === "Đặc biệt" ? "CSS-account-card-animate-scaling" : ""
+              }"
+            >
+              ${acc_type}
+            </p>
+          </div>
+          <div class="px-4 col-span-1 flex items-center justify-center h-full">
             <button
               data-account-id="${id}"
-              class="QUERY-rent-now-btn CSS-button-shadow-decoration w-max py-2 px-6 text-[1.14em] flex items-center justify-center gap-3 active:scale-90 transition duration-200 text-white font-bold rounded-lg bg-regular-acc-state-cl backdrop-blur-md"
+              class="QUERY-rent-now-btn CSS-button-shadow-decoration min-w-max w-full py-2 px-6 text-[1.1em] flex items-center justify-center gap-3 active:scale-90 transition duration-200 text-white font-bold rounded-lg bg-regular-acc-state-cl backdrop-blur-md"
             >
               <span>THUÊ NGAY</span>
             </button>
@@ -335,7 +336,7 @@ export const AccountDeviceType = ({ device_type, isActive }) => {
 }
 
 export const AccountRow = (account, orderNumber, ranksToRender) => {
-  const { rank, status, device_type, acc_type, id, rent_from_time, rent_to_time, acc_code } =
+  const { rank, status, device_type, id, rent_from_time, rent_to_time, acc_code, acc_username } =
     account
   const lowerCasedStatus = status.toLowerCase()
 
@@ -451,11 +452,49 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
       )}"
     >
       <td class="px-3 py-3 whitespace-nowrap">
-        <div class="text-sm text-regular-blue-4 font-medium max-w-[100px] truncate">
-          ${acc_code}
+        <div class="text-sm font-medium max-w-[100px] truncate">${acc_code}</div>
+      </td>
+      <td class="px-3 py-3 whitespace-nowrap max-w-[120px] relative">
+        <div
+          class="QUERY-input-container QUERY-acc-username-input-container-${id} relative w-full text-sm text-gray-900 max-w-full break-words break-normal whitespace-normal"
+        >
+          <input
+            type="text"
+            class="QUERY-tooltip-trigger QUERY-acc-username-input max-w-full bg-transparent pb-1 border-b border-solid border-gray-400 text-sm font-medium"
+            data-vcn-tooltip-content="Nhập tên đăng nhập"
+            placeholder="Nhập tên đăng nhập"
+            name="acc-username"
+            value="${acc_username || ""}"
+          />
+          <div
+            hidden
+            class="QUERY-input-actions absolute z-20 top-[calc(100%+5px)] right-0 w-full h-full"
+          >
+            <button
+              class="QUERY-acc-username-save-action QUERY-input-save-action shadow-md bg-regular-blue-cl text-white px-4 py-1 text-sm font-bold rounded-md hover:scale-110 transition duration-200 active:scale-90"
+            >
+              Lưu
+            </button>
+          </div>
         </div>
       </td>
-      <td class="px-3 py-3 min-w-[320px]">
+      <td class="px-3 py-3 whitespace-nowrap">
+        <div
+          class="max-w-[110px] overflow-hidden rounded-3xl truncate hover:shadow-md transition duration-200"
+        >
+          <select
+            name="ranks-select"
+            class="QUERY-ranks-select-${id} QUERY-ranks-select QUERY-tooltip-trigger outline-none bg-transparent text-sm font-medium appearance-none cursor-pointer px-2 py-1"
+            data-vcn-tooltip-content="Chọn hạng"
+            data-account-id="${id}"
+          >
+            ${ranksToRender.map(
+              (rnk) => html`<option value="${rnk}" ?selected=${rnk === rank}>${rnk}</option>`
+            )}
+          </select>
+        </div>
+      </td>
+      <td class="px-3 py-3 min-w-[250px]">
         <div class="flex flex-col gap-2 w-full text-sm">
           ${RentTime(rent_from_time, rent_to_time)}
           ${rent_to_time
@@ -468,36 +507,6 @@ export const AccountRow = (account, orderNumber, ranksToRender) => {
                 </button>
               `
             : ""}
-        </div>
-      </td>
-      <td class="px-3 py-3 whitespace-nowrap">
-        <div
-          class="max-w-[150px] overflow-hidden rounded-3xl truncate hover:shadow-md transition duration-200"
-        >
-          <select
-            name="acc-types-select"
-            class="QUERY-acc-types-select-${id} QUERY-acc-types-select QUERY-tooltip-trigger outline-none bg-transparent text-sm font-medium appearance-none cursor-pointer px-2 py-1"
-            data-vcn-tooltip-content="Chọn loại acc"
-          >
-            <option value="Thường" ?selected=${acc_type === "Thường"}>Thường</option>
-            <option value="Đặc biệt" ?selected=${acc_type === "Đặc biệt"}>Đặc biệt</option>
-          </select>
-        </div>
-      </td>
-      <td class="px-3 py-3 whitespace-nowrap">
-        <div
-          class="max-w-[150px] overflow-hidden rounded-3xl truncate hover:shadow-md transition duration-200"
-        >
-          <select
-            name="ranks-select"
-            class="QUERY-ranks-select-${id} QUERY-ranks-select QUERY-tooltip-trigger outline-none bg-transparent text-sm font-medium appearance-none cursor-pointer px-2 py-1"
-            data-vcn-tooltip-content="Chọn hạng"
-            data-account-id="${id}"
-          >
-            ${ranksToRender.map(
-              (rnk) => html`<option value="${rnk}" ?selected=${rnk === rank}>${rnk}</option>`
-            )}
-          </select>
         </div>
       </td>
       <td class="px-3 py-3 whitespace-nowrap">

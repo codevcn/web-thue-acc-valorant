@@ -405,7 +405,7 @@ class HomePageManager {
     this.#currentAvatar = imgElement
     const imgWrapper = imgElement.parentElement
     const imgWrapperParent = imgWrapper.parentElement
-    imgWrapperParent.style.cssText = `height: ${imgWrapper.clientHeight}px;`
+    imgWrapperParent.style.cssText = `height: ${imgWrapperParent.clientHeight}px;`
     const wrapperRect = imgWrapper.getBoundingClientRect()
     const transitionDuration = 300
     imgWrapper.style.cssText = `

@@ -57,6 +57,11 @@
         </div>
 
         <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Tên đăng nhập</label>
+          <input type="text" name="accUsername" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: Mã 001">
+        </div>
+
+        <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Mã account</label>
           <input type="text" name="accCode" class="w-full px-3 py-2 border border-solid border-gray-300 rounded-lg focus:border-regular-blue-cl focus:outline outline-regular-blue-cl outline-1" placeholder="VD: Mã 001">
         </div>

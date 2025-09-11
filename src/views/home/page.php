@@ -19,7 +19,7 @@
   <meta property="og:type" content="website">
 </head>
 
-<body class="bg-gradient-to-br from-regular-from-blue-cl via-regular-via-blue-cl to-regular-to-blue-cl text-[14px] min-[1366px]:text-[16px] min-[1680px]:text-[18px] min-[1800px]:text-[20px] min-[2200px]:text-[24px]">
+<body class="bg-regular-acc-card-bgcl text-[14px] min-[1366px]:text-[16px] min-[1680px]:text-[18px] min-[1800px]:text-[20px] min-[2200px]:text-[24px]">
   <?php require_once __DIR__ . '/main.php'; ?>
   <?php require_once __DIR__ . '/../templates/page_footer.php'; ?>
   <?php require_once __DIR__ . '/../templates/bottom_scripts.php'; ?>

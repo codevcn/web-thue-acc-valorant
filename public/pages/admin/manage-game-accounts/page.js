@@ -266,8 +266,8 @@ class ManageGameAccountsPageManager {
 
   submitAccUsernameFromInput(input) {
     const accUsername = input.value
-    if (!ValidationHelper.isValidUsername(accUsername)) {
-      Toaster.error("Cảnh báo", "Tên đăng nhập không hợp lệ")
+    if (!accUsername) {
+      Toaster.error("Cảnh báo", "Tên đăng nhập không được để trống")
       return
     }
     const accountId = input.closest(".QUERY-account-row-item").dataset.accountId * 1
@@ -593,7 +593,7 @@ class AddNewAccountManager {
     this.addNewAccountForm.reset()
   }
 
-  validateFormData({ rank, accCode, status, deviceType, accType, avatars }) {
+  validateFormData({ rank, accCode, status, deviceType, accType, accUsername, avatars }) {
     if (!rank) {
       Toaster.error("Rank không được để trống")
       return false
@@ -614,6 +614,10 @@ class AddNewAccountManager {
       Toaster.error("Loại acc không được để trống")
       return false
     }
+    if (!accUsername) {
+      Toaster.error("Tên đăng nhập không được để trống")
+      return false
+    }
     if (avatars && avatars.length > this.#MAX_AVATAR_COUNT) {
       Toaster.error("Chỉ được chọn tối đa 2 ảnh cho 1 tài khoản")
       return false
@@ -632,6 +636,7 @@ class AddNewAccountManager {
       status: formData.get("status"),
       deviceType: formData.get("deviceType"),
       accType: formData.get("accType"),
+      accUsername: formData.get("accUsername"),
       avatars: this.avatarInput.files,
     }
     if (!this.validateFormData({ ...data })) {
@@ -731,11 +736,17 @@ class UpdateAccountManager {
     this.statusSelect = document.getElementById("status-select--update-section")
     this.deviceTypesSelect = document.getElementById("device-types-select--update-section")
     this.accTypeSelect = document.getElementById("acc-types-select--update-section")
+    this.changeAvatar1Input = document.getElementById("change-avatar-1-input--update-section")
+    this.changeAvatar2Input = document.getElementById("change-avatar-2-input--update-section")
 
     this.isSubmitting = false
     this.statusOptions = []
     this.deviceTypeOptions = []
     this.accTypeOptions = []
+    this.pickedAvatars = {
+      avatarFile1: null,
+      avatarFile2: null,
+    }
 
     this.initUIData()
 
@@ -865,6 +876,46 @@ class UpdateAccountManager {
     document
       .getElementById("cancel-avatar-btn--update-section")
       .addEventListener("click", this.handleRemoveAvatar.bind(this))
+
+    this.changeAvatar1Input.addEventListener(
+      "change",
+      this.handleChangeAvatar1InputChange.bind(this)
+    )
+    this.changeAvatar2Input.addEventListener(
+      "change",
+      this.handleChangeAvatar2InputChange.bind(this)
+    )
+  }
+
+  handleChangeAvatar1InputChange(e) {
+    const input = e.target
+    const files = input.files
+    if (files && files.length > 0) {
+      input.closest(".QUERY-avatar-preview-section-box").classList.add("QUERY-is-loading")
+      const file = files[0]
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        this.avatarPreview.src = e.target.result
+        input.closest(".QUERY-avatar-preview-section-box").classList.remove("QUERY-is-loading")
+        this.pickedAvatars.avatarFile1 = file
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+  handleChangeAvatar2InputChange(e) {
+    const input = e.target
+    const files = input.files
+    if (files && files.length > 0) {
+      input.closest(".QUERY-avatar-preview-section-box").classList.add("QUERY-is-loading")
+      const file = files[0]
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        this.avatarPreview2.src = e.target.result
+        input.closest(".QUERY-avatar-preview-section-box").classList.remove("QUERY-is-loading")
+        this.pickedAvatars.avatarFile2 = file
+      }
+      reader.readAsDataURL(file)
+    }
   }
 
   switchToAvatarPreviewSection() {
@@ -880,6 +931,10 @@ class UpdateAccountManager {
   handleAvatarInputChange(e) {
     const files = e.target.files
     if (files && files.length > 0) {
+      if (files.length > this.#MAX_AVATAR_COUNT) {
+        Toaster.error("Chỉ được chọn tối đa 2 ảnh cho 1 tài khoản")
+        return
+      }
       let index = 0
       for (const file of files) {
         const reader = new FileReader()
@@ -911,9 +966,10 @@ class UpdateAccountManager {
   showModal(accountId) {
     this.accountId = accountId
     const account = sharedData.gameAccounts.find((account) => account.id === accountId)
-    const { avatar, acc_name, acc_code, avatar_2 } = account
+    const { avatar, acc_name, acc_code, avatar_2, acc_username } = account
     document.getElementById("update-account-name").textContent = acc_name
     this.updateAccountForm.querySelector("input[name='accCode']").value = acc_code
+    this.updateAccountForm.querySelector("input[name='accUsername']").value = acc_username
     this.renderRanksSelect(account)
     this.renderStatusSelect(account)
     this.renderDeviceTypesSelect(account)
@@ -935,7 +991,7 @@ class UpdateAccountManager {
     this.updateAccountForm.reset()
   }
 
-  validateFormData({ rank, accCode, status, deviceType, accType, avatars }) {
+  validateFormData({ rank, accCode, status, deviceType, accType, accUsername }) {
     if (!rank) {
       Toaster.error("Rank không được để trống")
       return false
@@ -956,8 +1012,8 @@ class UpdateAccountManager {
       Toaster.error("Loại acc không được để trống")
       return false
     }
-    if (avatars && avatars.length > this.#MAX_AVATAR_COUNT) {
-      Toaster.error("Chỉ được chọn tối đa 2 ảnh cho 1 tài khoản")
+    if (!accUsername) {
+      Toaster.error("Tên đăng nhập không được để trống")
       return false
     }
     return true
@@ -972,9 +1028,9 @@ class UpdateAccountManager {
       rank: formData.get("rank"),
       accCode: formData.get("accCode"),
       status: formData.get("status"),
+      accUsername: formData.get("accUsername"),
       deviceType: formData.get("deviceType"),
       accType: formData.get("accType"),
-      avatars: this.avatarInput.files,
     }
     if (!this.validateFormData({ ...data })) {
       this.isSubmitting = false
@@ -982,7 +1038,12 @@ class UpdateAccountManager {
     }
 
     AppLoadingHelper.show()
-    GameAccountService.updateAccount(this.accountId, data, data.avatars)
+    GameAccountService.updateAccount(
+      this.accountId,
+      data,
+      this.pickedAvatars.avatarFile1,
+      this.pickedAvatars.avatarFile2
+    )
       .then((data) => {
         if (data && data.success) {
           uiEditor.refreshAccountRowOnUI(this.accountId)

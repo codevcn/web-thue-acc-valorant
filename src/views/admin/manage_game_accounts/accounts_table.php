@@ -6,13 +6,13 @@
           Mã acc
         </th>
         <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-          Thời gian thuê
-        </th>
-        <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-          Loại acc
+          Tên đăng nhập
         </th>
         <th class="px-3 py-3 pl-5 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
           Rank
+        </th>
+        <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+          Thời gian thuê
         </th>
         <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
           Trạng thái

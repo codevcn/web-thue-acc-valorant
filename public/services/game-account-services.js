@@ -74,13 +74,14 @@ export class GameAccountService {
     return data
   }
 
-  static async updateAccount(accountId, accountData, avatars) {
+  static async updateAccount(accountId, accountData, avatar, avatar_2) {
     const dataToSubmit = new FormData()
     dataToSubmit.set("account", JSON.stringify(accountData))
-    if (avatars && avatars.length > 0) {
-      for (const avatar of avatars) {
-        dataToSubmit.append("avatars[]", avatar)
-      }
+    if (avatar) {
+      dataToSubmit.append("avatar", avatar)
+    }
+    if (avatar_2) {
+      dataToSubmit.append("avatar_2", avatar_2)
     }
     const { data } = await axiosClient.post(`/game-accounts/update/${accountId}`, dataToSubmit)
     return data

@@ -41,7 +41,6 @@ class GameAccountApiController
       $order_type,
       $account_type
     );
-    DevLogger::logReqFilesToConsole('>>> $accounts', $accounts);
 
     return [
       'accounts' => $accounts,
@@ -232,38 +231,45 @@ class GameAccountApiController
     $account = json_decode($accountJson, true);
 
     // Xử lý file avatar (nếu có)
-    $avatarFiles = $_FILES['avatars'] ?? null;
-    $imgNames = null;
-    if ($avatarFiles) {
-      $oldAvatar = $oldAccount['avatar'];
-      $oldAvatar2 = $oldAccount['avatar_2'];
-      if ($oldAvatar) {
-        $this->fileService->deleteAvatarImage($oldAvatar);
+    $avatar = null;
+    if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+      $avatar = $_FILES['avatar'];
+      if (!empty($oldAccount['avatar'])) {
+        $this->fileService->deleteAvatarImage($oldAccount['avatar']);
       }
-      if ($oldAvatar2) {
-        $this->fileService->deleteAvatarImage($oldAvatar2);
+    }
+    $avatar2 = null;
+    if (isset($_FILES['avatar_2']) && $_FILES['avatar_2']['error'] === UPLOAD_ERR_OK) {
+      $avatar2 = $_FILES['avatar_2'];
+      if (!empty($oldAccount['avatar_2'])) {
+        $this->fileService->deleteAvatarImage($oldAccount['avatar_2']);
       }
-      try {
-        $normalizedFiles = $this->fileService->normalizeFiles($avatarFiles);
-        $avatarInfo = $this->fileService->saveAvatarImages($normalizedFiles, $accountIdInt);
-        $imgNames = $avatarInfo['fileNames'];
-      } catch (\Throwable $th) {
-        http_response_code(400);
-        return [
-          'success' => false,
-          'message' => 'Tạo ảnh đại diện thất bại: ' . $th->getMessage()
-        ];
+    }
+    $avatarInfo = null;
+    $avatarInfo2 = null;
+    try {
+      if ($avatar !== null) {
+        $avatarInfo = $this->fileService->saveAvatarImage($avatar, $accountIdInt);
+        $account['avatar'] = $avatarInfo['fileName'];
       }
-
-      $account['avatar'] = $imgNames[0];
-      $account['avatar_2'] = $imgNames[1];
+      if ($avatar2 !== null) {
+        $avatarInfo2 = $this->fileService->saveAvatarImage($avatar2, $accountIdInt);
+        $account['avatar_2'] = $avatarInfo2['fileName'];
+      }
+    } catch (\Throwable $th) {
+      http_response_code(400);
+      return [
+        'success' => false,
+        'message' => 'Tạo ảnh đại diện thất bại: ' . $th->getMessage()
+      ];
     }
 
     try {
       $this->gameAccountService->updateAccount($accountIdInt, $account);
     } catch (\Throwable $th) {
-      if ($imgNames) {
-        $this->fileService->deleteAvatarImages($imgNames);
+      if ($avatarInfo['fileName'] || $avatarInfo2['fileName']) {
+        $this->fileService->deleteAvatarImage($avatarInfo['fileName']);
+        $this->fileService->deleteAvatarImage($avatarInfo2['fileName']);
       }
 
       if ($th->getCode() === '23000' && str_contains($th->getMessage(), 'game_code')) {
