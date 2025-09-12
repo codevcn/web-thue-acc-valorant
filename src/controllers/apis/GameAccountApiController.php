@@ -206,6 +206,101 @@ class GameAccountApiController
     ];
   }
 
+  public function cancelAvatar(string $accountId): array
+  {
+    $accountIdInt = (int) $accountId;
+    $account = $this->gameAccountService->findAccountById($accountIdInt);
+    if (!$account) {
+      throw new \InvalidArgumentException("Tài khoản không tồn tại.");
+    }
+
+    $avatarIndex = isset($_POST['avatar_index']) ? (int) $_POST['avatar_index'] : null;
+    if ($avatarIndex === null) {
+      http_response_code(400);
+      return [
+        'success' => false,
+        'message' => 'Thiếu dữ liệu để cập nhật ảnh đại diện'
+      ];
+    }
+
+    $this->gameAccountService->cancelAvatar($accountIdInt, $avatarIndex);
+    if ($avatarIndex === 1 && !empty($account['avatar'])) {
+      $this->fileService->deleteAvatarImage($account['avatar']);
+    } elseif ($avatarIndex === 2 && !empty($account['avatar_2'])) {
+      $this->fileService->deleteAvatarImage($account['avatar_2']);
+    }
+
+    return [
+      'success' => true,
+    ];
+  }
+
+  public function cancelAllAvatars(string $accountId): array
+  {
+    $accountIdInt = (int) $accountId;
+    $account = $this->gameAccountService->findAccountById($accountIdInt);
+    if (!$account) {
+      throw new \InvalidArgumentException("Tài khoản không tồn tại.");
+    }
+
+    $this->gameAccountService->cancelAllAvatars($accountIdInt);
+    if (!empty($account['avatar'])) {
+      $this->fileService->deleteAvatarImage($account['avatar']);
+    }
+    if (!empty($account['avatar_2'])) {
+      $this->fileService->deleteAvatarImage($account['avatar_2']);
+    }
+
+    return [
+      'success' => true,
+    ];
+  }
+
+  public function uploadAvatar(string $accountId): array
+  {
+    $accountIdInt = (int) $accountId;
+    $account = $this->gameAccountService->findAccountById($accountIdInt);
+    if (!$account) {
+      throw new \InvalidArgumentException("Tài khoản không tồn tại.");
+    }
+
+    if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+      $avatar = $_FILES['avatar'];
+      if (!empty($account['avatar'])) {
+        $this->fileService->deleteAvatarImage($account['avatar']);
+      }
+      $avatarInfo = $this->fileService->saveAvatarImage($avatar, $accountIdInt);
+      $account['avatar'] = $avatarInfo['fileName'];
+    }
+    if (isset($_FILES['avatar_2']) && $_FILES['avatar_2']['error'] === UPLOAD_ERR_OK) {
+      $avatar2 = $_FILES['avatar_2'];
+      if (!empty($account['avatar_2'])) {
+        $this->fileService->deleteAvatarImage($account['avatar_2']);
+      }
+      $avatarInfo2 = $this->fileService->saveAvatarImage($avatar2, $accountIdInt);
+      $account['avatar_2'] = $avatarInfo2['fileName'];
+    }
+
+    try {
+      $this->gameAccountService->updateAccount($accountIdInt, $account);
+    } catch (\Throwable $th) {
+      if ($avatarInfo['fileName'] || $avatarInfo2['fileName']) {
+        $this->fileService->deleteAvatarImage($avatarInfo['fileName']);
+        $this->fileService->deleteAvatarImage($avatarInfo2['fileName']);
+      }
+
+      http_response_code(500);
+      return [
+        'success' => false,
+        'message' => 'Cập nhật ảnh đại diện thất bại: ' . $th->getMessage()
+      ];
+    }
+
+    return [
+      'success' => true,
+    ];
+  }
+
   public function updateAccount(string $accountId): array
   {
     $accountIdInt = (int) $accountId;
@@ -230,49 +325,9 @@ class GameAccountApiController
     $accountJson = $_POST['account'];
     $account = json_decode($accountJson, true);
 
-    // Xử lý file avatar (nếu có)
-    $avatarInfo = null;
-    $avatarInfo2 = null;
-    try {
-      $cancelAllAvatars = isset($_POST['cancel_all_avatars']) ? trim($_POST['cancel_all_avatars']) : null;
-      DevLogger::log('>>> cancelAllAvatars: ' . $cancelAllAvatars);
-      if ($cancelAllAvatars) {
-        $this->gameAccountService->cancelAllAvatars($accountIdInt);
-      }
-
-      if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
-        $avatar = $_FILES['avatar'];
-        if ($cancelAllAvatars === null && !empty($oldAccount['avatar'])) {
-          $this->fileService->deleteAvatarImage($oldAccount['avatar']);
-        }
-        $avatarInfo = $this->fileService->saveAvatarImage($avatar, $accountIdInt);
-        $account['avatar'] = $avatarInfo['fileName'];
-      }
-      if (isset($_FILES['avatar_2']) && $_FILES['avatar_2']['error'] === UPLOAD_ERR_OK) {
-        $avatar2 = $_FILES['avatar_2'];
-        if ($cancelAllAvatars === null && !empty($oldAccount['avatar_2'])) {
-          $this->fileService->deleteAvatarImage($oldAccount['avatar_2']);
-        }
-        $avatarInfo2 = $this->fileService->saveAvatarImage($avatar2, $accountIdInt);
-        $account['avatar_2'] = $avatarInfo2['fileName'];
-      }
-    } catch (\Throwable $th) {
-      DevLogger::log('>>> update account avatar error: ' . $th->getMessage());
-      http_response_code(500);
-      return [
-        'success' => false,
-        'message' => 'Cập nhật ảnh đại diện thất bại: ' . $th->getMessage()
-      ];
-    }
-
     try {
       $this->gameAccountService->updateAccount($accountIdInt, $account);
     } catch (\Throwable $th) {
-      if ($avatarInfo['fileName'] || $avatarInfo2['fileName']) {
-        $this->fileService->deleteAvatarImage($avatarInfo['fileName']);
-        $this->fileService->deleteAvatarImage($avatarInfo2['fileName']);
-      }
-
       if ($th->getCode() === '23000' && str_contains($th->getMessage(), 'game_code')) {
         http_response_code(400);
         return [

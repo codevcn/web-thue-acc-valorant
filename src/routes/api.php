@@ -212,3 +212,36 @@ $apiRouter->get('/api/v1/sale-accounts/fetch-single-account/{accountId}', functi
   }
   return $saleAccountApiController->fetchSingleAccount($accountId);
 });
+
+$apiRouter->post('/api/v1/game-accounts/cancel-avatar/{accountId}', function ($accountId) use ($gameAccountApiController, $authMiddleware) {
+  if (!$authMiddleware->handleApi()) {
+    http_response_code(401);
+    return [
+      'success' => false,
+      'message' => 'Unauthorized'
+    ];
+  }
+  return $gameAccountApiController->cancelAvatar($accountId);
+});
+
+$apiRouter->put('/api/v1/game-accounts/cancel-all-avatars/{accountId}', function ($accountId) use ($gameAccountApiController, $authMiddleware) {
+  if (!$authMiddleware->handleApi()) {
+    http_response_code(401);
+    return [
+      'success' => false,
+      'message' => 'Unauthorized'
+    ];
+  }
+  return $gameAccountApiController->cancelAllAvatars($accountId);
+});
+
+$apiRouter->post('/api/v1/game-accounts/upload-avatar/{accountId}', function ($accountId) use ($gameAccountApiController, $authMiddleware) {
+  if (!$authMiddleware->handleApi()) {
+    http_response_code(401);
+    return [
+      'success' => false,
+      'message' => 'Unauthorized'
+    ];
+  }
+  return $gameAccountApiController->uploadAvatar($accountId);
+});

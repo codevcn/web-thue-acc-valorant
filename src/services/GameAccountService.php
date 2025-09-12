@@ -82,11 +82,9 @@ class GameAccountService
       }
     }
     $sql .= $order_condition;
-    DevLogger::log('>>> $sql: ' . $sql);
 
     $stmt = $this->db->prepare($sql);
     foreach ($params as $key => $value) {
-      DevLogger::log('>>> $key: ' . $key . ' - $value: ' . $value);
       $stmt->bindValue($key, $value);
     }
     $stmt->execute();
@@ -320,6 +318,21 @@ class GameAccountService
             avatar_2 = NULL
         WHERE id = :id
     ";
+
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute([':id' => $accountId]);
+  }
+
+  public function cancelAvatar(int $accountId, int $avatarIndex): void
+  {
+    $sql = "UPDATE game_accounts";
+    if ($avatarIndex === 1) {
+      $sql .= " SET avatar = NULL WHERE id = :id";
+    } elseif ($avatarIndex === 2) {
+      $sql .= " SET avatar_2 = NULL WHERE id = :id";
+    } else {
+      throw new \InvalidArgumentException("Avatar index không hợp lệ. Chỉ chấp nhận 1 hoặc 2.");
+    }
 
     $stmt = $this->db->prepare($sql);
     $stmt->execute([':id' => $accountId]);

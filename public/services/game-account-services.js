@@ -74,18 +74,9 @@ export class GameAccountService {
     return data
   }
 
-  static async updateAccount(accountId, accountData, avatar, avatar_2, cancelAllAvatars) {
+  static async updateAccount(accountId, accountData) {
     const dataToSubmit = new FormData()
     dataToSubmit.set("account", JSON.stringify(accountData))
-    if (avatar) {
-      dataToSubmit.append("avatar", avatar)
-    }
-    if (avatar_2) {
-      dataToSubmit.append("avatar_2", avatar_2)
-    }
-    if (cancelAllAvatars) {
-      dataToSubmit.append("cancel_all_avatars", cancelAllAvatars)
-    }
     const { data } = await axiosClient.post(`/game-accounts/update/${accountId}`, dataToSubmit)
     return data
   }
@@ -122,6 +113,32 @@ export class GameAccountService {
 
   static async switchDeviceType(accountId) {
     const { data } = await axiosClient.put(`/game-accounts/switch-device-type/${accountId}`)
+    return data
+  }
+
+  static async cancelAvatar(accountId, avatarIndex) {
+    const dataToSubmit = new FormData()
+    dataToSubmit.set("avatar_index", avatarIndex)
+    const { data } = await axiosClient.post(
+      `/game-accounts/cancel-avatar/${accountId}`,
+      dataToSubmit
+    )
+    return data
+  }
+
+  static async cancelAllAvatars(accountId) {
+    const { data } = await axiosClient.put(`/game-accounts/cancel-all-avatars/${accountId}`)
+    return data
+  }
+
+  static async uploadAvatar(accountId, avatar, avatar2) {
+    const dataToSubmit = new FormData()
+    if (avatar) dataToSubmit.set("avatar", avatar)
+    if (avatar2) dataToSubmit.set("avatar_2", avatar2)
+    const { data } = await axiosClient.post(
+      `/game-accounts/upload-avatar/${accountId}`,
+      dataToSubmit
+    )
     return data
   }
 }

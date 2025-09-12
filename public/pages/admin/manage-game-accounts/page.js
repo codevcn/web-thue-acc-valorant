@@ -412,33 +412,32 @@ class UIEditor {
     return ranksToRender
   }
 
-  refreshAccountRowOnUI(accountId) {
-    GameAccountService.fetchSingleAccount(accountId)
-      .then((data) => {
-        if (data && data.success) {
-          const account = data.account
-          if (account) {
-            sharedData.gameAccounts = sharedData.gameAccounts.map((acc) =>
-              acc.id === accountId ? account : acc
+  async refreshAccountRowOnUI(accountId) {
+    try {
+      const data = await GameAccountService.fetchSingleAccount(accountId)
+      if (data && data.success) {
+        const account = data.account
+        if (account) {
+          sharedData.gameAccounts = sharedData.gameAccounts.map((acc) =>
+            acc.id === accountId ? account : acc
+          )
+          const accountRow = this.accountsTableBody.querySelector(
+            `.QUERY-account-row-item-${accountId}`
+          )
+          if (accountRow) {
+            this.setAccountRow(
+              accountRow,
+              account,
+              accountRow.dataset.accountOrderNumber * 1,
+              UIEditor.convertRankTypesToRenderingRanks(sharedData.rankTypes)
             )
-            const accountRow = this.accountsTableBody.querySelector(
-              `.QUERY-account-row-item-${accountId}`
-            )
-            if (accountRow) {
-              this.setAccountRow(
-                accountRow,
-                account,
-                accountRow.dataset.accountOrderNumber * 1,
-                UIEditor.convertRankTypesToRenderingRanks(sharedData.rankTypes)
-              )
-              initUtils.initTooltip()
-            }
+            initUtils.initTooltip()
           }
         }
-      })
-      .catch((error) => {
-        Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
-      })
+      }
+    } catch (error) {
+      Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
+    }
   }
 }
 
@@ -723,6 +722,7 @@ class DeleteAccountManager {
 
 class UpdateAccountManager {
   #MAX_AVATAR_COUNT = 2
+  #MAX_AVATAR_HEIGHT = 200
 
   constructor() {
     this.updateAccountModal = document.getElementById("update-account-modal")
@@ -738,7 +738,12 @@ class UpdateAccountManager {
     this.accTypeSelect = document.getElementById("acc-types-select--update-section")
     this.changeAvatar1Input = document.getElementById("change-avatar-1-input--update-section")
     this.changeAvatar2Input = document.getElementById("change-avatar-2-input--update-section")
+    this.confirmCancelAvatarModal = document.getElementById("confirm-remove-avatar-modal")
+    this.cancelAvatar1Btn = document.getElementById("cancel-avatar-1-btn--update-section")
+    this.cancelAvatar2Btn = document.getElementById("cancel-avatar-2-btn--update-section")
+    this.confirmCancelAllAvatarsModal = document.getElementById("confirm-remove-all-avatars-modal")
 
+    this.accountId = null
     this.isSubmitting = false
     this.statusOptions = []
     this.deviceTypeOptions = []
@@ -747,7 +752,10 @@ class UpdateAccountManager {
       avatarFile1: null,
       avatarFile2: null,
     }
-    this.cancelAllAvatars = false
+    this.cancelingAvatar = {
+      url: null,
+      index: null,
+    }
 
     this.initUIData()
 
@@ -875,8 +883,10 @@ class UpdateAccountManager {
 
     this.avatarInput.addEventListener("change", this.handleAvatarInputChange.bind(this))
     document
-      .getElementById("cancel-avatar-btn--update-section")
-      .addEventListener("click", this.handleRemoveAvatar.bind(this))
+      .getElementById("cancel-all-avatars-btn--update-section")
+      .addEventListener("click", () => {
+        this.hideShowCancelAllAvatarsModal(true)
+      })
 
     this.changeAvatar1Input.addEventListener(
       "change",
@@ -886,39 +896,126 @@ class UpdateAccountManager {
       "change",
       this.handleChangeAvatar2InputChange.bind(this)
     )
+
+    this.confirmCancelAvatarModal
+      .querySelector(".QUERY-modal-overlay")
+      .addEventListener("click", (e) => {
+        this.hideShowConfirmRemoveAvatarModal(false)
+      })
+
+    this.cancelAvatar1Btn.addEventListener("click", (e) => {
+      const button = e.currentTarget
+      this.cancelingAvatar.url = button
+        .closest(".QUERY-avatar-delete-box")
+        .querySelector(".QUERY-avatar-1-preview-img").src
+      this.cancelingAvatar.index = 1
+      this.hideShowConfirmRemoveAvatarModal(true)
+    })
+    this.cancelAvatar2Btn.addEventListener("click", (e) => {
+      const button = e.currentTarget
+      this.cancelingAvatar.url = button
+        .closest(".QUERY-avatar-delete-box")
+        .querySelector(".QUERY-avatar-2-preview-img").src
+      this.cancelingAvatar.index = 2
+      this.hideShowConfirmRemoveAvatarModal(true)
+    })
+
+    this.confirmCancelAvatarModal
+      .querySelector(".QUERY-confirm-remove-avatar--confirm-section")
+      .addEventListener("click", (e) => {
+        this.cancelAvatar()
+      })
+    this.confirmCancelAvatarModal
+      .querySelector(".QUERY-cancel-remove-avatar--confirm-section")
+      .addEventListener("click", (e) => {
+        this.cancelingAvatar.url = null
+        this.cancelingAvatar.index = null
+        this.hideShowConfirmRemoveAvatarModal(false)
+      })
+
+    this.confirmCancelAllAvatarsModal
+      .querySelector(".QUERY-modal-overlay")
+      .addEventListener("click", (e) => {
+        this.hideShowCancelAllAvatarsModal(false)
+      })
+    this.confirmCancelAllAvatarsModal
+      .querySelector(".QUERY-cancel-remove-all-avatars--confirm-section")
+      .addEventListener("click", (e) => {
+        this.hideShowCancelAllAvatarsModal(false)
+      })
+    this.confirmCancelAllAvatarsModal
+      .querySelector(".QUERY-confirm-remove-all-avatars--confirm-section")
+      .addEventListener("click", (e) => {
+        this.cancelAllAvatars()
+      })
   }
 
-  handleChangeAvatar1InputChange(e) {
-    const input = e.target
-    const files = input.files
-    if (files && files.length > 0) {
-      input.closest(".QUERY-avatar-preview-section-box").classList.add("QUERY-is-loading")
-      const file = files[0]
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        this.avatarPreview.src = e.target.result
-        this.avatarPreview.style.maxHeight = "unset"
-        input.closest(".QUERY-avatar-preview-section-box").classList.remove("QUERY-is-loading")
-        this.pickedAvatars.avatarFile1 = file
-      }
-      reader.readAsDataURL(file)
-    }
+  cancelAllAvatars() {
+    if (this.isSubmitting) return
+    this.isSubmitting = true
+    AppLoadingHelper.show()
+    GameAccountService.cancelAllAvatars(this.accountId)
+      .then((data) => {
+        if (data && data.success) {
+          uiEditor.refreshAccountRowOnUI(this.accountId)
+          this.hideShowCancelAllAvatarsModal(false)
+          Toaster.success("Thông báo", "Xóa tất cả ảnh thành công")
+          this.showCancelAvatarBtnWithIndex(1, false)
+          this.showCancelAvatarBtnWithIndex(2, false)
+          this.avatarPreview.src = "/images/account/default-account-avatar.png"
+          this.avatarPreview2.src = "/images/account/default-account-avatar.png"
+          this.avatarPreview.style.maxHeight = `${this.#MAX_AVATAR_HEIGHT}px`
+          this.avatarPreview2.style.maxHeight = `${this.#MAX_AVATAR_HEIGHT}px`
+          this.avatarInput.value = null
+          this.switchToAvatarInputSection()
+        }
+      })
+      .catch((error) => {
+        Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
+      })
+      .finally(() => {
+        this.isSubmitting = false
+        AppLoadingHelper.hide()
+      })
   }
-  handleChangeAvatar2InputChange(e) {
-    const input = e.target
-    const files = input.files
-    if (files && files.length > 0) {
-      input.closest(".QUERY-avatar-preview-section-box").classList.add("QUERY-is-loading")
-      const file = files[0]
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        this.avatarPreview2.src = e.target.result
-        this.avatarPreview2.style.maxHeight = "unset"
-        input.closest(".QUERY-avatar-preview-section-box").classList.remove("QUERY-is-loading")
-        this.pickedAvatars.avatarFile2 = file
-      }
-      reader.readAsDataURL(file)
-    }
+  cancelAvatar() {
+    if (this.isSubmitting) return
+    this.isSubmitting = true
+    const { index } = this.cancelingAvatar
+    AppLoadingHelper.show("Đang xóa ảnh...")
+    GameAccountService.cancelAvatar(this.accountId, index)
+      .then((data) => {
+        if (data && data.success) {
+          uiEditor.refreshAccountRowOnUI(this.accountId)
+          this.hideShowConfirmRemoveAvatarModal(false)
+          Toaster.success("Thông báo", "Xóa ảnh thành công")
+          if (index === 1) {
+            this.showCancelAvatarBtnWithIndex(1, false)
+            this.avatarPreview.src = "/images/account/default-account-avatar.png"
+            this.avatarPreview.style.maxHeight = `${this.#MAX_AVATAR_HEIGHT}px`
+          }
+          if (index === 2) {
+            this.showCancelAvatarBtnWithIndex(2, false)
+            this.avatarPreview2.src = "/images/account/default-account-avatar.png"
+            this.avatarPreview2.style.maxHeight = `${this.#MAX_AVATAR_HEIGHT}px`
+          }
+          this.cancelingAvatar.url = null
+          this.cancelingAvatar.index = null
+        }
+      })
+      .catch((error) => {
+        Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
+      })
+      .finally(() => {
+        this.isSubmitting = false
+        AppLoadingHelper.hide()
+      })
+  }
+
+  hideShowConfirmRemoveAvatarModal(show) {
+    this.confirmCancelAvatarModal.hidden = !show
+    this.confirmCancelAvatarModal.querySelector("#avatar-preview-img--confirm-section").src =
+      this.cancelingAvatar.url
   }
 
   switchToAvatarPreviewSection() {
@@ -931,6 +1028,78 @@ class UpdateAccountManager {
     this.pickAvatarSection.classList.add("QUERY-at-avatar-input-section")
   }
 
+  handleChangeAvatar1InputChange(e) {
+    const input = e.target
+    const files = input.files
+    if (files && files.length > 0) {
+      const file = files[0]
+      if (!file) return
+      if (this.isSubmitting) return
+      this.isSubmitting = true
+      AppLoadingHelper.show("Đang cập nhật ảnh đại diện...")
+      GameAccountService.uploadAvatar(this.accountId, file, null)
+        .then((data) => {
+          if (data && data.success) {
+            uiEditor.refreshAccountRowOnUI(this.accountId)
+            input.closest(".QUERY-avatar-preview-section-box").classList.add("QUERY-is-loading")
+            const reader = new FileReader()
+            reader.onload = (e) => {
+              this.avatarPreview.src = e.target.result
+              this.avatarPreview.style.maxHeight = "unset"
+              input
+                .closest(".QUERY-avatar-preview-section-box")
+                .classList.remove("QUERY-is-loading")
+              this.pickedAvatars.avatarFile1 = file
+              this.showCancelAvatarBtnWithIndex(1)
+            }
+            reader.readAsDataURL(file)
+          }
+        })
+        .catch((error) => {
+          Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
+        })
+        .finally(() => {
+          this.isSubmitting = false
+          AppLoadingHelper.hide()
+        })
+    }
+  }
+  handleChangeAvatar2InputChange(e) {
+    const input = e.target
+    const files = input.files
+    if (files && files.length > 0) {
+      const file = files[0]
+      if (!file) return
+      if (this.isSubmitting) return
+      this.isSubmitting = true
+      AppLoadingHelper.show("Đang cập nhật ảnh đại diện...")
+      GameAccountService.uploadAvatar(this.accountId, null, file)
+        .then((data) => {
+          if (data && data.success) {
+            uiEditor.refreshAccountRowOnUI(this.accountId)
+            input.closest(".QUERY-avatar-preview-section-box").classList.add("QUERY-is-loading")
+            const reader = new FileReader()
+            reader.onload = (e) => {
+              this.avatarPreview2.src = e.target.result
+              this.avatarPreview2.style.maxHeight = "unset"
+              input
+                .closest(".QUERY-avatar-preview-section-box")
+                .classList.remove("QUERY-is-loading")
+              this.pickedAvatars.avatarFile2 = file
+              this.showCancelAvatarBtnWithIndex(2)
+            }
+            reader.readAsDataURL(file)
+          }
+        })
+        .catch((error) => {
+          Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
+        })
+        .finally(() => {
+          this.isSubmitting = false
+          AppLoadingHelper.hide()
+        })
+    }
+  }
   handleAvatarInputChange(e) {
     const files = e.target.files
     if (files && files.length > 0) {
@@ -940,45 +1109,72 @@ class UpdateAccountManager {
       }
       const file1 = files[0]
       const file2 = files[1]
-      if (file1) {
-        const reader = new FileReader()
-        reader.onload = (e) => {
-          this.avatarPreview.src = e.target.result
-          this.avatarPreview.style.maxHeight = "unset"
-          this.pickedAvatars.avatarFile1 = file1
-        }
-        reader.readAsDataURL(file1)
-      } else {
-        this.avatarPreview.style.maxHeight = "200px"
-        this.avatarPreview.src = "/images/account/default-account-avatar.png"
-      }
-      if (file2) {
-        const reader = new FileReader()
-        reader.onload = (e) => {
-          this.avatarPreview2.src = e.target.result
-          this.avatarPreview2.style.maxHeight = "unset"
-          this.pickedAvatars.avatarFile2 = file2
-        }
-        reader.readAsDataURL(file2)
-      } else {
-        this.avatarPreview2.style.maxHeight = "200px"
-        this.avatarPreview2.src = "/images/account/default-account-avatar.png"
-      }
-      this.switchToAvatarPreviewSection()
+      if (this.isSubmitting) return
+      this.isSubmitting = true
+      AppLoadingHelper.show("Đang cập nhật ảnh đại diện...")
+      GameAccountService.uploadAvatar(this.accountId, file1, file2)
+        .then((data) => {
+          if (data && data.success) {
+            uiEditor.refreshAccountRowOnUI(this.accountId)
+            if (file1) {
+              const reader = new FileReader()
+              reader.onload = (e) => {
+                this.avatarPreview.src = e.target.result
+                this.avatarPreview.style.maxHeight = "unset"
+                this.pickedAvatars.avatarFile1 = file1
+                this.showCancelAvatarBtnWithIndex(1)
+              }
+              reader.readAsDataURL(file1)
+            } else {
+              this.avatarPreview.style.maxHeight = `${this.#MAX_AVATAR_HEIGHT}px`
+              this.avatarPreview.src = "/images/account/default-account-avatar.png"
+            }
+            if (file2) {
+              const reader = new FileReader()
+              reader.onload = (e) => {
+                this.avatarPreview2.src = e.target.result
+                this.avatarPreview2.style.maxHeight = "unset"
+                this.pickedAvatars.avatarFile2 = file2
+                this.showCancelAvatarBtnWithIndex(2)
+              }
+              reader.readAsDataURL(file2)
+            } else {
+              this.avatarPreview2.style.maxHeight = `${this.#MAX_AVATAR_HEIGHT}px`
+              this.avatarPreview2.src = "/images/account/default-account-avatar.png"
+            }
+            this.switchToAvatarPreviewSection()
+          }
+        })
+        .catch((error) => {
+          Toaster.error(AxiosErrorHandler.handleHTTPError(error).message)
+        })
+        .finally(() => {
+          this.isSubmitting = false
+          AppLoadingHelper.hide()
+        })
     }
   }
 
-  handleRemoveAvatar() {
-    this.avatarPreview.src = ""
-    this.avatarPreview2.src = ""
-    this.avatarPreview.style.maxHeight = "fit-content"
-    this.avatarPreview2.style.maxHeight = "fit-content"
-    this.avatarInput.value = null
-    this.switchToAvatarInputSection()
-    this.cancelAllAvatars = true
+  hideShowCancelAllAvatarsModal(show) {
+    this.confirmCancelAllAvatarsModal.querySelector(
+      ".QUERY-acc-code--confirm-section"
+    ).textContent = sharedData.gameAccounts.find(
+      (account) => account.id === this.accountId
+    ).acc_code
+    this.confirmCancelAllAvatarsModal.hidden = !show
+  }
+
+  showCancelAvatarBtnWithIndex(index, show = true) {
+    if (index === 1) {
+      this.cancelAvatar1Btn.hidden = !show
+    }
+    if (index === 2) {
+      this.cancelAvatar2Btn.hidden = !show
+    }
   }
 
   showModal(accountId) {
+    if (!accountId) return
     this.accountId = accountId
     const account = sharedData.gameAccounts.find((account) => account.id === accountId)
     const { avatar, acc_name, acc_code, avatar_2, acc_username } = account
@@ -992,13 +1188,23 @@ class UpdateAccountManager {
     this.updateAccountModal.hidden = false
     this.avatarPreview.src = `/images/account/${avatar || "default-account-avatar.png"}`
     this.avatarPreview2.src = `/images/account/${avatar_2 || "default-account-avatar.png"}`
-    if (!avatar) {
-      this.avatarPreview.style.maxHeight = "200px"
+    if (avatar) {
+      this.showCancelAvatarBtnWithIndex(1, true)
+    } else {
+      this.avatarPreview.style.maxHeight = `${this.#MAX_AVATAR_HEIGHT}px`
+      this.showCancelAvatarBtnWithIndex(1, false)
     }
-    if (!avatar_2) {
-      this.avatarPreview2.style.maxHeight = "200px"
+    if (avatar_2) {
+      this.showCancelAvatarBtnWithIndex(2, true)
+    } else {
+      this.avatarPreview2.style.maxHeight = `${this.#MAX_AVATAR_HEIGHT}px`
+      this.showCancelAvatarBtnWithIndex(2, false)
     }
-    this.switchToAvatarPreviewSection()
+    if (!avatar && !avatar_2) {
+      this.switchToAvatarInputSection()
+    } else {
+      this.switchToAvatarPreviewSection()
+    }
   }
 
   hideModal() {
@@ -1053,13 +1259,7 @@ class UpdateAccountManager {
     }
 
     AppLoadingHelper.show()
-    GameAccountService.updateAccount(
-      this.accountId,
-      data,
-      this.pickedAvatars.avatarFile1,
-      this.pickedAvatars.avatarFile2,
-      this.cancelAllAvatars
-    )
+    GameAccountService.updateAccount(this.accountId, data)
       .then((data) => {
         if (data && data.success) {
           uiEditor.refreshAccountRowOnUI(this.accountId)
