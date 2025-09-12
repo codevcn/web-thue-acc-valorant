@@ -3,8 +3,8 @@ import {
   NavigationHelper,
   AxiosErrorHandler,
   AppLoadingHelper,
-} from "../../../utils/scripts/helpers.js"
-import { AuthService } from "../../../services/auth-service.js"
+} from "../../../utils/scripts/helpers.js?v=1.0.0"
+import { AuthService } from "../../../services/auth-service.js?v=1.0.0"
 
 class LoginPageManager {
   constructor() {

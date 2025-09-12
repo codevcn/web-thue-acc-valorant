@@ -1,5 +1,5 @@
-import { URLHelper } from "../../utils/scripts/helpers.js"
-import { initUtils } from "../../utils/scripts/init-utils.js"
+import { URLHelper } from "../../utils/scripts/helpers.js?v=1.0.0"
+import { initUtils } from "../../utils/scripts/init-utils.js?v=1.0.0"
 
 const accounts = window.APP_DATA.saleAccounts
 

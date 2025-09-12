@@ -1,12 +1,12 @@
-import { GameAccountService } from "../../services/game-account-services.js"
-import { AccountCard } from "../../utils/scripts/components.js"
+import { GameAccountService } from "../../services/game-account-services.js?v=1.0.0"
+import { AccountCard } from "../../utils/scripts/components.js?v=1.0.0"
 import {
   AxiosErrorHandler,
   LitHTMLHelper,
   ThemeHelper,
   Toaster,
-} from "../../utils/scripts/helpers.js"
-import { initUtils } from "../../utils/scripts/init-utils.js"
+} from "../../utils/scripts/helpers.js?v=1.0.0"
+import { initUtils } from "../../utils/scripts/init-utils.js?v=1.0.0"
 
 class HomePageManager {
   #SCROLLING_THRESHOLD = 300
@@ -239,11 +239,11 @@ class HomePageManager {
         this.submitFilter("device_type=")
       } else {
         this.submitFilter(`device_type=${deviceType}`)
-        if (deviceType === "Only máy nhà") {
-          ThemeHelper.updateAccountStateColor("#facc15", "#facc15", "#fed73a", "#fee580") // màu vàng
-        } else {
-          ThemeHelper.updateAccountStateColor(...this.#defaultAccountStateColors) // màu xanh lam
-        }
+        // if (deviceType === "Only máy nhà") {
+        //   ThemeHelper.updateAccountStateColor("#facc15", "#facc15", "#fed73a", "#fee580") // màu vàng
+        // } else {
+        //   ThemeHelper.updateAccountStateColor(...this.#defaultAccountStateColors) // màu xanh lam
+        // }
       }
     })
   }

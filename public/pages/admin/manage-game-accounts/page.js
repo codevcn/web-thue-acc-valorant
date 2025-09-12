@@ -1,5 +1,5 @@
-import { GameAccountService } from "../../../services/game-account-services.js"
-import { AccountRow } from "../../../utils/scripts/components.js"
+import { GameAccountService } from "../../../services/game-account-services.js?v=1.0.0"
+import { AccountRow } from "../../../utils/scripts/components.js?v=1.0.0"
 import {
   LitHTMLHelper,
   AppLoadingHelper,
@@ -9,8 +9,8 @@ import {
   NavigationHelper,
   LocalStorageHelper,
   ValidationHelper,
-} from "../../../utils/scripts/helpers.js"
-import { initUtils } from "../../../utils/scripts/init-utils.js"
+} from "../../../utils/scripts/helpers.js?v=1.0.0"
+import { initUtils } from "../../../utils/scripts/init-utils.js?v=1.0.0"
 
 const sharedData = {
   gameAccounts: [],
@@ -747,6 +747,7 @@ class UpdateAccountManager {
       avatarFile1: null,
       avatarFile2: null,
     }
+    this.cancelAllAvatars = false
 
     this.initUIData()
 
@@ -896,6 +897,7 @@ class UpdateAccountManager {
       const reader = new FileReader()
       reader.onload = (e) => {
         this.avatarPreview.src = e.target.result
+        this.avatarPreview.style.maxHeight = "unset"
         input.closest(".QUERY-avatar-preview-section-box").classList.remove("QUERY-is-loading")
         this.pickedAvatars.avatarFile1 = file
       }
@@ -911,6 +913,7 @@ class UpdateAccountManager {
       const reader = new FileReader()
       reader.onload = (e) => {
         this.avatarPreview2.src = e.target.result
+        this.avatarPreview2.style.maxHeight = "unset"
         input.closest(".QUERY-avatar-preview-section-box").classList.remove("QUERY-is-loading")
         this.pickedAvatars.avatarFile2 = file
       }
@@ -935,22 +938,33 @@ class UpdateAccountManager {
         Toaster.error("Chỉ được chọn tối đa 2 ảnh cho 1 tài khoản")
         return
       }
-      let index = 0
-      for (const file of files) {
+      const file1 = files[0]
+      const file2 = files[1]
+      if (file1) {
         const reader = new FileReader()
         reader.onload = (e) => {
-          if (index === 0) {
-            this.avatarPreview.src = e.target.result
-          } else {
-            this.avatarPreview2.src = e.target.result
-          }
-          index++
-          if (index === files.length) {
-            this.switchToAvatarPreviewSection()
-          }
+          this.avatarPreview.src = e.target.result
+          this.avatarPreview.style.maxHeight = "unset"
+          this.pickedAvatars.avatarFile1 = file1
         }
-        reader.readAsDataURL(file)
+        reader.readAsDataURL(file1)
+      } else {
+        this.avatarPreview.style.maxHeight = "200px"
+        this.avatarPreview.src = "/images/account/default-account-avatar.png"
       }
+      if (file2) {
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          this.avatarPreview2.src = e.target.result
+          this.avatarPreview2.style.maxHeight = "unset"
+          this.pickedAvatars.avatarFile2 = file2
+        }
+        reader.readAsDataURL(file2)
+      } else {
+        this.avatarPreview2.style.maxHeight = "200px"
+        this.avatarPreview2.src = "/images/account/default-account-avatar.png"
+      }
+      this.switchToAvatarPreviewSection()
     }
   }
 
@@ -961,6 +975,7 @@ class UpdateAccountManager {
     this.avatarPreview2.style.maxHeight = "fit-content"
     this.avatarInput.value = null
     this.switchToAvatarInputSection()
+    this.cancelAllAvatars = true
   }
 
   showModal(accountId) {
@@ -1042,7 +1057,8 @@ class UpdateAccountManager {
       this.accountId,
       data,
       this.pickedAvatars.avatarFile1,
-      this.pickedAvatars.avatarFile2
+      this.pickedAvatars.avatarFile2,
+      this.cancelAllAvatars
     )
       .then((data) => {
         if (data && data.success) {

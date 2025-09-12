@@ -308,6 +308,23 @@ class GameAccountService
     }
   }
 
+  public function cancelAllAvatars(int $accountId): void
+  {
+    $account = $this->findAccountById($accountId);
+    if (!$account) {
+      throw new \InvalidArgumentException("Tài khoản không tồn tại.");
+    }
+    $sql = "
+        UPDATE game_accounts
+        SET avatar = NULL,
+            avatar_2 = NULL
+        WHERE id = :id
+    ";
+
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute([':id' => $accountId]);
+  }
+
   public function updateAccount(int $accountId, array $data): void
   {
     // Kiểm tra tài khoản có tồn tại không

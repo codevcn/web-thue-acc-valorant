@@ -44,6 +44,10 @@ class FileService
     return ['fileNames' => $fileNames];
   }
 
+  public function createAccountAvatarFileName(int $accountId, string $extension): string
+  {
+    return 'account_' . $accountId . '_' . time() . '_' . bin2hex(random_bytes(8)) . '.' . $extension;
+  }
 
   public function saveAvatarImage($file, int $accountId): array
   {
@@ -69,7 +73,7 @@ class FileService
     }
 
     // Tạo tên file mới
-    $fileName = 'account_' . $accountId . '_' . time() . '_' . bin2hex(random_bytes(8)) . '.' . $extension;
+    $fileName = $this->createAccountAvatarFileName($accountId, $extension);
     $filePath = $uploadDir . $fileName;
 
     // Di chuyển file upload vào thư mục đích

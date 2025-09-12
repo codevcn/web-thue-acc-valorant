@@ -231,36 +231,37 @@ class GameAccountApiController
     $account = json_decode($accountJson, true);
 
     // Xử lý file avatar (nếu có)
-    $avatar = null;
-    if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
-      $avatar = $_FILES['avatar'];
-      if (!empty($oldAccount['avatar'])) {
-        $this->fileService->deleteAvatarImage($oldAccount['avatar']);
-      }
-    }
-    $avatar2 = null;
-    if (isset($_FILES['avatar_2']) && $_FILES['avatar_2']['error'] === UPLOAD_ERR_OK) {
-      $avatar2 = $_FILES['avatar_2'];
-      if (!empty($oldAccount['avatar_2'])) {
-        $this->fileService->deleteAvatarImage($oldAccount['avatar_2']);
-      }
-    }
     $avatarInfo = null;
     $avatarInfo2 = null;
     try {
-      if ($avatar !== null) {
+      $cancelAllAvatars = isset($_POST['cancel_all_avatars']) ? trim($_POST['cancel_all_avatars']) : null;
+      DevLogger::log('>>> cancelAllAvatars: ' . $cancelAllAvatars);
+      if ($cancelAllAvatars) {
+        $this->gameAccountService->cancelAllAvatars($accountIdInt);
+      }
+
+      if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+        $avatar = $_FILES['avatar'];
+        if ($cancelAllAvatars === null && !empty($oldAccount['avatar'])) {
+          $this->fileService->deleteAvatarImage($oldAccount['avatar']);
+        }
         $avatarInfo = $this->fileService->saveAvatarImage($avatar, $accountIdInt);
         $account['avatar'] = $avatarInfo['fileName'];
       }
-      if ($avatar2 !== null) {
+      if (isset($_FILES['avatar_2']) && $_FILES['avatar_2']['error'] === UPLOAD_ERR_OK) {
+        $avatar2 = $_FILES['avatar_2'];
+        if ($cancelAllAvatars === null && !empty($oldAccount['avatar_2'])) {
+          $this->fileService->deleteAvatarImage($oldAccount['avatar_2']);
+        }
         $avatarInfo2 = $this->fileService->saveAvatarImage($avatar2, $accountIdInt);
         $account['avatar_2'] = $avatarInfo2['fileName'];
       }
     } catch (\Throwable $th) {
-      http_response_code(400);
+      DevLogger::log('>>> update account avatar error: ' . $th->getMessage());
+      http_response_code(500);
       return [
         'success' => false,
-        'message' => 'Tạo ảnh đại diện thất bại: ' . $th->getMessage()
+        'message' => 'Cập nhật ảnh đại diện thất bại: ' . $th->getMessage()
       ];
     }
 

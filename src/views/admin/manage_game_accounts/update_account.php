@@ -28,7 +28,7 @@
           </div>
         </div>
         <div class="QUERY-avatar-preview-section">
-          <div class="QUERY-avatar-preview-section-box group relative overflow-hidden">
+          <div class="QUERY-avatar-preview-section-box group relative overflow-hidden border border-gray-300 rounded-lg">
             <label for="change-avatar-1-input--update-section" class="QUERY-avatar-preview-section-label group-hover:flex hidden flex-col items-center justify-center gap-1 text-white bg-black/50 z-20 transition duration-200 m-auto absolute inset-0 cursor-pointer">
               <svg class="w-20 h-20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <g>
@@ -40,9 +40,9 @@
             </label>
             <div class="QUERY-avatar-preview-section-loading text-white bg-black/50 font-bold absolute inset-0 hidden items-center justify-center z-20">Đang đổi ảnh...</div>
             <input type="file" name="change-avatar-1" id="change-avatar-1-input--update-section" hidden />
-            <img src="" alt="Ảnh đại diện" id="avatar-preview-img--update-section" class="group-hover:scale-110 transition duration-200 z-10 w-full object-contain rounded-lg">
+            <img src="" alt="Ảnh đại diện" id="avatar-preview-img--update-section" class="group-hover:scale-110 transition duration-200 z-10 w-full object-contain">
           </div>
-          <div class="QUERY-avatar-preview-section-box group relative mt-2 overflow-hidden">
+          <div class="QUERY-avatar-preview-section-box group relative mt-2 overflow-hidden border border-gray-300 rounded-lg">
             <label for="change-avatar-2-input--update-section" class="QUERY-avatar-preview-section-label group-hover:flex hidden flex-col items-center justify-center gap-1 text-white bg-black/50 z-20 transition duration-200 m-auto absolute inset-0 cursor-pointer">
               <svg class="w-20 h-20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <g>
@@ -54,7 +54,7 @@
             </label>
             <div class="QUERY-avatar-preview-section-loading text-white bg-black/50 font-bold absolute inset-0 hidden items-center justify-center z-20">Đang đổi ảnh...</div>
             <input type="file" name="change-avatar-2" id="change-avatar-2-input--update-section" hidden />
-            <img src="" alt="Ảnh đại diện" id="avatar-preview-img-2--update-section" class="group-hover:scale-110 transition duration-200 z-10 w-full object-contain rounded-lg">
+            <img src="" alt="Ảnh đại diện" id="avatar-preview-img-2--update-section" class="group-hover:scale-110 transition duration-200 z-10 w-full object-contain">
           </div>
           <button type="button" id="cancel-avatar-btn--update-section" class="flex items-center justify-center gap-2 mt-2 px-4 w-full py-1 text-sm text-white bg-red-600 border-2 border-red-600 border-solid hover:bg-transparent hover:text-red-600 rounded transition">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2">
@@ -64,7 +64,7 @@
               <line x1="10" x2="10" y1="11" y2="17" />
               <line x1="14" x2="14" y1="11" y2="17" />
             </svg>
-            <span>Hủy ảnh này</span>
+            <span>Hủy toàn bộ ảnh</span>
           </button>
         </div>
       </div>

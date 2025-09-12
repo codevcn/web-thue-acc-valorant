@@ -1,4 +1,4 @@
-import { axiosClient } from "../utils/scripts/api-client.js"
+import { axiosClient } from "../utils/scripts/api-client.js?v=1.0.0"
 
 export class AdminService {
   static async updateProfile(adminData, rulesData, commitmentData) {

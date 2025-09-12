@@ -1,6 +1,6 @@
-import { AppLoadingHelper, AxiosErrorHandler, NavigationHelper, Toaster } from "./helpers.js"
-import { AuthService } from "../../services/auth-service.js"
-import { GameAccountService } from "../../services/game-account-services.js"
+import { AppLoadingHelper, AxiosErrorHandler, NavigationHelper, Toaster } from "./helpers.js?v=1.0.0"
+import { AuthService } from "../../services/auth-service.js?v=1.0.0"
+import { GameAccountService } from "../../services/game-account-services.js?v=1.0.0"
 
 dayjs.extend(window.dayjs_plugin_customParseFormat)
 

@@ -1,4 +1,4 @@
-import { axiosClient } from "../utils/scripts/api-client.js"
+import { axiosClient } from "../utils/scripts/api-client.js?v=1.0.0"
 
 export class GameAccountService {
   static async fetchAccounts(
@@ -74,7 +74,7 @@ export class GameAccountService {
     return data
   }
 
-  static async updateAccount(accountId, accountData, avatar, avatar_2) {
+  static async updateAccount(accountId, accountData, avatar, avatar_2, cancelAllAvatars) {
     const dataToSubmit = new FormData()
     dataToSubmit.set("account", JSON.stringify(accountData))
     if (avatar) {
@@ -82,6 +82,9 @@ export class GameAccountService {
     }
     if (avatar_2) {
       dataToSubmit.append("avatar_2", avatar_2)
+    }
+    if (cancelAllAvatars) {
+      dataToSubmit.append("cancel_all_avatars", cancelAllAvatars)
     }
     const { data } = await axiosClient.post(`/game-accounts/update/${accountId}`, dataToSubmit)
     return data

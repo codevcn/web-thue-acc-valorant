@@ -1,5 +1,5 @@
 import { html } from "https://esm.run/lit-html@1"
-import { AccountHelper, TimeHelper } from "./helpers.js"
+import { AccountHelper, TimeHelper } from "./helpers.js?v=1.0.0"
 
 export const AccountCard = (account) => {
   const { status, rank, avatar, acc_code, device_type, id, avatar_2, acc_type } = account

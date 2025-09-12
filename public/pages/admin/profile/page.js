@@ -3,8 +3,8 @@ import {
   AxiosErrorHandler,
   AppLoadingHelper,
   NavigationHelper,
-} from "../../../utils/scripts/helpers.js"
-import { AdminService } from "../../../services/admin-service.js"
+} from "../../../utils/scripts/helpers.js?v=1.0.0"
+import { AdminService } from "../../../services/admin-service.js?v=1.0.0"
 
 class ProfilePageManager {
   constructor() {

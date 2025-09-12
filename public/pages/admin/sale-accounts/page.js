@@ -1,5 +1,5 @@
-import { SaleAccountService } from "../../../services/sale-account-service.js"
-import { AccountPreviewRow, SaleAccountRow } from "../../../utils/scripts/components.js"
+import { SaleAccountService } from "../../../services/sale-account-service.js?v=1.0.0"
+import { AccountPreviewRow, SaleAccountRow } from "../../../utils/scripts/components.js?v=1.0.0"
 import {
   LitHTMLHelper,
   AppLoadingHelper,
@@ -9,8 +9,8 @@ import {
   NavigationHelper,
   LocalStorageHelper,
   StringHelper,
-} from "../../../utils/scripts/helpers.js"
-import { initUtils } from "../../../utils/scripts/init-utils.js"
+} from "../../../utils/scripts/helpers.js?v=1.0.0"
+import { initUtils } from "../../../utils/scripts/init-utils.js?v=1.0.0"
 
 const sharedData = {
   saleAccounts: [],
